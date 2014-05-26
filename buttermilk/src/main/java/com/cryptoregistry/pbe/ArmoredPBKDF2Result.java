@@ -1,5 +1,7 @@
 package com.cryptoregistry.pbe;
 
+import java.util.Date;
+
 import com.cryptoregistry.passwords.Password;
 
 public class ArmoredPBKDF2Result extends ArmoredPBEResult {
@@ -13,6 +15,11 @@ public class ArmoredPBKDF2Result extends ArmoredPBEResult {
 
 	public ArmoredPBKDF2Result(String base64Enc, String base64Salt, int iterations) {
 		super(base64Enc, base64Salt);
+		this.iterations = iterations;
+	}
+	
+	public ArmoredPBKDF2Result(String version, Date createdOn, String base64Enc, String base64Salt, int iterations) {
+		super(version, createdOn, base64Enc, base64Salt);
 		this.iterations = iterations;
 	}
 	

@@ -1,7 +1,10 @@
 package com.cryptoregistry.rsa;
 
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.UUID;
+
+import com.cyptoregistry.formats.rsa.JsonRSAKeyFormatter;
 
 import x.org.bouncycastle.crypto.params.RSAKeyParameters;
 import x.org.bouncycastle.crypto.params.RSAPrivateCrtKeyParameters;
@@ -12,11 +15,8 @@ import x.org.bouncycastle.crypto.params.RSAPrivateCrtKeyParameters;
  * @author Dave
  *
  */
-public class RSAKeyContents {
+public class RSAKeyContents extends RSAKeyForPublication {
 
-	public final String 	 handle;
-	public final BigInteger  modulus;
-	public final BigInteger  publicExponent;
 	public final BigInteger  privateExponent;
 	public final BigInteger  p;
 	public final BigInteger  q;
@@ -24,13 +24,12 @@ public class RSAKeyContents {
 	public final BigInteger  dQ;
 	public final BigInteger  qInv;
 	
-	public RSAKeyContents(String handle, BigInteger modulus, BigInteger publicExponent,
+	public RSAKeyContents(String version, Date createdOn, String handle, BigInteger modulus, BigInteger publicExponent,
 			BigInteger privateExponent, BigInteger p, BigInteger q,
 			BigInteger dP, BigInteger dQ, BigInteger qInv) {
 		
-		this.handle = handle;
-		this.modulus = modulus;
-		this.publicExponent = publicExponent;
+		super(version, createdOn, handle, modulus, publicExponent);
+		
 		this.privateExponent = privateExponent;
 		this.p = p;
 		this.q = q;
@@ -39,13 +38,23 @@ public class RSAKeyContents {
 		this.qInv = qInv;
 	}
     
+	/**
+	 * Auto-set version, createdOn, and handle
+	 * 
+	 * @param modulus
+	 * @param publicExponent
+	 * @param privateExponent
+	 * @param p
+	 * @param q
+	 * @param dP
+	 * @param dQ
+	 * @param qInv
+	 */
 	public RSAKeyContents(BigInteger modulus, BigInteger publicExponent,
 			BigInteger privateExponent, BigInteger p, BigInteger q,
 			BigInteger dP, BigInteger dQ, BigInteger qInv) {
-		super();
-		handle = UUID.randomUUID().toString();
-		this.modulus = modulus;
-		this.publicExponent = publicExponent;
+		
+		super(JsonRSAKeyFormatter.VERSION, new Date(), UUID.randomUUID().toString(), modulus, publicExponent);
 		this.privateExponent = privateExponent;
 		this.p = p;
 		this.q = q;
@@ -54,12 +63,7 @@ public class RSAKeyContents {
 		this.qInv = qInv;
 	}
 	
-	public RSAKeyParameters getPublicKey() {
-		return new RSAKeyParameters(false, modulus, publicExponent);
-	}
-	
-	public RSAKeyParameters getPrivateKey() {
-		if(privateExponent == null) throw new RuntimeException("No private key data present");
+	public final RSAKeyParameters getPrivateKey() {
 		return new RSAPrivateCrtKeyParameters(modulus, publicExponent, privateExponent, p, q, dP, dQ, qInv);
 	}
 
@@ -136,10 +140,6 @@ public class RSAKeyContents {
 		} else if (!qInv.equals(other.qInv))
 			return false;
 		return true;
-	}
-	
-	public final String toString() {
-		return handle;
 	}
 	
 }

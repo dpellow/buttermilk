@@ -6,6 +6,7 @@
 package com.cryptoregistry.pbe;
 
 import java.io.IOException;
+import java.util.Date;
 
 import com.cryptoregistry.passwords.Password;
 import com.cryptoregistry.passwords.SensitiveBytes;
@@ -14,6 +15,9 @@ import net.iharder.Base64;
 
 public abstract class ArmoredPBEResult {
 
+	public String version;
+	public Date createdOn; 
+	
 	public String base64Enc;
 	public String base64Salt;
 	
@@ -29,6 +33,14 @@ public abstract class ArmoredPBEResult {
 	
 	public ArmoredPBEResult(String base64Enc, String base64Salt) {
 		super();
+		this.base64Enc = base64Enc;
+		this.base64Salt = base64Salt;
+	}
+	
+	public ArmoredPBEResult(String version, Date createdOn, String base64Enc, String base64Salt) {
+		super();
+		this.version = version;
+		this.createdOn = createdOn;
 		this.base64Enc = base64Enc;
 		this.base64Salt = base64Salt;
 	}

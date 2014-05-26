@@ -1,6 +1,7 @@
 package com.cryptoregistry.pbe;
 
 import java.io.IOException;
+import java.util.Date;
 
 import com.cryptoregistry.passwords.Password;
 import com.cryptoregistry.passwords.SensitiveBytes;
@@ -29,6 +30,14 @@ public class ArmoredScryptResult extends ArmoredPBEResult {
 
 	public ArmoredScryptResult(String base64Enc, String base64Salt, String base64IV, int cpuMemoryCost, int blockSize, int parallelization) {
 		super(base64Enc, base64Salt);
+		this.base64IV = base64IV;
+		this.cpuMemoryCost = cpuMemoryCost;
+		this.blockSize = blockSize;
+		this.parallelization = parallelization;
+	}
+	
+	public ArmoredScryptResult(String version, Date createdOn, String base64Enc, String base64Salt, String base64IV, int cpuMemoryCost, int blockSize, int parallelization) {
+		super(version, createdOn, base64Enc, base64Salt);
 		this.base64IV = base64IV;
 		this.cpuMemoryCost = cpuMemoryCost;
 		this.blockSize = blockSize;

@@ -1,6 +1,5 @@
 package x.org.bouncycastle.crypto.engines;
 
-
 import x.org.bouncycastle.crypto.CipherParameters;
 import x.org.bouncycastle.crypto.DataLengthException;
 import x.org.bouncycastle.crypto.MaxBytesExceededException;
@@ -15,7 +14,7 @@ import x.org.bouncycastle.util.Strings;
  * Implementation of Daniel J. Bernstein's Salsa20 stream cipher, Snuffle 2005
  */
 public class Salsa20Engine implements StreamCipher {
-	
+
 	public final static int DEFAULT_ROUNDS = 20;
 
 	/** Constants */

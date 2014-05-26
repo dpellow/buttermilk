@@ -77,7 +77,7 @@ public class JsonRSAFormatReader {
 				val = (String) entries.get("qInv");
 				BigInteger qInv = unwrap(enc,val);
 				
-				return new RSAKeyContents(handle, modulus, publicExponent,
+				return new RSAKeyContents(version,createdOn,handle, modulus, publicExponent,
 						privateExponent, P, Q, dP, dQ, qInv);
 				
 			}else if(entries.containsKey("KeyData.EncryptedData")){
@@ -91,13 +91,13 @@ public class JsonRSAFormatReader {
 				
 				if(alg.equals("PBKDF2")){
 					int iterations = Integer.parseInt((String) entries.get("KeyData.Iterations"));
-					return new ArmoredPBKDF2Result(keyData,salt,iterations);
+					return new ArmoredPBKDF2Result(version,createdOn,keyData,salt,iterations);
 				}else if(alg.equals("SCRYPT")){
 					String keyDataIV = (String) entries.get("KeyData.IV");
 					int blockSize = Integer.parseInt((String) entries.get("KeyData.BlockSize"));
 					int cpuMemoryCost = Integer.parseInt((String) entries.get("KeyData.CpuMemoryCost"));
 					int parallelization = Integer.parseInt((String) entries.get("KeyData.Parallelization"));
-					return new ArmoredScryptResult(keyData,salt,keyDataIV,cpuMemoryCost,blockSize,parallelization);
+					return new ArmoredScryptResult(version,createdOn,keyData,salt,keyDataIV,cpuMemoryCost,blockSize,parallelization);
 				}
 				
 				
@@ -146,7 +146,7 @@ public class JsonRSAFormatReader {
 		}
 	}
 	
-	public RSAKeyContents readUnsealedJson(){
+	public RSAKeyContents readUnsealedJson(String version, Date createdOn){
 		
 		String handle = (String) in.get("Handle");
 		Encoding enc = Encoding.valueOf((String) in.get("Encoding"));
@@ -167,7 +167,7 @@ public class JsonRSAFormatReader {
 		val = (String) in.get("qInv");
 		BigInteger qInv = unwrap(enc,val);
 		
-		return new RSAKeyContents(handle, modulus, publicExponent,
+		return new RSAKeyContents(version,createdOn,handle, modulus, publicExponent,
 				privateExponent, P, Q, dP, dQ, qInv);
 	}
 

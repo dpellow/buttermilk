@@ -20,14 +20,14 @@ import com.cyptoregistry.formats.Mode;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 
-public class JsonRSAFormatter {
+public class JsonRSAKeyFormatter {
 	
-	protected static final String VERSION = "Buttermilk Keys 1.0";
+	public static final String VERSION = "Buttermilk Keys 1.0";
 
 	protected RSAKeyContents rsaKeys;
 	protected PBEParams pbeParams;
 
-	public JsonRSAFormatter(RSAKeyContents rsaKeys, PBEParams pbeParams) {
+	public JsonRSAKeyFormatter(RSAKeyContents rsaKeys, PBEParams pbeParams) {
 		super();
 		this.rsaKeys = rsaKeys;
 		this.pbeParams = pbeParams;
