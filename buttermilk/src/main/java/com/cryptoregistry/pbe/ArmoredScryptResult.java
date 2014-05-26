@@ -2,6 +2,7 @@ package com.cryptoregistry.pbe;
 
 import java.io.IOException;
 
+import com.cryptoregistry.passwords.Password;
 import com.cryptoregistry.passwords.SensitiveBytes;
 
 import net.iharder.Base64;
@@ -32,6 +33,17 @@ public class ArmoredScryptResult extends ArmoredPBEResult {
 		this.cpuMemoryCost = cpuMemoryCost;
 		this.blockSize = blockSize;
 		this.parallelization = parallelization;
+	}
+	
+	public PBEParams generateParams(Password password) {
+		PBEParams params = new PBEParams(PBEAlg.SCRYPT);
+		params.setPassword(password);
+		params.setSalt(super.getSaltWrapper());
+		params.setIv(this.getIVWrapper());
+		params.setBlockSize_r(this.blockSize);
+		params.setCpuMemoryCost_N(this.cpuMemoryCost);
+		params.setParallelization_p(this.parallelization);
+		return params;
 	}
 	
 	public byte [] getIVBytes(){

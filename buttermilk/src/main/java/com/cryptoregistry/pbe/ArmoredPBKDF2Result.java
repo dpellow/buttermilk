@@ -1,5 +1,7 @@
 package com.cryptoregistry.pbe;
 
+import com.cryptoregistry.passwords.Password;
+
 public class ArmoredPBKDF2Result extends ArmoredPBEResult {
 
 	public final int iterations;
@@ -12,6 +14,14 @@ public class ArmoredPBKDF2Result extends ArmoredPBEResult {
 	public ArmoredPBKDF2Result(String base64Enc, String base64Salt, int iterations) {
 		super(base64Enc, base64Salt);
 		this.iterations = iterations;
+	}
+	
+	public PBEParams generateParams(Password password) {
+		PBEParams params = new PBEParams(PBEAlg.PBKDF2);
+		params.setPassword(password);
+		params.setSalt(super.getSaltWrapper());
+		params.setIterations(iterations);
+		return params;
 	}
 
 	@Override

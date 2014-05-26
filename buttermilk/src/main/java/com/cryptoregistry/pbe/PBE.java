@@ -1,6 +1,5 @@
 package com.cryptoregistry.pbe;
 
-
 import x.org.bouncycastle.crypto.PBEParametersGenerator;
 import x.org.bouncycastle.crypto.engines.AESEngine;
 import x.org.bouncycastle.crypto.generators.PKCS5S2ParametersGenerator;
@@ -64,8 +63,7 @@ public class PBE {
 		CBCBlockCipher blockCipher = new CBCBlockCipher(new AESEngine());
 		PaddedBufferedBlockCipher aesCipher = new PaddedBufferedBlockCipher(blockCipher, new PKCS7Padding());
 		aesCipher.init(false, holder);
-		byte [] plain = genCipherData(aesCipher, encrypted);
-		return plain;
+		return genCipherData(aesCipher, encrypted);
 	}
 	
 	private byte[] genCipherData(PaddedBufferedBlockCipher cipher, byte[] data) {

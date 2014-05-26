@@ -7,6 +7,7 @@ package com.cryptoregistry.pbe;
 
 import java.io.IOException;
 
+import com.cryptoregistry.passwords.Password;
 import com.cryptoregistry.passwords.SensitiveBytes;
 
 import net.iharder.Base64;
@@ -31,6 +32,8 @@ public abstract class ArmoredPBEResult {
 		this.base64Enc = base64Enc;
 		this.base64Salt = base64Salt;
 	}
+	
+	public abstract PBEParams generateParams(Password password) ;
 	
 	public byte [] getResultBytes(){
 		try {
