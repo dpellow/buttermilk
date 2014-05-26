@@ -12,6 +12,7 @@ import net.iharder.Base64;
 import com.cryptoregistry.pbe.ArmoredPBKDF2Result;
 import com.cryptoregistry.pbe.ArmoredScryptResult;
 import com.cryptoregistry.rsa.RSAKeyContents;
+import com.cryptoregistry.rsa.RSAKeyForPublication;
 import com.cryptoregistry.util.TimeUtil;
 import com.cyptoregistry.formats.Encoding;
 import com.fasterxml.jackson.databind.ObjectMapper;

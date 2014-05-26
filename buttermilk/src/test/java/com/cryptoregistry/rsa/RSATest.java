@@ -80,6 +80,7 @@ public class RSATest {
 		byte [] salt0 = {'s', 'a', 'l', 't'};
 		SensitiveBytes sb = new SensitiveBytes(salt0);
 		
+		// needed with script, as the algorithm does not create an IV
 		SecureRandom rand = new SecureRandom();
 		byte [] iv = new byte[16];
 		rand.nextBytes(iv);

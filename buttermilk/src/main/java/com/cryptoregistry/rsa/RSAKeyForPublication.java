@@ -1,4 +1,4 @@
-package com.cyptoregistry.formats.rsa;
+package com.cryptoregistry.rsa;
 
 import java.math.BigInteger;
 import java.util.Date;
