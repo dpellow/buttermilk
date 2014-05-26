@@ -47,9 +47,39 @@ public class CryptoFactory {
 		}
 	}
 	
-	public byte [] decrypt(RSAKeyContents key,Encoding enc, byte encryptedBytes){
+	public byte [] decrypt(RSAKeyContents key,Encoding enc, byte [] in){
+		lock.lock();
+		try {
 		
-		return null;
+			if((in.length * 8) > KEY_STRENGTH) 
+				throw new RuntimeException("data too large, bits must be less than "+KEY_STRENGTH);
+			
+			RSAKeyParameters params = key.getPrivateKey();
+			RSAEngine           rsa = new RSAEngine();
+
+			switch(enc){
+				case ISO9796d1: {
+					ISO9796d1Encoding eng = new ISO9796d1Encoding(rsa);
+			        eng.init(false, params);
+			        return eng.processBlock(in, 0, in.length);
+				}
+				case OAEP: {
+					OAEPEncoding eng = new OAEPEncoding(rsa);
+					eng.init(false, params);
+				    return eng.processBlock(in, 0, in.length);
+				}
+				case PKCS1: {
+					PKCS1Encoding eng = new PKCS1Encoding(rsa);
+					eng.init(false, params);
+				    return eng.processBlock(in, 0, in.length);
+				}
+				default: throw new RuntimeException("Sorry, encoding scheme unknown: "+enc);
+			}
+			
+			
+		} finally {
+			lock.unlock();
+		}
 	}
 	
 	/**
@@ -73,17 +103,17 @@ public class CryptoFactory {
 			switch(enc){
 				case ISO9796d1: {
 					ISO9796d1Encoding eng = new ISO9796d1Encoding(rsa);
-			        eng.init(false, params);
+			        eng.init(true, params);
 			        return eng.processBlock(in, 0, in.length);
 				}
 				case OAEP: {
 					OAEPEncoding eng = new OAEPEncoding(rsa);
-					eng.init(false, params);
+					eng.init(true, params);
 				    return eng.processBlock(in, 0, in.length);
 				}
 				case PKCS1: {
 					PKCS1Encoding eng = new PKCS1Encoding(rsa);
-					eng.init(false, params);
+					eng.init(true, params);
 				    return eng.processBlock(in, 0, in.length);
 				}
 				default: throw new RuntimeException("Sorry, encoding scheme unknown: "+enc);
