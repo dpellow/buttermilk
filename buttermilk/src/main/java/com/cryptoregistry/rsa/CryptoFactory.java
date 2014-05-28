@@ -1,11 +1,19 @@
 package com.cryptoregistry.rsa;
 
+import java.io.ByteArrayOutputStream;
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.concurrent.locks.ReentrantLock;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
 
+import x.org.bouncycastle.crypto.InvalidCipherTextException;
+import x.org.bouncycastle.crypto.engines.RSABlindedEngine;
+
+
+import x.org.bouncycastle.crypto.AsymmetricBlockCipher;
 import x.org.bouncycastle.crypto.encodings.ISO9796d1Encoding;
 import x.org.bouncycastle.crypto.encodings.OAEPEncoding;
 import x.org.bouncycastle.crypto.encodings.PKCS1Encoding;
@@ -47,81 +55,77 @@ public class CryptoFactory {
 		}
 	}
 	
-	public byte [] decrypt(RSAKeyContents key,Encoding enc, byte [] in){
+	public byte [] decrypt(RSAKeyContents key, RSAEngineFactory.Padding pad, byte[] in){
 		lock.lock();
 		try {
-		
-			if((in.length * 8) > KEY_STRENGTH) 
-				throw new RuntimeException("data too large, bits must be less than "+KEY_STRENGTH);
-			
-			RSAKeyParameters params = key.getPrivateKey();
-			RSAEngine           rsa = new RSAEngine();
-
-			switch(enc){
-				case ISO9796d1: {
-					ISO9796d1Encoding eng = new ISO9796d1Encoding(rsa);
-			        eng.init(false, params);
-			        return eng.processBlock(in, 0, in.length);
-				}
-				case OAEP: {
-					OAEPEncoding eng = new OAEPEncoding(rsa);
-					eng.init(false, params);
-				    return eng.processBlock(in, 0, in.length);
-				}
-				case PKCS1: {
-					PKCS1Encoding eng = new PKCS1Encoding(rsa);
-					eng.init(false, params);
-				    return eng.processBlock(in, 0, in.length);
-				}
-				default: throw new RuntimeException("Sorry, encoding scheme unknown: "+enc);
-			}
-			
-			
+			return runEngineDecrypt(false,key, pad.toString(), in);
 		} finally {
 			lock.unlock();
 		}
 	}
 	
-	/**
-	 * RSA encryption is only really viable for encapsulating another key, for example an AES key. 
-	 * That's why this method does not allow encryption of anything larger than the size of the key; 
-	 * e.g., 2048 bits.
-	 * 
-	 * @param bytes
-	 */
-	public byte [] encrypt(RSAKeyForPublication key, Encoding enc, byte[] in){
-		
+	public byte [] encrypt(RSAKeyForPublication key, RSAEngineFactory.Padding pad, byte[] in){
 		lock.lock();
 		try {
-		
-			if((in.length * 8) > KEY_STRENGTH) 
-				throw new RuntimeException("data too large, bits must be less than "+KEY_STRENGTH);
-			
-			RSAKeyParameters params = key.getPublicKey();
-			RSAEngine           rsa = new RSAEngine();
-
-			switch(enc){
-				case ISO9796d1: {
-					ISO9796d1Encoding eng = new ISO9796d1Encoding(rsa);
-			        eng.init(true, params);
-			        return eng.processBlock(in, 0, in.length);
-				}
-				case OAEP: {
-					OAEPEncoding eng = new OAEPEncoding(rsa);
-					eng.init(true, params);
-				    return eng.processBlock(in, 0, in.length);
-				}
-				case PKCS1: {
-					PKCS1Encoding eng = new PKCS1Encoding(rsa);
-					eng.init(true, params);
-				    return eng.processBlock(in, 0, in.length);
-				}
-				default: throw new RuntimeException("Sorry, encoding scheme unknown: "+enc);
-			}
-			
-			
+			return runEngineEncrypt(true,key, pad.toString(), in);
 		} finally {
 			lock.unlock();
 		}
 	}
+	
+	private byte [] runEngineEncrypt(boolean forEnc, RSAKeyForPublication key, String paddingScheme, byte[] in){
+		RSAKeyParameters params = key.getPublicKey();
+		AsymmetricBlockCipher rsa = new RSAEngineFactory(paddingScheme).getCipher();
+		rsa.init(forEnc, params);
+		return engineDoFinal(in,0,in.length,rsa);
+	}
+	
+	private byte [] runEngineDecrypt(boolean forEnc, RSAKeyContents key, String paddingScheme, byte[] in){
+		RSAKeyParameters params = key.getPrivateKey();
+		AsymmetricBlockCipher rsa = new RSAEngineFactory(paddingScheme).getCipher();
+		rsa.init(forEnc, params);
+		return engineDoFinal(in,0,in.length,rsa);
+	}
+	
+	private byte[] engineDoFinal(
+	        byte[]  input,
+	        int     inputOffset,
+	        int     inputLen,
+	        AsymmetricBlockCipher cipher) {
+		
+		  ByteArrayOutputStream bOut = new ByteArrayOutputStream();
+		  
+	        if (input != null)
+	        {
+	            bOut.write(input, inputOffset, inputLen);
+	        }
+
+	        if (cipher instanceof RSABlindedEngine)
+	        {
+	            if (bOut.size() > cipher.getInputBlockSize() + 1)
+	            {
+	                throw new ArrayIndexOutOfBoundsException("too much data for RSA block");
+	            }
+	        }
+	        else
+	        {
+	            if (bOut.size() > cipher.getInputBlockSize())
+	            {
+	                throw new ArrayIndexOutOfBoundsException("too much data for RSA block");
+	            }
+	        }
+
+	        try
+	        {
+	            byte[]  bytes = bOut.toByteArray();
+
+	            bOut.reset();
+
+	            return cipher.processBlock(bytes, 0, bytes.length);
+	        }
+	        catch (InvalidCipherTextException e)
+	        {
+	            throw new RuntimeException(e.getMessage());
+	        }
+	    }
 }

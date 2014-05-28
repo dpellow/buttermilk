@@ -19,7 +19,7 @@ package com.cryptoregistry.curve25519;
  * code I have in this same package. Apparently Curve 25519 is expressed in a form which makes 
  * this quite difficult. See the discussion here: http://bouncy-castle.1462172.n4.nabble.com/SafeCurves-td4656794.html
  * 
- * I have modified the pubnlic domain code to be package protected; use the CryptoFactory with the defined
+ * I have modified the public domain code to be package protected; use the CryptoFactory with the defined
  * types to access this class's functionality
  * 
  * </pre>

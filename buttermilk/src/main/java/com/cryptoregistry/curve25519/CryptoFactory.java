@@ -19,9 +19,8 @@ import com.cryptoregistry.curve25519.key.SigningPrivateKey;
 /**
  * <pre>
  * CryptoFactory provides some of the classes one would expect when doing cryptography, such as
- * PrivateKey, PublicKey, and so on. These classes do not implement the javax.crypto interfaces
- * because we have a different objective which is crypto without ASN.1 and the assumptions it 
- * brings. Example use for ECDH:
+ * PrivateKey, PublicKey, and so on. These classes do not implement the javax.crypto interfaces.
+ * Example use for ECDH:
  * 
    Curve25519KeyContents keys0 = CryptoFactory.INSTANCE.generateKeys();
    Curve25519KeyContents keys1 = CryptoFactory.INSTANCE.generateKeys();
@@ -29,7 +28,7 @@ import com.cryptoregistry.curve25519.key.SigningPrivateKey;
    SecretKey s1 = CryptoFactory.INSTANCE.keyAgreement(keys0.publicKey, keys1.agreementPrivateKey);
    Assert.assertTrue(test_equal(s0.getBytes(),s1.getBytes()));
    s0.selfDestruct();
-   s1.selfDestruct(); // remove the key bytes from the heap memory
+   s1.selfDestruct(); // remove the key bytes from the heap memory after use
 		
  * 
  * </pre>

@@ -7,7 +7,11 @@ import java.security.SecureRandom;
 
 import junit.framework.Assert;
 
+import net.iharder.Base64;
+
 import org.junit.Test;
+
+import x.org.bouncycastle.util.Arrays;
 
 import com.cryptoregistry.passwords.NewPassword;
 import com.cryptoregistry.passwords.Password;
@@ -19,7 +23,7 @@ import com.cryptoregistry.pbe.PBEParams;
 import com.cyptoregistry.formats.Encoding;
 import com.cyptoregistry.formats.Mode;
 import com.cyptoregistry.formats.rsa.JsonRSAFormatReader;
-import com.cyptoregistry.formats.rsa.JsonRSAFormatter;
+import com.cyptoregistry.formats.rsa.JsonRSAKeyFormatter;
 
 public class RSATest {
 
@@ -38,7 +42,7 @@ public class RSATest {
 		params.setPassword(pass0);
 		
 		RSAKeyContents contents = CryptoFactory.INSTANCE.generateKeys();
-		JsonRSAFormatter formatter = new JsonRSAFormatter(contents,params);
+		JsonRSAKeyFormatter formatter = new JsonRSAKeyFormatter(contents,params);
 		StringWriter writer = new StringWriter();
 		formatter.formatKeys(Mode.OPEN, Encoding.Base64url, writer);
 		String open = writer.toString();
@@ -61,7 +65,7 @@ public class RSATest {
 		byte [] plain = pbe.decrypt(contents1.getResultBytes());
 		String jsonKey = new String(plain,"UTF-8");
 		JsonRSAFormatReader reader2 = new JsonRSAFormatReader(new StringReader(jsonKey));
-		RSAKeyContents sealedContents =  reader2.readUnsealedJson();
+		RSAKeyContents sealedContents =  reader2.readUnsealedJson(contents1.version,contents1.createdOn);
 		
 		Assert.assertEquals(contents, sealedContents);
 		
@@ -96,7 +100,7 @@ public class RSATest {
 		params.setParallelization_p(32);
 		
 		RSAKeyContents contents = CryptoFactory.INSTANCE.generateKeys();
-		JsonRSAFormatter formatter = new JsonRSAFormatter(contents,params);
+		JsonRSAKeyFormatter formatter = new JsonRSAKeyFormatter(contents,params);
 		
 		StringWriter writer = new StringWriter();
 		formatter.formatKeys(Mode.SEALED, Encoding.Base64url, writer);
@@ -115,10 +119,22 @@ public class RSATest {
 		String jsonKey = new String(plain,"UTF-8");
 		System.err.println("Unencrypted: "+jsonKey);
 		JsonRSAFormatReader reader2 = new JsonRSAFormatReader(new StringReader(jsonKey));
-		RSAKeyContents sealedContents =  reader2.readUnsealedJson();
+		RSAKeyContents sealedContents =  reader2.readUnsealedJson(contents1.version,contents1.createdOn);
 		
 		Assert.assertEquals(contents, sealedContents);
 		
+	}
+	
+	@Test
+	public void test2() throws UnsupportedEncodingException {
+		byte [] in = "Test message".getBytes("UTF-8");
+		RSAKeyContents contents = CryptoFactory.INSTANCE.generateKeys();
+		
+		for(RSAEngineFactory.Padding pad: RSAEngineFactory.Padding.values()){
+			byte [] encrypted = CryptoFactory.INSTANCE.encrypt((RSAKeyForPublication)contents, pad, in);
+			byte [] plain = CryptoFactory.INSTANCE.decrypt(contents, pad, encrypted);
+			Assert.assertTrue(Arrays.areEqual(in, plain));
+		}
 	}
 
 }
