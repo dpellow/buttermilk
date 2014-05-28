@@ -8,7 +8,21 @@ import x.org.bouncycastle.math.ec.ECCurve;
 import x.org.bouncycastle.math.ec.ECPoint;
 import x.org.bouncycastle.util.encoders.Hex;
 
+/**
+ * Static definitions of the various curves. These are adapted from Bouncy Castle's definitions
+ * 
+ * @author Dave
+ *
+ */
 public class CurveFactory {
+	
+	public static boolean curveNameDefined(final String name){
+		try {
+			return getCurveForName(name) != null;
+		}catch(RuntimeException x){
+			return false;
+		}
+	}
 	
 	public static ECDomainParameters getCurveForName(final String name){
 		switch(name){

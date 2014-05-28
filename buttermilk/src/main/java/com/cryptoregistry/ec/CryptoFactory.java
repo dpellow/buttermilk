@@ -28,17 +28,17 @@ public class CryptoFactory {
 		}
 	}
 
-	public ECKeyContents generateKeys(final String name) {
+	public ECKeyContents generateKeys(final String curveName) {
 		lock.lock();
 		try {
 			ECKeyPairGenerator gen = new ECKeyPairGenerator();
-			ECDomainParameters domainParams = CurveFactory.getCurveForName(name);
+			ECDomainParameters domainParams = CurveFactory.getCurveForName(curveName);
 			ECKeyGenerationParameters params = new ECKeyGenerationParameters(domainParams,rand);
 			gen.init(params);
 			AsymmetricCipherKeyPair pair = gen.generateKeyPair();
 			ECPrivateKeyParameters priv = (ECPrivateKeyParameters) pair.getPrivate();
 			ECPublicKeyParameters pub = (ECPublicKeyParameters) pair.getPublic();
-			return new ECKeyContents(priv.getParameters().getName(),priv.getD(), pub.getQ());
+			return new ECKeyContents(pub.getQ(),priv.getParameters().getName(),priv.getD());
 		} finally {
 			lock.unlock();
 		}
