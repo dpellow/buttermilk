@@ -72,4 +72,8 @@ public class RSAEngineFactory {
 		OAEPWITHSHA512ANDMGF1PADDING;
 	}
 
+	public String getPaddingScheme() {
+		return paddingScheme;
+	}
+
 }
