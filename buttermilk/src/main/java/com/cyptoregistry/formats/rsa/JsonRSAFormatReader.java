@@ -1,13 +1,10 @@
 package com.cyptoregistry.formats.rsa;
 
-import java.io.IOException;
 import java.io.Reader;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
-
-import net.iharder.Base64;
 
 import com.cryptoregistry.pbe.ArmoredPBKDF2Result;
 import com.cryptoregistry.pbe.ArmoredScryptResult;
@@ -15,6 +12,7 @@ import com.cryptoregistry.rsa.RSAKeyContents;
 import com.cryptoregistry.rsa.RSAKeyForPublication;
 import com.cryptoregistry.util.TimeUtil;
 import com.cyptoregistry.formats.Encoding;
+import com.cyptoregistry.formats.FormatUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonRSAFormatReader {
@@ -61,21 +59,21 @@ public class JsonRSAFormatReader {
 				Encoding enc = Encoding.valueOf((String) entries.get("Encoding"));
 				
 				String val = (String) entries.get("Modulus");
-				BigInteger modulus = unwrap(enc,val);
+				BigInteger modulus = FormatUtil.unwrap(enc,val);
 				val = (String) entries.get("PublicExponent");
-				BigInteger publicExponent = unwrap(enc,val);
+				BigInteger publicExponent = FormatUtil.unwrap(enc,val);
 				val = (String) entries.get("PrivateExponent");
-				BigInteger privateExponent = unwrap(enc,val);
+				BigInteger privateExponent = FormatUtil.unwrap(enc,val);
 				val = (String) entries.get("P");
-				BigInteger P = unwrap(enc,val);
+				BigInteger P = FormatUtil.unwrap(enc,val);
 				val = (String) entries.get("Q");
-				BigInteger Q = unwrap(enc,val);
+				BigInteger Q = FormatUtil.unwrap(enc,val);
 				val = (String) entries.get("dP");
-				BigInteger dP = unwrap(enc,val);
+				BigInteger dP = FormatUtil.unwrap(enc,val);
 				val = (String) entries.get("dQ");
-				BigInteger dQ = unwrap(enc,val);
+				BigInteger dQ = FormatUtil.unwrap(enc,val);
 				val = (String) entries.get("qInv");
-				BigInteger qInv = unwrap(enc,val);
+				BigInteger qInv = FormatUtil.unwrap(enc,val);
 				
 				return new RSAKeyContents(version,createdOn,handle, modulus, publicExponent,
 						privateExponent, P, Q, dP, dQ, qInv);
@@ -104,11 +102,11 @@ public class JsonRSAFormatReader {
 			}else{
 				
 				Encoding enc = Encoding.valueOf((String) entries.get("Encoding"));
-				
 				String val = (String) entries.get("Modulus");
-				BigInteger modulus = unwrap(enc,val);
+				BigInteger modulus = FormatUtil.unwrap(enc,val);
 				val = (String) entries.get("PublicExponent");
-				BigInteger publicExponent = unwrap(enc,val);
+				BigInteger publicExponent = FormatUtil.unwrap(enc,val);
+				
 				// we can safely assume the key is for publication
 				return new RSAKeyForPublication(version,createdOn,handle,modulus,publicExponent);
 			}
@@ -117,55 +115,28 @@ public class JsonRSAFormatReader {
 		return null;
 	}
 	
-	private BigInteger unwrap(Encoding enc, String s) {
-		switch (enc) {
-		case Base2:
-			return new BigInteger(s,2);
-		case Base10:
-			return new BigInteger(s,10);
-		case Base16:
-			return new BigInteger(s,16);
-		case Base64: {
-			try {
-				byte [] b = Base64.decode(s);
-				return new BigInteger(b);
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
-		case Base64url: {
-			try {
-				byte [] b = Base64.decode(s, Base64.URL_SAFE);
-				return new BigInteger(b);
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
-		default:
-			throw new RuntimeException("Unknown encoding: " + enc);
-		}
-	}
+	
 	
 	public RSAKeyContents readUnsealedJson(String version, Date createdOn){
 		
 		String handle = (String) in.get("Handle");
 		Encoding enc = Encoding.valueOf((String) in.get("Encoding"));
 		String val = (String) in.get("Modulus");
-		BigInteger modulus = unwrap(enc,val);
+		BigInteger modulus = FormatUtil.unwrap(enc,val);
 		val = (String) in.get("PublicExponent");
-		BigInteger publicExponent = unwrap(enc,val);
+		BigInteger publicExponent = FormatUtil.unwrap(enc,val);
 		val = (String) in.get("PrivateExponent");
-		BigInteger privateExponent = unwrap(enc,val);
+		BigInteger privateExponent = FormatUtil.unwrap(enc,val);
 		val = (String) in.get("P");
-		BigInteger P = unwrap(enc,val);
+		BigInteger P = FormatUtil.unwrap(enc,val);
 		val = (String) in.get("Q");
-		BigInteger Q = unwrap(enc,val);
+		BigInteger Q = FormatUtil.unwrap(enc,val);
 		val = (String) in.get("dP");
-		BigInteger dP = unwrap(enc,val);
+		BigInteger dP = FormatUtil.unwrap(enc,val);
 		val = (String) in.get("dQ");
-		BigInteger dQ = unwrap(enc,val);
+		BigInteger dQ = FormatUtil.unwrap(enc,val);
 		val = (String) in.get("qInv");
-		BigInteger qInv = unwrap(enc,val);
+		BigInteger qInv = FormatUtil.unwrap(enc,val);
 		
 		return new RSAKeyContents(version,createdOn,handle, modulus, publicExponent,
 				privateExponent, P, Q, dP, dQ, qInv);
