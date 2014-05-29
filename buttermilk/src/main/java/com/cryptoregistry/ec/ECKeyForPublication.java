@@ -1,18 +1,37 @@
 package com.cryptoregistry.ec;
 
+import java.util.Date;
+import java.util.UUID;
+
+import com.cryptoregistry.formats.ec.JsonECKeyFormatter;
+
 import x.org.bouncycastle.crypto.params.ECDomainParameters;
 import x.org.bouncycastle.crypto.params.ECPublicKeyParameters;
 import x.org.bouncycastle.math.ec.ECPoint;
 
 public class ECKeyForPublication {
 
+	public final String version;
+	public final Date createdOn;
+	
 	public final String handle;
 	public final ECPoint Q;
 	public final String curveName;
 	
-	public ECKeyForPublication(String handle, ECPoint q, String curveName) {
+	public ECKeyForPublication(String version, Date createdOn, String handle, ECPoint q, String curveName) {
 		super();
+		this.version = version;
+		this.createdOn = createdOn;
 		this.handle = handle;
+		Q = q;
+		this.curveName = curveName;
+	}
+	
+	public ECKeyForPublication(ECPoint q, String curveName) {
+		super();
+		this.version = JsonECKeyFormatter.VERSION;  
+		this.createdOn = new Date();
+		this.handle = UUID.randomUUID().toString();
 		Q = q;
 		this.curveName = curveName;
 	}

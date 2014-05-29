@@ -1,7 +1,10 @@
 package com.cryptoregistry.ec;
 
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.UUID;
+
+import com.cryptoregistry.formats.ec.JsonECKeyFormatter;
 
 import x.org.bouncycastle.crypto.params.ECDomainParameters;
 import x.org.bouncycastle.crypto.params.ECPrivateKeyParameters;
@@ -11,13 +14,21 @@ public class ECKeyContents extends ECKeyForPublication {
 	
 	public final BigInteger d;
 	
+	/**
+	 * auto-sets version, date, and handle
+	 * 
+	 * @param q
+	 * @param curveName
+	 * @param d
+	 */
 	public ECKeyContents(ECPoint q, String curveName, BigInteger d) {
-		super(UUID.randomUUID().toString(), q, curveName);
+		super(JsonECKeyFormatter.VERSION, new Date(), UUID.randomUUID().toString(), q, curveName);
 		this.d = d;
 	}
 
-	public ECKeyContents(String handle, ECPoint q, String curveName, BigInteger d) {
-		super(handle, q, curveName);
+	public ECKeyContents(String version, Date createdOn, 
+			String handle, ECPoint q, String curveName, BigInteger d) {
+		super(version,createdOn,handle, q, curveName);
 		this.d = d;
 	}
 	
