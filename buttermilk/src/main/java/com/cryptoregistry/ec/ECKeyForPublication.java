@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.UUID;
 
 import com.cryptoregistry.Version;
-import com.cryptoregistry.formats.ec.JsonECKeyFormatter;
 
 import x.org.bouncycastle.crypto.params.ECDomainParameters;
 import x.org.bouncycastle.crypto.params.ECPublicKeyParameters;
