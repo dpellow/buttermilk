@@ -6,6 +6,9 @@
    
    This product includes software developed at
    The legion of the BouncyCastle (http://www.bouncycastle.org/)
+   
+   This product includes software developed at
+   FasterXML (http://fasterxml.com/)
 
    This product includes public domain software written by
    Matthijs van Duin and Dmitry Skiba
