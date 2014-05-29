@@ -1,4 +1,13 @@
-/* Ported from C to Java by Dmitry Skiba [sahn0], 23/02/08.
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2014 David R. Smith All Rights Reserved.
+ *
+ */
+
+
+/* Original license:
+ * 
+ * Ported from C to Java by Dmitry Skiba [sahn0], 23/02/08.
  * Original: http://cds.xs4all.nl:8081/ecdh/
  */
 /* Generic 64-bit integer implementation of Curve25519 ECDH

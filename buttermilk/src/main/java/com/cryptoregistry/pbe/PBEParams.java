@@ -6,6 +6,8 @@ import com.cryptoregistry.passwords.SensitiveBytes;
 /**
  * Simple value object with our parameter settings
  * 
+ * Scrypt: https://tools.ietf.org/html/draft-josefsson-scrypt-kdf-00
+ * 
  * @author Dave
  *
  */
@@ -18,7 +20,7 @@ public class PBEParams {
 	
 	private int iterations; // set this if using PBKDF2
 	
-	// used with SCrypt
+	// used with Scrypt
 	private SensitiveBytes iv;
 	
 	// set these if using SCrypt, or else rely on the defaults

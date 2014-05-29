@@ -1,3 +1,8 @@
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2014 David R. Smith All Rights Reserved.
+ *
+ */
 package com.cryptoregistry.ec;
 
 import java.io.StringWriter;
@@ -12,7 +17,6 @@ import x.org.bouncycastle.math.ec.ECPoint;
 
 import com.cryptoregistry.formats.Encoding;
 import com.cryptoregistry.formats.Mode;
-import com.cryptoregistry.formats.c2.JsonC2KeyFormatter;
 import com.cryptoregistry.formats.ec.JsonECKeyFormatter;
 import com.cryptoregistry.pbe.PBEParams;
 import com.cryptoregistry.pbe.PBEParamsFactory;

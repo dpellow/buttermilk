@@ -1,3 +1,8 @@
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2014 David R. Smith All Rights Reserved.
+ *
+ */
 package com.cryptoregistry.formats.rsa;
 
 import java.io.IOException;
@@ -75,6 +80,7 @@ public class JsonRSAKeyFormatter  implements FormatKeys {
 			g.writeStringField("CreatedOn", TimeUtil.now());
 				g.writeObjectFieldStart("Keys");
 					g.writeObjectFieldStart(rsaKeys.handle);
+					g.writeStringField("KeyData.Type", "RSA");
 					g.writeStringField("KeyData.PBEAlgorithm", pbeParams.getAlg().toString());
 					g.writeStringField("KeyData.EncryptedData", result.base64Enc);
 					g.writeStringField("KeyData.PBESalt", result.base64Salt);
