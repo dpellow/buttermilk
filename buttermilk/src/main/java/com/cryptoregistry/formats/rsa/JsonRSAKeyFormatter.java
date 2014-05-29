@@ -34,7 +34,6 @@ public class JsonRSAKeyFormatter {
 	}
 
 	public void formatKeys(Mode mode, Encoding enc, Writer writer) {
-
 		switch (mode) {
 		case OPEN: {
 			formatExposed(enc, writer);
@@ -51,7 +50,6 @@ public class JsonRSAKeyFormatter {
 		default:
 			throw new RuntimeException("Unknown mode");
 		}
-
 	}
 
 	protected void formatSealed(Encoding enc, Writer writer) {
@@ -124,10 +122,8 @@ public class JsonRSAKeyFormatter {
 						g.writeObjectFieldStart(rsaKeys.handle);
 							g.writeStringField("Encoding", enc.toString());
 							g.writeStringField("Modulus", wrap(enc, rsaKeys.modulus));
-							g.writeStringField("PublicExponent",
-									wrap(enc, rsaKeys.publicExponent));
-							g.writeStringField("PrivateExponent",
-									wrap(enc, rsaKeys.privateExponent));
+							g.writeStringField("PublicExponent", wrap(enc, rsaKeys.publicExponent));
+							g.writeStringField("PrivateExponent", wrap(enc, rsaKeys.privateExponent));
 							g.writeStringField("P", wrap(enc, rsaKeys.p));
 							g.writeStringField("Q", wrap(enc, rsaKeys.q));
 							g.writeStringField("dP", wrap(enc, rsaKeys.dP));
