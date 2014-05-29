@@ -1,8 +1,16 @@
    
-   Copyright 2013 David R. Smith for cryptoregistry.com - All Rights Reserved
+   Copyright 2013-2014 David R. Smith for cryptoregistry.com - All Rights Reserved
 
    This product includes software developed at
    The Apache Software Foundation (http://www.apache.org/).
-
    
+   This product includes software developed at
+   The legion of the BouncyCastle (http://www.bouncycastle.org/)
+
+   This product includes public domain software written by
+   Matthijs van Duin and Dmitry Skiba
+   
+   This product implements GJ Croll's BiEntropy algorithm as described here:
+   http://arxiv.org/ftp/arxiv/papers/1305/1305.0954.pdf
+   To the best of my knowledge this algorithm is not encumbered with a patent
 
