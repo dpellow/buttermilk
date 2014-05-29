@@ -3,27 +3,25 @@ package com.cryptoregistry.rsa;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.security.SecureRandom;
 
 import junit.framework.Assert;
-
-import net.iharder.Base64;
 
 import org.junit.Test;
 
 import x.org.bouncycastle.util.Arrays;
 
+import com.cryptoregistry.formats.Encoding;
+import com.cryptoregistry.formats.FormatUtil;
+import com.cryptoregistry.formats.Mode;
+import com.cryptoregistry.formats.rsa.JsonRSAFormatReader;
+import com.cryptoregistry.formats.rsa.JsonRSAKeyFormatter;
 import com.cryptoregistry.passwords.NewPassword;
 import com.cryptoregistry.passwords.Password;
 import com.cryptoregistry.passwords.SensitiveBytes;
 import com.cryptoregistry.pbe.ArmoredPBEResult;
-import com.cryptoregistry.pbe.PBE;
 import com.cryptoregistry.pbe.PBEAlg;
 import com.cryptoregistry.pbe.PBEParams;
-import com.cyptoregistry.formats.Encoding;
-import com.cyptoregistry.formats.Mode;
-import com.cyptoregistry.formats.rsa.JsonRSAFormatReader;
-import com.cyptoregistry.formats.rsa.JsonRSAKeyFormatter;
+import com.cryptoregistry.pbe.PBEParamsFactory;
 
 public class RSATest {
 
@@ -60,12 +58,14 @@ public class RSATest {
 		
 		char[]pV= {'p','a','s','s','w','o','r','d'};
 		Password passV = new NewPassword(pV);
-		PBEParams paramsV = contents1.generateParams(passV);
-		PBE pbe = new PBE(paramsV);
-		byte [] plain = pbe.decrypt(contents1.getResultBytes());
-		String jsonKey = new String(plain,"UTF-8");
-		JsonRSAFormatReader reader2 = new JsonRSAFormatReader(new StringReader(jsonKey));
-		RSAKeyContents sealedContents =  reader2.readUnsealedJson(contents1.version,contents1.createdOn);
+		//PBEParams paramsV = contents1.generateParams(passV);
+		//PBE pbe = new PBE(paramsV);
+		//byte [] plain = pbe.decrypt(contents1.getResultBytes());
+		//String jsonKey = new String(plain,"UTF-8");
+		//JsonRSAFormatReader reader2 = new JsonRSAFormatReader(new StringReader(jsonKey));
+		//RSAKeyContents sealedContents =  reader2.readUnsealedJson(contents1.version,contents1.createdOn);
+		
+		RSAKeyContents sealedContents = FormatUtil.extractRSAKeyContents(passV, contents1);
 		
 		Assert.assertEquals(contents, sealedContents);
 		
@@ -79,25 +79,8 @@ public class RSATest {
 	@Test
 	public void test1() throws UnsupportedEncodingException {
 		
-		char[]p= {'p','a','s','s','w','o','r','d'};
-		Password pass0 = new NewPassword(p);
-		byte [] salt0 = {'s', 'a', 'l', 't'};
-		SensitiveBytes sb = new SensitiveBytes(salt0);
-		
-		// needed with script, as the algorithm does not create an IV
-		SecureRandom rand = new SecureRandom();
-		byte [] iv = new byte[16];
-		rand.nextBytes(iv);
-		SensitiveBytes ivBytes = new SensitiveBytes(iv);
-		
-		PBEParams params = new PBEParams(PBEAlg.SCRYPT);
-		params.setPassword(pass0);
-		params.setSalt(sb);
-		params.setIv(ivBytes);
-		params.setBlockSize_r(128);
-		params.setCpuMemoryCost_N(4);
-		params.setDesiredKeyLengthInBytes(32);
-		params.setParallelization_p(32);
+		char[]passwordChars0= {'p','a','s','s','w','o','r','d'};
+		PBEParams params = PBEParamsFactory.INSTANCE.createPBKDF2Params(passwordChars0);
 		
 		RSAKeyContents contents = CryptoFactory.INSTANCE.generateKeys();
 		JsonRSAKeyFormatter formatter = new JsonRSAKeyFormatter(contents,params);
@@ -109,17 +92,11 @@ public class RSATest {
 		
 		// now read back in
 		JsonRSAFormatReader reader1 = new JsonRSAFormatReader(new StringReader(sealed));
-		ArmoredPBEResult contents1 = (ArmoredPBEResult)reader1.read();
+		ArmoredPBEResult sealedResult = (ArmoredPBEResult)reader1.read();
 		
-		char[]pV= {'p','a','s','s','w','o','r','d'};
-		Password passV = new NewPassword(pV);
-		PBEParams paramsV = contents1.generateParams(passV);
-		PBE pbe = new PBE(paramsV);
-		byte [] plain = pbe.decrypt(contents1.getResultBytes());
-		String jsonKey = new String(plain,"UTF-8");
-		System.err.println("Unencrypted: "+jsonKey);
-		JsonRSAFormatReader reader2 = new JsonRSAFormatReader(new StringReader(jsonKey));
-		RSAKeyContents sealedContents =  reader2.readUnsealedJson(contents1.version,contents1.createdOn);
+		char[]passwordChars1= {'p','a','s','s','w','o','r','d'};
+		NewPassword password1 = new NewPassword(passwordChars1);
+		RSAKeyContents sealedContents = FormatUtil.extractRSAKeyContents(password1, sealedResult);
 		
 		Assert.assertEquals(contents, sealedContents);
 		
@@ -129,7 +106,7 @@ public class RSATest {
 	public void test2() throws UnsupportedEncodingException {
 		byte [] in = "Test message".getBytes("UTF-8");
 		RSAKeyContents contents = CryptoFactory.INSTANCE.generateKeys();
-		
+		// test all the different RSA padding available
 		for(RSAEngineFactory.Padding pad: RSAEngineFactory.Padding.values()){
 			byte [] encrypted = CryptoFactory.INSTANCE.encrypt((RSAKeyForPublication)contents, pad, in);
 			byte [] plain = CryptoFactory.INSTANCE.decrypt(contents, pad, encrypted);

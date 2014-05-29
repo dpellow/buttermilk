@@ -351,6 +351,21 @@ public abstract class ECPoint
 
         return hc;
     }
+    
+    /**
+     * Comma delimited 
+     * 
+     * @return
+     */
+    public String serialize() {
+    	
+        StringBuffer sb = new StringBuffer();
+        sb.append(this.getAffineXCoord());
+        sb.append(',');
+        sb.append(this.getAffineXCoord());
+     
+        return sb.toString();
+    }
 
     public String toString()
     {

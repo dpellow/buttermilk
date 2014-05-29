@@ -1,5 +1,6 @@
 package com.cryptoregistry.pbe;
 
+import com.cryptoregistry.passwords.NewPassword;
 import com.cryptoregistry.passwords.Password;
 import com.cryptoregistry.passwords.SensitiveBytes;
 

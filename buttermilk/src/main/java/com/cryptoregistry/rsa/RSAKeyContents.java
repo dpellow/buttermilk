@@ -4,7 +4,7 @@ import java.math.BigInteger;
 import java.util.Date;
 import java.util.UUID;
 
-import com.cyptoregistry.formats.rsa.JsonRSAKeyFormatter;
+import com.cryptoregistry.formats.rsa.JsonRSAKeyFormatter;
 
 import x.org.bouncycastle.crypto.params.RSAKeyParameters;
 import x.org.bouncycastle.crypto.params.RSAPrivateCrtKeyParameters;

@@ -1,35 +1,33 @@
-package com.cryptoregistry.formats.rsa;
+package com.cryptoregistry.formats.ec;
 
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.math.BigInteger;
 
-import net.iharder.Base64;
-
+import com.cryptoregistry.ec.ECKeyContents;
+import com.cryptoregistry.formats.Encoding;
+import com.cryptoregistry.formats.FormatUtil;
+import com.cryptoregistry.formats.Mode;
 import com.cryptoregistry.pbe.ArmoredPBEResult;
 import com.cryptoregistry.pbe.ArmoredPBKDF2Result;
 import com.cryptoregistry.pbe.ArmoredScryptResult;
 import com.cryptoregistry.pbe.PBE;
 import com.cryptoregistry.pbe.PBEParams;
-import com.cryptoregistry.rsa.RSAKeyContents;
 import com.cryptoregistry.util.TimeUtil;
-import com.cryptoregistry.formats.Encoding;
-import com.cryptoregistry.formats.Mode;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 
-public class JsonRSAKeyFormatter {
+public class JsonECKeyFormatter {
 	
-	public static final String VERSION = "Buttermilk Keys 1.0";
+	public static final String VERSION = "Buttermilk Key Materials 1.0";
 
-	protected RSAKeyContents rsaKeys;
+	protected ECKeyContents ecKeys;
 	protected PBEParams pbeParams;
 
-	public JsonRSAKeyFormatter(RSAKeyContents rsaKeys, PBEParams pbeParams) {
+	public JsonECKeyFormatter(ECKeyContents ecKeys, PBEParams pbeParams) {
 		super();
-		this.rsaKeys = rsaKeys;
+		this.ecKeys = ecKeys;
 		this.pbeParams = pbeParams;
 	}
 
@@ -37,15 +35,15 @@ public class JsonRSAKeyFormatter {
 
 		switch (mode) {
 		case OPEN: {
-			formatExposed(enc, writer);
+			formatOpen(enc, writer);
 			break;
 		}
 		case SEALED: {
-			formatSealed(enc, writer);
+			seal(enc, writer);
 			break;
 		}
 		case FOR_PUBLICATION: {
-			formatKeyExchange(enc, writer);
+			formatForPublication(enc, writer);
 			break;
 		}
 		default:
@@ -54,9 +52,9 @@ public class JsonRSAKeyFormatter {
 
 	}
 
-	protected void formatSealed(Encoding enc, Writer writer) {
+	protected void seal(Encoding enc, Writer writer) {
 
-		String plain = formatItem(enc, rsaKeys);
+		String plain = formatItem(enc, ecKeys);
 		ArmoredPBEResult result;
 		try {
 			byte[] plainBytes = plain.getBytes("UTF-8");
@@ -76,7 +74,8 @@ public class JsonRSAKeyFormatter {
 			g.writeStringField("Version", VERSION);
 			g.writeStringField("CreatedOn", TimeUtil.now());
 				g.writeObjectFieldStart("Keys");
-					g.writeObjectFieldStart(rsaKeys.handle);
+					g.writeObjectFieldStart(ecKeys.handle);
+					g.writeStringField("KeyData.Type", "EC");
 					g.writeStringField("KeyData.PBEAlgorithm", pbeParams.getAlg().toString());
 					g.writeStringField("KeyData.EncryptedData", result.base64Enc);
 					g.writeStringField("KeyData.PBESalt", result.base64Salt);
@@ -110,7 +109,7 @@ public class JsonRSAKeyFormatter {
 		}
 	}
 
-	protected void formatExposed(Encoding enc, Writer writer) {
+	protected void formatOpen(Encoding enc, Writer writer) {
 		JsonFactory f = new JsonFactory();
 		JsonGenerator g = null;
 		try {
@@ -121,19 +120,11 @@ public class JsonRSAKeyFormatter {
 				g.writeStringField("Version", VERSION);
 				g.writeStringField("CreatedOn", TimeUtil.now());
 					g.writeObjectFieldStart("Keys");
-						g.writeObjectFieldStart(rsaKeys.handle);
+						g.writeObjectFieldStart(ecKeys.handle);
 							g.writeStringField("Encoding", enc.toString());
-							g.writeStringField("Modulus", wrap(enc, rsaKeys.modulus));
-							g.writeStringField("PublicExponent",
-									wrap(enc, rsaKeys.publicExponent));
-							g.writeStringField("PrivateExponent",
-									wrap(enc, rsaKeys.privateExponent));
-							g.writeStringField("P", wrap(enc, rsaKeys.p));
-							g.writeStringField("Q", wrap(enc, rsaKeys.q));
-							g.writeStringField("dP", wrap(enc, rsaKeys.dP));
-							g.writeStringField("dQ", wrap(enc, rsaKeys.dQ));
-							g.writeStringField("qInv", wrap(enc, rsaKeys.qInv));
-				//		g.writeEndObject();
+							g.writeStringField("Q", FormatUtil.serializeECPoint(ecKeys.Q, enc));
+							g.writeStringField("D", FormatUtil.wrap(enc, ecKeys.d));
+							g.writeStringField("CurveName", ecKeys.curveName);
 					g.writeEndObject();
 				g.writeEndObject();
 		} catch (IOException e) {
@@ -149,7 +140,7 @@ public class JsonRSAKeyFormatter {
 		}
 	}
 
-	protected void formatKeyExchange(Encoding enc, Writer writer) {
+	protected void formatForPublication(Encoding enc, Writer writer) {
 		JsonFactory f = new JsonFactory();
 		JsonGenerator g = null;
 		try {
@@ -160,10 +151,10 @@ public class JsonRSAKeyFormatter {
 			g.writeStringField("Version", VERSION);
 			g.writeStringField("CreatedOn", TimeUtil.now());
 				g.writeObjectFieldStart("Keys");
-					g.writeObjectFieldStart(rsaKeys.handle);
+					g.writeObjectFieldStart(ecKeys.handle);
 						g.writeStringField("Encoding", enc.toString());
-						g.writeStringField("Modulus", wrap(enc, rsaKeys.modulus));
-						g.writeStringField("PublicExponent", wrap(enc, rsaKeys.publicExponent));
+						g.writeStringField("Q", FormatUtil.serializeECPoint(ecKeys.Q, enc));
+						g.writeStringField("CurveName", ecKeys.curveName);
 						g.writeEndObject();
 						g.writeEndObject();
 					g.writeEndObject();
@@ -179,30 +170,7 @@ public class JsonRSAKeyFormatter {
 			}
 	}
 
-	private String wrap(Encoding enc, BigInteger bi) {
-		switch (enc) {
-		case Base2:
-			return bi.toString(2);
-		case Base10:
-			return bi.toString(10);
-		case Base16:
-			return bi.toString(16);
-		case Base64: {
-			return Base64.encodeBytes(bi.toByteArray());
-		}
-		case Base64url: {
-			try {
-				return Base64.encodeBytes(bi.toByteArray(), Base64.URL_SAFE);
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
-		default:
-			throw new RuntimeException("Unknown encoding: " + enc);
-		}
-	}
-
-	private String formatItem(Encoding enc, RSAKeyContents item) {
+	private String formatItem(Encoding enc, ECKeyContents item) {
 		StringWriter privateDataWriter = new StringWriter();
 		JsonFactory f = new JsonFactory();
 		JsonGenerator g = null;
@@ -210,16 +178,10 @@ public class JsonRSAKeyFormatter {
 			g = f.createGenerator(privateDataWriter);
 			g.useDefaultPrettyPrinter();
 			g.writeStartObject();
-			g.writeStringField("Handle", rsaKeys.handle);
 			g.writeStringField("Encoding", enc.toString());
-			g.writeStringField("Modulus", wrap(enc, rsaKeys.modulus));
-			g.writeStringField("PublicExponent", wrap(enc, rsaKeys.publicExponent));
-			g.writeStringField("PrivateExponent", wrap(enc, rsaKeys.privateExponent));
-			g.writeStringField("P", wrap(enc, rsaKeys.p));
-			g.writeStringField("Q", wrap(enc, rsaKeys.q));
-			g.writeStringField("dP", wrap(enc, rsaKeys.dP));
-			g.writeStringField("dQ", wrap(enc, rsaKeys.dQ));
-			g.writeStringField("qInv", wrap(enc, rsaKeys.qInv));
+			g.writeStringField("Q", FormatUtil.serializeECPoint(ecKeys.Q, enc));
+			g.writeStringField("D", FormatUtil.wrap(enc, ecKeys.d));
+			g.writeStringField("CurveName", ecKeys.curveName);
 			g.writeEndObject();
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -1,5 +1,6 @@
 package com.cryptoregistry.passwords;
 
+import java.security.SecureRandom;
 import java.util.Arrays;
 
 public class SensitiveBytes {
@@ -9,6 +10,18 @@ public class SensitiveBytes {
 	
 	public SensitiveBytes(byte [] data) {
 		this.data = data;
+		alive=true;
+	}
+	
+	/**
+	 * Can be used to generate random bytes of the requested length
+	 *  
+	 * @param rand
+	 * @param length
+	 */
+	public SensitiveBytes(SecureRandom rand, int length) {
+		data = new byte[length];
+		rand.nextBytes(data);
 		alive=true;
 	}
 	
