@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.Date;
 import java.util.UUID;
 
+import com.cryptoregistry.Version;
 import com.cryptoregistry.formats.ec.JsonECKeyFormatter;
 
 import x.org.bouncycastle.crypto.params.ECDomainParameters;
@@ -22,7 +23,7 @@ public class ECKeyContents extends ECKeyForPublication {
 	 * @param d
 	 */
 	public ECKeyContents(ECPoint q, String curveName, BigInteger d) {
-		super(JsonECKeyFormatter.VERSION, new Date(), UUID.randomUUID().toString(), q, curveName);
+		super(Version.VERSION, new Date(), UUID.randomUUID().toString(), q, curveName);
 		this.d = d;
 	}
 

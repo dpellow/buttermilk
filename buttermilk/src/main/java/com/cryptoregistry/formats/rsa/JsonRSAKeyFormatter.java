@@ -8,6 +8,7 @@ import java.math.BigInteger;
 
 import net.iharder.Base64;
 
+import com.cryptoregistry.Version;
 import com.cryptoregistry.pbe.ArmoredPBEResult;
 import com.cryptoregistry.pbe.ArmoredPBKDF2Result;
 import com.cryptoregistry.pbe.ArmoredScryptResult;
@@ -21,8 +22,6 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 
 public class JsonRSAKeyFormatter {
-	
-	public static final String VERSION = "Buttermilk Keys 1.0";
 
 	protected RSAKeyContents rsaKeys;
 	protected PBEParams pbeParams;
@@ -71,7 +70,7 @@ public class JsonRSAKeyFormatter {
 			g.useDefaultPrettyPrinter();
 
 			g.writeStartObject();
-			g.writeStringField("Version", VERSION);
+			g.writeStringField("Version", Version.VERSION);
 			g.writeStringField("CreatedOn", TimeUtil.now());
 				g.writeObjectFieldStart("Keys");
 					g.writeObjectFieldStart(rsaKeys.handle);
@@ -116,7 +115,7 @@ public class JsonRSAKeyFormatter {
 			g.useDefaultPrettyPrinter();
 
 			g.writeStartObject();
-				g.writeStringField("Version", VERSION);
+				g.writeStringField("Version", Version.VERSION);
 				g.writeStringField("CreatedOn", TimeUtil.now());
 					g.writeObjectFieldStart("Keys");
 						g.writeObjectFieldStart(rsaKeys.handle);
@@ -153,7 +152,7 @@ public class JsonRSAKeyFormatter {
 			g.useDefaultPrettyPrinter();
 
 			g.writeStartObject();
-			g.writeStringField("Version", VERSION);
+			g.writeStringField("Version", Version.VERSION);
 			g.writeStringField("CreatedOn", TimeUtil.now());
 				g.writeObjectFieldStart("Keys");
 					g.writeObjectFieldStart(rsaKeys.handle);

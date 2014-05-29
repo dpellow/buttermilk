@@ -16,11 +16,12 @@ package com.cryptoregistry.curve25519;
  * by license restrictions and has no dependencies on java JCE, other security libraries, etc.
  * 
  * I've looked into how one might use the parameters of Curve 25519 with the Bouncy Castle EC
- * code I have in this same package. Apparently Curve 25519 is expressed in a form which makes 
+ * code I have in this same library. Apparently Curve 25519 is expressed in a form which makes 
  * this quite difficult. See the discussion here: http://bouncy-castle.1462172.n4.nabble.com/SafeCurves-td4656794.html
  * 
- * I have modified the public domain code to be package protected; use the CryptoFactory with the defined
- * types to access this class's functionality
+ * I have modified the public domain code to be Apache Licensed. I also modified it a little; it is
+ * now package protected; use the CryptoFactory with the defined types to access this class's 
+ * functionality
  * 
  * </pre>
  * @see CryptoFactory

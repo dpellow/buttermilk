@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
+import com.cryptoregistry.Version;
 import com.cryptoregistry.ec.ECKeyContents;
 import com.cryptoregistry.formats.Encoding;
 import com.cryptoregistry.formats.FormatUtil;
@@ -19,8 +20,6 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 
 public class JsonECKeyFormatter {
-	
-	public static final String VERSION = "Buttermilk Key Materials 1.0";
 
 	protected ECKeyContents ecKeys;
 	protected PBEParams pbeParams;
@@ -71,7 +70,7 @@ public class JsonECKeyFormatter {
 			g.useDefaultPrettyPrinter();
 
 			g.writeStartObject();
-			g.writeStringField("Version", VERSION);
+			g.writeStringField("Version", Version.VERSION);
 			g.writeStringField("CreatedOn", TimeUtil.now());
 				g.writeObjectFieldStart("Keys");
 					g.writeObjectFieldStart(ecKeys.handle);
@@ -117,7 +116,7 @@ public class JsonECKeyFormatter {
 			g.useDefaultPrettyPrinter();
 
 			g.writeStartObject();
-				g.writeStringField("Version", VERSION);
+				g.writeStringField("Version", Version.VERSION);
 				g.writeStringField("CreatedOn", TimeUtil.now());
 					g.writeObjectFieldStart("Keys");
 						g.writeObjectFieldStart(ecKeys.handle);
@@ -148,7 +147,7 @@ public class JsonECKeyFormatter {
 			g.useDefaultPrettyPrinter();
 
 			g.writeStartObject();
-			g.writeStringField("Version", VERSION);
+			g.writeStringField("Version", Version.VERSION);
 			g.writeStringField("CreatedOn", TimeUtil.now());
 				g.writeObjectFieldStart("Keys");
 					g.writeObjectFieldStart(ecKeys.handle);

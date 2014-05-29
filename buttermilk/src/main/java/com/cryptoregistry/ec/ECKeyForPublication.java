@@ -3,6 +3,7 @@ package com.cryptoregistry.ec;
 import java.util.Date;
 import java.util.UUID;
 
+import com.cryptoregistry.Version;
 import com.cryptoregistry.formats.ec.JsonECKeyFormatter;
 
 import x.org.bouncycastle.crypto.params.ECDomainParameters;
@@ -29,7 +30,7 @@ public class ECKeyForPublication {
 	
 	public ECKeyForPublication(ECPoint q, String curveName) {
 		super();
-		this.version = JsonECKeyFormatter.VERSION;  
+		this.version = Version.VERSION;  
 		this.createdOn = new Date();
 		this.handle = UUID.randomUUID().toString();
 		Q = q;

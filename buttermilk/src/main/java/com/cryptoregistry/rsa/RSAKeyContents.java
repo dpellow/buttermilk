@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.Date;
 import java.util.UUID;
 
+import com.cryptoregistry.Version;
 import com.cryptoregistry.formats.rsa.JsonRSAKeyFormatter;
 
 import x.org.bouncycastle.crypto.params.RSAKeyParameters;
@@ -54,7 +55,7 @@ public class RSAKeyContents extends RSAKeyForPublication {
 			BigInteger privateExponent, BigInteger p, BigInteger q,
 			BigInteger dP, BigInteger dQ, BigInteger qInv) {
 		
-		super(JsonRSAKeyFormatter.VERSION, new Date(), UUID.randomUUID().toString(), modulus, publicExponent);
+		super(Version.VERSION, new Date(), UUID.randomUUID().toString(), modulus, publicExponent);
 		this.privateExponent = privateExponent;
 		this.p = p;
 		this.q = q;
