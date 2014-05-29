@@ -50,9 +50,9 @@ public class PBEParamsFactory {
 		params.setSalt(salt);
 		params.setIv(ivBytes);
 		params.setBlockSize_r(IV_LENGTH*8);
-		params.setCpuMemoryCost_N(this.CPU_MEMORY_COST);
-		params.setDesiredKeyLengthInBytes(this.DESIRED_KEY_LENGTH);
-		params.setParallelization_p(this.PARALLELIZATION);
+		params.setCpuMemoryCost_N(CPU_MEMORY_COST);
+		params.setDesiredKeyLengthInBytes(DESIRED_KEY_LENGTH);
+		params.setParallelization_p(PARALLELIZATION);
 		return params;
 	}
 }
