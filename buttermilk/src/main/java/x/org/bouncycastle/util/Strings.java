@@ -270,9 +270,11 @@ public final class Strings
         return chars;
     }
 
-    public static String[] split(String input, char delimiter)
+    @SuppressWarnings("unchecked")
+	public static String[] split(String input, char delimiter)
     {
-        Vector           v = new Vector();
+        @SuppressWarnings("rawtypes")
+		Vector           v = new Vector();
         boolean moreTokens = true;
         String subString;
 

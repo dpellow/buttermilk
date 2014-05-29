@@ -322,7 +322,8 @@ public abstract class ECCurve
         BigInteger q, r;
         ECPoint.Fp infinity;
 
-        public Fp(BigInteger q, BigInteger a, BigInteger b)
+        @SuppressWarnings("deprecation")
+		public Fp(BigInteger q, BigInteger a, BigInteger b)
         {
             this.q = q;
             this.r = ECFieldElement.Fp.calculateResidue(q);
@@ -333,7 +334,8 @@ public abstract class ECCurve
             this.coord = FP_DEFAULT_COORDS;
         }
 
-        protected Fp(BigInteger q, BigInteger r, ECFieldElement a, ECFieldElement b)
+        @SuppressWarnings("deprecation")
+		protected Fp(BigInteger q, BigInteger r, ECFieldElement a, ECFieldElement b)
         {
             this.q = q;
             this.r = r;

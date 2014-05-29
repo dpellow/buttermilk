@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.UUID;
 
 import com.cryptoregistry.Version;
-import com.cryptoregistry.formats.rsa.JsonRSAKeyFormatter;
 
 import x.org.bouncycastle.crypto.params.RSAKeyParameters;
 import x.org.bouncycastle.crypto.params.RSAPrivateCrtKeyParameters;
