@@ -69,7 +69,7 @@ public class CurveFactory {
 	};
 	
 	/*
-	 * secp112r1
+	 * brainpoolP160r1
 	 */
 	private static ECParametersHolder brainpoolP160r1 = new ECParametersHolder() {
 		
