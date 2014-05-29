@@ -3,18 +3,18 @@
  *  Copyright 2011-2014 David R. Smith All Rights Reserved.
  *
  */
-package com.cryptoregistry.curve25519;
+package com.cryptoregistry.c2;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
 
-import com.cryptoregistry.curve25519.key.AgreementPrivateKey;
-import com.cryptoregistry.curve25519.key.Curve25519KeyContents;
-import com.cryptoregistry.curve25519.key.PublicKey;
-import com.cryptoregistry.curve25519.key.SecretKey;
-import com.cryptoregistry.curve25519.key.SigningPrivateKey;
+import com.cryptoregistry.c2.key.AgreementPrivateKey;
+import com.cryptoregistry.c2.key.Curve25519KeyContents;
+import com.cryptoregistry.c2.key.PublicKey;
+import com.cryptoregistry.c2.key.SecretKey;
+import com.cryptoregistry.c2.key.SigningPrivateKey;
 
 /**
  * <pre>

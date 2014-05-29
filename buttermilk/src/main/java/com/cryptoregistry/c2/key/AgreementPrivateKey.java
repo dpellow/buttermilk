@@ -3,7 +3,7 @@
  *  Copyright 2011-2014 David R. Smith All Rights Reserved.
  *
  */
-package com.cryptoregistry.curve25519.key;
+package com.cryptoregistry.c2.key;
 
 /**
  * Type for holding a KeyAgreement key.

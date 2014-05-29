@@ -7,19 +7,18 @@
  *
  * Based on work by Daniel J Bernstein, http://cr.yp.to/ecdh.html
  */
-package com.cryptoregistry.curve25519;
+package com.cryptoregistry.c2;
 
 /**
  * <pre>
  * 
- * Implementation of Daniel J Bernstein's Curve 25519 code. This one is unencumbered
- * by license restrictions and has no dependencies on java JCE, other security libraries, etc.
+ * Implementation of Daniel J Bernstein's Curve 25519 code by Matthijs van Duin and Dmitry Skiba. 
  * 
  * I've looked into how one might use the parameters of Curve 25519 with the Bouncy Castle EC
  * code I have in this same library. Apparently Curve 25519 is expressed in a form which makes 
  * this quite difficult. See the discussion here: http://bouncy-castle.1462172.n4.nabble.com/SafeCurves-td4656794.html
  * 
- * I have modified the public domain code to be Apache Licensed. I also modified it a little; it is
+ * I have modified the public domain code to be Apache Licensed. I also modified the code a little; it is
  * now package protected; use the CryptoFactory with the defined types to access this class's 
  * functionality
  * 

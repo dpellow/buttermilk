@@ -3,7 +3,7 @@
  *  Copyright 2011-2014 David R. Smith All Rights Reserved.
  *
  */
-package com.cryptoregistry.curve25519.key;
+package com.cryptoregistry.c2.key;
 
 /**
  * Wrapper for output from the Curve25519 key generation method
@@ -11,16 +11,13 @@ package com.cryptoregistry.curve25519.key;
  * @author Dave
  *
  */
-public class Curve25519KeyContents {
+public class Curve25519KeyContents extends Curve25519KeyForPublication {
 
-	public final String handle;
-	public final PublicKey publicKey; 
 	public final SigningPrivateKey signingPrivateKey;
 	public final AgreementPrivateKey agreementPrivateKey;
 	
 	public Curve25519KeyContents(String handle, PublicKey key0, SigningPrivateKey key1, AgreementPrivateKey key2) {
-		this.handle = handle;
-		publicKey = key0;
+		super(handle,key0);
 		signingPrivateKey = key1;
 		agreementPrivateKey = key2;
 	}

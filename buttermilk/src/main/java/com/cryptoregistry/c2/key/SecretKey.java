@@ -1,4 +1,4 @@
-package com.cryptoregistry.curve25519.key;
+package com.cryptoregistry.c2.key;
 
 import x.org.bouncycastle.crypto.Digest;
 import x.org.bouncycastle.crypto.digests.SHA256Digest;

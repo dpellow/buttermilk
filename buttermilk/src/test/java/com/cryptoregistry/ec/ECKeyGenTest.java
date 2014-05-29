@@ -12,7 +12,10 @@ import x.org.bouncycastle.math.ec.ECPoint;
 
 import com.cryptoregistry.formats.Encoding;
 import com.cryptoregistry.formats.Mode;
+import com.cryptoregistry.formats.c2.JsonC2KeyFormatter;
 import com.cryptoregistry.formats.ec.JsonECKeyFormatter;
+import com.cryptoregistry.pbe.PBEParams;
+import com.cryptoregistry.pbe.PBEParamsFactory;
 
 public class ECKeyGenTest {
 
@@ -40,6 +43,16 @@ public class ECKeyGenTest {
 		System.err.println(w.toString());
 		
 		char[] passwordChars = {'p','a','s','s','w','o','r','d'};
+		
+		PBEParams params = PBEParamsFactory.INSTANCE.createPBKDF2Params(passwordChars);
+		JsonECKeyFormatter f1 = new JsonECKeyFormatter(ecc, params);
+		w = new StringWriter();
+		f1.formatKeys(Mode.SEALED, Encoding.Base16, w);
+		System.err.println(w.toString());
+		
+		w = new StringWriter();
+		f1.formatKeys(Mode.FOR_PUBLICATION, Encoding.Base16, w);
+		System.err.println(w.toString());
 	}
 
 }

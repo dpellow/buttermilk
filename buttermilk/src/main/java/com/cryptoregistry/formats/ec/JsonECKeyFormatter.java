@@ -8,6 +8,7 @@ import java.io.Writer;
 import com.cryptoregistry.Version;
 import com.cryptoregistry.ec.ECKeyContents;
 import com.cryptoregistry.formats.Encoding;
+import com.cryptoregistry.formats.FormatKeys;
 import com.cryptoregistry.formats.FormatUtil;
 import com.cryptoregistry.formats.Mode;
 import com.cryptoregistry.pbe.ArmoredPBEResult;
@@ -19,7 +20,7 @@ import com.cryptoregistry.util.TimeUtil;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 
-public class JsonECKeyFormatter {
+public class JsonECKeyFormatter  implements FormatKeys {
 
 	protected ECKeyContents ecKeys;
 	protected PBEParams pbeParams;

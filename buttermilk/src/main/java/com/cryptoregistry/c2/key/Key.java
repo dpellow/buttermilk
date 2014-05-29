@@ -3,7 +3,7 @@
  *  Copyright 2011-2014 David R. Smith All Rights Reserved.
  *
  */
-package com.cryptoregistry.curve25519.key;
+package com.cryptoregistry.c2.key;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -25,7 +25,7 @@ public class Key {
 	protected final byte [] bytes;
 	
 	// status of the key
-	protected boolean alive;
+	protected boolean alive = true;
 	
 	public Key(byte [] bytes) {
 		this.bytes = bytes;

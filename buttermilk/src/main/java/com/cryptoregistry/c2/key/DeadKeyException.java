@@ -3,7 +3,7 @@
  *  Copyright 2011-2014 David R. Smith All Rights Reserved.
  *
  */
-package com.cryptoregistry.curve25519.key;
+package com.cryptoregistry.c2.key;
 
 /**
  * Thrown if an attempt is made to access key data which has already been cleaned up 

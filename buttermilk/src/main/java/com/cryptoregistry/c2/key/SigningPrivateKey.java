@@ -1,4 +1,4 @@
-package com.cryptoregistry.curve25519.key;
+package com.cryptoregistry.c2.key;
 
 public class SigningPrivateKey extends PrivateKey {
 
