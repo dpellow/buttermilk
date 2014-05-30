@@ -47,12 +47,19 @@ public class RSATest {
 		System.err.println(open);
 		JsonRSAFormatReader reader0 = new JsonRSAFormatReader(new StringReader(open));
 		RSAKeyContents contents0 = (RSAKeyContents) reader0.read();
-		
 		Assert.assertEquals(contents, contents0);
+		
+		writer = new StringWriter();
+		formatter.formatKeys(Mode.FOR_PUBLICATION, Encoding.Base64url, writer);
+		String pub = writer.toString();
+		System.err.println(pub);
 		
 		writer = new StringWriter();
 		formatter.formatKeys(Mode.SEALED, Encoding.Base64url, writer);
 		String sealed = writer.toString();
+		
+		System.err.println(sealed);
+		
 		JsonRSAFormatReader reader1 = new JsonRSAFormatReader(new StringReader(sealed));
 		ArmoredPBEResult contents1 = (ArmoredPBEResult)reader1.read();
 		

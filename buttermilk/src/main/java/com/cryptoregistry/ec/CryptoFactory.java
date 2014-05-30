@@ -5,12 +5,15 @@
  */
 package com.cryptoregistry.ec;
 
+import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.concurrent.locks.ReentrantLock;
 
 
 import x.org.bouncycastle.crypto.AsymmetricCipherKeyPair;
+import x.org.bouncycastle.crypto.agreement.ECDHBasicAgreement;
+import x.org.bouncycastle.crypto.digests.SHA256Digest;
 import x.org.bouncycastle.crypto.generators.ECKeyPairGenerator;
 import x.org.bouncycastle.crypto.params.ECDomainParameters;
 import x.org.bouncycastle.crypto.params.ECKeyGenerationParameters;
@@ -49,7 +52,29 @@ public class CryptoFactory {
 		}
 	}
 	
-	public void encrypt(byte[] bytes){
-		
+	/**
+	 * Does EC Diffie-Hellman key agreement. Returns a 256 bit hash of the result suitable for use
+	 * as an encryption key
+	 * 
+	 * @param ours
+	 * @param theirs
+	 * @return
+	 */
+	public byte [] keyAgreement(ECKeyContents ours, ECKeyForPublication theirs){
+		lock.lock();
+		try {
+			ECDHBasicAgreement agree = new ECDHBasicAgreement();
+			agree.init(ours.getPrivateKey());
+			BigInteger bi = agree.calculateAgreement(theirs.getPublicKey());
+			SHA256Digest digest = new SHA256Digest();
+			byte [] bytes = bi.toByteArray();
+			digest.update(bytes, 0, bytes.length);
+			byte[]  digestBytes = new byte[digest.getDigestSize()];
+		    digest.doFinal(digestBytes, 0);
+		    return digestBytes;
+		} finally {
+			lock.unlock();
+		}
 	}
+	
 }

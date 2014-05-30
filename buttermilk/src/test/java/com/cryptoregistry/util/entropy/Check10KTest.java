@@ -20,7 +20,6 @@ public class Check10KTest {
 		int shannon = res.bitsOfEntropy;
 		System.err.println(shannon);
 		System.err.println(croll);
-		
 	}
 
 	@Test
