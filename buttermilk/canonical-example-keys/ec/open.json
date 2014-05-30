@@ -1,0 +1,12 @@
+{
+  "Version" : "Buttermilk Key Materials 1.0",
+  "CreatedOn" : "2014-05-30T03:52:49+0000",
+  "Keys" : {
+    "5676d98d-e906-4efc-bdb4-af375cc5d95d" : {
+      "Encoding" : "Base16",
+      "Q" : "3ca9811439362c257121791358b,2672277d1106633696bf0e653fd6",
+      "D" : "aac1373dc3e6af94529a2e3a4ff",
+      "CurveName" : "secp112r1"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "Version" : "Buttermilk Key Materials 1.0",
+  "CreatedOn" : "2014-05-30T03:52:49+0000",
+  "Keys" : {
+    "5676d98d-e906-4efc-bdb4-af375cc5d95d" : {
+      "KeyData.Type" : "EC",
+      "KeyData.PBEAlgorithm" : "PBKDF2",
+      "KeyData.EncryptedData" : "LD7qrDUJYW2ze_TfeJROH-qkbYS4icjS-AZTGt8bIq68pt-6_0cxgB3MN5fTlMsWfjuysFhCNdxPxSeiCk5kziPlxx1EN62VcA8NjyvbyOplshFNgRETjtCV5gZXC97emKgzohapyxybWfPSctfaxXj0mmQ6b5VN_5xoSzyqmyC4pNgo1OxAMMPejeBshqs0E3VP8J8xgCuY9AFs1Z4Uct6kmdJxNZNisITmPfpJHxk=",
+      "KeyData.PBESalt" : "OpiS2mgQHFl9635LTNWKZJc5r4sj9piyoBwxrRdVLyU=",
+      "KeyData.Iterations" : "10000"
+    }
+  }
+}
