@@ -7,6 +7,12 @@ package com.cryptoregistry.passwords;
 
 import java.util.Arrays;
 
+/**
+ * Assume the chars cannot be cleared, we need to keep them in memory
+ * 
+ * @author Dave
+ *
+ */
 public class ExistingPassword extends Password {
 
 	public ExistingPassword(char[] password) {

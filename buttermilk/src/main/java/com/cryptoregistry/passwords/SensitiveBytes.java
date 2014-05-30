@@ -3,8 +3,16 @@ package com.cryptoregistry.passwords;
 import java.security.SecureRandom;
 import java.util.Arrays;
 
+/**
+ * Generalized wrapper for bytes we do not wish to leave in heap memory to whim of the GC.
+ * 
+ * @author Dave
+ *
+ */
 public class SensitiveBytes {
 
+	private static final SecureRandom internalSecRand = new SecureRandom();
+	
 	protected byte [] data;
 	protected boolean alive;
 	
@@ -14,7 +22,7 @@ public class SensitiveBytes {
 	}
 	
 	/**
-	 * Can be used to generate random bytes of the requested length
+	 * Constructor be used to load random bytes of the requested length
 	 *  
 	 * @param rand
 	 * @param length
@@ -22,6 +30,18 @@ public class SensitiveBytes {
 	public SensitiveBytes(SecureRandom rand, int length) {
 		data = new byte[length];
 		rand.nextBytes(data);
+		alive=true;
+	}
+	
+	/**
+	 * Constructor be used to self-generate cryptographic quality random bytes of the requested length
+	 *  
+	 * @param rand
+	 * @param length
+	 */
+	public SensitiveBytes(int length) {
+		data = new byte[length];
+		internalSecRand.nextBytes(data);
 		alive=true;
 	}
 	

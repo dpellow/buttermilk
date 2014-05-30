@@ -7,6 +7,15 @@ package com.cryptoregistry.passwords;
 
 import java.util.Arrays;
 
+/**
+ * Wrapper for a char array - a password value - we intend to remove 
+ * from heap memory as soon as is feasible, i.e., manually. This is done
+ * to protect from leaks in heap dumps, etc. It is not possible to completely
+ * remove such leaks - but we can try. 
+ * 
+ * @author Dave
+ *
+ */
 public class NewPassword extends Password {
 
 	public NewPassword(char[] password) {
