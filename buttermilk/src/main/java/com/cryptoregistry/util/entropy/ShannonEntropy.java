@@ -81,7 +81,7 @@ public final class ShannonEntropy {
 		return new Result(ent,(int)(ent*input.length()));
 	}
 	
-	static class Result {
+	public static class Result {
 		
 		public double shannonEntropy;
 		public int bitsOfEntropy;
