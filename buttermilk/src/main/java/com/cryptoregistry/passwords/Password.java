@@ -12,6 +12,7 @@ import java.util.Arrays;
 
 import com.cryptoregistry.util.Check10K;
 import com.cryptoregistry.util.entropy.ShannonEntropy;
+import com.cryptoregistry.util.entropy.TresBiEntropy;
 
 /**
  * Base class - wrapper for a char array - a password value - we intend to remove 
@@ -106,12 +107,28 @@ public class Password {
 		return true;
 	}
 	
+	/**
+	 * Returns the bits of entropy calculated with the Shannon Method. 
+	 * The Croll method (bientropy), below is much more accurate for keys
+	 * 
+	 * @return
+	 */
 	public int shannonEntropy(){
 		return ShannonEntropy.bitsOfEntropy(password);
 	}
 	
 	public boolean isPresent10k() {
 		return Check10K.isPresent(password);
+	}
+	
+	/**
+	 * Calculates the bits of entropy using the Croll method (bientropy).
+	 * 
+	 * @return
+	 */
+	public int biEntropy() {
+		TresBiEntropy bi = new TresBiEntropy(toBytes());
+		return (int) bi.calc().bitsOfEntropy;
 	}
 
 }

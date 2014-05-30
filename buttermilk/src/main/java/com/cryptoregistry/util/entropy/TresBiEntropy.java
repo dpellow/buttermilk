@@ -25,7 +25,6 @@ public class TresBiEntropy {
 	
 	final Character ZERO = new Character('0');
 	final Character ONE = new Character('1');
-	final DecimalFormat format = new DecimalFormat("#######0.00");
 	
 	double U, T; // intermediate values
 	
@@ -152,10 +151,11 @@ public class TresBiEntropy {
 		else return "";
 	}
 	
-	class Result {
+	public static class Result {
 		
 		public double biEntropy;
 		public double bitsOfEntropy;
+		final DecimalFormat format = new DecimalFormat("#######0.00");
 		
 		public Result(double biEntropy, double bitsOfEntropy) {
 			super();
@@ -169,42 +169,8 @@ public class TresBiEntropy {
 					+ Math.round(bitsOfEntropy) + "]";
 		}
 
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + getOuterType().hashCode();
-			long temp;
-			temp = Double.doubleToLongBits(biEntropy);
-			result = prime * result + (int) (temp ^ (temp >>> 32));
-			temp = Double.doubleToLongBits(bitsOfEntropy);
-			result = prime * result + (int) (temp ^ (temp >>> 32));
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Result other = (Result) obj;
-			if (!getOuterType().equals(other.getOuterType()))
-				return false;
-			if (Double.doubleToLongBits(biEntropy) != Double
-					.doubleToLongBits(other.biEntropy))
-				return false;
-			if (Double.doubleToLongBits(bitsOfEntropy) != Double
-					.doubleToLongBits(other.bitsOfEntropy))
-				return false;
-			return true;
-		}
-
-		private TresBiEntropy getOuterType() {
-			return TresBiEntropy.this;
-		}
+		
+		
 		
 	}
 }
