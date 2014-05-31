@@ -46,11 +46,13 @@ public class DefaultResolver implements SignatureDataResolver {
 	
 	@Override
 	public void resolve(List<String> refs, ByteArrayOutputStream collector) throws RefNotFoundException {
-		// TODO Auto-generated method stub
+		for(String ref: refs){
+			fileIter(ref, collector);
+		}
 
 	}
 	
-	public void fileIter(String ref, ByteArrayOutputStream collector){
+	void fileIter(String ref, ByteArrayOutputStream collector){
 		try (DirectoryStream<Path> ds = 
 		  Files.newDirectoryStream(FileSystems.getDefault().getPath(rootPath))) {
 			for (Path p : ds) {
@@ -68,7 +70,7 @@ public class DefaultResolver implements SignatureDataResolver {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public String search(Map<String,Object> map, String ref, ByteArrayOutputStream collector, boolean useEncoding){
+	String search(Map<String,Object> map, String ref, ByteArrayOutputStream collector, boolean useEncoding){
 		String retVal = null;
 		String [] parts = ref.split("\\:");
 		String uuid = "", tokenName = "";
@@ -98,7 +100,7 @@ public class DefaultResolver implements SignatureDataResolver {
 			}
 			if(key.equals(tokenName)){
 				
-				// if we've decended down the path from Keys, the value is expected to be Encoded
+				// if we've descended down the path from Keys, the value is expected to be Encoded
 				if(useEncoding){
 					retVal = (String) map.get(tokenName);
 					String enc = (String)map.get("Encoding");
@@ -125,7 +127,7 @@ public class DefaultResolver implements SignatureDataResolver {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Map<String,Object> parse(Reader reader){
+	Map<String,Object> parse(Reader reader){
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			return (Map<String, Object>) mapper.readValue(reader, Map.class);

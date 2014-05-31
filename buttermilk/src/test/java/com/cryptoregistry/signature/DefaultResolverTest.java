@@ -2,6 +2,8 @@ package com.cryptoregistry.signature;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import junit.framework.Assert;
 
@@ -31,6 +33,29 @@ public class DefaultResolverTest {
 		try {
 			resolver.resolve("ee80ca18-676d-495c-9c4c-0862dac74989:Modulus", baos);
 			resolver.resolve("ee80ca18-676d-495c-9c4c-0862dac74989:PublicExponent", baos);
+			byte [] bytes = baos.toByteArray();
+			
+			baos = new ByteArrayOutputStream();
+			baos.write(Base64.decode(modulus, Base64.URL_SAFE));
+			baos.write(Base64.decode(publicExponent, Base64.URL_SAFE));
+			
+			Assert.assertTrue(Arrays.areEqual(bytes, baos.toByteArray()));
+			
+		} catch (RefNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void test1() throws IOException {
+		DefaultResolver resolver = new DefaultResolver("./src/test/resources/com/cryptoregistry/signature");
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try {
+			
+			List<String> list = new ArrayList<String>();
+			list.add("ee80ca18-676d-495c-9c4c-0862dac74989:Modulus");
+			list.add("ee80ca18-676d-495c-9c4c-0862dac74989:PublicExponent");
+			resolver.resolve(list, baos);
 			byte [] bytes = baos.toByteArray();
 			
 			baos = new ByteArrayOutputStream();
