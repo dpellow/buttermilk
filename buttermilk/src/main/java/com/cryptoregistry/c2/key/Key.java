@@ -8,6 +8,8 @@ package com.cryptoregistry.c2.key;
 import java.io.IOException;
 import java.util.UUID;
 
+import com.cryptoregistry.ButtermilkKey;
+
 import net.iharder.Base64;
 
 /**
@@ -16,7 +18,7 @@ import net.iharder.Base64;
  * @author Dave
  * @see CryptoFactory
  */
-public class Key {
+public class Key implements ButtermilkKey {
 
 	// UUID in String representation - should never be null
 	protected final String handle;
@@ -72,6 +74,16 @@ public class Key {
 	@Override
 	public String toString() {
 		return handle;
+	}
+
+	@Override
+	public String getHandle() {
+		return handle;
+	}
+
+	@Override
+	public String getKeyAlgorithm() {
+		return "Curve25519";
 	}
 
 }

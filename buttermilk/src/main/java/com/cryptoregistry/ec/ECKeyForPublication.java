@@ -8,13 +8,14 @@ package com.cryptoregistry.ec;
 import java.util.Date;
 import java.util.UUID;
 
+import com.cryptoregistry.ButtermilkKey;
 import com.cryptoregistry.Version;
 
 import x.org.bouncycastle.crypto.params.ECDomainParameters;
 import x.org.bouncycastle.crypto.params.ECPublicKeyParameters;
 import x.org.bouncycastle.math.ec.ECPoint;
 
-public class ECKeyForPublication {
+public class ECKeyForPublication  implements ButtermilkKey {
 
 	public final String version;
 	public final Date createdOn;
@@ -88,4 +89,14 @@ public class ECKeyForPublication {
 	public final String toString() {
 		return handle;
 	}
+
+	public String getHandle() {
+		return handle;
+	}
+
+	@Override
+	public String getKeyAlgorithm() {
+		return "EC";
+	}
+	
 }

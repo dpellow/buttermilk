@@ -8,9 +8,11 @@ package com.cryptoregistry.rsa;
 import java.math.BigInteger;
 import java.util.Date;
 
+import com.cryptoregistry.ButtermilkKey;
+
 import x.org.bouncycastle.crypto.params.RSAKeyParameters;
 
-public class RSAKeyForPublication {
+public class RSAKeyForPublication  implements ButtermilkKey {
 	
 	public final String version;
 	public final Date createdOn;
@@ -86,5 +88,15 @@ public class RSAKeyForPublication {
 		} else if (!version.equals(other.version))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String getHandle() {
+		return handle;
+	}
+	
+	@Override
+	public String getKeyAlgorithm() {
+		return "RSA";
 	}
 }

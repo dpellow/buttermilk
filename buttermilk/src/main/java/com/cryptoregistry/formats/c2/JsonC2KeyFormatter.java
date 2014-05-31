@@ -36,6 +36,9 @@ public class JsonC2KeyFormatter implements FormatKeys {
 		
 	}
 
+	/**
+	 * Due to the type of keys, Encoding can be null in this case, we always use base64url
+	 */
 	public void formatKeys(Mode mode, Encoding enc, Writer writer) {
 
 		switch (mode) {
@@ -126,6 +129,7 @@ public class JsonC2KeyFormatter implements FormatKeys {
 				g.writeStringField("CreatedOn", TimeUtil.now());
 					g.writeObjectFieldStart("Keys");
 						g.writeObjectFieldStart(c2Keys.handle);
+						    g.writeStringField("Encoding", Encoding.Base64url.toString());
 							g.writeStringField("P", c2Keys.publicKey.getBase64UrlEncoding());
 							g.writeStringField("s", c2Keys.signingPrivateKey.getBase64UrlEncoding());
 							g.writeStringField("k", c2Keys.agreementPrivateKey.getBase64UrlEncoding());
@@ -156,6 +160,7 @@ public class JsonC2KeyFormatter implements FormatKeys {
 				g.writeStringField("CreatedOn", TimeUtil.now());
 				g.writeObjectFieldStart("Keys");
 				g.writeObjectFieldStart(c2Keys.handle);
+				  g.writeStringField("Encoding", Encoding.Base64url.toString());
 				g.writeStringField("P", c2Keys.publicKey.getBase64UrlEncoding());
 				g.writeEndObject();
 				g.writeEndObject();
@@ -181,6 +186,7 @@ public class JsonC2KeyFormatter implements FormatKeys {
 			g.useDefaultPrettyPrinter();
 			g.writeStartObject();
 			g.writeObjectFieldStart(c2Keys.handle);
+			g.writeStringField("Encoding", Encoding.Base64url.toString());
 			g.writeStringField("P", c2Keys.publicKey.getBase64UrlEncoding());
 			g.writeStringField("s", c2Keys.signingPrivateKey.getBase64UrlEncoding());
 			g.writeStringField("k", c2Keys.agreementPrivateKey.getBase64UrlEncoding());

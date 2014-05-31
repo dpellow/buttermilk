@@ -7,7 +7,7 @@ package com.cryptoregistry.c2.key;
 
 /**
  * Thrown if an attempt is made to access key data which has already been cleaned up 
- * (a call to selfDestruct has been made)
+ * (a call to selfDestruct() has been made previously against that key)
  * 
  * @author Dave
  *
