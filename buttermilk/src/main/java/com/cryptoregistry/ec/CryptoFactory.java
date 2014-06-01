@@ -53,6 +53,28 @@ public class CryptoFactory {
 	}
 	
 	/**
+	 * Use for Mode.SEALED key setup
+	 * @param password
+	 * @param curveName
+	 * @return
+	 */
+	public ECKeyContents generateKeys(char [] password, final String curveName) {
+		lock.lock();
+		try {
+			ECKeyPairGenerator gen = new ECKeyPairGenerator();
+			ECDomainParameters domainParams = CurveFactory.getCurveForName(curveName);
+			ECKeyGenerationParameters params = new ECKeyGenerationParameters(domainParams,rand);
+			gen.init(params);
+			AsymmetricCipherKeyPair pair = gen.generateKeyPair();
+			ECPrivateKeyParameters priv = (ECPrivateKeyParameters) pair.getPrivate();
+			ECPublicKeyParameters pub = (ECPublicKeyParameters) pair.getPublic();
+			return new ECKeyContents(password,pub.getQ(),priv.getParameters().getName(),priv.getD());
+		} finally {
+			lock.unlock();
+		}
+	}
+	
+	/**
 	 * Does EC Diffie-Hellman key agreement. Returns a 256 bit hash of the result suitable for use
 	 * as an encryption key
 	 * 

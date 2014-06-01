@@ -9,6 +9,7 @@ import x.org.bouncycastle.crypto.params.RSAKeyParameters;
 import x.org.bouncycastle.crypto.params.RSAPrivateCrtKeyParameters;
 
 import com.cryptoregistry.rsa.RSAKeyContents;
+import com.cryptoregistry.rsa.RSAKeyManagement;
 
 import java.math.BigInteger;
 
@@ -17,6 +18,25 @@ import java.math.BigInteger;
  */
 public class RSAKeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
 	private static final BigInteger ONE = BigInteger.valueOf(1);
+	
+	// optional, these are passed on to our wrapper, don't use both
+	
+	private char [] password;
+	private RSAKeyManagement management;
+	
+	public RSAKeyPairGenerator() {
+		super();
+	}
+
+	public RSAKeyPairGenerator(char[] password) {
+		super();
+		this.password = password;
+	}
+	
+	public RSAKeyPairGenerator(RSAKeyManagement management) {
+		super();
+		this.management = management;
+	}
 
 	private RSAKeyGenerationParameters param;
 
@@ -235,7 +255,13 @@ public class RSAKeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
 		dP = d.remainder(pSub1);
 		dQ = d.remainder(qSub1);
 		qInv = q.modInverse(p);
-
-		return new RSAKeyContents(n, e, d, p, q, dP, dQ, qInv);
+		
+		if(password != null){
+			return new RSAKeyContents(password,n, e, d, p, q, dP, dQ, qInv);
+		}else if(management != null){
+			return new RSAKeyContents(management,n, e, d, p, q, dP, dQ, qInv);
+		}else{
+			return new RSAKeyContents(n, e, d, p, q, dP, dQ, qInv);
+		}
 	}
 }

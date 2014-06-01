@@ -4,16 +4,16 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class Contact {
+public class CryptoContact {
 
 	Map<String,String> map;
 	
-	public Contact() {
+	public CryptoContact() {
 		map = new LinkedHashMap<String,String>();
 		map.put("Handle", UUID.randomUUID().toString());
 	}
 	
-	public Contact(String handle) {
+	public CryptoContact(String handle) {
 		map = new LinkedHashMap<String,String>();
 		map.put("Handle", handle);
 	}

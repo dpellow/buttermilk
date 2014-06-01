@@ -21,12 +21,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * The Resolver has the job of finding the values of references of the form uuid:tokenName where uuid
- * is a unique identifier in some key materials and tokenName is the key for a key/value pair in an embedded JSON
- * object. The object might be a Key, some contact info, a message part, etc. 
+ * is a unique key materials identifier and tokenName is the key for a key/value pair in an embedded JSON
+ * object within the materials. The data might be a cryptographic primitive, some contact info, 
+ * a message part, etc. 
  * 
  * The default resolver is given a directory containing JSON encoded files to search over. This implementation
  * is trivial and only functions as a way to prove the concept. A real implementation would use some form
- * of database and/or caching to be more efficient, and might also use the internet for collaboration
+ * of database and/or caching, etc.
  * 
  * @author Dave
  *

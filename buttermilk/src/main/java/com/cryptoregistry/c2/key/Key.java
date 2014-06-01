@@ -6,9 +6,6 @@
 package com.cryptoregistry.c2.key;
 
 import java.io.IOException;
-import java.util.UUID;
-
-import com.cryptoregistry.ButtermilkKey;
 
 import net.iharder.Base64;
 
@@ -18,27 +15,17 @@ import net.iharder.Base64;
  * @author Dave
  * @see CryptoFactory
  */
-public class Key implements ButtermilkKey {
-
-	// UUID in String representation - should never be null
-	protected final String handle;
+public class Key {
 	
 	// actual key bytes
 	protected final byte [] bytes;
 	
 	// status of the key
 	protected boolean alive = true;
+
 	
 	public Key(byte [] bytes) {
 		this.bytes = bytes;
-		handle = UUID.randomUUID().toString();
-	}
-
-	public Key(String handle, byte[] bytes) {
-		super();
-		this.handle = handle;
-		this.bytes = bytes;
-		if(handle == null) throw new RuntimeException("Handle can never be null");
 	}
 
 	public byte[] getBytes() {
@@ -69,21 +56,6 @@ public class Key implements ButtermilkKey {
 
 	public boolean isAlive() {
 		return alive;
-	}
-
-	@Override
-	public String toString() {
-		return handle;
-	}
-
-	@Override
-	public String getHandle() {
-		return handle;
-	}
-
-	@Override
-	public String getKeyAlgorithm() {
-		return "Curve25519";
 	}
 
 }

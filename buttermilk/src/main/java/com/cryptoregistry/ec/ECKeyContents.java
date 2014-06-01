@@ -6,10 +6,6 @@
 package com.cryptoregistry.ec;
 
 import java.math.BigInteger;
-import java.util.Date;
-import java.util.UUID;
-
-import com.cryptoregistry.Version;
 
 import x.org.bouncycastle.crypto.params.ECDomainParameters;
 import x.org.bouncycastle.crypto.params.ECPrivateKeyParameters;
@@ -20,20 +16,23 @@ public class ECKeyContents extends ECKeyForPublication {
 	public final BigInteger d;
 	
 	/**
-	 * auto-sets version, date, and handle
-	 * 
+	 * Formatting is Mode.Open
 	 * @param q
 	 * @param curveName
 	 * @param d
 	 */
 	public ECKeyContents(ECPoint q, String curveName, BigInteger d) {
-		super(Version.VERSION, new Date(), UUID.randomUUID().toString(), q, curveName);
+		super(ECKeyManagement.createDefault(), q, curveName);
 		this.d = d;
 	}
-
-	public ECKeyContents(String version, Date createdOn, 
-			String handle, ECPoint q, String curveName, BigInteger d) {
-		super(version,createdOn,handle, q, curveName);
+	
+	public ECKeyContents(char [] password, ECPoint q, String curveName, BigInteger d) {
+		super(ECKeyManagement.createSecureDefault(password), q, curveName);
+		this.d = d;
+	}
+	
+	public ECKeyContents(ECKeyManagement management, ECPoint q, String curveName, BigInteger d) {
+		super(management, q, curveName);
 		this.d = d;
 	}
 	

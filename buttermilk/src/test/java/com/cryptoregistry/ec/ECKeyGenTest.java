@@ -17,7 +17,6 @@ import x.org.bouncycastle.math.ec.ECPoint;
 
 import com.cryptoregistry.formats.Encoding;
 import com.cryptoregistry.formats.Mode;
-import com.cryptoregistry.formats.ec.JsonECKeyFormatter;
 import com.cryptoregistry.pbe.PBEParams;
 import com.cryptoregistry.pbe.PBEParamsFactory;
 
@@ -36,27 +35,5 @@ public class ECKeyGenTest {
 		Assert.assertEquals(ecc.Q.serialize(),recovered.serialize());
 	}
 	
-	@Test
-	public void test1() {
-		String curveName = "secp112r1";
-		ECKeyContents ecc = CryptoFactory.INSTANCE.generateKeys(curveName);
-		
-		JsonECKeyFormatter f0 = new JsonECKeyFormatter(ecc,null);
-		StringWriter w = new StringWriter();
-		f0.formatKeys(Mode.OPEN, Encoding.Base16, w);
-		System.err.println(w.toString());
-		
-		char[] passwordChars = {'p','a','s','s','w','o','r','d'};
-		
-		PBEParams params = PBEParamsFactory.INSTANCE.createPBKDF2Params(passwordChars);
-		JsonECKeyFormatter f1 = new JsonECKeyFormatter(ecc, params);
-		w = new StringWriter();
-		f1.formatKeys(Mode.SEALED, Encoding.Base16, w);
-		System.err.println(w.toString());
-		
-		w = new StringWriter();
-		f1.formatKeys(Mode.FOR_PUBLICATION, Encoding.Base16, w);
-		System.err.println(w.toString());
-	}
 
 }

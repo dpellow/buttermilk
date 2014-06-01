@@ -6,40 +6,48 @@
 package com.cryptoregistry.ec;
 
 import java.util.Date;
-import java.util.UUID;
-
-import com.cryptoregistry.ButtermilkKey;
-import com.cryptoregistry.Version;
+import com.cryptoregistry.CryptoKey;
+import com.cryptoregistry.formats.KeyFormat;
 
 import x.org.bouncycastle.crypto.params.ECDomainParameters;
 import x.org.bouncycastle.crypto.params.ECPublicKeyParameters;
 import x.org.bouncycastle.math.ec.ECPoint;
 
-public class ECKeyForPublication  implements ButtermilkKey {
+public class ECKeyForPublication  implements CryptoKey {
 
-	public final String version;
-	public final Date createdOn;
-	
-	public final String handle;
+	private final ECKeyManagement management;
 	public final ECPoint Q;
 	public final String curveName;
 	
-	public ECKeyForPublication(String version, Date createdOn, String handle, ECPoint q, String curveName) {
+	public ECKeyForPublication(ECKeyManagement management, ECPoint q, String curveName) {
 		super();
-		this.version = version;
-		this.createdOn = createdOn;
-		this.handle = handle;
+		this.management = management;
 		Q = q;
 		this.curveName = curveName;
 	}
 	
-	public ECKeyForPublication(ECPoint q, String curveName) {
-		super();
-		this.version = Version.VERSION;  
-		this.createdOn = new Date();
-		this.handle = UUID.randomUUID().toString();
-		Q = q;
-		this.curveName = curveName;
+	public ECPublicKeyParameters getPublicKey() {
+		ECDomainParameters domain = CurveFactory.getCurveForName(curveName);
+		ECPublicKeyParameters p_params = new ECPublicKeyParameters(Q,domain);
+		return p_params;
+	}
+	
+	// delegate
+
+	public String getHandle() {
+		return management.getHandle();
+	}
+
+	public String getKeyAlgorithm() {
+		return management.getKeyAlgorithm();
+	}
+
+	public Date getCreatedOn() {
+		return management.getCreatedOn();
+	}
+
+	public KeyFormat getFormat() {
+		return management.getFormat();
 	}
 
 	@Override
@@ -49,7 +57,8 @@ public class ECKeyForPublication  implements ButtermilkKey {
 		result = prime * result + ((Q == null) ? 0 : Q.hashCode());
 		result = prime * result
 				+ ((curveName == null) ? 0 : curveName.hashCode());
-		result = prime * result + ((handle == null) ? 0 : handle.hashCode());
+		result = prime * result
+				+ ((management == null) ? 0 : management.hashCode());
 		return result;
 	}
 
@@ -72,31 +81,13 @@ public class ECKeyForPublication  implements ButtermilkKey {
 				return false;
 		} else if (!curveName.equals(other.curveName))
 			return false;
-		if (handle == null) {
-			if (other.handle != null)
+		if (management == null) {
+			if (other.management != null)
 				return false;
-		} else if (!handle.equals(other.handle))
+		} else if (!management.equals(other.management))
 			return false;
 		return true;
 	}
 	
-	public ECPublicKeyParameters getPublicKey() {
-		ECDomainParameters domain = CurveFactory.getCurveForName(curveName);
-		ECPublicKeyParameters p_params = new ECPublicKeyParameters(Q,domain);
-		return p_params;
-	}
-	
-	public final String toString() {
-		return handle;
-	}
-
-	public String getHandle() {
-		return handle;
-	}
-
-	@Override
-	public String getKeyAlgorithm() {
-		return "EC";
-	}
 	
 }

@@ -16,8 +16,14 @@ public class Curve25519KeyContents extends Curve25519KeyForPublication {
 	public final SigningPrivateKey signingPrivateKey;
 	public final AgreementPrivateKey agreementPrivateKey;
 	
-	public Curve25519KeyContents(String handle, PublicKey key0, SigningPrivateKey key1, AgreementPrivateKey key2) {
-		super(handle,key0);
+	public Curve25519KeyContents(PublicKey key0, SigningPrivateKey key1, AgreementPrivateKey key2) {
+		super(key0);
+		signingPrivateKey = key1;
+		agreementPrivateKey = key2;
+	}
+	
+	public Curve25519KeyContents(C2KeyManagement management, PublicKey key0, SigningPrivateKey key1, AgreementPrivateKey key2) {
+		super(management, key0);
 		signingPrivateKey = key1;
 		agreementPrivateKey = key2;
 	}

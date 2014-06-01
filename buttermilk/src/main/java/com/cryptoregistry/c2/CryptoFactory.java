@@ -7,10 +7,10 @@ package com.cryptoregistry.c2;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.cryptoregistry.c2.key.AgreementPrivateKey;
+import com.cryptoregistry.c2.key.C2KeyManagement;
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
 import com.cryptoregistry.c2.key.PublicKey;
 import com.cryptoregistry.c2.key.SecretKey;
@@ -62,8 +62,21 @@ public class CryptoFactory {
 			byte[]k=new byte[32];
 			rand.nextBytes(k);
 			curve.keygen(P, s, k);
-			String uuid = UUID.randomUUID().toString();
-			return new Curve25519KeyContents(uuid, new PublicKey(P),new SigningPrivateKey(s),new AgreementPrivateKey(k));
+			return new Curve25519KeyContents(new PublicKey(P),new SigningPrivateKey(s),new AgreementPrivateKey(k));
+		}finally{
+			lock.unlock();
+		}
+	}
+	
+	public Curve25519KeyContents generateKeys(C2KeyManagement management){
+		lock.lock();
+		try {
+			byte[]P=new byte[32];
+			byte[]s=new byte[32];
+			byte[]k=new byte[32];
+			rand.nextBytes(k);
+			curve.keygen(P, s, k);
+			return new Curve25519KeyContents(management, new PublicKey(P),new SigningPrivateKey(s),new AgreementPrivateKey(k));
 		}finally{
 			lock.unlock();
 		}

@@ -13,12 +13,19 @@ package com.cryptoregistry.c2.key;
  */
 public class Curve25519KeyForPublication {
 
-	public final String handle;
-	public final PublicKey publicKey; 
+	public final PublicKey publicKey;
+	public final C2KeyManagement management;
+
+	public Curve25519KeyForPublication(PublicKey publicKey) {
+		super();
+		this.publicKey = publicKey;
+		management = C2KeyManagement.createForPublication();
+	} 
 	
-	public Curve25519KeyForPublication(String handle, PublicKey key0) {
-		this.handle = handle;
-		publicKey = key0;
-	}
+	public Curve25519KeyForPublication(C2KeyManagement management, PublicKey publicKey) {
+		super();
+		this.publicKey = publicKey;
+		this.management = management;
+	} 
 
 }

@@ -16,7 +16,6 @@ import x.org.bouncycastle.math.ec.ECCurve;
 import x.org.bouncycastle.math.ec.ECPoint;
 
 import com.cryptoregistry.ec.CurveFactory;
-import com.cryptoregistry.formats.rsa.JsonRSAFormatReader;
 import com.cryptoregistry.passwords.Password;
 import com.cryptoregistry.pbe.ArmoredPBEResult;
 import com.cryptoregistry.pbe.PBE;
@@ -33,6 +32,7 @@ public class FormatUtil {
 	private static ReentrantLock lock3 = new ReentrantLock();
 	private static ReentrantLock lock4 = new ReentrantLock();
 	
+	/*
 	public static RSAKeyContents extractRSAKeyContents(Password password, ArmoredPBEResult wrapper){
 		lock0.lock();
 		try {
@@ -52,6 +52,7 @@ public class FormatUtil {
 		}
 	
 	}
+	*/
 	
 	public static String wrap(Encoding enc, BigInteger bi) {
 		lock1.lock();

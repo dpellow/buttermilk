@@ -40,12 +40,53 @@ public class CryptoFactory {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	/**
+	 * Will set up for Mode.SEALED
+	 * @param password
+	 * @return
+	 */
+	public RSAKeyContents generateKeys(char [] password) {
+		lock.lock();
+		try {
+			RSAKeyPairGenerator kpGen = new RSAKeyPairGenerator(password);
+			kpGen.init(new RSAKeyGenerationParameters(PUBLIC_EXPONENT, rand, KEY_STRENGTH, CERTAINTY));
+			return kpGen.generateKeys();
+		} finally {
+			lock.unlock();
+		}
+	}
 
+	/**
+	 * Will set up for Mode.OPEN
+	 * @param password
+	 * @return
+	 */
 	public RSAKeyContents generateKeys() {
 		lock.lock();
 		try {
 			RSAKeyPairGenerator kpGen = new RSAKeyPairGenerator();
 			kpGen.init(new RSAKeyGenerationParameters(PUBLIC_EXPONENT, rand, KEY_STRENGTH, CERTAINTY));
+			return kpGen.generateKeys();
+		} finally {
+			lock.unlock();
+		}
+	}
+	
+	/**
+	 * Set everything yourself
+	 * 
+	 * @param management
+	 * @param publicExp
+	 * @param keyStrength
+	 * @param certainty
+	 * @return
+	 */
+	public RSAKeyContents generateKeys(RSAKeyManagement management, int publicExp,int keyStrength,int certainty) {
+		lock.lock();
+		try {
+			RSAKeyPairGenerator kpGen = new RSAKeyPairGenerator();
+			kpGen.init(new RSAKeyGenerationParameters(BigInteger.valueOf(publicExp), rand, keyStrength, certainty));
 			return kpGen.generateKeys();
 		} finally {
 			lock.unlock();
