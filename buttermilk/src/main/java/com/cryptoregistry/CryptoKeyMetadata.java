@@ -5,12 +5,12 @@ import java.util.Date;
 import com.cryptoregistry.formats.KeyFormat;
 
 /**
- * Marker interface for things all keys should have
+ * Marker interface for things all key materials should have
  * 
  * @author Dave
  *
  */
-public interface CryptoKey {
+public interface CryptoKeyMetadata {
 
 	String getHandle();
 	String getKeyAlgorithm();

@@ -3,7 +3,7 @@ package com.cryptoregistry.formats;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.cryptoregistry.CryptoKey;
+import com.cryptoregistry.CryptoKeyMetadata;
 import com.cryptoregistry.CryptoContact;
 import com.cryptoregistry.Version;
 import com.cryptoregistry.signature.CryptoSignature;
@@ -41,20 +41,20 @@ public class KMFormatter {
 
 	String version;
 	String registrationHandle;
-	List<CryptoKey> keys;
+	List<CryptoKeyMetadata> keys;
 	List<CryptoContact> contacts;
 	List<CryptoSignature> signatures;
 	
 	public KMFormatter(String handle) {
 		version = Version.VERSION;
 		this.registrationHandle = handle;
-		keys = new ArrayList<CryptoKey>();
+		keys = new ArrayList<CryptoKeyMetadata>();
 		contacts = new ArrayList<CryptoContact>();
 		signatures = new ArrayList<CryptoSignature>();
 	}
 
 	public KMFormatter(String version, String registrationHandle,
-			List<CryptoKey> keys, List<CryptoContact> contacts,
+			List<CryptoKeyMetadata> keys, List<CryptoContact> contacts,
 			List<CryptoSignature> signatures) {
 		super();
 		this.version = version;

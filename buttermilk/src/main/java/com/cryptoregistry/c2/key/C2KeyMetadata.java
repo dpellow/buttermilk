@@ -1,21 +1,22 @@
-package com.cryptoregistry.rsa;
+package com.cryptoregistry.c2.key;
 
 import java.util.Date;
 import java.util.UUID;
 
-import com.cryptoregistry.CryptoKey;
+import com.cryptoregistry.CryptoKeyMetadata;
 import com.cryptoregistry.formats.Encoding;
 import com.cryptoregistry.formats.KeyFormat;
 import com.cryptoregistry.formats.Mode;
 import com.cryptoregistry.passwords.NewPassword;
 
-public class RSAKeyManagement implements CryptoKey {
+
+public class C2KeyMetadata implements CryptoKeyMetadata {
 
 	public final String handle;
 	public final Date createdOn;
 	public final KeyFormat format;
 
-	public RSAKeyManagement(String handle, Date createdOn, KeyFormat format) {
+	public C2KeyMetadata(String handle, Date createdOn, KeyFormat format) {
 		super();
 		this.handle = handle;
 		this.createdOn = createdOn;
@@ -26,20 +27,20 @@ public class RSAKeyManagement implements CryptoKey {
 	 * Returns a default handle, createOn, and KeyFormat for base64Encode, Mode.OPEN
 	 * @return
 	 */
-	public static RSAKeyManagement createDefault() {
-		return new RSAKeyManagement(UUID.randomUUID().toString(), new Date(),new KeyFormat());
+	public static C2KeyMetadata createDefault() {
+		return new C2KeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat());
 	}
 	
-	public static RSAKeyManagement createForPublication() {
-		return new RSAKeyManagement(UUID.randomUUID().toString(), new Date(),new KeyFormat(Mode.FOR_PUBLICATION));
+	public static C2KeyMetadata createForPublication() {
+		return new C2KeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat(Mode.FOR_PUBLICATION));
 	}
 	
-	public static RSAKeyManagement createSecureDefault(char[]password) {
-		return new RSAKeyManagement(UUID.randomUUID().toString(), new Date(),new KeyFormat(password));
+	public static C2KeyMetadata createSecureDefault(char[]password) {
+		return new C2KeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat(password));
 	}
 	
-	public static RSAKeyManagement createSecureHexDefault(char[]password) {
-		return new RSAKeyManagement(UUID.randomUUID().toString(), new Date(),
+	public static C2KeyMetadata createSecureHexDefault(char[]password) {
+		return new C2KeyMetadata(UUID.randomUUID().toString(), new Date(),
 				new KeyFormat(Encoding.Base16,Mode.SEALED,new NewPassword(password)));
 	}
 
@@ -50,7 +51,7 @@ public class RSAKeyManagement implements CryptoKey {
 
 	@Override
 	public String getKeyAlgorithm() {
-		return "RSA";
+		return "Curve25519";
 	}
 
 	@Override

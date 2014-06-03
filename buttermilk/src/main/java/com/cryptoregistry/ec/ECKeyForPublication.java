@@ -6,20 +6,20 @@
 package com.cryptoregistry.ec;
 
 import java.util.Date;
-import com.cryptoregistry.CryptoKey;
+import com.cryptoregistry.CryptoKeyMetadata;
 import com.cryptoregistry.formats.KeyFormat;
 
 import x.org.bouncycastle.crypto.params.ECDomainParameters;
 import x.org.bouncycastle.crypto.params.ECPublicKeyParameters;
 import x.org.bouncycastle.math.ec.ECPoint;
 
-public class ECKeyForPublication  implements CryptoKey {
+public class ECKeyForPublication  implements CryptoKeyMetadata {
 
-	private final ECKeyManagement management;
+	private final ECKeyMetadata management;
 	public final ECPoint Q;
 	public final String curveName;
 	
-	public ECKeyForPublication(ECKeyManagement management, ECPoint q, String curveName) {
+	public ECKeyForPublication(ECKeyMetadata management, ECPoint q, String curveName) {
 		super();
 		this.management = management;
 		Q = q;

@@ -9,7 +9,7 @@ import x.org.bouncycastle.crypto.params.RSAKeyParameters;
 import x.org.bouncycastle.crypto.params.RSAPrivateCrtKeyParameters;
 
 import com.cryptoregistry.rsa.RSAKeyContents;
-import com.cryptoregistry.rsa.RSAKeyManagement;
+import com.cryptoregistry.rsa.RSAKeyMetadata;
 
 import java.math.BigInteger;
 
@@ -22,7 +22,7 @@ public class RSAKeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
 	// optional, these are passed on to our wrapper, don't use both
 	
 	private char [] password;
-	private RSAKeyManagement management;
+	private RSAKeyMetadata management;
 	
 	public RSAKeyPairGenerator() {
 		super();
@@ -33,7 +33,7 @@ public class RSAKeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
 		this.password = password;
 	}
 	
-	public RSAKeyPairGenerator(RSAKeyManagement management) {
+	public RSAKeyPairGenerator(RSAKeyMetadata management) {
 		super();
 		this.management = management;
 	}

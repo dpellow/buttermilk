@@ -22,16 +22,16 @@ public class ECKeyContents extends ECKeyForPublication {
 	 * @param d
 	 */
 	public ECKeyContents(ECPoint q, String curveName, BigInteger d) {
-		super(ECKeyManagement.createDefault(), q, curveName);
+		super(ECKeyMetadata.createDefault(), q, curveName);
 		this.d = d;
 	}
 	
 	public ECKeyContents(char [] password, ECPoint q, String curveName, BigInteger d) {
-		super(ECKeyManagement.createSecureDefault(password), q, curveName);
+		super(ECKeyMetadata.createSecureDefault(password), q, curveName);
 		this.d = d;
 	}
 	
-	public ECKeyContents(ECKeyManagement management, ECPoint q, String curveName, BigInteger d) {
+	public ECKeyContents(ECKeyMetadata management, ECPoint q, String curveName, BigInteger d) {
 		super(management, q, curveName);
 		this.d = d;
 	}

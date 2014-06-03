@@ -22,7 +22,7 @@ public class Curve25519KeyContents extends Curve25519KeyForPublication {
 		agreementPrivateKey = key2;
 	}
 	
-	public Curve25519KeyContents(C2KeyManagement management, PublicKey key0, SigningPrivateKey key1, AgreementPrivateKey key2) {
+	public Curve25519KeyContents(C2KeyMetadata management, PublicKey key0, SigningPrivateKey key1, AgreementPrivateKey key2) {
 		super(management, key0);
 		signingPrivateKey = key1;
 		agreementPrivateKey = key2;

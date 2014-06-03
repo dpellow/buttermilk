@@ -8,18 +8,18 @@ package com.cryptoregistry.rsa;
 import java.math.BigInteger;
 import java.util.Date;
 
-import com.cryptoregistry.CryptoKey;
+import com.cryptoregistry.CryptoKeyMetadata;
 import com.cryptoregistry.formats.KeyFormat;
 
 import x.org.bouncycastle.crypto.params.RSAKeyParameters;
 
-public class RSAKeyForPublication  implements CryptoKey {
+public class RSAKeyForPublication  implements CryptoKeyMetadata {
 	
-	public final RSAKeyManagement management;
+	public final RSAKeyMetadata management;
 	public final BigInteger  modulus;
 	public final BigInteger  publicExponent;
 	
-	public RSAKeyForPublication(RSAKeyManagement management,
+	public RSAKeyForPublication(RSAKeyMetadata management,
 			BigInteger modulus, BigInteger publicExponent) {
 		super();
 		this.management = management;

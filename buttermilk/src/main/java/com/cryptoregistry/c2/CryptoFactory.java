@@ -10,7 +10,7 @@ import java.security.SecureRandom;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.cryptoregistry.c2.key.AgreementPrivateKey;
-import com.cryptoregistry.c2.key.C2KeyManagement;
+import com.cryptoregistry.c2.key.C2KeyMetadata;
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
 import com.cryptoregistry.c2.key.PublicKey;
 import com.cryptoregistry.c2.key.SecretKey;
@@ -68,7 +68,7 @@ public class CryptoFactory {
 		}
 	}
 	
-	public Curve25519KeyContents generateKeys(C2KeyManagement management){
+	public Curve25519KeyContents generateKeys(C2KeyMetadata management){
 		lock.lock();
 		try {
 			byte[]P=new byte[32];

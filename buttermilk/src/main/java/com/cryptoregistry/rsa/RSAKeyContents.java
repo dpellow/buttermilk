@@ -41,7 +41,7 @@ public class RSAKeyContents extends RSAKeyForPublication {
 			BigInteger privateExponent, BigInteger p, BigInteger q,
 			BigInteger dP, BigInteger dQ, BigInteger qInv) {
 		
-		super(RSAKeyManagement.createDefault(), modulus, publicExponent);
+		super(RSAKeyMetadata.createDefault(), modulus, publicExponent);
 		
 		this.privateExponent = privateExponent;
 		this.p = p;
@@ -68,7 +68,7 @@ public class RSAKeyContents extends RSAKeyForPublication {
 			BigInteger privateExponent, BigInteger p, BigInteger q,
 			BigInteger dP, BigInteger dQ, BigInteger qInv) {
 		
-		super(RSAKeyManagement.createSecureDefault(password), modulus, publicExponent);
+		super(RSAKeyMetadata.createSecureDefault(password), modulus, publicExponent);
 		
 		this.privateExponent = privateExponent;
 		this.p = p;
@@ -78,7 +78,7 @@ public class RSAKeyContents extends RSAKeyForPublication {
 		this.qInv = qInv;
 	}
     
-	public RSAKeyContents(RSAKeyManagement management, 
+	public RSAKeyContents(RSAKeyMetadata management, 
 			BigInteger modulus, BigInteger publicExponent,
 			BigInteger privateExponent, BigInteger p, BigInteger q,
 			BigInteger dP, BigInteger dQ, BigInteger qInv) {

@@ -82,7 +82,7 @@ public class CryptoFactory {
 	 * @param certainty
 	 * @return
 	 */
-	public RSAKeyContents generateKeys(RSAKeyManagement management, int publicExp,int keyStrength,int certainty) {
+	public RSAKeyContents generateKeys(RSAKeyMetadata management, int publicExp,int keyStrength,int certainty) {
 		lock.lock();
 		try {
 			RSAKeyPairGenerator kpGen = new RSAKeyPairGenerator();
