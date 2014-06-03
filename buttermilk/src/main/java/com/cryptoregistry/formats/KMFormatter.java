@@ -8,6 +8,7 @@ import java.util.List;
 import com.cryptoregistry.CryptoKeyMetadata;
 import com.cryptoregistry.CryptoContact;
 import com.cryptoregistry.Version;
+import com.cryptoregistry.c2.key.Curve25519KeyContents;
 import com.cryptoregistry.signature.CryptoSignature;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -68,14 +69,38 @@ public class KMFormatter {
 		this.signatures = signatures;
 	}
 	
-	public void format(Writer writer) {
+	public void format(Writer writer){
+		format(writer, true);
+	}
+	
+	public void format(Writer writer, boolean prettyPrint) {
 		JsonFactory f = new JsonFactory();
 		JsonGenerator g = null;
 		try {
 			g = f.createGenerator(writer);
-			g.useDefaultPrettyPrinter();
+			if(prettyPrint)g.useDefaultPrettyPrinter();
 			
+			g.writeStartObject();
+			g.writeStringField("Version", Version.VERSION);
+			g.writeStringField("RegHandle", registrationHandle);
 			
+			if(keys.size()> 0) {
+				g.writeObjectFieldStart("Keys");
+				
+				for(CryptoKeyMetadata key: keys){
+					final String alg = key.getKeyAlgorithm();
+					switch(alg){
+						case "Curve25519": {
+							Curve25519KeyContents contents = (Curve25519KeyContents)key;
+							C2KMFormatter formatter = new C2KMFormatter(contents);
+							formatter.formatKeys(writer);
+						}
+						default: throw new RuntimeException("alg not recognized: "+alg);
+					}
+				}
+				
+				g.writeEndObject();
+			}
 			
 		} catch (IOException x) {
 			throw new RuntimeException(x);
