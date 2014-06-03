@@ -1,7 +1,7 @@
 package com.cryptoregistry.formats;
 
-import com.cryptoregistry.passwords.NewPassword;
-import com.cryptoregistry.passwords.Password;
+import com.cryptoregistry.pbe.PBEParams;
+import com.cryptoregistry.pbe.PBEParamsFactory;
 
 /**
  * Encapsulate various modes for formatting
@@ -13,32 +13,38 @@ public class KeyFormat {
 
 	public final Encoding encoding;
 	public final Mode mode;
-	public final Password password;
+	public final PBEParams pbeParams;
 	
 	public KeyFormat() {
 		encoding = Encoding.Base64url;
 		mode = Mode.OPEN;
-		password = null;
+		pbeParams = null;
 	}
 	
 	public KeyFormat(Mode mode) {
 		encoding = Encoding.Base64url;
 		this.mode = mode;
-		password = null;
+		pbeParams = null;
 	}
 	
 	public KeyFormat(char [] password) {
 		encoding = Encoding.Base64url;
 		mode = Mode.SEALED;
-		this.password = new NewPassword(password);
+		pbeParams = PBEParamsFactory.INSTANCE.createPBKDF2Params(password);
+	}
+	
+	public KeyFormat(Encoding encoding, PBEParams params) {
+		super();
+		this.encoding = encoding;
+		this.mode = Mode.SEALED;
+		this.pbeParams = params;
 	}
 
-	public KeyFormat(Encoding encoding, Mode mode,
-			Password password) {
+	public KeyFormat(Encoding encoding, Mode mode, PBEParams pbeParams) {
 		super();
 		this.encoding = encoding;
 		this.mode = mode;
-		this.password = password;
+		this.pbeParams = pbeParams;
 	}
 
 }

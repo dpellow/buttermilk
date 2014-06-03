@@ -4,10 +4,13 @@ import java.util.Date;
 import java.util.UUID;
 
 import com.cryptoregistry.CryptoKeyMetadata;
+import com.cryptoregistry.c2.key.C2KeyMetadata;
 import com.cryptoregistry.formats.Encoding;
 import com.cryptoregistry.formats.KeyFormat;
 import com.cryptoregistry.formats.Mode;
 import com.cryptoregistry.passwords.NewPassword;
+import com.cryptoregistry.pbe.PBEParams;
+import com.cryptoregistry.pbe.PBEParamsFactory;
 
 public class ECKeyMetadata implements CryptoKeyMetadata {
 
@@ -38,9 +41,15 @@ public class ECKeyMetadata implements CryptoKeyMetadata {
 		return new ECKeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat(password));
 	}
 	
-	public static ECKeyMetadata createSecureHexDefault(char[]password) {
+	public static ECKeyMetadata createSecureScrypt(char[]password) {
 		return new ECKeyMetadata(UUID.randomUUID().toString(), new Date(),
-				new KeyFormat(Encoding.Base16,Mode.SEALED,new NewPassword(password)));
+				new KeyFormat(Encoding.Base64url,
+						PBEParamsFactory.INSTANCE.createScryptParams(password)));
+	}
+	
+	public static ECKeyMetadata createSecure(PBEParams params) {
+		return new ECKeyMetadata(UUID.randomUUID().toString(), new Date(),
+				new KeyFormat(Encoding.Base64url,params));
 	}
 
 	@Override

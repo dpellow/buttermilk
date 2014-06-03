@@ -7,7 +7,8 @@ import com.cryptoregistry.CryptoKeyMetadata;
 import com.cryptoregistry.formats.Encoding;
 import com.cryptoregistry.formats.KeyFormat;
 import com.cryptoregistry.formats.Mode;
-import com.cryptoregistry.passwords.NewPassword;
+import com.cryptoregistry.pbe.PBEParams;
+import com.cryptoregistry.pbe.PBEParamsFactory;
 
 public class RSAKeyMetadata implements CryptoKeyMetadata {
 
@@ -38,9 +39,15 @@ public class RSAKeyMetadata implements CryptoKeyMetadata {
 		return new RSAKeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat(password));
 	}
 	
-	public static RSAKeyMetadata createSecureHexDefault(char[]password) {
+	public static RSAKeyMetadata createSecureScrypt(char[]password) {
 		return new RSAKeyMetadata(UUID.randomUUID().toString(), new Date(),
-				new KeyFormat(Encoding.Base16,Mode.SEALED,new NewPassword(password)));
+				new KeyFormat(Encoding.Base64url,
+						PBEParamsFactory.INSTANCE.createScryptParams(password)));
+	}
+	
+	public static RSAKeyMetadata createSecure(PBEParams params) {
+		return new RSAKeyMetadata(UUID.randomUUID().toString(), new Date(),
+				new KeyFormat(Encoding.Base64url,params));
 	}
 
 	@Override

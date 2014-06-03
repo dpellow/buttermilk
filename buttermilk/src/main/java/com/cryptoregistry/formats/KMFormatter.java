@@ -1,5 +1,7 @@
 package com.cryptoregistry.formats;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +9,8 @@ import com.cryptoregistry.CryptoKeyMetadata;
 import com.cryptoregistry.CryptoContact;
 import com.cryptoregistry.Version;
 import com.cryptoregistry.signature.CryptoSignature;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
 
 /**
  * Builder which will generate the canonical data structure for a key materials wrapper
@@ -39,11 +43,11 @@ import com.cryptoregistry.signature.CryptoSignature;
  */
 public class KMFormatter {
 
-	String version;
-	String registrationHandle;
-	List<CryptoKeyMetadata> keys;
-	List<CryptoContact> contacts;
-	List<CryptoSignature> signatures;
+	protected String version;
+	protected String registrationHandle;
+	protected List<CryptoKeyMetadata> keys;
+	protected List<CryptoContact> contacts;
+	protected List<CryptoSignature> signatures;
 	
 	public KMFormatter(String handle) {
 		version = Version.VERSION;
@@ -64,8 +68,25 @@ public class KMFormatter {
 		this.signatures = signatures;
 	}
 	
-	public void format() {
-		
+	public void format(Writer writer) {
+		JsonFactory f = new JsonFactory();
+		JsonGenerator g = null;
+		try {
+			g = f.createGenerator(writer);
+			g.useDefaultPrettyPrinter();
+			
+			
+			
+		} catch (IOException x) {
+			throw new RuntimeException(x);
+		} finally {
+			try {
+				if (g != null)
+					g.close();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
 	}
 
 }

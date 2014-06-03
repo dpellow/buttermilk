@@ -7,7 +7,8 @@ import com.cryptoregistry.CryptoKeyMetadata;
 import com.cryptoregistry.formats.Encoding;
 import com.cryptoregistry.formats.KeyFormat;
 import com.cryptoregistry.formats.Mode;
-import com.cryptoregistry.passwords.NewPassword;
+import com.cryptoregistry.pbe.PBEParams;
+import com.cryptoregistry.pbe.PBEParamsFactory;
 
 
 public class C2KeyMetadata implements CryptoKeyMetadata {
@@ -39,9 +40,15 @@ public class C2KeyMetadata implements CryptoKeyMetadata {
 		return new C2KeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat(password));
 	}
 	
-	public static C2KeyMetadata createSecureHexDefault(char[]password) {
+	public static C2KeyMetadata createSecureScrypt(char[]password) {
 		return new C2KeyMetadata(UUID.randomUUID().toString(), new Date(),
-				new KeyFormat(Encoding.Base16,Mode.SEALED,new NewPassword(password)));
+				new KeyFormat(Encoding.Base64url,
+						PBEParamsFactory.INSTANCE.createScryptParams(password)));
+	}
+	
+	public static C2KeyMetadata createSecure(PBEParams params) {
+		return new C2KeyMetadata(UUID.randomUUID().toString(), new Date(),
+				new KeyFormat(Encoding.Base64url,params));
 	}
 
 	@Override
