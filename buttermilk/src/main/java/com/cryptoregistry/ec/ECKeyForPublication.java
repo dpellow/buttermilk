@@ -88,6 +88,4 @@ public class ECKeyForPublication  implements CryptoKeyMetadata {
 			return false;
 		return true;
 	}
-	
-	
 }

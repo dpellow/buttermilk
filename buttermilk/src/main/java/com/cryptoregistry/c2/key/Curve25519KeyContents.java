@@ -5,6 +5,7 @@
  */
 package com.cryptoregistry.c2.key;
 
+
 /**
  * Wrapper for output from the Curve25519 key generation method
  * 
@@ -27,5 +28,7 @@ public class Curve25519KeyContents extends Curve25519KeyForPublication {
 		signingPrivateKey = key1;
 		agreementPrivateKey = key2;
 	}
+
+	
 
 }

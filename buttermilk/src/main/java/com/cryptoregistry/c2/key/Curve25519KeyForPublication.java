@@ -26,6 +26,6 @@ public class Curve25519KeyForPublication {
 		super();
 		this.publicKey = publicKey;
 		this.management = management;
-	} 
+	}
 
 }

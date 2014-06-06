@@ -5,7 +5,7 @@ import java.util.Date;
 import com.cryptoregistry.formats.KeyFormat;
 
 /**
- * Marker interface for things all key materials should have
+ * Metadata includes things like a handle
  * 
  * @author Dave
  *
