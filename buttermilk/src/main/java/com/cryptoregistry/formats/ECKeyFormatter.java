@@ -5,7 +5,9 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
-import com.cryptoregistry.c2.key.Curve25519KeyContents;
+import com.cryptoregistry.ec.ECKeyContents;
+import com.cryptoregistry.formats.Encoding;
+import com.cryptoregistry.formats.FormatUtil;
 import com.cryptoregistry.pbe.ArmoredPBEResult;
 import com.cryptoregistry.pbe.ArmoredPBKDF2Result;
 import com.cryptoregistry.pbe.ArmoredScryptResult;
@@ -15,18 +17,15 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 
-class C2KMFormatter {
+class ECKeyFormatter {
 
-	protected final Curve25519KeyContents c2Keys;
-	protected final KeyFormat format;
-	protected final PBEParams pbeParams;
+	protected ECKeyContents ecKeys;
+	protected PBEParams pbeParams;
 
-	public C2KMFormatter(Curve25519KeyContents c2Keys) {
+	public ECKeyFormatter(ECKeyContents ecKeys, PBEParams pbeParams) {
 		super();
-		this.c2Keys = c2Keys;
-		this.format = c2Keys.management.format;
-		this.pbeParams = c2Keys.management.format.pbeParams;
-
+		this.ecKeys = ecKeys;
+		this.pbeParams = pbeParams;
 	}
 
 	public void formatKeys(Writer writer) {
@@ -37,17 +36,17 @@ class C2KMFormatter {
 			g = f.createGenerator(writer);
 			g.useDefaultPrettyPrinter();
 
-			switch (format.mode) {
+			switch (ecKeys.getFormat().mode) {
 			case OPEN: {
-				formatOpen(g, format.encoding, writer);
+				formatOpen(g, ecKeys.getFormat().encoding, writer);
 				break;
 			}
 			case SEALED: {
-				seal(g, format.encoding, writer);
+				seal(g, ecKeys.getFormat().encoding, writer);
 				break;
 			}
 			case FOR_PUBLICATION: {
-				formatForPublication(g, format.encoding, writer);
+				formatForPublication(g, ecKeys.getFormat().encoding, writer);
 				break;
 			}
 			default:
@@ -68,7 +67,7 @@ class C2KMFormatter {
 	protected void seal(JsonGenerator g, Encoding enc, Writer writer)
 			throws JsonGenerationException, IOException {
 
-		String plain = formatItem(enc, c2Keys);
+		String plain = formatItem(enc, ecKeys);
 		ArmoredPBEResult result;
 		try {
 			byte[] plainBytes = plain.getBytes("UTF-8");
@@ -78,8 +77,8 @@ class C2KMFormatter {
 			throw new RuntimeException(e);
 		}
 
-		g.writeObjectFieldStart(c2Keys.management.handle);
-		g.writeStringField("KeyData.Type", "Curve25519");
+		g.writeObjectFieldStart(ecKeys.getHandle());
+		g.writeStringField("KeyData.Type", "EC");
 		g.writeStringField("KeyData.PBEAlgorithm", pbeParams.getAlg()
 				.toString());
 		g.writeStringField("KeyData.EncryptedData", result.base64Enc);
@@ -108,25 +107,27 @@ class C2KMFormatter {
 	protected void formatOpen(JsonGenerator g, Encoding enc, Writer writer)
 			throws JsonGenerationException, IOException {
 
-		g.writeObjectFieldStart(c2Keys.management.handle);
-		g.writeStringField("Encoding", Encoding.Base64url.toString());
-		g.writeStringField("P", c2Keys.publicKey.getBase64UrlEncoding());
-		g.writeStringField("s", c2Keys.signingPrivateKey.getBase64UrlEncoding());
-		g.writeStringField("k",
-				c2Keys.agreementPrivateKey.getBase64UrlEncoding());
+		g.writeObjectFieldStart(ecKeys.getHandle());
+		g.writeStringField("Encoding", enc.toString());
+		g.writeStringField("Q", FormatUtil.serializeECPoint(ecKeys.Q, enc));
+		g.writeStringField("D", FormatUtil.wrap(enc, ecKeys.d));
+		g.writeStringField("CurveName", ecKeys.curveName);
 		g.writeEndObject();
+
 	}
 
 	protected void formatForPublication(JsonGenerator g, Encoding enc,
 			Writer writer) throws JsonGenerationException, IOException {
 
-		g.writeObjectFieldStart(c2Keys.management.handle);
-		g.writeStringField("Encoding", Encoding.Base64url.toString());
-		g.writeStringField("P", c2Keys.publicKey.getBase64UrlEncoding());
+		g.writeObjectFieldStart(ecKeys.getHandle());
+		g.writeStringField("Encoding", enc.toString());
+		g.writeStringField("Q", FormatUtil.serializeECPoint(ecKeys.Q, enc));
+		g.writeStringField("CurveName", ecKeys.curveName);
 		g.writeEndObject();
+
 	}
 
-	private String formatItem(Encoding enc, Curve25519KeyContents item) {
+	private String formatItem(Encoding enc, ECKeyContents item) {
 		StringWriter privateDataWriter = new StringWriter();
 		JsonFactory f = new JsonFactory();
 		JsonGenerator g = null;
@@ -134,13 +135,10 @@ class C2KMFormatter {
 			g = f.createGenerator(privateDataWriter);
 			g.useDefaultPrettyPrinter();
 			g.writeStartObject();
-			g.writeObjectFieldStart(c2Keys.management.handle);
-			g.writeStringField("Encoding", Encoding.Base64url.toString());
-			g.writeStringField("P", c2Keys.publicKey.getBase64UrlEncoding());
-			g.writeStringField("s",
-					c2Keys.signingPrivateKey.getBase64UrlEncoding());
-			g.writeStringField("k",
-					c2Keys.agreementPrivateKey.getBase64UrlEncoding());
+			g.writeStringField("Encoding", enc.toString());
+			g.writeStringField("Q", FormatUtil.serializeECPoint(ecKeys.Q, enc));
+			g.writeStringField("D", FormatUtil.wrap(enc, ecKeys.d));
+			g.writeStringField("CurveName", ecKeys.curveName);
 			g.writeEndObject();
 		} catch (IOException e) {
 			e.printStackTrace();

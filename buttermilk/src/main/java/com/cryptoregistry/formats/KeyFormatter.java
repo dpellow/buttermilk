@@ -42,7 +42,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
  * @author Dave
  *
  */
-public class KMFormatter {
+public class KeyFormatter {
 
 	protected String version;
 	protected String registrationHandle;
@@ -50,7 +50,7 @@ public class KMFormatter {
 	protected List<CryptoContact> contacts;
 	protected List<CryptoSignature> signatures;
 	
-	public KMFormatter(String handle) {
+	public KeyFormatter(String handle) {
 		version = Version.VERSION;
 		this.registrationHandle = handle;
 		keys = new ArrayList<CryptoKeyMetadata>();
@@ -58,7 +58,7 @@ public class KMFormatter {
 		signatures = new ArrayList<CryptoSignature>();
 	}
 
-	public KMFormatter(String version, String registrationHandle,
+	public KeyFormatter(String version, String registrationHandle,
 			List<CryptoKeyMetadata> keys, List<CryptoContact> contacts,
 			List<CryptoSignature> signatures) {
 		super();
@@ -92,7 +92,7 @@ public class KMFormatter {
 					switch(alg){
 						case "Curve25519": {
 							Curve25519KeyContents contents = (Curve25519KeyContents)key;
-							C2KMFormatter formatter = new C2KMFormatter(contents);
+							C2KeyFormatter formatter = new C2KeyFormatter(contents);
 							formatter.formatKeys(writer);
 						}
 						default: throw new RuntimeException("alg not recognized: "+alg);
