@@ -7,6 +7,7 @@ package com.cryptoregistry.ec;
 
 import java.util.Date;
 import com.cryptoregistry.CryptoKeyMetadata;
+import com.cryptoregistry.KeyGenerationAlgorithm;
 import com.cryptoregistry.formats.KeyFormat;
 
 import x.org.bouncycastle.crypto.params.ECDomainParameters;
@@ -38,7 +39,7 @@ public class ECKeyForPublication  implements CryptoKeyMetadata {
 		return management.getHandle();
 	}
 
-	public String getKeyAlgorithm() {
+	public KeyGenerationAlgorithm getKeyAlgorithm() {
 		return management.getKeyAlgorithm();
 	}
 

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import com.cryptoregistry.CryptoKeyMetadata;
+import com.cryptoregistry.KeyGenerationAlgorithm;
 import com.cryptoregistry.formats.Encoding;
 import com.cryptoregistry.formats.KeyFormat;
 import com.cryptoregistry.formats.Mode;
@@ -56,8 +57,8 @@ public class RSAKeyMetadata implements CryptoKeyMetadata {
 	}
 
 	@Override
-	public String getKeyAlgorithm() {
-		return "RSA";
+	public KeyGenerationAlgorithm getKeyAlgorithm() {
+		return KeyGenerationAlgorithm.RSA;
 	}
 
 	@Override

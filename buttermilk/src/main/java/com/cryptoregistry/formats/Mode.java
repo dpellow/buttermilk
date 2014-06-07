@@ -6,10 +6,18 @@
 package com.cryptoregistry.formats;
 
 /**
- * Rather than "public" and "private" we have an alternative in "open", "sealed", and "for publication" 
+ * Rather than "public" and "private" we have an alternative in "secured", "unsecured", and "for publication"
  * @author Dave
  *
  */
 public enum Mode {
-	OPEN,SEALED,FOR_PUBLICATION;
+	UNSECURED('U'),SECURED('S'),FOR_PUBLICATION('P');
+	
+	public final char code;
+
+	private Mode(char code) {
+		this.code = code;
+	}
+	
+	
 }

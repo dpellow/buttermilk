@@ -22,13 +22,17 @@ public class KeyFormatterTest {
 		char [] password = {'p','a','s','s'};
 		PBEParams params0 = PBEParamsFactory.INSTANCE.createPBKDF2Params(password);
 		params0.setIterations(params0.getIterations()+1);
-		C2KeyMetadata meta0 = C2KeyMetadata.createSecure(params0);
+		KeyFormat secureFormat = new KeyFormat(Encoding.Base64url,Mode.SECURED,params0);
+		KeyFormat publicFormat = new KeyFormat(Encoding.Base64url,Mode.FOR_PUBLICATION,null);
 		
+		Curve25519KeyContents c1 = c0.clone(secureFormat);
+		Curve25519KeyContents c2 = c0.clone(publicFormat);
 		
 		final String registrationHandle = "Chinese Eyes";
-		KeyFormatter f = new KeyFormatter(registrationHandle);
+		JSONBuilder f = new JSONBuilder(registrationHandle);
+		f.add(c2);
 		f.add(c0);
-	//	f.add(c1);
+		f.add(c1);
 		StringWriter writer = new StringWriter();
 		f.format(writer);
 		System.err.println(writer.toString());

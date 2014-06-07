@@ -24,20 +24,19 @@ class C2KeyFormatter {
 	public C2KeyFormatter(Curve25519KeyContents c2Keys) {
 		super();
 		this.c2Keys = c2Keys;
-		this.format = c2Keys.management.format;
-		this.pbeParams = c2Keys.management.format.pbeParams;
-
+		this.format = c2Keys.metadata.format;
+		this.pbeParams = c2Keys.metadata.format.pbeParams;
 	}
 
 	public void formatKeys(JsonGenerator g, Writer writer) {
 
 		try {
 			switch (format.mode) {
-			case OPEN: {
+			case UNSECURED: {
 				formatOpen(g, format.encoding, writer);
 				break;
 			}
-			case SEALED: {
+			case SECURED: {
 				seal(g, format.encoding, writer);
 				break;
 			}
@@ -67,7 +66,7 @@ class C2KeyFormatter {
 			throw new RuntimeException(e);
 		}
 
-		g.writeObjectFieldStart(c2Keys.management.handle);
+		g.writeObjectFieldStart(c2Keys.metadata.getDistinguishedHandle());
 		g.writeStringField("KeyData.Type", "Curve25519");
 		g.writeStringField("KeyData.PBEAlgorithm", pbeParams.getAlg()
 				.toString());
@@ -97,7 +96,7 @@ class C2KeyFormatter {
 	protected void formatOpen(JsonGenerator g, Encoding enc, Writer writer)
 			throws JsonGenerationException, IOException {
 
-		g.writeObjectFieldStart(c2Keys.management.handle);
+		g.writeObjectFieldStart(c2Keys.metadata.getDistinguishedHandle());
 		g.writeStringField("Encoding", Encoding.Base64url.toString());
 		g.writeStringField("P", c2Keys.publicKey.getBase64UrlEncoding());
 		g.writeStringField("s", c2Keys.signingPrivateKey.getBase64UrlEncoding());
@@ -109,7 +108,7 @@ class C2KeyFormatter {
 	protected void formatForPublication(JsonGenerator g, Encoding enc,
 			Writer writer) throws JsonGenerationException, IOException {
 
-		g.writeObjectFieldStart(c2Keys.management.handle);
+		g.writeObjectFieldStart(c2Keys.metadata.getDistinguishedHandle());
 		g.writeStringField("Encoding", Encoding.Base64url.toString());
 		g.writeStringField("P", c2Keys.publicKey.getBase64UrlEncoding());
 		g.writeEndObject();
@@ -123,7 +122,7 @@ class C2KeyFormatter {
 			g = f.createGenerator(privateDataWriter);
 			g.useDefaultPrettyPrinter();
 			g.writeStartObject();
-			g.writeObjectFieldStart(c2Keys.management.handle);
+			g.writeObjectFieldStart(c2Keys.metadata.getDistinguishedHandle());
 			g.writeStringField("Encoding", Encoding.Base64url.toString());
 			g.writeStringField("P", c2Keys.publicKey.getBase64UrlEncoding());
 			g.writeStringField("s",

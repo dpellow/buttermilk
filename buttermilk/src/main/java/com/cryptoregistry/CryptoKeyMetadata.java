@@ -13,7 +13,7 @@ import com.cryptoregistry.formats.KeyFormat;
 public interface CryptoKeyMetadata {
 
 	String getHandle();
-	String getKeyAlgorithm();
+	KeyGenerationAlgorithm getKeyAlgorithm();
 	Date getCreatedOn();
 	KeyFormat getFormat();
 

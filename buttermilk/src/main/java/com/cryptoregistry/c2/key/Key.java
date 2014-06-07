@@ -67,12 +67,16 @@ public class Key {
 		byte [] b = new byte[length];
 		System.arraycopy(bytes, 0, b, 0, length);
 		boolean isAlive = this.alive;
-		if(this instanceof PrivateKey){
-			return new PrivateKey(b,isAlive);
-		}else if(this instanceof SigningPrivateKey){
+		if(this instanceof SigningPrivateKey){
 			return new SigningPrivateKey(b,isAlive);
+		}else if(this instanceof AgreementPrivateKey){
+			return new AgreementPrivateKey(b,isAlive);
 		}else if(this instanceof PublicKey){
 			return new PublicKey(b,isAlive);
+		}else if(this instanceof SecretKey){
+			return new PublicKey(b,isAlive);
+		}else if(this instanceof PrivateKey){
+			return new PrivateKey(b,isAlive);
 		}else{
 			return new Key(b,isAlive);
 		}

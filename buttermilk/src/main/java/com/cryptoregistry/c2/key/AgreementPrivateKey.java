@@ -16,5 +16,9 @@ public class AgreementPrivateKey extends PrivateKey {
 	public AgreementPrivateKey(byte[] bytes) {
 		super(bytes);
 	}
+	
+	AgreementPrivateKey(byte[] bytes,boolean alive) {
+		super(bytes,alive);
+	}
 
 }

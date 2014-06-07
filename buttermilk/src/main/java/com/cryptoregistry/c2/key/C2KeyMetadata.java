@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import com.cryptoregistry.CryptoKeyMetadata;
+import com.cryptoregistry.KeyGenerationAlgorithm;
 import com.cryptoregistry.formats.Encoding;
 import com.cryptoregistry.formats.KeyFormat;
 import com.cryptoregistry.formats.Mode;
@@ -63,10 +64,14 @@ public class C2KeyMetadata implements CryptoKeyMetadata {
 	public String getHandle() {
 		return handle;
 	}
+	
+	public String getDistinguishedHandle() {
+		return handle+"-"+format.mode.code;
+	}
 
 	@Override
-	public String getKeyAlgorithm() {
-		return "Curve25519";
+	public KeyGenerationAlgorithm getKeyAlgorithm() {
+		return  KeyGenerationAlgorithm.Curve25519;
 	}
 
 	@Override

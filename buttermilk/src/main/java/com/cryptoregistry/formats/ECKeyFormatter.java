@@ -37,11 +37,11 @@ class ECKeyFormatter {
 			g.useDefaultPrettyPrinter();
 
 			switch (ecKeys.getFormat().mode) {
-			case OPEN: {
+			case UNSECURED: {
 				formatOpen(g, ecKeys.getFormat().encoding, writer);
 				break;
 			}
-			case SEALED: {
+			case SECURED: {
 				seal(g, ecKeys.getFormat().encoding, writer);
 				break;
 			}

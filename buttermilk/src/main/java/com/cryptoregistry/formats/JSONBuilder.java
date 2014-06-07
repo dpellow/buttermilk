@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.cryptoregistry.CryptoKeyMetadata;
 import com.cryptoregistry.CryptoContact;
+import com.cryptoregistry.KeyGenerationAlgorithm;
 import com.cryptoregistry.Version;
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
 import com.cryptoregistry.signature.CryptoSignature;
@@ -43,7 +44,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
  * @author Dave
  *
  */
-public class KeyFormatter {
+public class JSONBuilder {
 
 	protected String version;
 	protected String registrationHandle;
@@ -51,7 +52,7 @@ public class KeyFormatter {
 	protected List<CryptoContact> contacts;
 	protected List<CryptoSignature> signatures;
 	
-	public KeyFormatter(String handle) {
+	public JSONBuilder(String handle) {
 		version = Version.VERSION;
 		this.registrationHandle = handle;
 		keys = new ArrayList<CryptoKeyMetadata>();
@@ -59,7 +60,7 @@ public class KeyFormatter {
 		signatures = new ArrayList<CryptoSignature>();
 	}
 
-	public KeyFormatter(String version, String registrationHandle,
+	public JSONBuilder(String version, String registrationHandle,
 			List<CryptoKeyMetadata> keys, List<CryptoContact> contacts,
 			List<CryptoSignature> signatures) {
 		super();
@@ -114,9 +115,9 @@ public class KeyFormatter {
 				g.writeObjectFieldStart("Keys");
 				
 				for(CryptoKeyMetadata key: keys){
-					final String alg = key.getKeyAlgorithm();
+					final KeyGenerationAlgorithm alg = key.getKeyAlgorithm();
 					switch(alg){
-						case "Curve25519": {
+						case Curve25519: {
 							Curve25519KeyContents contents = (Curve25519KeyContents)key;
 							C2KeyFormatter formatter = new C2KeyFormatter(contents);
 							formatter.formatKeys(g, writer);
@@ -125,6 +126,16 @@ public class KeyFormatter {
 						default: throw new RuntimeException("alg not recognized: "+alg);
 					}
 				}
+				
+				g.writeEndObject();
+			}
+			
+			if(contacts.size()> 0) {
+				
+				g.writeObjectFieldStart("Contacts");
+				
+				ContactFormatter cf = new ContactFormatter(contacts);
+				cf.format(g, writer);
 				
 				g.writeEndObject();
 			}

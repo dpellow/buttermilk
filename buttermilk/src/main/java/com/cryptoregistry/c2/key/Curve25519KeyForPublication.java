@@ -8,6 +8,7 @@ package com.cryptoregistry.c2.key;
 import java.util.Date;
 
 import com.cryptoregistry.CryptoKeyMetadata;
+import com.cryptoregistry.KeyGenerationAlgorithm;
 import com.cryptoregistry.formats.KeyFormat;
 
 /**
@@ -19,41 +20,47 @@ import com.cryptoregistry.formats.KeyFormat;
 public class Curve25519KeyForPublication  implements CryptoKeyMetadata {
 
 	public final PublicKey publicKey;
-	public final C2KeyMetadata management;
+	public final C2KeyMetadata metadata;
 
 	public Curve25519KeyForPublication(PublicKey publicKey) {
 		super();
 		this.publicKey = publicKey;
-		management = C2KeyMetadata.createForPublication();
+		metadata = C2KeyMetadata.createForPublication();
 	} 
 	
 	public Curve25519KeyForPublication(C2KeyMetadata management, PublicKey publicKey) {
 		super();
 		this.publicKey = publicKey;
-		this.management = management;
+		this.metadata = management;
 	}
 	
 	public Curve25519KeyForPublication clone() {
-		C2KeyMetadata meta =  management.clone();
+		C2KeyMetadata meta =  metadata.clone();
 		PublicKey pubKey = (PublicKey) publicKey.clone();
 		Curve25519KeyForPublication  c = new Curve25519KeyForPublication (meta, pubKey);
 		return c;
-}
-
-	public String getHandle() {
-		return management.getHandle();
+	}
+	
+	public Curve25519KeyForPublication clone(C2KeyMetadata meta) {
+		PublicKey pubKey = (PublicKey) publicKey.clone();
+		Curve25519KeyForPublication  c = new Curve25519KeyForPublication (meta, pubKey);
+		return c;
 	}
 
-	public String getKeyAlgorithm() {
-		return management.getKeyAlgorithm();
+	public String getHandle() {
+		return metadata.getHandle();
+	}
+
+	public KeyGenerationAlgorithm getKeyAlgorithm() {
+		return metadata.getKeyAlgorithm();
 	}
 
 	public Date getCreatedOn() {
-		return management.getCreatedOn();
+		return metadata.getCreatedOn();
 	}
 
 	public KeyFormat getFormat() {
-		return management.getFormat();
+		return metadata.getFormat();
 	}
 	
 }

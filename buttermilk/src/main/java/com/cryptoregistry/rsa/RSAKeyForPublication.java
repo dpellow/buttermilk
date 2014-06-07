@@ -9,6 +9,7 @@ import java.math.BigInteger;
 import java.util.Date;
 
 import com.cryptoregistry.CryptoKeyMetadata;
+import com.cryptoregistry.KeyGenerationAlgorithm;
 import com.cryptoregistry.formats.KeyFormat;
 
 import x.org.bouncycastle.crypto.params.RSAKeyParameters;
@@ -48,7 +49,7 @@ public class RSAKeyForPublication  implements CryptoKeyMetadata {
 	}
 
 	@Override
-	public String getKeyAlgorithm() {
-		return "RSA";
+	public KeyGenerationAlgorithm getKeyAlgorithm() {
+		return KeyGenerationAlgorithm.RSA;
 	}
 }

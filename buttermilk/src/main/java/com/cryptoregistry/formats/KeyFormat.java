@@ -17,7 +17,7 @@ public class KeyFormat {
 	
 	public KeyFormat() {
 		encoding = Encoding.Base64url;
-		mode = Mode.OPEN;
+		mode = Mode.UNSECURED;
 		pbeParams = null;
 	}
 	
@@ -29,14 +29,14 @@ public class KeyFormat {
 	
 	public KeyFormat(char [] password) {
 		encoding = Encoding.Base64url;
-		mode = Mode.SEALED;
+		mode = Mode.SECURED;
 		pbeParams = PBEParamsFactory.INSTANCE.createPBKDF2Params(password);
 	}
 	
 	public KeyFormat(Encoding encoding, PBEParams params) {
 		super();
 		this.encoding = encoding;
-		this.mode = Mode.SEALED;
+		this.mode = Mode.SECURED;
 		this.pbeParams = params;
 	}
 
