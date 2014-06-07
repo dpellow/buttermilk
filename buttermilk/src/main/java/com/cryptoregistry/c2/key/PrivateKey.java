@@ -11,5 +11,8 @@ public class PrivateKey extends Key {
 		super(bytes);
 	}
 
+	PrivateKey(byte[] bytes,boolean alive) {
+		super(bytes,alive);
+	}
 
 }

@@ -21,6 +21,10 @@ public class SecretKey extends Key {
 		super(bytes);
 	}
 	
+	SecretKey(byte[] bytes,boolean alive) {
+		super(bytes,alive);
+	}
+	
 	public byte [] getDigest(Digest digest) {
 		digest.update(bytes, 0, bytes.length);
 		byte[]  digestBytes = new byte[digest.getDigestSize()];

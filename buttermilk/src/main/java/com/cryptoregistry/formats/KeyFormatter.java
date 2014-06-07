@@ -3,6 +3,7 @@ package com.cryptoregistry.formats;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.cryptoregistry.CryptoKeyMetadata;
@@ -69,6 +70,30 @@ public class KeyFormatter {
 		this.signatures = signatures;
 	}
 	
+	public boolean add(CryptoContact e) {
+		return contacts.add(e);
+	}
+
+	public boolean addContacts(Collection<? extends CryptoContact> c) {
+		return contacts.addAll(c);
+	}
+	
+	public boolean add(CryptoKeyMetadata e) {
+		return keys.add(e);
+	}
+
+	public boolean addKeys(Collection<? extends CryptoKeyMetadata> c) {
+		return keys.addAll(c);
+	}
+	
+	public boolean add(CryptoSignature e) {
+		return signatures.add(e);
+	}
+
+	public boolean addSignatures(Collection<? extends CryptoSignature> c) {
+		return signatures.addAll(c);
+	}
+
 	public void format(Writer writer){
 		format(writer, true);
 	}
@@ -85,6 +110,7 @@ public class KeyFormatter {
 			g.writeStringField("RegHandle", registrationHandle);
 			
 			if(keys.size()> 0) {
+				
 				g.writeObjectFieldStart("Keys");
 				
 				for(CryptoKeyMetadata key: keys){
@@ -93,7 +119,8 @@ public class KeyFormatter {
 						case "Curve25519": {
 							Curve25519KeyContents contents = (Curve25519KeyContents)key;
 							C2KeyFormatter formatter = new C2KeyFormatter(contents);
-							formatter.formatKeys(writer);
+							formatter.formatKeys(g, writer);
+							break;
 						}
 						default: throw new RuntimeException("alg not recognized: "+alg);
 					}

@@ -4,11 +4,9 @@ import java.util.Date;
 import java.util.UUID;
 
 import com.cryptoregistry.CryptoKeyMetadata;
-import com.cryptoregistry.c2.key.C2KeyMetadata;
 import com.cryptoregistry.formats.Encoding;
 import com.cryptoregistry.formats.KeyFormat;
 import com.cryptoregistry.formats.Mode;
-import com.cryptoregistry.passwords.NewPassword;
 import com.cryptoregistry.pbe.PBEParams;
 import com.cryptoregistry.pbe.PBEParamsFactory;
 

@@ -22,10 +22,10 @@ class ECKeyFormatter {
 	protected ECKeyContents ecKeys;
 	protected PBEParams pbeParams;
 
-	public ECKeyFormatter(ECKeyContents ecKeys, PBEParams pbeParams) {
+	public ECKeyFormatter(ECKeyContents ecKeys) {
 		super();
 		this.ecKeys = ecKeys;
-		this.pbeParams = pbeParams;
+		this.pbeParams = ecKeys.getFormat().pbeParams;
 	}
 
 	public void formatKeys(Writer writer) {

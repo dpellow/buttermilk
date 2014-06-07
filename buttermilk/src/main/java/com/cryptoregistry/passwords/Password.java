@@ -35,6 +35,17 @@ public class Password {
 	}
 	
 	/**
+	 * Used only in clone()
+	 * @param password
+	 * @param alive
+	 */
+	protected Password(char[]password,boolean alive){
+		super();
+		this.password = password;
+		this.alive = alive;
+	}
+	
+	/**
 	 * Add the contents of two passwords together into one (concatenate p1 and p2)
 	 * @param p1
 	 * @param p2
@@ -46,6 +57,14 @@ public class Password {
 		System.arraycopy(p1.getPassword(), 0, password, 0, p1.length());
 		System.arraycopy(p2.getPassword(), 0, password, p1.length(), p2.length());
 		alive=true;
+	}
+	
+	public Password clone() {
+		int length = this.password.length;
+		char [] c = new char[length];
+		System.arraycopy(password, 0, c, 0, length);
+		boolean isAlive = this.alive;
+		return new Password(c,isAlive);
 	}
 
 	public char [] getPassword(){

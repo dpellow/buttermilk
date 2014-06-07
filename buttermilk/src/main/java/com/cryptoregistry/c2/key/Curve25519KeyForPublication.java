@@ -5,13 +5,18 @@
  */
 package com.cryptoregistry.c2.key;
 
+import java.util.Date;
+
+import com.cryptoregistry.CryptoKeyMetadata;
+import com.cryptoregistry.formats.KeyFormat;
+
 /**
  * Wrapper for output from the Curve25519 key generation method
  * 
  * @author Dave
  *
  */
-public class Curve25519KeyForPublication {
+public class Curve25519KeyForPublication  implements CryptoKeyMetadata {
 
 	public final PublicKey publicKey;
 	public final C2KeyMetadata management;
@@ -27,5 +32,28 @@ public class Curve25519KeyForPublication {
 		this.publicKey = publicKey;
 		this.management = management;
 	}
+	
+	public Curve25519KeyForPublication clone() {
+		C2KeyMetadata meta =  management.clone();
+		PublicKey pubKey = (PublicKey) publicKey.clone();
+		Curve25519KeyForPublication  c = new Curve25519KeyForPublication (meta, pubKey);
+		return c;
+}
 
+	public String getHandle() {
+		return management.getHandle();
+	}
+
+	public String getKeyAlgorithm() {
+		return management.getKeyAlgorithm();
+	}
+
+	public Date getCreatedOn() {
+		return management.getCreatedOn();
+	}
+
+	public KeyFormat getFormat() {
+		return management.getFormat();
+	}
+	
 }

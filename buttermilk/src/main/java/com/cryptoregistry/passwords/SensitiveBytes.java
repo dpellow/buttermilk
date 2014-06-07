@@ -22,6 +22,16 @@ public class SensitiveBytes {
 	}
 	
 	/**
+	 * Used only by clone()
+	 * @param data
+	 * @param alive
+	 */
+	private SensitiveBytes(byte [] data, boolean alive) {
+		this.data = data;
+		this.alive=alive;
+	}
+	
+	/**
 	 * Constructor be used to load random bytes of the requested length
 	 *  
 	 * @param rand
@@ -57,6 +67,14 @@ public class SensitiveBytes {
 		System.arraycopy(p1.getData(), 0, data, 0, p1.length());
 		System.arraycopy(p2.getData(), 0, data, p1.length(), p2.length());
 		alive=true;
+	}
+	
+	public SensitiveBytes clone() {
+		int length = this.data.length;
+		byte [] bytes = new byte[length];
+		System.arraycopy(data, 0, bytes, 0, length);
+		boolean isAlive = this.alive;
+		return new SensitiveBytes(bytes,isAlive);
 	}
 
 	public byte [] getData(){

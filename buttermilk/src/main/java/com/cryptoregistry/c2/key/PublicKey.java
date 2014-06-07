@@ -10,5 +10,9 @@ public class PublicKey extends Key {
 	public PublicKey(byte[] bytes) {
 		super(bytes);
 	}
+	
+	PublicKey(byte[] bytes,boolean alive) {
+		super(bytes,alive);
+	}
 
 }

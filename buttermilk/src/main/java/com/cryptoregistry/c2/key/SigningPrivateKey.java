@@ -11,4 +11,7 @@ public class SigningPrivateKey extends PrivateKey {
 		super(bytes);
 	}
 
+	SigningPrivateKey(byte[] bytes,boolean alive) {
+		super(bytes,alive);
+	}
 }

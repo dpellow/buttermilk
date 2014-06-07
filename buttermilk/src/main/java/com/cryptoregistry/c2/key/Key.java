@@ -23,9 +23,13 @@ public class Key {
 	// status of the key
 	protected boolean alive = true;
 
-	
 	public Key(byte [] bytes) {
 		this.bytes = bytes;
+	}
+	
+	protected Key(byte [] bytes, boolean alive) {
+		this.bytes = bytes;
+		this.alive = alive;
 	}
 
 	public byte[] getBytes() {
@@ -57,5 +61,22 @@ public class Key {
 	public boolean isAlive() {
 		return alive;
 	}
+	
+	public Key clone() {
+		int length = this.bytes.length;
+		byte [] b = new byte[length];
+		System.arraycopy(bytes, 0, b, 0, length);
+		boolean isAlive = this.alive;
+		if(this instanceof PrivateKey){
+			return new PrivateKey(b,isAlive);
+		}else if(this instanceof SigningPrivateKey){
+			return new SigningPrivateKey(b,isAlive);
+		}else if(this instanceof PublicKey){
+			return new PublicKey(b,isAlive);
+		}else{
+			return new Key(b,isAlive);
+		}
+	}
+
 
 }

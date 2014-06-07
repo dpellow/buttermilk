@@ -29,14 +29,9 @@ class C2KeyFormatter {
 
 	}
 
-	public void formatKeys(Writer writer) {
+	public void formatKeys(JsonGenerator g, Writer writer) {
 
-		JsonFactory f = new JsonFactory();
-		JsonGenerator g = null;
 		try {
-			g = f.createGenerator(writer);
-			g.useDefaultPrettyPrinter();
-
 			switch (format.mode) {
 			case OPEN: {
 				formatOpen(g, format.encoding, writer);
@@ -53,16 +48,10 @@ class C2KeyFormatter {
 			default:
 				throw new RuntimeException("Unknown mode");
 			}
-		} catch (IOException x) {
+		}catch(Exception x){
 			throw new RuntimeException(x);
-		} finally {
-			try {
-				if (g != null)
-					g.close();
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
 		}
+		
 	}
 
 	protected void seal(JsonGenerator g, Encoding enc, Writer writer)

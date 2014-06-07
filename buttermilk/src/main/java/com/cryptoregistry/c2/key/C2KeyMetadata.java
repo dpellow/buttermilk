@@ -24,11 +24,19 @@ public class C2KeyMetadata implements CryptoKeyMetadata {
 		this.format = format;
 	}
 	
+	public C2KeyMetadata clone() {
+		Date d = null;
+		if(createdOn != null) d = new Date(createdOn.getTime());
+		KeyFormat f = null;
+		if(format != null) f = format.clone();
+		return new C2KeyMetadata(this.handle,d,f);
+	}
+	
 	/**
 	 * Returns a default handle, createOn, and KeyFormat for base64Encode, Mode.OPEN
 	 * @return
 	 */
-	public static C2KeyMetadata createDefault() {
+	public static C2KeyMetadata createUnsecured() {
 		return new C2KeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat());
 	}
 	
@@ -36,7 +44,7 @@ public class C2KeyMetadata implements CryptoKeyMetadata {
 		return new C2KeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat(Mode.FOR_PUBLICATION));
 	}
 	
-	public static C2KeyMetadata createSecureDefault(char[]password) {
+	public static C2KeyMetadata createSecurePBKDF2(char[]password) {
 		return new C2KeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat(password));
 	}
 	

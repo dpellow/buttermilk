@@ -34,6 +34,19 @@ public class PBEParams {
 	public PBEParams(PBEAlg alg) {
 		this.alg = alg;
 	}
+	
+	public PBEParams clone() {
+		PBEParams np = new PBEParams(this.getAlg());
+		np.setBlockSize_r(this.getBlockSize_r());
+		np.setCpuMemoryCost_N(this.getCpuMemoryCost_N());
+		np.setDesiredKeyLengthInBytes(this.getDesiredKeyLengthInBytes());
+		np.setIterations(this.getIterations());
+		np.setIv(this.getIv().clone());
+		np.setSalt(this.getSalt().clone());
+		np.setParallelization_p(this.getParallelization_p());
+		np.setPassword(this.getPassword().clone());
+		return np;
+	}
 
 	public PBEAlg getAlg() {
 		return alg;
@@ -105,6 +118,62 @@ public class PBEParams {
 
 	public void setIv(SensitiveBytes iv) {
 		this.iv = iv;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((alg == null) ? 0 : alg.hashCode());
+		result = prime * result + blockSize_r;
+		result = prime * result + cpuMemoryCost_N;
+		result = prime * result + desiredKeyLengthInBytes;
+		result = prime * result + iterations;
+		result = prime * result + ((iv == null) ? 0 : iv.hashCode());
+		result = prime * result + parallelization_p;
+		result = prime * result
+				+ ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((salt == null) ? 0 : salt.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PBEParams other = (PBEParams) obj;
+		if (alg != other.alg)
+			return false;
+		if (blockSize_r != other.blockSize_r)
+			return false;
+		if (cpuMemoryCost_N != other.cpuMemoryCost_N)
+			return false;
+		if (desiredKeyLengthInBytes != other.desiredKeyLengthInBytes)
+			return false;
+		if (iterations != other.iterations)
+			return false;
+		if (iv == null) {
+			if (other.iv != null)
+				return false;
+		} else if (!iv.equals(other.iv))
+			return false;
+		if (parallelization_p != other.parallelization_p)
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (salt == null) {
+			if (other.salt != null)
+				return false;
+		} else if (!salt.equals(other.salt))
+			return false;
+		return true;
 	}
 
 }
