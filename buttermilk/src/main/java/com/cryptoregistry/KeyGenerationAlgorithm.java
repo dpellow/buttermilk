@@ -1,7 +1,7 @@
 package com.cryptoregistry;
 
 /**
- * These are names and codes for the types of cryptographic keys we know how to generate
+ * These are names and codes for the types of cryptographic keys Buttermilk knows how to generate
  * 
  * @author Dave
  *

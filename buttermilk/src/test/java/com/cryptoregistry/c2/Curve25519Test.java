@@ -17,6 +17,7 @@ import com.cryptoregistry.c2.key.Curve25519KeyContents;
 import com.cryptoregistry.c2.key.PublicKey;
 import com.cryptoregistry.c2.key.SecretKey;
 import com.cryptoregistry.c2.key.SigningPrivateKey;
+import com.cryptoregistry.signature.C2CryptoSignature;
 import com.cryptoregistry.signature.C2Signature;
 import com.cryptoregistry.util.XORUtil;
 
@@ -154,12 +155,13 @@ public class Curve25519Test {
 	@Test
 	public void test2() {
 		
+		String signedBy = "Chinese Eyes"; // my registration handle
 		String message = "My message text...";
 		byte[]msgBytes = message.getBytes(Charset.forName("UTF-8"));
 		
 		Curve25519KeyContents c2Keys = CryptoFactory.INSTANCE.generateKeys();
-		C2Signature sig = CryptoFactory.INSTANCE.sign(c2Keys, msgBytes);
-		boolean ok = CryptoFactory.INSTANCE.verify(c2Keys, msgBytes, sig);
+		C2CryptoSignature sig = CryptoFactory.INSTANCE.sign(signedBy,c2Keys, msgBytes);
+		boolean ok = CryptoFactory.INSTANCE.verify(c2Keys, msgBytes, sig.getSignature());
 		Assert.assertTrue(ok);
 	}
 	

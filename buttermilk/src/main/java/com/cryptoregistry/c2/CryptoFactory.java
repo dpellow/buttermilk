@@ -20,6 +20,7 @@ import com.cryptoregistry.c2.key.Curve25519KeyForPublication;
 import com.cryptoregistry.c2.key.PublicKey;
 import com.cryptoregistry.c2.key.SecretKey;
 import com.cryptoregistry.c2.key.SigningPrivateKey;
+import com.cryptoregistry.signature.C2CryptoSignature;
 import com.cryptoregistry.signature.C2Signature;
 import com.cryptoregistry.util.ArmoredString;
 import com.cryptoregistry.util.XORUtil;
@@ -151,7 +152,7 @@ public class CryptoFactory {
 		return true;
 	}
 	
-	public C2Signature sign(Curve25519KeyContents c2Keys, byte[]msgBytes){
+	public C2CryptoSignature sign(String signedBy, Curve25519KeyContents c2Keys, byte[]msgBytes){
 		lock.lock();
 		try {
 			Curve25519 c2 = curve;
@@ -190,7 +191,8 @@ public class CryptoFactory {
 			boolean ok = c2.sign(v, h, x, spk.getBytes());
 			if(!ok) throw new RuntimeException("signature process failed");
 			
-			return new C2Signature(v,r);
+			C2Signature sig = new C2Signature(v,r);
+			return new C2CryptoSignature(c2Keys.metadata.getHandle(),signedBy,sig);
 			
 		}finally{
 			lock.unlock();
