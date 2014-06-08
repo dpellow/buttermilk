@@ -62,6 +62,10 @@ public class Key {
 		return alive;
 	}
 	
+	public int length() {
+		return bytes.length;
+	}
+	
 	public Key clone() {
 		int length = this.bytes.length;
 		byte [] b = new byte[length];

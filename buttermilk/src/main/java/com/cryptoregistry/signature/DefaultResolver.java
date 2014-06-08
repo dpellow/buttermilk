@@ -17,6 +17,7 @@ import java.util.Map;
 
 import com.cryptoregistry.formats.Encoding;
 import com.cryptoregistry.formats.FormatUtil;
+import com.cryptoregistry.formats.Mode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -80,6 +81,13 @@ public class DefaultResolver implements SignatureDataResolver {
 		} else if(parts.length==2) {
 			uuid=parts[0];
 			tokenName=parts[1];
+			
+			// handle the case where the key indicates the mode with a hint at the end like "-P"
+			for(Mode m :Mode.values()){
+				if(uuid.endsWith("-"+String.valueOf(m.code))){
+					uuid = uuid.substring(0,uuid.length()-2);
+				}
+			}
 		}
 		Iterator<String> iter = map.keySet().iterator();
 		while(iter.hasNext()){

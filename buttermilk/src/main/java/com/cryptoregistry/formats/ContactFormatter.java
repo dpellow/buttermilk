@@ -10,7 +10,7 @@ import com.cryptoregistry.CryptoContact;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 
-public class ContactFormatter {
+class ContactFormatter {
 
 	private List<CryptoContact> contacts;
 

@@ -27,7 +27,7 @@ public class CryptoSignature implements Serializable {
 	private String handle; // unique identifier for this signature
 	private Date createdOn; // will use ISO 8601 format for String rep
 	private String signedWith; // handle of key used to sign
-	private String signedBy; // registration handle the signer key
+	private String signedBy; // registration handle of the signer key
 	
 	private ArmoredString signature;
 	private ArmoredString hash;

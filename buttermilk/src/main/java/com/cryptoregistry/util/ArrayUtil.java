@@ -5,7 +5,12 @@
  */
 package com.cryptoregistry.util;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 public class ArrayUtil {
+	
+	private static final Lock lock = new ReentrantLock();
 	
 	/**
 	 * Given an arbitrary number of byte arrays, concatenate them and return a new array with the result in it
@@ -14,19 +19,22 @@ public class ArrayUtil {
 	 * @return
 	 */
 	public static byte [] concatenate(byte[]...bytes){
-		
-		int length = 0;
-		for(byte [] item: bytes){
-			length+= item.length;
+		lock.lock();
+		try {
+			int length = 0;
+			for(byte [] item: bytes){
+				length+= item.length;
+			}
+			byte[] array = new byte[length];
+			int current =0;
+			for(byte [] item: bytes){
+				System.arraycopy(item, 0, array, current, item.length);
+				current+=item.length;
+			}
+			return array;
+		}finally {
+			lock.unlock();
 		}
-		byte[] array = new byte[length];
-		int current =0;
-		for(byte [] item: bytes){
-			System.arraycopy(item, 0, array, current, item.length);
-			current+=item.length;
-		}
-		
-		return array;
 	}
 
 }

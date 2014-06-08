@@ -140,6 +140,16 @@ public class JSONBuilder {
 				g.writeEndObject();
 			}
 			
+			if(signatures.size()> 0) {
+				
+				g.writeObjectFieldStart("Signatures");
+				
+				SignatureFormatter sf = new SignatureFormatter(signatures);
+				sf.format(g, writer);
+				
+				g.writeEndObject();
+			}
+			
 		} catch (IOException x) {
 			throw new RuntimeException(x);
 		} finally {
