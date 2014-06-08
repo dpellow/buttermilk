@@ -2,6 +2,7 @@ package com.cryptoregistry.pbe;
 
 import x.org.bouncycastle.crypto.PBEParametersGenerator;
 import x.org.bouncycastle.crypto.engines.AESEngine;
+import x.org.bouncycastle.crypto.engines.AESFastEngine;
 import x.org.bouncycastle.crypto.generators.PKCS5S2ParametersGenerator;
 import x.org.bouncycastle.crypto.generators.SCrypt;
 import x.org.bouncycastle.crypto.modes.CBCBlockCipher;
@@ -34,9 +35,15 @@ public class PBE {
 		this.params = params;
 	}
 
+	/**
+	 * CBC block cipher seems sufficient here due to the use case
+	 * 
+	 * @param input
+	 * @return
+	 */
 	public ArmoredPBEResult encrypt(byte [] input) {
 		ParametersWithIV holder = this.buildKey();
-		CBCBlockCipher blockCipher = new CBCBlockCipher(new AESEngine());
+		CBCBlockCipher blockCipher = new CBCBlockCipher(new AESFastEngine());
 		PaddedBufferedBlockCipher aesCipher = new PaddedBufferedBlockCipher(blockCipher, new PKCS7Padding());
 		aesCipher.init(true, holder);
 		byte [] encrypted = genCipherData(aesCipher, input);
@@ -60,7 +67,7 @@ public class PBE {
 	
 	public byte [] decrypt(byte [] encrypted) {
 		ParametersWithIV holder = this.buildKey();
-		CBCBlockCipher blockCipher = new CBCBlockCipher(new AESEngine());
+		CBCBlockCipher blockCipher = new CBCBlockCipher(new AESFastEngine());
 		PaddedBufferedBlockCipher aesCipher = new PaddedBufferedBlockCipher(blockCipher, new PKCS7Padding());
 		aesCipher.init(false, holder);
 		return genCipherData(aesCipher, encrypted);

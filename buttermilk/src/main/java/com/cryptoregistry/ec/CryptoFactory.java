@@ -12,6 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 
 import x.org.bouncycastle.crypto.AsymmetricCipherKeyPair;
+import x.org.bouncycastle.crypto.Digest;
 import x.org.bouncycastle.crypto.agreement.ECDHBasicAgreement;
 import x.org.bouncycastle.crypto.digests.SHA256Digest;
 import x.org.bouncycastle.crypto.generators.ECKeyPairGenerator;
@@ -75,7 +76,7 @@ public class CryptoFactory {
 	}
 	
 	/**
-	 * Does EC Diffie-Hellman key agreement. Returns a 256 bit hash of the result suitable for use
+	 * Does EC Diffie-Hellman key agreement. Returns a SHA-256 digest of the result suitable for use
 	 * as an encryption key
 	 * 
 	 * @param ours
@@ -98,5 +99,37 @@ public class CryptoFactory {
 			lock.unlock();
 		}
 	}
+	
+	/**
+	 * The option to use a different digest
+	 * 
+	 * @param ours
+	 * @param theirs
+	 * @param digest
+	 * @return
+	 */
+	public byte [] keyAgreement(ECKeyContents ours, ECKeyForPublication theirs, Digest digest){
+		lock.lock();
+		try {
+			ECDHBasicAgreement agree = new ECDHBasicAgreement();
+			agree.init(ours.getPrivateKey());
+			BigInteger bi = agree.calculateAgreement(theirs.getPublicKey());
+			byte [] bytes = bi.toByteArray();
+			digest.update(bytes, 0, bytes.length);
+			byte[]  digestBytes = new byte[digest.getDigestSize()];
+		    digest.doFinal(digestBytes, 0);
+		    return digestBytes;
+		} finally {
+			lock.unlock();
+		}
+	}
+	
+	public void sign(String signedBy, ECKeyContents ecKeys,byte[] msgBytes){
+		
+	}
+	
+	public void verify(){}
+	
+	
 	
 }
