@@ -16,14 +16,14 @@ import x.org.bouncycastle.crypto.params.RSAKeyParameters;
 
 public class RSAKeyForPublication  implements CryptoKeyMetadata {
 	
-	public final RSAKeyMetadata management;
+	public final RSAKeyMetadata metadata;
 	public final BigInteger  modulus;
 	public final BigInteger  publicExponent;
 	
-	public RSAKeyForPublication(RSAKeyMetadata management,
+	public RSAKeyForPublication(RSAKeyMetadata meta,
 			BigInteger modulus, BigInteger publicExponent) {
 		super();
-		this.management = management;
+		this.metadata = meta;
 		this.modulus = modulus;
 		this.publicExponent = publicExponent;
 	}
@@ -33,19 +33,19 @@ public class RSAKeyForPublication  implements CryptoKeyMetadata {
 	}
 	
 	public final String toString() {
-		return management.handle;
+		return metadata.handle;
 	}
 	
 	public String getHandle() {
-		return management.getHandle();
+		return metadata.getHandle();
 	}
 
 	public Date getCreatedOn() {
-		return management.getCreatedOn();
+		return metadata.getCreatedOn();
 	}
 
 	public KeyFormat getFormat() {
-		return management.getFormat();
+		return metadata.getFormat();
 	}
 
 	@Override

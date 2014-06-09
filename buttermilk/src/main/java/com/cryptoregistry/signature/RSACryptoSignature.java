@@ -21,6 +21,7 @@ public class RSACryptoSignature extends CryptoSignature {
 				UUID.randomUUID().toString(),
 				new Date(),
 				SignatureAlgorithm.RSA,
+				"SHA-256",
 				signedWith,
 				signedBy));
 		this.signature=sig;

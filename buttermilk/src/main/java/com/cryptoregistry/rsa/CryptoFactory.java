@@ -173,7 +173,7 @@ public class CryptoFactory {
 	    }
 	
 	/**
-	 * 
+	 * Assume the caller is using SHA-256 digest to make msgHashBytes
 	 * 
 	 * @param signedBy
 	 * @param pKeys
@@ -193,6 +193,14 @@ public class CryptoFactory {
 		}
 	}
 	
+	/**
+	 * Assume the caller is using SHA-256 digest to make msgHashBytes
+	 * 
+	 * @param sig
+	 * @param pKey
+	 * @param msgHashBytes
+	 * @return
+	 */
 	public boolean verify(RSACryptoSignature sig, RSAKeyForPublication pKey, byte [] msgHashBytes){
 		lock.lock();
 		try {

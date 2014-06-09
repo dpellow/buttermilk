@@ -21,6 +21,7 @@ public class ECDSACryptoSignature extends CryptoSignature {
 				UUID.randomUUID().toString(),
 				new Date(),
 				SignatureAlgorithm.ECDSA,
+				"SHA-256",
 				signedWith,
 				signedBy));
 		this.signature=sig;

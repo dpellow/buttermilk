@@ -118,7 +118,7 @@ public class CryptoFactory {
 			SHA256Digest digest = new SHA256Digest();
 			digest.update(pKey.getBytes(), 0, pKey.length());
 			digest.update(msgBytes, 0, msgBytes.length);
-			byte [] m = new byte[32];
+			byte [] m = new byte[digest.getDigestSize()];
 			digest.doFinal(m, 0);
 			
 			// compute h: m XOR r
@@ -129,7 +129,7 @@ public class CryptoFactory {
 			
 			// hash of Yx, should equal r
 			digest.update(Yx, 0, Yx.length);
-			byte [] hx = new byte[32];
+			byte [] hx = new byte[digest.getDigestSize()];
 			digest.doFinal(hx, 0);
 			
 			return test_equal(hx,r);
@@ -160,14 +160,14 @@ public class CryptoFactory {
 			SHA256Digest digest = new SHA256Digest();
 			digest.update(pKey.getBytes(), 0, pKey.length());
 			digest.update(msgBytes, 0, msgBytes.length);
-			byte [] m = new byte[32];
+			byte [] m = new byte[digest.getDigestSize()];
 			digest.doFinal(m, 0);
 			
 			// compute x
 			digest = new SHA256Digest();
 			digest.update(m, 0, m.length);
 			digest.update(spk.getBytes(), 0, spk.length());
-			byte [] x = new byte[32];
+			byte [] x = new byte[digest.getDigestSize()];
 			digest.doFinal(x, 0);
 			
 			// compute Y
@@ -176,7 +176,7 @@ public class CryptoFactory {
 			c2.keygen(Y, null, x);
 			
 			// compute r
-			byte [] r = new byte[32];
+			byte [] r = new byte[digest.getDigestSize()];
 			digest.update(Y,0,Y.length);
 			digest.doFinal(r, 0);
 			

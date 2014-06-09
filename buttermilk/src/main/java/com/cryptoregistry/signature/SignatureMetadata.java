@@ -6,25 +6,34 @@ import java.util.UUID;
 import com.cryptoregistry.SignatureAlgorithm;
 
 public class SignatureMetadata {
+	
+	public static final String defaultDigestAlg ="SHA-256";
 
 	public final String handle; // unique identifier for this signature
 	public final Date createdOn; // will use ISO 8601 format for String representation
 	public final SignatureAlgorithm sigAlg; //known routines in Buttermilk
+	public String hashAlg; // associated digest algorithm used
 	public final String signedWith; // handle of key used to sign
 	public final String signedBy; // registration handle of the signer key
-	
+
 	public SignatureMetadata(String handle, Date createdOn,
-			SignatureAlgorithm sigAlg, String signedWith, String signedBy) {
+			SignatureAlgorithm sigAlg, String hashAlg, String signedWith,
+			String signedBy) {
 		super();
 		this.handle = handle;
 		this.createdOn = createdOn;
 		this.sigAlg = sigAlg;
+		this.hashAlg = hashAlg;
 		this.signedWith = signedWith;
 		this.signedBy = signedBy;
 	}
 
-	public SignatureMetadata(SignatureAlgorithm sigAlg, String signedWith,String signedBy){
-		this(UUID.randomUUID().toString(),new Date(),sigAlg,signedWith,signedBy);
+	public SignatureMetadata(SignatureAlgorithm sigAlg, String hashAlg, String signedWith,String signedBy){
+		this(UUID.randomUUID().toString(),new Date(),sigAlg,hashAlg,signedWith,signedBy);
+	}
+	
+	public SignatureMetadata(SignatureAlgorithm sigAlg,String signedWith,String signedBy){
+		this(UUID.randomUUID().toString(),new Date(),sigAlg,defaultDigestAlg,signedWith,signedBy);
 	}
 
 	@Override
