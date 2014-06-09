@@ -9,6 +9,7 @@ import com.cryptoregistry.CryptoContact;
 import com.cryptoregistry.rsa.CryptoFactory;
 import com.cryptoregistry.rsa.RSAKeyContents;
 import com.cryptoregistry.signature.RSACryptoSignature;
+import com.cryptoregistry.signature.builder.RSAKeySignatureBuilder;
 
 public class GeneralFormattingTest {
 
@@ -26,21 +27,16 @@ public class GeneralFormattingTest {
 		
 		RSAKeyContents contents = CryptoFactory.INSTANCE.generateKeys();
 		
-		byte [] msgBytes = "this is a test message".getBytes(Charset.forName("UTF-8"));
-		SHA256Digest digest = new SHA256Digest();
-		digest.update(msgBytes, 0, msgBytes.length);
-		byte [] msgHashBytes = new byte[32];
-		digest.doFinal(msgHashBytes, 0);
+		RSAKeySignatureBuilder sigBuilder = new RSAKeySignatureBuilder("Chinese Eyes", contents);
+	//	sigBuilder.update(label, bytes);
 		
-		RSACryptoSignature sig = CryptoFactory.INSTANCE.sign("Chinese Eyes", contents, msgHashBytes);
-		boolean ok = CryptoFactory.INSTANCE.verify(sig, contents, msgHashBytes);
 		
 		
 		
 		JSONBuilder builder = new JSONBuilder("Chinese Eyes");
 		builder.add(contact);
 		builder.add(contents);
-		builder.add(sig);
+		//builder.add(sig);
 		
 		
 	}
