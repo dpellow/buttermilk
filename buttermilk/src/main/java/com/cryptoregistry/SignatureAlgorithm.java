@@ -7,5 +7,5 @@ package com.cryptoregistry;
  *
  */
 public enum SignatureAlgorithm {
-	ECKCDSA, ECDSA;
+	ECDSA, ECKCDSA, RSA;
 }

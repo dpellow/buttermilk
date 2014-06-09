@@ -1,25 +1,18 @@
 package com.cryptoregistry.rsa;
 
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
 
+import x.org.bouncycastle.crypto.digests.SHA256Digest;
 import x.org.bouncycastle.util.Arrays;
 
-import com.cryptoregistry.formats.Encoding;
-import com.cryptoregistry.formats.FormatUtil;
-import com.cryptoregistry.formats.Mode;
-import com.cryptoregistry.passwords.NewPassword;
-import com.cryptoregistry.passwords.Password;
-import com.cryptoregistry.passwords.SensitiveBytes;
-import com.cryptoregistry.pbe.ArmoredPBEResult;
-import com.cryptoregistry.pbe.PBEAlg;
 import com.cryptoregistry.pbe.PBEParams;
 import com.cryptoregistry.pbe.PBEParamsFactory;
+import com.cryptoregistry.signature.RSACryptoSignature;
 
 public class RSATest {
 
@@ -46,6 +39,23 @@ public class RSATest {
 			byte [] plain = CryptoFactory.INSTANCE.decrypt(contents, pad, encrypted);
 			Assert.assertTrue(Arrays.areEqual(in, plain));
 		}
+	}
+	
+	@Test
+	public void test3() throws UnsupportedEncodingException {
+		
+		RSAKeyContents contents = CryptoFactory.INSTANCE.generateKeys();
+		
+		byte [] msgBytes = "this is a test message".getBytes(Charset.forName("UTF-8"));
+		SHA256Digest digest = new SHA256Digest();
+		digest.update(msgBytes, 0, msgBytes.length);
+		byte [] msgHashBytes = new byte[32];
+		digest.doFinal(msgHashBytes, 0);
+		
+		RSACryptoSignature sig = CryptoFactory.INSTANCE.sign("Chinese Eyes", contents, msgHashBytes);
+		boolean ok = CryptoFactory.INSTANCE.verify(sig, contents, msgHashBytes);
+		Assert.assertTrue(ok);
+		
 	}
 
 }

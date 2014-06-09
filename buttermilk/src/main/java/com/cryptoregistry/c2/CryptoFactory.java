@@ -5,10 +5,8 @@
  */
 package com.cryptoregistry.c2;
 
-import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Arrays;
 import java.util.concurrent.locks.ReentrantLock;
 
 import x.org.bouncycastle.crypto.digests.SHA256Digest;
@@ -22,7 +20,6 @@ import com.cryptoregistry.c2.key.SecretKey;
 import com.cryptoregistry.c2.key.SigningPrivateKey;
 import com.cryptoregistry.signature.C2CryptoSignature;
 import com.cryptoregistry.signature.C2Signature;
-import com.cryptoregistry.util.ArmoredString;
 import com.cryptoregistry.util.XORUtil;
 
 /**

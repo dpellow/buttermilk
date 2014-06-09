@@ -11,6 +11,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.concurrent.locks.ReentrantLock;
 
+import x.org.bouncycastle.crypto.encodings.PKCS1Encoding;
+
+import com.cryptoregistry.signature.RSACryptoSignature;
+import com.cryptoregistry.signature.RSASignature;
+
 import x.org.bouncycastle.crypto.InvalidCipherTextException;
 import x.org.bouncycastle.crypto.engines.RSABlindedEngine;
 
@@ -166,4 +171,49 @@ public class CryptoFactory {
 	            throw new RuntimeException(e.getMessage());
 	        }
 	    }
+	
+	/**
+	 * 
+	 * 
+	 * @param signedBy
+	 * @param pKeys
+	 * @param msgHashBytes
+	 */
+	public RSACryptoSignature sign(String signedBy, RSAKeyContents sKeys, byte [] msgHashBytes){
+		
+		lock.lock();
+		try {
+			AsymmetricBlockCipher rsaEngine = new PKCS1Encoding(new RSABlindedEngine());
+			rsaEngine.init(true, sKeys.getPrivateKey());
+			byte [] sigBytes = rsaEngine.processBlock(msgHashBytes, 0, msgHashBytes.length);
+			RSASignature sig = new RSASignature(sigBytes);
+			return new RSACryptoSignature(sKeys.getHandle(),signedBy,sig);
+		} finally {
+			lock.unlock();
+		}
+	}
+	
+	public boolean verify(RSACryptoSignature sig, RSAKeyForPublication pKey, byte [] msgHashBytes){
+		lock.lock();
+		try {
+			AsymmetricBlockCipher rsaEngine = new PKCS1Encoding(new RSABlindedEngine());
+			rsaEngine.init(false, pKey.getPublicKey());
+			byte [] sigBytes = sig.signature.signature.decodeToBytes();
+			byte [] rawBytes = rsaEngine.processBlock(sigBytes, 0, sigBytes.length);
+			return test_equal(rawBytes,msgHashBytes);
+		} finally {
+			lock.unlock();
+		}
+	}
+	
+	private boolean test_equal(byte[] a, byte[] b) {
+		int i;
+		for (i = 0; i < 32; i++) {
+			if (a[i] != b[i]) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 }
