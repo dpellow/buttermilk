@@ -5,7 +5,6 @@ import java.io.StringWriter;
 import org.junit.Test;
 
 import com.cryptoregistry.c2.CryptoFactory;
-import com.cryptoregistry.c2.key.C2KeyMetadata;
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
 import com.cryptoregistry.pbe.PBEParams;
 import com.cryptoregistry.pbe.PBEParamsFactory;

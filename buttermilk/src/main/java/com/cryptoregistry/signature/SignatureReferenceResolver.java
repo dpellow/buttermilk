@@ -8,7 +8,7 @@ import java.util.List;
  * @author Dave
  *
  */
-public interface SignatureDataResolver {
+public interface SignatureReferenceResolver {
 	
 	public void resolve(String ref, ByteArrayOutputStream collector) throws RefNotFoundException ;
 	

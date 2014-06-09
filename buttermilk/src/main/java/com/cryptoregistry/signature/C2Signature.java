@@ -1,8 +1,13 @@
 package com.cryptoregistry.signature;
 
-import com.cryptoregistry.util.ArmoredString;
+import java.io.IOException;
+import java.io.Writer;
 
-public class C2Signature {
+import com.cryptoregistry.util.ArmoredString;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonGenerator;
+
+public class C2Signature implements SignatureData {
 
 	public final ArmoredString v;
 	public final ArmoredString r; 
@@ -53,6 +58,12 @@ public class C2Signature {
 	@Override
 	public String toString() {
 		return "C2Signature [v=" + v + ", h=" + r + "]";
+	}
+
+	@Override
+	public void formatJSON(JsonGenerator g, Writer writer) throws JsonGenerationException, IOException {
+		g.writeStringField("v", v.data);
+		g.writeStringField("r", r.data);
 	}
 
 }

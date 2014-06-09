@@ -1,8 +1,13 @@
 package com.cryptoregistry.signature;
 
-import com.cryptoregistry.util.ArmoredString;
+import java.io.IOException;
+import java.io.Writer;
 
-public class RSASignature {
+import com.cryptoregistry.util.ArmoredString;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonGenerator;
+
+public class RSASignature implements SignatureData {
 
 	public final ArmoredString signature;
 
@@ -40,6 +45,13 @@ public class RSASignature {
 		} else if (!signature.equals(other.signature))
 			return false;
 		return true;
+	}
+
+	@Override
+	public void formatJSON(JsonGenerator g, Writer writer)
+			throws JsonGenerationException, IOException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

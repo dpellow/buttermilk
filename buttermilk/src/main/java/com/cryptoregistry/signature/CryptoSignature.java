@@ -12,7 +12,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Base class for holder of a signature's data
+ * Base class for holder of a signature's data. It defines the actual data tuples (dataRefs) and metadata
+ * about the signature such as the algorithm and the handle.
  * 
  * @author Dave
  *
@@ -39,6 +40,10 @@ public class CryptoSignature implements Serializable {
 	public Map<Integer, String> getDataRefs() {
 		return dataRefs;
 	}
+	
+	public SignatureData getSignatureData() {
+		return null;
+	}
 
 	public String getHandle() {
 		return metadata.getHandle();
@@ -54,6 +59,10 @@ public class CryptoSignature implements Serializable {
 
 	public String getSignedBy() {
 		return metadata.getSignedBy();
+	}
+	
+	public String getSigAlg() {
+		return metadata.getSigAlg().toString();
 	}
 
 	@Override

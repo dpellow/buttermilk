@@ -55,4 +55,8 @@ public class ECDSACryptoSignature extends CryptoSignature {
 			return false;
 		return true;
 	}
+	
+	public SignatureData getSignatureData() {
+		return signature;
+	}
 }

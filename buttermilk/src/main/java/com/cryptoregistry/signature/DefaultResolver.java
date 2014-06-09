@@ -33,7 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author Dave
  *
  */
-public class DefaultResolver implements SignatureDataResolver {
+public class DefaultResolver implements SignatureReferenceResolver {
 
 	String rootPath;
 	

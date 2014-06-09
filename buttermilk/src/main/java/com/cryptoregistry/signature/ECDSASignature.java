@@ -1,8 +1,13 @@
 package com.cryptoregistry.signature;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.math.BigInteger;
 
-public class ECDSASignature {
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonGenerator;
+
+public class ECDSASignature implements SignatureData {
 	
 	public final BigInteger r;
 	public final BigInteger s;
@@ -42,6 +47,12 @@ public class ECDSASignature {
 		} else if (!s.equals(other.s))
 			return false;
 		return true;
+	}
+
+	@Override
+	public void formatJSON(JsonGenerator g, Writer writer)
+			throws JsonGenerationException, IOException {
+		
 	}
 
 }
