@@ -7,7 +7,7 @@ import com.cryptoregistry.rsa.RSAKeyForPublication;
 import com.cryptoregistry.util.TimeUtil;
 
 /**
- * Defines the order to sign the contents of an RSA public key
+ * Defines the order to sign the contents of an RSA public key 
  * 
  * @author Dave
  *
@@ -21,16 +21,31 @@ public class RSAKeyContentsIterator implements Iterator<String> {
 	public RSAKeyContentsIterator(RSAKeyForPublication pKey) {
 		this.pKey = pKey;
 		map = new LinkedHashMap<String,String>();
-		init();
+		init(false);
 	}
 	
-	private void init(){
+	public RSAKeyContentsIterator(RSAKeyForPublication pKey, boolean verbose) {
+		this.pKey = pKey;
+		map = new LinkedHashMap<String,String>();
+		init(verbose);
+	}
+	
+	private void init(boolean verbose){
 		String handle = pKey.getHandle();
-		map.put(handle+":"+"Handle",handle);
-		map.put(handle+":"+"CreatedOn",TimeUtil.format(pKey.getCreatedOn()));
-		map.put(handle+":"+"Algorithm",pKey.getKeyAlgorithm().toString());
-		map.put(handle+":"+"Modulus",pKey.modulus.toString(16));
-		map.put(handle+":"+"PublicExponent",pKey.publicExponent.toString(16));
+		
+		if(verbose){
+			map.put(handle+":"+"Handle",handle);
+			map.put(handle+":"+"CreatedOn",TimeUtil.format(pKey.getCreatedOn()));
+			map.put(handle+":"+"Algorithm",pKey.getKeyAlgorithm().toString());
+			map.put(handle+":"+"Modulus",pKey.modulus.toString(16));
+			map.put(handle+":"+"PublicExponent",pKey.publicExponent.toString(16));
+		}else{
+			map.put(handle+":"+"Handle",handle);
+			map.put("."+"CreatedOn",TimeUtil.format(pKey.getCreatedOn()));
+			map.put("."+"Algorithm",pKey.getKeyAlgorithm().toString());
+			map.put("."+"Modulus",pKey.modulus.toString(16));
+			map.put("."+"PublicExponent",pKey.publicExponent.toString(16));
+		}
 	}
 
 	@Override
