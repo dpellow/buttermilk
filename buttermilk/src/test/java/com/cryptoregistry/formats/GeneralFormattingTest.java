@@ -1,18 +1,19 @@
 package com.cryptoregistry.formats;
 
-import java.nio.charset.Charset;
+import java.io.StringWriter;
 
-import junit.framework.Assert;
-import x.org.bouncycastle.crypto.digests.SHA256Digest;
+import org.junit.Test;
 
 import com.cryptoregistry.CryptoContact;
 import com.cryptoregistry.rsa.CryptoFactory;
 import com.cryptoregistry.rsa.RSAKeyContents;
-import com.cryptoregistry.signature.RSACryptoSignature;
+import com.cryptoregistry.signature.CryptoSignature;
+import com.cryptoregistry.signature.builder.RSAKeyContentsIterator;
 import com.cryptoregistry.signature.builder.RSAKeySignatureBuilder;
 
 public class GeneralFormattingTest {
 
+	@Test
 	public void test0() {
 		
 		CryptoContact contact = new CryptoContact();
@@ -26,18 +27,22 @@ public class GeneralFormattingTest {
 		contact.add("CountryCode", "US");
 		
 		RSAKeyContents contents = CryptoFactory.INSTANCE.generateKeys();
-		
+		RSAKeyContentsIterator iter = new RSAKeyContentsIterator(contents);
 		RSAKeySignatureBuilder sigBuilder = new RSAKeySignatureBuilder("Chinese Eyes", contents);
-	//	sigBuilder.update(label, bytes);
-		
-		
-		
+		while(iter.hasNext()){
+			String label = iter.next();
+			sigBuilder.update(label, iter.get(label));
+		}
+		CryptoSignature sig = sigBuilder.build();
 		
 		JSONBuilder builder = new JSONBuilder("Chinese Eyes");
 		builder.add(contact);
 		builder.add(contents);
-		//builder.add(sig);
+		builder.add(sig);
 		
+		StringWriter writer = new StringWriter();
+		builder.format(writer);
+		System.err.println(writer.toString());
 		
 	}
 

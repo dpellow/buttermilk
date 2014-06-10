@@ -12,7 +12,8 @@ import com.cryptoregistry.rsa.RSAKeyContents;
 import com.cryptoregistry.signature.RSACryptoSignature;
 
 
-/**
+/**<pre>
+ * 
  * construct a signature using RSA. Process:
  * 
  * builder(registration handle, signer key contents, digest)
@@ -21,6 +22,7 @@ import com.cryptoregistry.signature.RSACryptoSignature;
  * builder.update("handle:token", bytes2)
  * RSACRyptoSignature sig = builder.build()
  * 
+ * </pre>
  * @author Dave
  *
  */
@@ -45,7 +47,6 @@ public class RSAKeySignatureBuilder {
 		this.digest = new SHA256Digest();
 		this.references=new ArrayList<String>();
 		this.signedBy = signedBy;
-		
 	}
 	
 	public RSAKeySignatureBuilder update(String label, String input){

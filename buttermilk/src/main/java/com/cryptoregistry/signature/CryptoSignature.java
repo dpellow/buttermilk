@@ -6,14 +6,12 @@
 package com.cryptoregistry.signature;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.List;
 
 /**
- * Base class for holder of a signature's data. It defines the actual data tuples (dataRefs) and metadata
- * about the signature such as the algorithm and the handle.
+ * Base class for holder of a signature's data
  * 
  * @author Dave
  *
@@ -23,21 +21,19 @@ public class CryptoSignature implements Serializable {
 	protected static final long serialVersionUID = 1L;
 	
 	public final SignatureMetadata metadata;
-	public final Map<Integer,String> dataRefs;
+	public final List<String> dataRefs;
 	
 	public CryptoSignature(SignatureMetadata metadata) {
 		super();
 		this.metadata = metadata;
-		dataRefs = new LinkedHashMap<Integer,String>();
+		dataRefs = new ArrayList<String>();
 	}
 
 	public void addDataReference(String ref){
-		Set<Integer> set = dataRefs.keySet();
-		Integer key = new Integer(set.size()+1);
-		dataRefs.put(key, ref);
+		dataRefs.add(ref);
 	}
 
-	public Map<Integer, String> getDataRefs() {
+	public List<String> getDataRefs() {
 		return dataRefs;
 	}
 	

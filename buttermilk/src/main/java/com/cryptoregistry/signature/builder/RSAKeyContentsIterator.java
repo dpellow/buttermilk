@@ -7,7 +7,7 @@ import com.cryptoregistry.rsa.RSAKeyForPublication;
 import com.cryptoregistry.util.TimeUtil;
 
 /**
- * Defines the order to serialize the contents of an RSA public key
+ * Defines the order to sign the contents of an RSA public key
  * 
  * @author Dave
  *
@@ -42,6 +42,10 @@ public class RSAKeyContentsIterator implements Iterator<String> {
 	@Override
 	public String next() {
 		return iter.next();
+	}
+	
+	public String get(String key){
+		return map.get(key);
 	}
 
 	@Override

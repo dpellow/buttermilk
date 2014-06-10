@@ -38,14 +38,12 @@ class SignatureFormatter {
 			
 			s.getSignatureData().formatJSON(g, writer);
 			
-			g.writeObjectFieldStart("DataReferences");
-			Iterator<Integer> iter = s.getDataRefs().keySet().iterator();
+			g.writeArrayFieldStart("DataRefs");
+			Iterator<String> iter = s.getDataRefs().iterator();
 			while(iter.hasNext()){
-				Integer key = iter.next();
-				String value = s.getDataRefs().get(key);
-				g.writeStringField(String.valueOf(key), value);
+				g.writeString(iter.next());
 			}
-			g.writeEndObject();
+			g.writeEndArray();
 			g.writeEndObject();
 		}
 	}

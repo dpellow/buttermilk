@@ -11,6 +11,8 @@ import com.cryptoregistry.CryptoContact;
 import com.cryptoregistry.KeyGenerationAlgorithm;
 import com.cryptoregistry.Version;
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
+import com.cryptoregistry.ec.ECKeyContents;
+import com.cryptoregistry.rsa.RSAKeyContents;
 import com.cryptoregistry.signature.CryptoSignature;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -120,6 +122,18 @@ public class JSONBuilder {
 						case Curve25519: {
 							Curve25519KeyContents contents = (Curve25519KeyContents)key;
 							C2KeyFormatter formatter = new C2KeyFormatter(contents);
+							formatter.formatKeys(g, writer);
+							break;
+						}
+						case EC: {
+							ECKeyContents contents = (ECKeyContents)key;
+							ECKeyFormatter formatter = new ECKeyFormatter(contents);
+							formatter.formatKeys(g, writer);
+							break;
+						}
+						case RSA: {
+							RSAKeyContents contents = (RSAKeyContents)key;
+							RSAKeyFormatter formatter = new RSAKeyFormatter(contents);
 							formatter.formatKeys(g, writer);
 							break;
 						}

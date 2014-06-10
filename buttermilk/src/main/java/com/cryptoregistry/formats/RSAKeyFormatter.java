@@ -5,7 +5,6 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
-import com.cryptoregistry.ec.ECKeyContents;
 import com.cryptoregistry.formats.Encoding;
 import com.cryptoregistry.formats.FormatUtil;
 import com.cryptoregistry.pbe.ArmoredPBEResult;
@@ -13,21 +12,22 @@ import com.cryptoregistry.pbe.ArmoredPBKDF2Result;
 import com.cryptoregistry.pbe.ArmoredScryptResult;
 import com.cryptoregistry.pbe.PBE;
 import com.cryptoregistry.pbe.PBEParams;
+import com.cryptoregistry.rsa.RSAKeyContents;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 
-class ECKeyFormatter {
+class RSAKeyFormatter {
 
-	protected ECKeyContents ecKeys;
+	protected final RSAKeyContents rsaKeys;
 	protected final KeyFormat format;
-	protected PBEParams pbeParams;
+	protected final PBEParams pbeParams;
 
-	public ECKeyFormatter(ECKeyContents ecKeys) {
+	public RSAKeyFormatter(RSAKeyContents rsaKeys) {
 		super();
-		this.ecKeys = ecKeys;
-		this.format = ecKeys.getFormat();
-		this.pbeParams = ecKeys.getFormat().pbeParams;
+		this.rsaKeys = rsaKeys;
+		this.format = rsaKeys.getFormat();
+		this.pbeParams = rsaKeys.getFormat().pbeParams;
 	}
 
 	public void formatKeys(JsonGenerator g, Writer writer) {
@@ -58,7 +58,7 @@ class ECKeyFormatter {
 	protected void seal(JsonGenerator g, Encoding enc, Writer writer)
 			throws JsonGenerationException, IOException {
 
-		String plain = formatItem(enc, ecKeys);
+		String plain = formatItem(enc, rsaKeys);
 		ArmoredPBEResult result;
 		try {
 			byte[] plainBytes = plain.getBytes("UTF-8");
@@ -68,8 +68,8 @@ class ECKeyFormatter {
 			throw new RuntimeException(e);
 		}
 
-		g.writeObjectFieldStart(ecKeys.getHandle());
-		g.writeStringField("KeyData.Type", "EC");
+		g.writeObjectFieldStart(rsaKeys.getHandle());
+		g.writeStringField("KeyData.Type", "RSA");
 		g.writeStringField("KeyData.PBEAlgorithm", pbeParams.getAlg()
 				.toString());
 		g.writeStringField("KeyData.EncryptedData", result.base64Enc);
@@ -98,11 +98,16 @@ class ECKeyFormatter {
 	protected void formatOpen(JsonGenerator g, Encoding enc, Writer writer)
 			throws JsonGenerationException, IOException {
 
-		g.writeObjectFieldStart(ecKeys.getHandle());
+		g.writeObjectFieldStart(rsaKeys.getHandle());
 		g.writeStringField("Encoding", enc.toString());
-		g.writeStringField("Q", FormatUtil.serializeECPoint(ecKeys.Q, enc));
-		g.writeStringField("D", FormatUtil.wrap(enc, ecKeys.d));
-		g.writeStringField("CurveName", ecKeys.curveName);
+		g.writeStringField("Modulus", FormatUtil.wrap(enc, rsaKeys.modulus));
+		g.writeStringField("PublicExponent", FormatUtil.wrap(enc, rsaKeys.publicExponent));
+		g.writeStringField("PrivateExponent", FormatUtil.wrap(enc, rsaKeys.privateExponent));
+		g.writeStringField("P", FormatUtil.wrap(enc, rsaKeys.p));
+		g.writeStringField("Q", FormatUtil.wrap(enc, rsaKeys.q));
+		g.writeStringField("dP", FormatUtil.wrap(enc, rsaKeys.dP));
+		g.writeStringField("dQ", FormatUtil.wrap(enc, rsaKeys.dQ));
+		g.writeStringField("qInv", FormatUtil.wrap(enc, rsaKeys.qInv));
 		g.writeEndObject();
 
 	}
@@ -110,15 +115,15 @@ class ECKeyFormatter {
 	protected void formatForPublication(JsonGenerator g, Encoding enc,
 			Writer writer) throws JsonGenerationException, IOException {
 
-		g.writeObjectFieldStart(ecKeys.getHandle());
+		g.writeObjectFieldStart(rsaKeys.getHandle());
 		g.writeStringField("Encoding", enc.toString());
-		g.writeStringField("Q", FormatUtil.serializeECPoint(ecKeys.Q, enc));
-		g.writeStringField("CurveName", ecKeys.curveName);
+		g.writeStringField("Modulus", FormatUtil.wrap(enc, rsaKeys.modulus));
+		g.writeStringField("PublicExponent", FormatUtil.wrap(enc, rsaKeys.publicExponent));
 		g.writeEndObject();
 
 	}
 
-	private String formatItem(Encoding enc, ECKeyContents item) {
+	private String formatItem(Encoding enc, RSAKeyContents item) {
 		StringWriter privateDataWriter = new StringWriter();
 		JsonFactory f = new JsonFactory();
 		JsonGenerator g = null;
@@ -126,10 +131,16 @@ class ECKeyFormatter {
 			g = f.createGenerator(privateDataWriter);
 			g.useDefaultPrettyPrinter();
 			g.writeStartObject();
+			g.writeStringField("Handle", rsaKeys.getHandle());
 			g.writeStringField("Encoding", enc.toString());
-			g.writeStringField("Q", FormatUtil.serializeECPoint(ecKeys.Q, enc));
-			g.writeStringField("D", FormatUtil.wrap(enc, ecKeys.d));
-			g.writeStringField("CurveName", ecKeys.curveName);
+			g.writeStringField("Modulus", FormatUtil.wrap(enc, rsaKeys.modulus));
+			g.writeStringField("PublicExponent", FormatUtil.wrap(enc, rsaKeys.publicExponent));
+			g.writeStringField("PrivateExponent", FormatUtil.wrap(enc, rsaKeys.privateExponent));
+			g.writeStringField("P", FormatUtil.wrap(enc, rsaKeys.p));
+			g.writeStringField("Q", FormatUtil.wrap(enc, rsaKeys.q));
+			g.writeStringField("dP", FormatUtil.wrap(enc, rsaKeys.dP));
+			g.writeStringField("dQ", FormatUtil.wrap(enc, rsaKeys.dQ));
+			g.writeStringField("qInv", FormatUtil.wrap(enc, rsaKeys.qInv));
 			g.writeEndObject();
 		} catch (IOException e) {
 			e.printStackTrace();
