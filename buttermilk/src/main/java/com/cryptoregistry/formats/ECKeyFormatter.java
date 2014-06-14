@@ -13,6 +13,7 @@ import com.cryptoregistry.pbe.ArmoredPBKDF2Result;
 import com.cryptoregistry.pbe.ArmoredScryptResult;
 import com.cryptoregistry.pbe.PBE;
 import com.cryptoregistry.pbe.PBEParams;
+import com.cryptoregistry.util.TimeUtil;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -68,7 +69,7 @@ class ECKeyFormatter {
 			throw new RuntimeException(e);
 		}
 
-		g.writeObjectFieldStart(ecKeys.getHandle());
+		g.writeObjectFieldStart(ecKeys.getDistinguishedHandle());
 		g.writeStringField("KeyData.Type", "EC");
 		g.writeStringField("KeyData.PBEAlgorithm", pbeParams.getAlg()
 				.toString());
@@ -98,7 +99,9 @@ class ECKeyFormatter {
 	protected void formatOpen(JsonGenerator g, Encoding enc, Writer writer)
 			throws JsonGenerationException, IOException {
 
-		g.writeObjectFieldStart(ecKeys.getHandle());
+		g.writeObjectFieldStart(ecKeys.getDistinguishedHandle());
+		g.writeStringField("KeyAlgorithm", "EC");
+		g.writeStringField("CreatedOn", TimeUtil.format(ecKeys.metadata.createdOn));
 		g.writeStringField("Encoding", enc.toString());
 		g.writeStringField("Q", FormatUtil.serializeECPoint(ecKeys.Q, enc));
 		g.writeStringField("D", FormatUtil.wrap(enc, ecKeys.d));
@@ -110,7 +113,9 @@ class ECKeyFormatter {
 	protected void formatForPublication(JsonGenerator g, Encoding enc,
 			Writer writer) throws JsonGenerationException, IOException {
 
-		g.writeObjectFieldStart(ecKeys.getHandle());
+		g.writeObjectFieldStart(ecKeys.getDistinguishedHandle());
+		g.writeStringField("KeyAlgorithm", "EC");
+		g.writeStringField("CreatedOn", TimeUtil.format(ecKeys.metadata.createdOn));
 		g.writeStringField("Encoding", enc.toString());
 		g.writeStringField("Q", FormatUtil.serializeECPoint(ecKeys.Q, enc));
 		g.writeStringField("CurveName", ecKeys.curveName);
@@ -126,6 +131,8 @@ class ECKeyFormatter {
 			g = f.createGenerator(privateDataWriter);
 			g.useDefaultPrettyPrinter();
 			g.writeStartObject();
+			g.writeStringField("KeyAlgorithm", "EC");
+			g.writeStringField("CreatedOn", TimeUtil.format(ecKeys.metadata.createdOn));
 			g.writeStringField("Encoding", enc.toString());
 			g.writeStringField("Q", FormatUtil.serializeECPoint(ecKeys.Q, enc));
 			g.writeStringField("D", FormatUtil.wrap(enc, ecKeys.d));

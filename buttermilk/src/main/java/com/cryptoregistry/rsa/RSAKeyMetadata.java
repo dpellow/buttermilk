@@ -55,6 +55,10 @@ public class RSAKeyMetadata implements CryptoKeyMetadata {
 	public String getHandle() {
 		return handle;
 	}
+	
+	public String getDistinguishedHandle() {
+		return handle+"-"+format.mode.code;
+	}
 
 	@Override
 	public KeyGenerationAlgorithm getKeyAlgorithm() {

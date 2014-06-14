@@ -16,5 +16,6 @@ public interface CryptoKeyMetadata {
 	KeyGenerationAlgorithm getKeyAlgorithm();
 	Date getCreatedOn();
 	KeyFormat getFormat();
+	String getDistinguishedHandle();
 
 }

@@ -50,6 +50,10 @@ public class Curve25519KeyForPublication  implements CryptoKeyMetadata {
 	public String getHandle() {
 		return metadata.getHandle();
 	}
+	
+	public String getDistinguishedHandle() {
+		return metadata.handle+"-"+metadata.format.mode.code;
+	}
 
 	public KeyGenerationAlgorithm getKeyAlgorithm() {
 		return metadata.getKeyAlgorithm();

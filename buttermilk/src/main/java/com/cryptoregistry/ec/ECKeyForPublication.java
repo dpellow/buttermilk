@@ -16,13 +16,13 @@ import x.org.bouncycastle.math.ec.ECPoint;
 
 public class ECKeyForPublication  implements CryptoKeyMetadata {
 
-	private final ECKeyMetadata management;
+	public final ECKeyMetadata metadata;
 	public final ECPoint Q;
 	public final String curveName;
 	
-	public ECKeyForPublication(ECKeyMetadata management, ECPoint q, String curveName) {
+	public ECKeyForPublication(ECKeyMetadata meta, ECPoint q, String curveName) {
 		super();
-		this.management = management;
+		this.metadata = meta;
 		Q = q;
 		this.curveName = curveName;
 	}
@@ -36,19 +36,23 @@ public class ECKeyForPublication  implements CryptoKeyMetadata {
 	// delegate
 
 	public String getHandle() {
-		return management.getHandle();
+		return metadata.getHandle();
+	}
+	
+	public String getDistinguishedHandle() {
+		return metadata.handle+"-"+metadata.format.mode.code;
 	}
 
 	public KeyGenerationAlgorithm getKeyAlgorithm() {
-		return management.getKeyAlgorithm();
+		return metadata.getKeyAlgorithm();
 	}
 
 	public Date getCreatedOn() {
-		return management.getCreatedOn();
+		return metadata.getCreatedOn();
 	}
 
 	public KeyFormat getFormat() {
-		return management.getFormat();
+		return metadata.getFormat();
 	}
 
 	@Override
@@ -59,7 +63,7 @@ public class ECKeyForPublication  implements CryptoKeyMetadata {
 		result = prime * result
 				+ ((curveName == null) ? 0 : curveName.hashCode());
 		result = prime * result
-				+ ((management == null) ? 0 : management.hashCode());
+				+ ((metadata == null) ? 0 : metadata.hashCode());
 		return result;
 	}
 
@@ -82,10 +86,10 @@ public class ECKeyForPublication  implements CryptoKeyMetadata {
 				return false;
 		} else if (!curveName.equals(other.curveName))
 			return false;
-		if (management == null) {
-			if (other.management != null)
+		if (metadata == null) {
+			if (other.metadata != null)
 				return false;
-		} else if (!management.equals(other.management))
+		} else if (!metadata.equals(other.metadata))
 			return false;
 		return true;
 	}

@@ -11,6 +11,7 @@ import com.cryptoregistry.pbe.ArmoredPBKDF2Result;
 import com.cryptoregistry.pbe.ArmoredScryptResult;
 import com.cryptoregistry.pbe.PBE;
 import com.cryptoregistry.pbe.PBEParams;
+import com.cryptoregistry.util.TimeUtil;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -97,6 +98,8 @@ class C2KeyFormatter {
 			throws JsonGenerationException, IOException {
 
 		g.writeObjectFieldStart(c2Keys.metadata.getDistinguishedHandle());
+		g.writeStringField("KeyAlgorithm", "Curve25519");
+		g.writeStringField("CreatedOn", TimeUtil.format(c2Keys.metadata.createdOn));
 		g.writeStringField("Encoding", Encoding.Base64url.toString());
 		g.writeStringField("P", c2Keys.publicKey.getBase64UrlEncoding());
 		g.writeStringField("s", c2Keys.signingPrivateKey.getBase64UrlEncoding());
@@ -109,6 +112,8 @@ class C2KeyFormatter {
 			Writer writer) throws JsonGenerationException, IOException {
 
 		g.writeObjectFieldStart(c2Keys.metadata.getDistinguishedHandle());
+		g.writeStringField("KeyAlgorithm", "Curve25519");
+		g.writeStringField("CreatedOn", TimeUtil.format(c2Keys.metadata.createdOn));
 		g.writeStringField("Encoding", Encoding.Base64url.toString());
 		g.writeStringField("P", c2Keys.publicKey.getBase64UrlEncoding());
 		g.writeEndObject();
@@ -123,6 +128,8 @@ class C2KeyFormatter {
 			g.useDefaultPrettyPrinter();
 			g.writeStartObject();
 			g.writeObjectFieldStart(c2Keys.metadata.getDistinguishedHandle());
+			g.writeStringField("KeyAlgorithm", "Curve25519");
+			g.writeStringField("CreatedOn", TimeUtil.format(c2Keys.metadata.createdOn));
 			g.writeStringField("Encoding", Encoding.Base64url.toString());
 			g.writeStringField("P", c2Keys.publicKey.getBase64UrlEncoding());
 			g.writeStringField("s",

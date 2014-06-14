@@ -39,6 +39,10 @@ public class RSAKeyForPublication  implements CryptoKeyMetadata {
 	public String getHandle() {
 		return metadata.getHandle();
 	}
+	
+	public String getDistinguishedHandle() {
+		return metadata.handle+"-"+metadata.format.mode.code;
+	}
 
 	public Date getCreatedOn() {
 		return metadata.getCreatedOn();

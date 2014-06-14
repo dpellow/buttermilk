@@ -13,6 +13,7 @@ import com.cryptoregistry.pbe.ArmoredScryptResult;
 import com.cryptoregistry.pbe.PBE;
 import com.cryptoregistry.pbe.PBEParams;
 import com.cryptoregistry.rsa.RSAKeyContents;
+import com.cryptoregistry.util.TimeUtil;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -68,7 +69,7 @@ class RSAKeyFormatter {
 			throw new RuntimeException(e);
 		}
 
-		g.writeObjectFieldStart(rsaKeys.getHandle());
+		g.writeObjectFieldStart(rsaKeys.getDistinguishedHandle());
 		g.writeStringField("KeyData.Type", "RSA");
 		g.writeStringField("KeyData.PBEAlgorithm", pbeParams.getAlg()
 				.toString());
@@ -98,7 +99,9 @@ class RSAKeyFormatter {
 	protected void formatOpen(JsonGenerator g, Encoding enc, Writer writer)
 			throws JsonGenerationException, IOException {
 
-		g.writeObjectFieldStart(rsaKeys.getHandle());
+		g.writeObjectFieldStart(rsaKeys.getDistinguishedHandle());
+		g.writeStringField("KeyAlgorithm", "RSA");
+		g.writeStringField("CreatedOn", TimeUtil.format(rsaKeys.metadata.createdOn));
 		g.writeStringField("Encoding", enc.toString());
 		g.writeStringField("Modulus", FormatUtil.wrap(enc, rsaKeys.modulus));
 		g.writeStringField("PublicExponent", FormatUtil.wrap(enc, rsaKeys.publicExponent));
@@ -115,7 +118,9 @@ class RSAKeyFormatter {
 	protected void formatForPublication(JsonGenerator g, Encoding enc,
 			Writer writer) throws JsonGenerationException, IOException {
 
-		g.writeObjectFieldStart(rsaKeys.getHandle());
+		g.writeObjectFieldStart(rsaKeys.getDistinguishedHandle());
+		g.writeStringField("KeyAlgorithm", "RSA");
+		g.writeStringField("CreatedOn", TimeUtil.format(rsaKeys.metadata.createdOn));
 		g.writeStringField("Encoding", enc.toString());
 		g.writeStringField("Modulus", FormatUtil.wrap(enc, rsaKeys.modulus));
 		g.writeStringField("PublicExponent", FormatUtil.wrap(enc, rsaKeys.publicExponent));
@@ -132,6 +137,8 @@ class RSAKeyFormatter {
 			g.useDefaultPrettyPrinter();
 			g.writeStartObject();
 			g.writeStringField("Handle", rsaKeys.getHandle());
+			g.writeStringField("KeyAlgorithm", "RSA");
+			g.writeStringField("CreatedOn", TimeUtil.format(rsaKeys.metadata.createdOn));
 			g.writeStringField("Encoding", enc.toString());
 			g.writeStringField("Modulus", FormatUtil.wrap(enc, rsaKeys.modulus));
 			g.writeStringField("PublicExponent", FormatUtil.wrap(enc, rsaKeys.publicExponent));
