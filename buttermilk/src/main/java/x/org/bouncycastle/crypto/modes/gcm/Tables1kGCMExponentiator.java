@@ -4,13 +4,16 @@ import java.util.Vector;
 
 import x.org.bouncycastle.util.Arrays;
 
+@SuppressWarnings("rawtypes")
 public class Tables1kGCMExponentiator implements GCMExponentiator
 {
     // A lookup table of the power-of-two powers of 'x'
     // - lookupPowX2[i] = x^(2^i)
-    private Vector lookupPowX2;
+   
+	private Vector lookupPowX2;
 
-    public void init(byte[] x)
+	@SuppressWarnings("unchecked")
+	public void init(byte[] x)
     {
         int[] y = GCMUtil.asInts(x);
         if (lookupPowX2 != null && Arrays.areEqual(y, (int[])lookupPowX2.elementAt(0)))
@@ -40,7 +43,8 @@ public class Tables1kGCMExponentiator implements GCMExponentiator
         GCMUtil.asBytes(y, output);
     }
 
-    private void ensureAvailable(int bit)
+    @SuppressWarnings("unchecked")
+	private void ensureAvailable(int bit)
     {
         int count = lookupPowX2.size();
         if (count <= bit)

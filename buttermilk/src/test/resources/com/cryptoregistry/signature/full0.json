@@ -1,0 +1,49 @@
+{
+  "Version" : "Buttermilk Key Materials 1.0",
+  "RegHandle" : "Chinese Eyes",
+  "Keys" : {
+    "b0d1e9cc-a8ea-4973-aecc-1b14a41d8a9e" : {
+      "Encoding" : "Base64url",
+      "Modulus" : "AJDoGGDwb3XgKLv1AChfRWLEZpDmlCCjbyit1fw6LnChxmf2RDnw2gzcr0L9jP215l-jW3KrGtbprV0iszotOgVUvxnuclAKWYNhPSysn3KfPAQ_ItGGg1zoLd1UwO2iz8m6cwvpM3Mw_9-FEPuoBt5oxH29ERKhiHYiYyib380iPdxZE5Gls9W5tkTldglMvkF_-GusvNP2GQc9dxGiR0ggRKptFH4iCyUx8d8K8tAE2AmK9cKFyRl_G6b9CS4DBrZzDBvRDrHoHJyXWgKitlkhDKkKD7sg-1Aza0C87j4-TOJ21dr_SSAgkXnpK-68P9OB82a4hFe4Oa1Uwztf6EM=",
+      "PublicExponent" : "EQ==",
+      "PrivateExponent" : "CIYfjTtR2cHkR0qlqAWaq3T2-Xb5p5EkqAo5w4rzrEXAYHfl5UpnLe7dIg7qLQqzMs1fu3N6DKRVffL7e-SK8UE4au_om0vnJdiLIL7cM-s_xAO2wQfpnA2oWFBHlYIMOQr3tWgSFdW0ssuXllUtlJzAQ6G1tc1EQy8zAmOFoqeSZuZ67QvvBEOBDqrPBEpURHP8y-vPPQbjeN_xwIPXooiRBmNeV84RFbfWAx9GItXlFogHNMASmJgJ0SXbgG0MYzIA_t2NaRQgnhqGUTjc18BFpHrb2NEvRO5UaVj029y149xsG7iFW-kbieG91CcB8Rh8ga3bBtIMpb3RaESPkQ==",
+      "P" : "AN21JeNnjvjNgSsVS1iiVqrug1bnKX_SxaQgS4B7TLRftziZ9yQ_cdhLWjCZpr0baktWBBiRX5gNh0K0fs07VV_1M--M86gqep3_oAPYA3pbn5gVTHjtDDnHtleuYqyaBP4p9dnq2n4RHE6VXS3hyebUwVIaSUedT-BFcB2g0p_T",
+      "Q" : "AKdR5QZsS9u_vPk2Ql4eBnrHSNf52nnzu1ngEujNlEEdV2qj3KxqARBooosQUI1kZlY0fmKwZPTp3zIO-qhrb9Qq7QuiJwKNF1QdNGrF2JGpvNSnlP1oMJ30qXiTcf8KkTqW3c4Y4-_0iW68jmL2Wzf8IFyv47FGdYJmSb2t_7_R",
+      "dP" : "W0qXIWbghJDa1YE9JH8UoLyQbxPj6VbJ2itqYhSnHRhagLfePBof0Yhwbl1ixlaVLhRcCh2981DdV7O7vetBRaEzgMGRgXrnMf_Yeg2nFEPYTa5qyGGbn1I8BfyC-8by_z50Sqv_nVJW8y5xqXsW5pPXIc6WpQSKTUnEwOfeQc8=",
+      "dQ" : "dhuwuT1iuTwM7CZM9yRAzyNCelYDoWDAe606hjbDAMlq4d0UPXgAwEncJe1mCXQMAJ2GY8fOyv9wX5IaWMRO8B5M-ScqmGOX_yOsh5q2_WjBhwzho9ETQlJZgkn2HXDe_C5CNyCg5Z2OMAygvlOLrwxTFD_sBKo01IRwSaf_0rE=",
+      "qInv" : "ftGpWGmccUNHb2mq3PWtfeklj7ImEPWBF6wUkotCLvVOG5t-D8BE-c8Sgb4xX0B5Z0nywrZw3vyLPUaYclj2yBPJNiDWM3l6QVjDHT90-lO_fslloPh0EUhDSOwvTYopIaK9PwBjii3en9wiuEAXTrxtbZfTBAqSwPTdKNtEIyE="
+    }
+  },
+  "Contacts" : {
+    "5638b25d-d60a-4924-ba48-15f976f993f5" : {
+      "GivenName.0" : "David",
+      "GivenName.1" : "Richard",
+      "FamilyName.0" : "Smith",
+      "Address.0" : "1714 Roberts Ct.",
+      "City" : "Madison",
+      "State" : "Wisconsin",
+      "PostalCode" : "53711",
+      "CountryCode" : "US"
+    }
+  },
+  "LocalData" : {
+	 "5638b25d-d60a-4924-ba48-15f976f993f7" : {
+	      "Copyright" : "©2014 David R. Smith, All Rights Reserved",
+	      "License" : "http://www.apache.org/licenses/LICENSE-2.0.txt"
+	 }
+   },
+   "RemoteData" : [
+	      "http://buttermilk.googlecode.com/svn/trunk/buttermilk/data/test0.json"
+	],
+  "Signatures" : {
+    "e81ad793-9280-4e7e-ac48-340b04497278" : {
+      "CreatedOn" : "2014-06-14T02:19:53+0000",
+      "SignedWith" : "b0d1e9cc-a8ea-4973-aecc-1b14a41d8a9e",
+      "SignedBy" : "Chinese Eyes",
+      "SignatureAlgorithm" : "RSA",
+      "DigestAlgorithm" : "SHA-256",
+      "s" : "Pm01HP0Oh4j2M5dhLTz1iQ7SE9X_FQ7L_bL1QbhPJwSwyi4vcJaEqLX2cNh8IgPhUKhhbnkUCc3pDFelSWuE-XkS0H9qMU9hIDTkl3x2GkoxAD7JHOF_2BE4e817DhuVtrkbGl2-P2X3JzcMPES5KOEenALW19-lxHN6kbmlMPsPsi4yxMj690cg3MNxkghl3-5z040mrDtYfplM6MpcoqdM4J2Eez1Kp24tQ3w8WC_u_K5zSV7YFBkSQD6_H9qZAVK213UiHey7jKu1EdFx0HIVIlehvlEOSaciQGErXwuE5OpYDNJkf-22a7E6hWACZdJeyAJirt-YhrTGl7HccQ==",
+      "DataRefs" : [ "e81ad793-9280-4e7e-ac48-340b04497278:SignedBy", ".SignedWith", "b0d1e9cc-a8ea-4973-aecc-1b14a41d8a9e:Handle", ".CreatedOn", ".Algorithm", ".Modulus", ".PublicExponent", "5638b25d-d60a-4924-ba48-15f976f993f5:Handle", ".GivenName.0", ".GivenName.1", ".FamilyName.0", ".Address.0", ".City", ".State", ".PostalCode", ".CountryCode" ]
+    }
+  }
+}

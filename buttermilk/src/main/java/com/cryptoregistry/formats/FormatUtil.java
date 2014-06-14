@@ -6,9 +6,8 @@
 package com.cryptoregistry.formats;
 
 import java.io.IOException;
-import java.io.StringReader;
+
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -16,17 +15,13 @@ import x.org.bouncycastle.math.ec.ECCurve;
 import x.org.bouncycastle.math.ec.ECPoint;
 
 import com.cryptoregistry.ec.CurveFactory;
-import com.cryptoregistry.passwords.Password;
-import com.cryptoregistry.pbe.ArmoredPBEResult;
-import com.cryptoregistry.pbe.PBE;
-import com.cryptoregistry.pbe.PBEParams;
-import com.cryptoregistry.rsa.RSAKeyContents;
+
 
 import net.iharder.Base64;
 
 public class FormatUtil {
 	
-	private static ReentrantLock lock0 = new ReentrantLock();
+	//private static ReentrantLock lock0 = new ReentrantLock();
 	private static ReentrantLock lock1 = new ReentrantLock();
 	private static ReentrantLock lock2 = new ReentrantLock();
 	private static ReentrantLock lock3 = new ReentrantLock();

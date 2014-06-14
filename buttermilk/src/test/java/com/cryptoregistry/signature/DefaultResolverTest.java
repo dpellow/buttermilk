@@ -68,5 +68,10 @@ public class DefaultResolverTest {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void test2() throws IOException {
+		
+	}
 
 }

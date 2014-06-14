@@ -138,6 +138,11 @@ public class DefaultResolver implements SignatureReferenceResolver {
 				retVal = search(inner,ref,collector,false);
 				break;
 			}
+			if(key.equals("Signatures")){
+				Map<String,Object> inner = (Map<String,Object>)map.get(key);
+				retVal = search(inner,ref,collector,false);
+				break;
+			}
 			if(key.equals(uuid)){
 				Map<String,Object> inner = (Map<String,Object>)map.get(key);
 				retVal = search(inner,ref,collector,useEncoding);

@@ -1,8 +1,9 @@
 {
   "Version" : "Buttermilk Key Materials 1.0",
-  "CreatedOn" : "2014-05-31T06:22:00+0000",
+  "RegHandle" : "Chinese Eyes",
   "Keys" : {
     "ee80ca18-676d-495c-9c4c-0862dac74989" : {
+      "CreatedOn" : "2014-05-31T06:22:00+0000",
       "Encoding" : "Base64url",
       "Modulus" : "AJEov3X7BBys0bfEzsq5lIz-6ZIOho71d5fJ6cM915zFgkKtEY4hOgQDSbW5aRKtw8RQESzh05J978GjpkQawwqSpqv2H88pK1yRqU8JoaVMKNEYw6IjpkbVg2LCsHmP7XOHvbtV3U7w2_aqDj_E65TOdm2B7wOec2JE0pvh0ogItI0UTMCel3d_ddXBq-d5UUHOJnG-HClcal-IW5xkxxKbfbDbagQ00FrmQ8_LtsV4LjTHZqa79K2zguKI3EHOfHeKJ3SZ3978JsSG6CUHJZLDm9DkeGfOO2POef7-ai7eoV0uqH_arjeH5pXupSy7ea1du4KvOouynrKNJcMBqeM=",
       "PublicExponent" : "EQ=="

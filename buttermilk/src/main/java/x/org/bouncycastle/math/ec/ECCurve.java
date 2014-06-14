@@ -380,7 +380,8 @@ public abstract class ECCurve
             return new ECFieldElement.Fp(this.q, this.r, x);
         }
 
-        protected ECPoint createRawPoint(ECFieldElement x, ECFieldElement y, boolean withCompression)
+        @SuppressWarnings("deprecation")
+		protected ECPoint createRawPoint(ECFieldElement x, ECFieldElement y, boolean withCompression)
         {
             return new ECPoint.Fp(this, x, y, withCompression);
         }
