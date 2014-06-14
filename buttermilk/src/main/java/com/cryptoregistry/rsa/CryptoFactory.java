@@ -9,12 +9,16 @@ import java.io.ByteArrayOutputStream;
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Date;
+import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
 
 import x.org.bouncycastle.crypto.encodings.PKCS1Encoding;
 
+import com.cryptoregistry.SignatureAlgorithm;
 import com.cryptoregistry.signature.RSACryptoSignature;
 import com.cryptoregistry.signature.RSASignature;
+import com.cryptoregistry.signature.SignatureMetadata;
 
 import x.org.bouncycastle.crypto.InvalidCipherTextException;
 import x.org.bouncycastle.crypto.engines.RSABlindedEngine;
@@ -173,13 +177,18 @@ public class CryptoFactory {
 	    }
 	
 	/**
-	 * Assume the caller is using SHA-256 digest to make msgHashBytes
+	 * Normally you would not call this directly, use the RSASignatureBuilder
+	 * 
+	 * 
 	 * 
 	 * @param signedBy
 	 * @param pKeys
 	 * @param msgHashBytes
+	 * 
+	 * @see RSASignatureBuilder
+	 * 
 	 */
-	public RSACryptoSignature sign(String signedBy, RSAKeyContents sKeys, byte [] msgHashBytes){
+	public RSACryptoSignature sign(String signedBy, RSAKeyContents sKeys, String digestName, byte [] msgHashBytes){
 		
 		lock.lock();
 		try {
@@ -187,7 +196,28 @@ public class CryptoFactory {
 			rsaEngine.init(true, sKeys.getPrivateKey());
 			byte [] sigBytes = rsaEngine.processBlock(msgHashBytes, 0, msgHashBytes.length);
 			RSASignature sig = new RSASignature(sigBytes);
-			return new RSACryptoSignature(sKeys.getHandle(),signedBy,sig);
+			SignatureMetadata meta = new SignatureMetadata(
+					UUID.randomUUID().toString(),
+					new Date(),
+					SignatureAlgorithm.RSA,
+					digestName,
+					sKeys.getHandle(),
+					signedBy);
+			return new RSACryptoSignature(meta,sig);
+		} finally {
+			lock.unlock();
+		}
+	}
+	
+	public RSACryptoSignature sign(SignatureMetadata meta, RSAKeyContents sKeys, byte [] msgHashBytes){
+		
+		lock.lock();
+		try {
+			AsymmetricBlockCipher rsaEngine = new PKCS1Encoding(new RSABlindedEngine());
+			rsaEngine.init(true, sKeys.getPrivateKey());
+			byte [] sigBytes = rsaEngine.processBlock(msgHashBytes, 0, msgHashBytes.length);
+			RSASignature sig = new RSASignature(sigBytes);
+			return new RSACryptoSignature(meta,sig);
 		} finally {
 			lock.unlock();
 		}
@@ -206,7 +236,7 @@ public class CryptoFactory {
 		try {
 			AsymmetricBlockCipher rsaEngine = new PKCS1Encoding(new RSABlindedEngine());
 			rsaEngine.init(false, pKey.getPublicKey());
-			byte [] sigBytes = sig.signature.signature.decodeToBytes();
+			byte [] sigBytes = sig.signature.s.decodeToBytes();
 			byte [] rawBytes = rsaEngine.processBlock(sigBytes, 0, sigBytes.length);
 			return test_equal(rawBytes,msgHashBytes);
 		} finally {

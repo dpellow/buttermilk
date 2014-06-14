@@ -35,9 +35,9 @@ class SignatureFormatter {
 			g.writeStringField("SignedWith", s.getSignedWith());
 			g.writeStringField("SignedBy", s.getSignedBy());
 			g.writeStringField("SignatureAlgorithm", s.getSigAlg().toString());
-			
-			s.getSignatureData().formatJSON(g, writer);
-			
+			g.writeStringField("DigestAlgorithm", s.metadata.digestAlg);
+			// does the actual key
+			s.formatSignaturePrimitivesJSON(g, writer);
 			g.writeArrayFieldStart("DataRefs");
 			Iterator<String> iter = s.getDataRefs().iterator();
 			while(iter.hasNext()){

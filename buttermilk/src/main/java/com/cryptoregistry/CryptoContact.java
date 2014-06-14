@@ -6,16 +6,20 @@ import java.util.UUID;
 
 public class CryptoContact {
 
-	private Map<String,String> map;
+	protected final Map<String,String> map;
+	public final String handle;
 	
 	public CryptoContact() {
 		map = new LinkedHashMap<String,String>();
-		map.put("Handle", UUID.randomUUID().toString());
+		handle = UUID.randomUUID().toString();
+		map.put("Handle",handle);
 	}
 	
 	public CryptoContact(String handle) {
 		map = new LinkedHashMap<String,String>();
-		map.put("Handle", handle);
+		this.handle = handle;
+		map.put("Handle",handle);
+		
 	}
 	
 	public Map<String,String> add(String key, String value){
@@ -26,25 +30,13 @@ public class CryptoContact {
 	public String get(String key){
 		return map.get(key);
 	}
-	
-	public void addName(String name){
-		map.put("Name", name);
-	}
-	
-	public void addRole(String role){
-		map.put("Role", role);
-	}
-	
-	public void addEmail(String email){
-		map.put("Email", email);
-	}
-	
-	public void addPhone(String phone){
-		map.put("Phone", phone);
-	}
 
 	public Map<String, String> getMap() {
 		return map;
+	}
+
+	public String getHandle() {
+		return handle;
 	}
 
 }

@@ -49,10 +49,10 @@ public class RSATest {
 		byte [] msgBytes = "this is a test message".getBytes(Charset.forName("UTF-8"));
 		SHA256Digest digest = new SHA256Digest();
 		digest.update(msgBytes, 0, msgBytes.length);
-		byte [] msgHashBytes = new byte[32];
+		byte [] msgHashBytes = new byte[digest.getByteLength()];
 		digest.doFinal(msgHashBytes, 0);
 		
-		RSACryptoSignature sig = CryptoFactory.INSTANCE.sign("Chinese Eyes", contents, msgHashBytes);
+		RSACryptoSignature sig = CryptoFactory.INSTANCE.sign("Chinese Eyes", contents, digest.getAlgorithmName(), msgHashBytes);
 		boolean ok = CryptoFactory.INSTANCE.verify(sig, contents, msgHashBytes);
 		Assert.assertTrue(ok);
 		

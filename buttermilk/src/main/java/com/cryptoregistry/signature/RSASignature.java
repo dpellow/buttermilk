@@ -1,24 +1,19 @@
 package com.cryptoregistry.signature;
 
-import java.io.IOException;
-import java.io.Writer;
-
 import com.cryptoregistry.util.ArmoredString;
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonGenerator;
 
-public class RSASignature implements SignatureData {
+public class RSASignature {
 
-	public final ArmoredString signature;
+	public final ArmoredString s;
 
 	public RSASignature(ArmoredString signature) {
 		super();
-		this.signature = signature;
+		this.s = signature;
 	}
 	
 	public RSASignature(byte [] signature) {
 		super();
-		this.signature = new ArmoredString(signature);
+		this.s = new ArmoredString(signature);
 	}
 
 	@Override
@@ -26,7 +21,7 @@ public class RSASignature implements SignatureData {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((signature == null) ? 0 : signature.hashCode());
+				+ ((s == null) ? 0 : s.hashCode());
 		return result;
 	}
 
@@ -39,19 +34,12 @@ public class RSASignature implements SignatureData {
 		if (getClass() != obj.getClass())
 			return false;
 		RSASignature other = (RSASignature) obj;
-		if (signature == null) {
-			if (other.signature != null)
+		if (s == null) {
+			if (other.s != null)
 				return false;
-		} else if (!signature.equals(other.signature))
+		} else if (!s.equals(other.s))
 			return false;
 		return true;
-	}
-
-	@Override
-	public void formatJSON(JsonGenerator g, Writer writer)
-			throws JsonGenerationException, IOException {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

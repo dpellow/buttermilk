@@ -24,6 +24,19 @@ import com.fasterxml.jackson.core.JsonGenerator;
  * 
  * Version
  * Registration Handle
+ * Data
+ *  \
+ *  local
+ *     uuid0
+ *       key=value
+ *     uuid1
+ *       key=value
+ *     remote
+ *     [
+ *       url
+ *       url
+ *       url
+ *    ]
  * Keys
  *   \
  *   key-uuid0
@@ -42,6 +55,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
  *   \
  *   signature-uuid0
  *     signature info0 
+ *     data-refs [ref0, ref1, ref2, ref3 ]
  *    
  * @author Dave
  *
@@ -73,28 +87,34 @@ public class JSONBuilder {
 		this.signatures = signatures;
 	}
 	
-	public boolean add(CryptoContact e) {
-		return contacts.add(e);
+	public JSONBuilder add(CryptoContact e) {
+		 contacts.add(e);
+		 return this;
 	}
 
-	public boolean addContacts(Collection<? extends CryptoContact> c) {
-		return contacts.addAll(c);
+	public JSONBuilder addContacts(Collection<? extends CryptoContact> c) {
+		contacts.addAll(c);
+		return this;
 	}
 	
-	public boolean add(CryptoKeyMetadata e) {
-		return keys.add(e);
+	public JSONBuilder add(CryptoKeyMetadata e) {
+		keys.add(e);
+		return this;
 	}
 
-	public boolean addKeys(Collection<? extends CryptoKeyMetadata> c) {
-		return keys.addAll(c);
+	public JSONBuilder addKeys(Collection<? extends CryptoKeyMetadata> c) {
+		keys.addAll(c);
+		return this;
 	}
 	
-	public boolean add(CryptoSignature e) {
-		return signatures.add(e);
+	public JSONBuilder add(CryptoSignature e) {
+		signatures.add(e);
+		return this;
 	}
 
-	public boolean addSignatures(Collection<? extends CryptoSignature> c) {
-		return signatures.addAll(c);
+	public JSONBuilder addSignatures(Collection<? extends CryptoSignature> c) {
+		signatures.addAll(c);
+		return this;
 	}
 
 	public void format(Writer writer){

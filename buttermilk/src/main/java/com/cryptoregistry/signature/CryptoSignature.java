@@ -5,18 +5,23 @@
  */
 package com.cryptoregistry.signature;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonGenerator;
+
 /**
- * Base class for holder of a signature's data
+ * Base class for holder of a signature and associated references to do verification
  * 
  * @author Dave
  *
  */
-public class CryptoSignature implements Serializable {
+public abstract class CryptoSignature implements Serializable,SignatureData {
 
 	protected static final long serialVersionUID = 1L;
 	
@@ -35,10 +40,6 @@ public class CryptoSignature implements Serializable {
 
 	public List<String> getDataRefs() {
 		return dataRefs;
-	}
-	
-	public SignatureData getSignatureData() {
-		return null;
 	}
 
 	public String getHandle() {
@@ -98,6 +99,13 @@ public class CryptoSignature implements Serializable {
 			return false;
 		return true;
 	}
+
+	/**
+	 * implement in subclass, these are bits which are different in each key
+	 */
+
+	public abstract void formatSignaturePrimitivesJSON(JsonGenerator g, Writer writer)
+			throws JsonGenerationException, IOException;
 
 }
 

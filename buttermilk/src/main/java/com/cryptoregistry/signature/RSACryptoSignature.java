@@ -1,9 +1,13 @@
 package com.cryptoregistry.signature;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.util.Date;
 import java.util.UUID;
 
 import com.cryptoregistry.SignatureAlgorithm;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonGenerator;
 
 public class RSACryptoSignature extends CryptoSignature {
 
@@ -16,6 +20,13 @@ public class RSACryptoSignature extends CryptoSignature {
 		this.signature=sig;
 	}
 	
+	/**
+	 * Assume SHA-256
+	 * 
+	 * @param signedWith
+	 * @param signedBy
+	 * @param sig
+	 */
 	public RSACryptoSignature(String signedWith, String signedBy, RSASignature sig) {
 		super(new SignatureMetadata(
 				UUID.randomUUID().toString(),
@@ -56,8 +67,11 @@ public class RSACryptoSignature extends CryptoSignature {
 			return false;
 		return true;
 	}
-	
-	public SignatureData getSignatureData() {
-		return signature;
+
+
+	@Override
+	public void formatSignaturePrimitivesJSON(JsonGenerator g, Writer writer)
+			throws JsonGenerationException, IOException {
+		g.writeStringField("s", signature.s.toString());
 	}
 }

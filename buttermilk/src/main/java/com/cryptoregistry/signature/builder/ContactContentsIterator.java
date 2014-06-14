@@ -8,11 +8,18 @@ public class ContactContentsIterator implements Iterator<String> {
 	
 	final CryptoContact contact;
 	private Iterator<String> iter;
+	int index = 0;
+	int handleLength;
 
-	private ContactContentsIterator(CryptoContact contact) {
+	public ContactContentsIterator(CryptoContact contact) {
 		super();
 		this.contact = contact;
 		iter = contact.getMap().keySet().iterator();
+		handleLength = contact.getHandle().length()+1;
+	}
+	
+	public String getHandle() {
+		return contact.getHandle();
 	}
 
 	@Override
@@ -22,7 +29,14 @@ public class ContactContentsIterator implements Iterator<String> {
 
 	@Override
 	public String next() {
-		return iter.next();
+		if(index == 0) {
+			index++;
+			return getHandle()+":"+iter.next();
+		}
+		else {
+			index++;
+			return "."+iter.next();
+		}
 	}
 
 	@Override
@@ -31,11 +45,16 @@ public class ContactContentsIterator implements Iterator<String> {
 	}
 
 	public String get(String key){
-		return contact.getMap().get(key);
+		if(key.startsWith("."))
+		return contact.getMap().get(key.substring(1,key.length()));
+		else return contact.getMap().get(key.substring(handleLength,key.length()));
 	}
 	
 	public void reset(){
-		if(!iter.hasNext()) iter = contact.getMap().keySet().iterator();
+		if(!iter.hasNext()) {
+			index = 0;
+			iter = contact.getMap().keySet().iterator();
+		}
 	}
 
 }

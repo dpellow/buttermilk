@@ -17,14 +17,12 @@ import java.util.Map;
 
 import com.cryptoregistry.formats.Encoding;
 import com.cryptoregistry.formats.FormatUtil;
-import com.cryptoregistry.formats.Mode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * The Resolver has the job of finding the values of references of the form uuid:tokenName where uuid
- * is a unique key materials identifier and tokenName is the key for a key/value pair in an embedded JSON
- * object within the materials. The data might be a cryptographic primitive, some contact info, 
- * a message part, etc. 
+ * is an identifier and tokenName is the key for a child key/value pair. The data might be a cryptographic 
+ * primitive, some contact info, a message part, etc. 
  * 
  * The default resolver is given a directory containing JSON encoded files to search over. This implementation
  * is trivial and only functions as a way to prove the concept. A real implementation would use some form
@@ -48,10 +46,55 @@ public class DefaultResolver implements SignatureReferenceResolver {
 	
 	@Override
 	public void resolve(List<String> refs, ByteArrayOutputStream collector) throws RefNotFoundException {
+		
 		for(String ref: refs){
-			fileIter(ref, collector);
+			String ref_p = preprocess(ref);
+			fileIter(ref_p, collector);
 		}
-
+	}
+	
+	private String uuid;
+	
+	/**
+	 * Normalize the ref. The ref may have the following forms:
+	 * 
+	 * uuid:tokenName
+	 * uuid(-(U|S|P)):tokenName
+	 * .tokenName
+	 * 
+	 * Where the extended form indicates the mode and dot form is an abbreviation of the first case
+	 * 
+	 * preprocess normalizes the ref to be in all cases of the form uuid:tokenName 
+	 * 
+	 * @param ref
+	 * @return
+	 */
+	
+	public String preprocess(String ref){
+		
+		if(ref.startsWith(".")){
+			// impossible in the full uuid form, so must be abbreviated form
+			StringBuffer buf = new StringBuffer();
+			buf.append(uuid);
+			buf.append(":");
+			buf.append(ref.substring(1,ref.length()));
+			return buf.toString();
+		}
+		
+		String token = "";
+		if(ref.contains(":")){
+			String [] parts = ref.split("\\:");
+			if(parts[0].endsWith("-P") || parts[0].endsWith("-U") || parts[0].endsWith("-S")){
+				uuid = parts[0].substring(0,parts[0].length() -2);
+			}
+			else uuid = parts[0];
+			token = parts[1];
+		}
+		StringBuffer buf = new StringBuffer(uuid);
+		buf.append(":");
+		buf.append(token);
+		return buf.toString();
+		
 	}
 	
 	void fileIter(String ref, ByteArrayOutputStream collector){
@@ -81,13 +124,6 @@ public class DefaultResolver implements SignatureReferenceResolver {
 		} else if(parts.length==2) {
 			uuid=parts[0];
 			tokenName=parts[1];
-			
-			// handle the case where the key indicates the mode with a hint at the end like "-P"
-			for(Mode m :Mode.values()){
-				if(uuid.endsWith("-"+String.valueOf(m.code))){
-					uuid = uuid.substring(0,uuid.length()-2);
-				}
-			}
 		}
 		Iterator<String> iter = map.keySet().iterator();
 		while(iter.hasNext()){

@@ -1,9 +1,13 @@
 package com.cryptoregistry.signature;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.util.Date;
 import java.util.UUID;
 
 import com.cryptoregistry.SignatureAlgorithm;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonGenerator;
 
 public class ECDSACryptoSignature extends CryptoSignature {
 
@@ -56,8 +60,13 @@ public class ECDSACryptoSignature extends CryptoSignature {
 			return false;
 		return true;
 	}
-	
-	public SignatureData getSignatureData() {
-		return signature;
+
+
+	@Override
+	public void formatSignaturePrimitivesJSON(JsonGenerator g, Writer writer)
+			throws JsonGenerationException, IOException {
+		g.writeStringField("r", signature.r.toString(16));
+		g.writeStringField("s", signature.s.toString(16));
+		
 	}
 }
