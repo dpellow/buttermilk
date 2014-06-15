@@ -9,6 +9,8 @@ import java.util.List;
 import com.cryptoregistry.CryptoKeyMetadata;
 import com.cryptoregistry.CryptoContact;
 import com.cryptoregistry.KeyGenerationAlgorithm;
+import com.cryptoregistry.LocalData;
+import com.cryptoregistry.RemoteData;
 import com.cryptoregistry.Version;
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
 import com.cryptoregistry.ec.ECKeyContents;
@@ -67,24 +69,31 @@ public class JSONBuilder {
 	protected List<CryptoKeyMetadata> keys;
 	protected List<CryptoContact> contacts;
 	protected List<CryptoSignature> signatures;
+	protected List<LocalData> localData;
+	protected List<RemoteData> remoteData;
 	
 	public JSONBuilder(String handle) {
-		version = Version.VERSION;
+		version = Version.OVERALL_VERSION;
 		this.registrationHandle = handle;
 		keys = new ArrayList<CryptoKeyMetadata>();
 		contacts = new ArrayList<CryptoContact>();
 		signatures = new ArrayList<CryptoSignature>();
+		localData = new ArrayList<LocalData>();
+		remoteData = new ArrayList<RemoteData>();
 	}
 
 	public JSONBuilder(String version, String registrationHandle,
 			List<CryptoKeyMetadata> keys, List<CryptoContact> contacts,
-			List<CryptoSignature> signatures) {
+			List<CryptoSignature> signatures, List<LocalData> localData, 
+			List<RemoteData> remoteData) {
 		super();
 		this.version = version;
 		this.registrationHandle = registrationHandle;
 		this.keys = keys;
 		this.contacts = contacts;
 		this.signatures = signatures;
+		this.localData = localData;
+		this.remoteData = remoteData;
 	}
 	
 	public JSONBuilder add(CryptoContact e) {
@@ -116,6 +125,26 @@ public class JSONBuilder {
 		signatures.addAll(c);
 		return this;
 	}
+	
+	public JSONBuilder add(LocalData e) {
+		localData.add(e);
+		return this;
+	}
+
+	public JSONBuilder addLocalData(Collection<? extends LocalData> c) {
+		localData.addAll(c);
+		return this;
+	}
+	
+	public JSONBuilder add(RemoteData e) {
+		remoteData.add(e);
+		return this;
+	}
+
+	public JSONBuilder addRemoteData(Collection<? extends RemoteData> c) {
+		remoteData.addAll(c);
+		return this;
+	}
 
 	public void format(Writer writer){
 		format(writer, true);
@@ -129,8 +158,47 @@ public class JSONBuilder {
 			if(prettyPrint)g.useDefaultPrettyPrinter();
 			
 			g.writeStartObject();
-			g.writeStringField("Version", Version.VERSION);
+			g.writeStringField("Version", Version.OVERALL_VERSION);
 			g.writeStringField("RegHandle", registrationHandle);
+			
+			if(contacts.size()> 0) {
+				
+				g.writeObjectFieldStart("Contacts");
+				
+				ContactFormatter cf = new ContactFormatter(contacts);
+				cf.format(g, writer);
+				
+				g.writeEndObject();
+			}
+			
+			if(localData.size()>0 || remoteData.size()>0){
+				
+				g.writeObjectFieldStart("Data");
+				
+				if(localData.size()>0){
+					
+					g.writeObjectFieldStart("Local");
+					
+						LocalDataFormatter ldf = new LocalDataFormatter(localData);
+						ldf.format(g, writer);
+					
+					g.writeEndObject();
+				}
+				
+				
+				if(remoteData.size()>0){
+					
+					g.writeArrayFieldStart("Remote");
+					
+						RemoteDataFormatter rdf = new RemoteDataFormatter(remoteData);
+						rdf.format(g, writer);
+				
+					g.writeEndArray();
+				}
+				
+				g.writeEndObject();
+				
+			}
 			
 			if(keys.size()> 0) {
 				
@@ -164,15 +232,7 @@ public class JSONBuilder {
 				g.writeEndObject();
 			}
 			
-			if(contacts.size()> 0) {
-				
-				g.writeObjectFieldStart("Contacts");
-				
-				ContactFormatter cf = new ContactFormatter(contacts);
-				cf.format(g, writer);
-				
-				g.writeEndObject();
-			}
+			
 			
 			if(signatures.size()> 0) {
 				
