@@ -1,6 +1,10 @@
  {
-"5638b25d-d60a-4924-ba48-15f976f993f7" : {
-	      "Copyright" : "©2014 David R. Smith, All Rights Reserved",
-	      "License" : "http://www.apache.org/licenses/LICENSE-2.0.txt"
-	 }
- }
+  "14ad6579-4eb7-44ed-983f-ebd61ab4ee8b" : {
+    "Copyright" : "© 2014, David R. Smith. All Rights Reserved",
+    "License" : "http://www.apache.org/licenses/LICENSE-2.0.txt"
+  },
+  "19007431-3eed-4a7a-b255-b600c4a9dffb" : {
+    "some key" : "some data",
+    "another key" : "more data"
+  }
+}
