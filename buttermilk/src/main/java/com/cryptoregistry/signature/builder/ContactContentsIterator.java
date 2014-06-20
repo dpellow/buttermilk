@@ -3,8 +3,9 @@ package com.cryptoregistry.signature.builder;
 import java.util.Iterator;
 
 import com.cryptoregistry.CryptoContact;
+import com.cryptoregistry.util.MapIterator;
 
-public class ContactContentsIterator implements Iterator<String> {
+public class ContactContentsIterator implements MapIterator {
 	
 	final CryptoContact contact;
 	private Iterator<String> iter;

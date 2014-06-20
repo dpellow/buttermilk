@@ -3,8 +3,9 @@ package com.cryptoregistry.signature.builder;
 import java.util.Iterator;
 
 import com.cryptoregistry.LocalData;
+import com.cryptoregistry.util.MapIterator;
 
-public class LocalDataContentsIterator implements Iterator<String> {
+public class LocalDataContentsIterator implements MapIterator {
 	
 	final LocalData localData;
 	private Iterator<String> iter;
@@ -37,10 +38,11 @@ public class LocalDataContentsIterator implements Iterator<String> {
 		iter.remove();
 	}
 
+	@Override
 	public String get(String key){
 		if(key.startsWith("."))
 		return localData.data.get(key.substring(1,key.length()));
-		else return localData.data.get(key.substring(localData.uuid.length(),key.length()));
+		else return localData.data.get(key.substring(localData.uuid.length()+1,key.length()));
 	}
 	
 	public String getHandle(){

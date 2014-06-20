@@ -1,5 +1,6 @@
 package com.cryptoregistry;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -17,6 +18,17 @@ public class LocalData {
 	public LocalData(String uuid) {
 		this.uuid = uuid;
 		data = new LinkedHashMap<String,String>();
+	}
+	
+	public LocalData(String uuid, Map<String,Object> in) {
+		this.uuid = uuid;
+		data = new LinkedHashMap<String,String>();
+		Iterator<String> keys = in.keySet().iterator();
+		while(keys.hasNext()){
+			String key = keys.next();
+			String value = String.valueOf(in.get(key));
+			data.put(key, value);
+		}
 	}
 	
 	public void put(String key, String value){

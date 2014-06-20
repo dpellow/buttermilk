@@ -24,7 +24,7 @@ import com.cryptoregistry.signature.SignatureMetadata;
  * builder.update("handle:token0", bytes0)
  * builder.update("handle:token1", bytes1)
  * builder.update("handle:token2", bytes2)
- * RSACRyptoSignature sig = builder.build()
+ * RSACryptoSignature sigHolder = builder.build()
  * 
  * </pre>
  * @author Dave
@@ -58,6 +58,13 @@ public class RSASignatureBuilder {
 		
 	}
 	
+	/**
+	 * By default this constructor updates SignedBy and SignedWith, so even with no other
+	 * calls to update you get a meaningful signature out of build()
+	 *  
+	 * @param signedBy
+	 * @param sKey
+	 */
 	public RSASignatureBuilder(String signedBy, RSAKeyContents sKey) {
 		super();
 		this.sKey = sKey;
@@ -77,6 +84,7 @@ public class RSASignatureBuilder {
 	}
 	
 	public RSASignatureBuilder update(String label, String input){
+		if(input == null) throw new RuntimeException("Input is null: "+label);
 		references.add(label);
 		byte [] bytes = input.getBytes(Charset.forName("UTF-8"));
 		digest.update(bytes, 0, bytes.length);
@@ -84,6 +92,7 @@ public class RSASignatureBuilder {
 	}
 	
 	public RSASignatureBuilder update(String label,byte[] bytes){
+		if(bytes == null) throw new RuntimeException("Input is null: "+label);
 		references.add(label);
 		digest.update(bytes, 0, bytes.length);
 		return this;

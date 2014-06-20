@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 import com.cryptoregistry.rsa.RSAKeyForPublication;
+import com.cryptoregistry.util.MapIterator;
 import com.cryptoregistry.util.TimeUtil;
 
 /**
@@ -12,7 +13,7 @@ import com.cryptoregistry.util.TimeUtil;
  * @author Dave
  *
  */
-public class RSAKeyContentsIterator implements Iterator<String> {
+public class RSAKeyContentsIterator implements MapIterator {
 
 	final RSAKeyForPublication pKey;
 	final LinkedHashMap<String,String> map;
@@ -59,6 +60,7 @@ public class RSAKeyContentsIterator implements Iterator<String> {
 		return iter.next();
 	}
 	
+	@Override
 	public String get(String key){
 		return map.get(key);
 	}
