@@ -84,10 +84,6 @@ public class CurveFactory {
 		
 		private ECDomainParameters cached;
 		
-		public ECDomainParameters alias(String alias){
-			return cached.alias(alias);
-		}
-		
 		public ECDomainParameters createParameters() {
 			if(cached != null) return cached;
 			 // p = (2^128 - 3) / 76439
@@ -116,10 +112,6 @@ public class CurveFactory {
 	private static ECParametersHolder secp128r1 = new ECParametersHolder() {
 		
 		private ECDomainParameters cached;
-		
-		public ECDomainParameters alias(String alias){
-			return cached.alias(alias);
-		}
 		
 		public ECDomainParameters createParameters() {
 			if(cached != null) return cached;
@@ -150,10 +142,6 @@ public class CurveFactory {
 		
 		private ECDomainParameters cached;
 		
-		public ECDomainParameters alias(String alias){
-			return cached.alias(alias);
-		}
-		
 		public ECDomainParameters createParameters() {
 			if(cached != null) return cached;
 			 // p = 2^128 - 2^97 - 1
@@ -183,10 +171,6 @@ public class CurveFactory {
 		
 		private ECDomainParameters cached;
 		
-		public ECDomainParameters alias(String alias){
-			return cached.alias(alias);
-		}
-		
 		public ECDomainParameters createParameters() {
 			if(cached != null) return cached;
 			 // p = 2^160 - 2^32 - 2^14 - 2^12 - 2^9 - 2^8 - 2^7 - 2^3 - 2^2 - 1
@@ -209,20 +193,12 @@ public class CurveFactory {
 		}
 	};
 	
-	
-	
-	
-	
 	/*
 	 * brainpoolP160r1
 	 */
 	private static ECParametersHolder brainpoolP160r1 = new ECParametersHolder() {
 		
 		private ECDomainParameters cached;
-		
-		public ECDomainParameters alias(String alias){
-			return cached.alias(alias);
-		}
 		
 		public ECDomainParameters createParameters() {
 			if(cached != null) return cached;

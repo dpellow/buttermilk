@@ -1,6 +1,7 @@
 package com.cryptoregistry.formats;
 
 import java.io.File;
+import java.io.Reader;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
@@ -65,6 +66,20 @@ public class JSONReader {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	public JSONReader(Reader in) {
+		
+		// TODO the below is reasonable, but use the stream parsing API to be more efficient
+		mapper = new ObjectMapper();
+		try {
+			map = mapper.readValue(in, Map.class);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	
+	
 	public KeyMaterials parse() {
 		
 		KeyMaterials km = new KeyMaterials() {
@@ -97,13 +112,13 @@ public class JSONReader {
 					CryptoKeyWrapper wrapper = null;
 					
 					String distinguishedKey = iter.next();
-					Map<String, Object> keyData = (Map<String, Object>) map.get(distinguishedKey);
+					Map<String, Object> keyData = (Map<String, Object>) uuids.get(distinguishedKey);
 					
 					// key is for publication
 					if(distinguishedKey.endsWith("-P")){
 						// key metadata - 
 						String handle = distinguishedKey.substring(0,distinguishedKey.length()-2);
-						Date createdOn = TimeUtil.getISO8601FormatDate((String) keyData.get("CreatedOn"));
+						Date createdOn = TimeUtil.getISO8601FormatDate(String.valueOf(keyData.get("CreatedOn")));
 						Encoding encoding = Encoding.valueOf((String)keyData.get("Encoding"));
 						String keyAlgorithm = (String) keyData.get("KeyAlgorithm");
 						Mode mode = Mode.FOR_PUBLICATION;
@@ -119,6 +134,7 @@ public class JSONReader {
 								PublicKey key = new PublicKey(P.decodeToBytes());
 								Curve25519KeyForPublication p = new Curve25519KeyForPublication((C2KeyMetadata) meta,key);
 								list.add(new CryptoKeyWrapperImpl(p));
+								break;
 							}
 							case EC: {
 								meta = new ECKeyMetadata(handle,createdOn,format);
@@ -127,6 +143,7 @@ public class JSONReader {
 								ECPoint q=FormatUtil.parseECPoint(curveName, encoding, qIn);
 								ECKeyForPublication p=new ECKeyForPublication((ECKeyMetadata)meta,q,curveName);
 								list.add(new CryptoKeyWrapperImpl(p));
+								break;
 							}
 							case RSA: {
 								meta = new RSAKeyMetadata(handle,createdOn,format);
@@ -134,16 +151,18 @@ public class JSONReader {
 								BigInteger publicExponent = FormatUtil.unwrap(encoding, String.valueOf(keyData.get("PublicExponent")));
 								RSAKeyForPublication rPub = new RSAKeyForPublication((RSAKeyMetadata)meta,modulus,publicExponent);
 								list.add(new CryptoKeyWrapperImpl(rPub));
+								break;
 							}
 							case DSA: {
 								// TODO
+								break;
 							}
 							default : throw new RuntimeException("Unknown alg: "+keyAlgorithm);
 						}
 						
 					}else if(distinguishedKey.endsWith("-S")){
 						
-						final String keyAlgorithm = (String) keyData.get("KeyData.Type");
+						//final String keyAlgorithm = (String) keyData.get("KeyData.Type");
 						final ArmoredPBEResult wrapped = PBEAlg.loadFrom(keyData);
 						wrapper = new CryptoKeyWrapperImpl(wrapped);
 						list.add(wrapper);
@@ -171,6 +190,7 @@ public class JSONReader {
 								AgreementPrivateKey aPrivKey = new AgreementPrivateKey(s.decodeToBytes());
 								Curve25519KeyContents p = new Curve25519KeyContents((C2KeyMetadata) meta,pKey,sPrivKey,aPrivKey);
 								list.add(new CryptoKeyWrapperImpl(p));
+								break;
 							}
 							case EC: {
 								meta = new ECKeyMetadata(handle,createdOn,format);
@@ -180,6 +200,7 @@ public class JSONReader {
 								BigInteger d = FormatUtil.unwrap(encoding, String.valueOf(keyData.get("D")));
 								ECKeyContents p=new ECKeyContents((ECKeyMetadata)meta,q,curveName,d);
 								list.add(new CryptoKeyWrapperImpl(p));
+								break;
 							}
 							case RSA: {
 								meta = new RSAKeyMetadata(handle,createdOn,format);
@@ -202,9 +223,11 @@ public class JSONReader {
 										dQ,
 										qInv);
 								list.add(new CryptoKeyWrapperImpl(rPub));
+								break;
 							}
 							case DSA: {
 								// TODO
+								break;
 							}
 							default : throw new RuntimeException("Unknown alg: "+keyAlgorithm);
 						}

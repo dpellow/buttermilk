@@ -1,0 +1,28 @@
+{
+  "Version" : "Buttermilk Key Materials 1.0",
+  "RegHandle" : "Chinese Eyes",
+  "Keys" : {
+    "70f85718-63c9-473e-9cb0-2ba61b874a00-P" : {
+      "KeyAlgorithm" : "EC",
+      "CreatedOn" : "2014-06-21T06:30:43+0000",
+      "Encoding" : "Base64url",
+      "Q" : "AJXIf88iXVU6Q1L4lt2pwlxuR0CFMt9AOs8XcJ4oKxQU,ANLDowvpMLjiY8DGAPP9Uheyr7keQcQL4SuGvbzUNJbX",
+      "CurveName" : "P-256"
+    },
+    "70f85718-63c9-473e-9cb0-2ba61b874a00-U" : {
+      "KeyAlgorithm" : "EC",
+      "CreatedOn" : "2014-06-21T06:30:43+0000",
+      "Encoding" : "Base64url",
+      "Q" : "AJXIf88iXVU6Q1L4lt2pwlxuR0CFMt9AOs8XcJ4oKxQU,ANLDowvpMLjiY8DGAPP9Uheyr7keQcQL4SuGvbzUNJbX",
+      "D" : "BH720KGRaum4mjQlqwc1ndM7Ne25X4BMLOzyhRftO9A=",
+      "CurveName" : "P-256"
+    },
+    "70f85718-63c9-473e-9cb0-2ba61b874a00-S" : {
+      "KeyData.Type" : "EC",
+      "KeyData.PBEAlgorithm" : "PBKDF2",
+      "KeyData.EncryptedData" : "3B_e0YJ8X7rCczcophKWTvWpl6Or2lBLDR7nVwyGgt91Ez1ugcTjJyBfmKxH4LjEzlbnUXTzoIbY2AAA-6ULTFYF5XF41SxJ_9n80yOFnh-j3mEkBBhWj7OS2ahSJ6EVgBh3VfqB0m3dtYbezRjXPdlthANIFKJT1RUNqGrSkO_ooA9vEWNTHctU7FIF1wcXC44xpDALZ4Mj-jc-jeasvq7JXZN-W7C8EYbeple6yRtMGVC4BsT2BJC-IIudEVLdQ1wSjvL4q9j8J_43z4QuyIItXBM3p-pRUxAJEO-094zwn6aCnavJFiR0u8TgpGfbOU6J-7fsOJYyJSihqwMHMQl0nL6PwnvlFhPUzMxLOkof_FFsiB7W77Hz8fB9b5YNxetD10VE7NdFSeLK2mehXw==",
+      "KeyData.PBESalt" : "8MNzvstyyPzJwjRIr7XuUgwM39PUqStQCLX_X6BIjFI=",
+      "KeyData.Iterations" : "10001"
+    }
+  }
+}
