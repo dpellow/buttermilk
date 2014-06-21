@@ -64,6 +64,10 @@ public class RSAKeyContentsIterator implements MapIterator {
 	public String get(String key){
 		return map.get(key);
 	}
+	
+	public String getHandle() {
+		return pKey.getHandle();
+	}
 
 	@Override
 	public void remove() {

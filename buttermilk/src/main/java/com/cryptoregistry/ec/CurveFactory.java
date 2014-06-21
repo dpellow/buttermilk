@@ -47,6 +47,20 @@ public class CurveFactory {
 			case "secp160k1":{
 				return CurveFactory.secp160k1.createParameters();
 			}
+			
+			//NIST P-256
+			
+			case "secp256r1":{
+				return CurveFactory.secp256r1.createParameters();
+			}
+			case "P256":{
+				return CurveFactory.p256.createParameters();
+			}
+			case "P-256":{
+				return CurveFactory.p256Dash.createParameters();
+			}
+			
+			
 			case "brainpoolP160r1": {
 				return CurveFactory.brainpoolP160r1.createParameters();
 			}
@@ -56,35 +70,12 @@ public class CurveFactory {
 			default: throw new RuntimeException("unknown curve name: "+name);
 		}
 	}
-
-	/*
-	 * secp112r1
-	 */
-	private static ECParametersHolder secp112r1 = new ECParametersHolder() {
-		
-		private ECDomainParameters cached;
-		
-		public ECDomainParameters createParameters() {
-			if(cached != null) return cached;
-			// p = (2^128 - 3) / 76439
-			BigInteger p = fromHex("DB7C2ABF62E35E668076BEAD208B");
-			BigInteger a = fromHex("DB7C2ABF62E35E668076BEAD2088");
-			BigInteger b = fromHex("659EF8BA043916EEDE8911702B22");
-			byte[] S = Hex.decode("00F50B028E4D696E676875615175290472783FB1");
-			BigInteger n = fromHex("DB7C2ABF62E35E7628DFAC6561C5");
-			BigInteger h = BigInteger.valueOf(1);
-
-			ECCurve curve = new ECCurve.Fp(p, a, b);
-			// ECPoint G = curve.decodePoint(Hex.decode("02"
-			// + "09487239995A5EE76B55F9C2F098"));
-			ECPoint G = curve.decodePoint(Hex.decode("04"
-					+ "09487239995A5EE76B55F9C2F098"
-					+ "A89CE5AF8724C0A23E0E0FF77500"));
-
-			cached = new ECDomainParameters(curve, G, n, h, S,"secp112r1");
-			return cached;
-		}
-	};
+	
+	private static final ECParametersHolder secp112r1 = Secp112r1.instance();
+	
+	private static final ECParametersHolder secp256r1 = Secp256r1.instance();
+	private static final ECParametersHolder p256 = Secp256r1.p256();
+	private static final ECParametersHolder p256Dash = Secp256r1.p256Dash();
 	
 	/*
 	 * secp112r2
@@ -92,6 +83,10 @@ public class CurveFactory {
 	private static ECParametersHolder secp112r2 = new ECParametersHolder() {
 		
 		private ECDomainParameters cached;
+		
+		public ECDomainParameters alias(String alias){
+			return cached.alias(alias);
+		}
 		
 		public ECDomainParameters createParameters() {
 			if(cached != null) return cached;
@@ -122,6 +117,10 @@ public class CurveFactory {
 		
 		private ECDomainParameters cached;
 		
+		public ECDomainParameters alias(String alias){
+			return cached.alias(alias);
+		}
+		
 		public ECDomainParameters createParameters() {
 			if(cached != null) return cached;
 			 // p = 2^128 - 2^97 - 1
@@ -150,6 +149,10 @@ public class CurveFactory {
 	private static ECParametersHolder secp128r2 = new ECParametersHolder() {
 		
 		private ECDomainParameters cached;
+		
+		public ECDomainParameters alias(String alias){
+			return cached.alias(alias);
+		}
 		
 		public ECDomainParameters createParameters() {
 			if(cached != null) return cached;
@@ -180,6 +183,10 @@ public class CurveFactory {
 		
 		private ECDomainParameters cached;
 		
+		public ECDomainParameters alias(String alias){
+			return cached.alias(alias);
+		}
+		
 		public ECDomainParameters createParameters() {
 			if(cached != null) return cached;
 			 // p = 2^160 - 2^32 - 2^14 - 2^12 - 2^9 - 2^8 - 2^7 - 2^3 - 2^2 - 1
@@ -202,12 +209,20 @@ public class CurveFactory {
 		}
 	};
 	
+	
+	
+	
+	
 	/*
 	 * brainpoolP160r1
 	 */
 	private static ECParametersHolder brainpoolP160r1 = new ECParametersHolder() {
 		
 		private ECDomainParameters cached;
+		
+		public ECDomainParameters alias(String alias){
+			return cached.alias(alias);
+		}
 		
 		public ECDomainParameters createParameters() {
 			if(cached != null) return cached;
@@ -229,7 +244,8 @@ public class CurveFactory {
 			return cached;
 		}
 	};
-
+	
+	
 
 	private static BigInteger fromHex(String hex) {
 		return new BigInteger(1, Hex.decode(hex));

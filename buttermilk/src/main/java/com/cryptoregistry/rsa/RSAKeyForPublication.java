@@ -10,11 +10,12 @@ import java.util.Date;
 
 import com.cryptoregistry.CryptoKeyMetadata;
 import com.cryptoregistry.KeyGenerationAlgorithm;
+import com.cryptoregistry.Verifier;
 import com.cryptoregistry.formats.KeyFormat;
 
 import x.org.bouncycastle.crypto.params.RSAKeyParameters;
 
-public class RSAKeyForPublication  implements CryptoKeyMetadata {
+public class RSAKeyForPublication  implements CryptoKeyMetadata,Verifier {
 	
 	public final RSAKeyMetadata metadata;
 	public final BigInteger  modulus;

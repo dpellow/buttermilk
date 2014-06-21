@@ -79,6 +79,13 @@ public class FormatUtil {
 		}
 	}
 
+	/**
+	 * only for BigIntegers 
+	 * 
+	 * @param enc
+	 * @param s
+	 * @return
+	 */
 	public static BigInteger unwrap(Encoding enc, String s) {
 			lock2.lock();
 			try {

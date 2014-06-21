@@ -9,6 +9,7 @@ import java.util.Date;
 
 import com.cryptoregistry.CryptoKeyMetadata;
 import com.cryptoregistry.KeyGenerationAlgorithm;
+import com.cryptoregistry.Verifier;
 import com.cryptoregistry.formats.KeyFormat;
 
 /**
@@ -17,7 +18,7 @@ import com.cryptoregistry.formats.KeyFormat;
  * @author Dave
  *
  */
-public class Curve25519KeyForPublication  implements CryptoKeyMetadata {
+public class Curve25519KeyForPublication  implements CryptoKeyMetadata,Verifier {
 
 	public final PublicKey publicKey;
 	public final C2KeyMetadata metadata;
@@ -28,10 +29,10 @@ public class Curve25519KeyForPublication  implements CryptoKeyMetadata {
 		metadata = C2KeyMetadata.createForPublication();
 	} 
 	
-	public Curve25519KeyForPublication(C2KeyMetadata management, PublicKey publicKey) {
+	public Curve25519KeyForPublication(C2KeyMetadata meta, PublicKey publicKey) {
 		super();
 		this.publicKey = publicKey;
-		this.metadata = management;
+		this.metadata = meta;
 	}
 	
 	public Curve25519KeyForPublication clone() {

@@ -8,13 +8,14 @@ package com.cryptoregistry.ec;
 import java.util.Date;
 import com.cryptoregistry.CryptoKeyMetadata;
 import com.cryptoregistry.KeyGenerationAlgorithm;
+import com.cryptoregistry.Verifier;
 import com.cryptoregistry.formats.KeyFormat;
 
 import x.org.bouncycastle.crypto.params.ECDomainParameters;
 import x.org.bouncycastle.crypto.params.ECPublicKeyParameters;
 import x.org.bouncycastle.math.ec.ECPoint;
 
-public class ECKeyForPublication  implements CryptoKeyMetadata {
+public class ECKeyForPublication  implements CryptoKeyMetadata,Verifier {
 
 	public final ECKeyMetadata metadata;
 	public final ECPoint Q;
@@ -31,6 +32,16 @@ public class ECKeyForPublication  implements CryptoKeyMetadata {
 		ECDomainParameters domain = CurveFactory.getCurveForName(curveName);
 		ECPublicKeyParameters p_params = new ECPublicKeyParameters(Q,domain);
 		return p_params;
+	}
+	
+	public ECKeyForPublication clone(){
+		ECKeyMetadata meta = metadata.clone();
+		return new ECKeyForPublication(meta,Q,curveName);
+	}
+	
+	public ECKeyForPublication clone(KeyFormat format){
+		ECKeyMetadata meta = new ECKeyMetadata(this.getHandle(),new Date(this.getCreatedOn().getTime()),format);
+		return new ECKeyForPublication(meta,Q,curveName);
 	}
 	
 	// delegate

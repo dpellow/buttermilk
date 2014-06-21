@@ -8,14 +8,16 @@ package com.cryptoregistry.pbe;
 import java.io.IOException;
 import java.util.Date;
 
+import com.cryptoregistry.Signer;
+import com.cryptoregistry.Verifier;
 import com.cryptoregistry.passwords.Password;
 import com.cryptoregistry.passwords.SensitiveBytes;
 
 import net.iharder.Base64;
 
-public abstract class ArmoredPBEResult {
+public abstract class ArmoredPBEResult implements Signer,Verifier {
 
-	public String version;
+	public String version = "Buttermilk PBE 1.0";
 	public Date createdOn; 
 	
 	public String base64Enc;
@@ -79,6 +81,9 @@ public abstract class ArmoredPBEResult {
 				+ ((base64Enc == null) ? 0 : base64Enc.hashCode());
 		result = prime * result
 				+ ((base64Salt == null) ? 0 : base64Salt.hashCode());
+		result = prime * result
+				+ ((createdOn == null) ? 0 : createdOn.hashCode());
+		result = prime * result + ((version == null) ? 0 : version.hashCode());
 		return result;
 	}
 
@@ -101,12 +106,23 @@ public abstract class ArmoredPBEResult {
 				return false;
 		} else if (!base64Salt.equals(other.base64Salt))
 			return false;
+		if (createdOn == null) {
+			if (other.createdOn != null)
+				return false;
+		} else if (!createdOn.equals(other.createdOn))
+			return false;
+		if (version == null) {
+			if (other.version != null)
+				return false;
+		} else if (!version.equals(other.version))
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "ArmoredPBEResult [base64Enc=" + base64Enc + ", base64Salt="
+		return "ArmoredPBEResult [version=" + version + ", createdOn="
+				+ createdOn + ", base64Enc=" + base64Enc + ", base64Salt="
 				+ base64Salt + "]";
 	}
 	

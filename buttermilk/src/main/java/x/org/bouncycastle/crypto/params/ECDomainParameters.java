@@ -36,6 +36,10 @@ public class ECDomainParameters implements ECConstants {
 		this.seed = seed;
 		this.name = name;
 	}
+	
+	public ECDomainParameters alias(String alias){
+		return new ECDomainParameters(curve,G,n,h,seed,alias);
+	}
 
 	public ECCurve getCurve() {
 		return curve;

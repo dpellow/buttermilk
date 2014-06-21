@@ -3,16 +3,20 @@ package com.cryptoregistry;
 import java.util.List;
 
 import com.cryptoregistry.signature.CryptoSignature;
+
+
 /**
- * Holder for output of the JSONReader class
+ * Holders for output of the JSONReader class must implement this interface
+ * 
  * @author Dave
+ * @param <E>
  *
  */
 public interface KeyMaterials {
 	
 	String version();
 	String regHandle();
-	List<CryptoKeyMetadata> keys();
+	List<CryptoKeyWrapper> keys();
 	List<CryptoContact> contacts();
 	List<CryptoSignature> signatures();
 	List<LocalData> localData();

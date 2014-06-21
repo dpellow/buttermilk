@@ -6,12 +6,16 @@
 package com.cryptoregistry.ec;
 
 import java.math.BigInteger;
+import java.util.Date;
+
+import com.cryptoregistry.Signer;
+import com.cryptoregistry.formats.KeyFormat;
 
 import x.org.bouncycastle.crypto.params.ECDomainParameters;
 import x.org.bouncycastle.crypto.params.ECPrivateKeyParameters;
 import x.org.bouncycastle.math.ec.ECPoint;
 
-public class ECKeyContents extends ECKeyForPublication {
+public class ECKeyContents extends ECKeyForPublication implements Signer {
 	
 	public final BigInteger d;
 	
@@ -40,6 +44,16 @@ public class ECKeyContents extends ECKeyForPublication {
 		ECDomainParameters domain = CurveFactory.getCurveForName(curveName);
 		 ECPrivateKeyParameters params = new ECPrivateKeyParameters(d, domain);
 		 return params;
+	}
+	
+	public ECKeyContents clone(){
+		ECKeyMetadata meta = metadata.clone();
+		return new ECKeyContents(meta,Q,curveName,d);
+	}
+	
+	public ECKeyContents clone(KeyFormat format){
+		ECKeyMetadata meta = new ECKeyMetadata(this.getHandle(),new Date(this.getCreatedOn().getTime()),format);
+		return new ECKeyContents(meta,Q,curveName,d);
 	}
 
 	@Override

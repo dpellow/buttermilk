@@ -39,6 +39,12 @@ public class PBEParamsFactory {
 		return params;
 	}
 	
+	/**
+	 * Default settings - really you should fine-tune to your setup after this generic call
+	 * 
+	 * @param passwordChars
+	 * @return
+	 */
 	public PBEParams createScryptParams(char [] passwordChars) {
 		
 		Password password = new NewPassword(passwordChars);

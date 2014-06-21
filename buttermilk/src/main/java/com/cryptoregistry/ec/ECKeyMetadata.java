@@ -24,6 +24,14 @@ public class ECKeyMetadata implements CryptoKeyMetadata {
 		this.format = format;
 	}
 	
+	public ECKeyMetadata clone() {
+		Date d = null;
+		if(createdOn != null) d = new Date(createdOn.getTime());
+		KeyFormat f = null;
+		if(format != null) f = format.clone();
+		return new ECKeyMetadata(this.handle,d,f);
+	}
+	
 	/**
 	 * Returns a default handle, createOn, and KeyFormat for base64Encode, Mode.OPEN
 	 * @return

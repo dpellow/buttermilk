@@ -27,6 +27,12 @@ public class KeyFormat {
 		pbeParams = null;
 	}
 	
+	public KeyFormat(Encoding enc, Mode mode) {
+		encoding = enc;
+		this.mode = mode;
+		pbeParams = null;
+	}
+	
 	public KeyFormat(char [] password) {
 		encoding = Encoding.Base64url;
 		mode = Mode.SECURED;

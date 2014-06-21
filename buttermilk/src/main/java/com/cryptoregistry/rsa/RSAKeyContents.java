@@ -7,6 +7,8 @@ package com.cryptoregistry.rsa;
 
 import java.math.BigInteger;
 
+import com.cryptoregistry.Signer;
+
 import x.org.bouncycastle.crypto.params.RSAKeyParameters;
 import x.org.bouncycastle.crypto.params.RSAPrivateCrtKeyParameters;
 
@@ -16,7 +18,7 @@ import x.org.bouncycastle.crypto.params.RSAPrivateCrtKeyParameters;
  * @author Dave
  *
  */
-public class RSAKeyContents extends RSAKeyForPublication {
+public class RSAKeyContents extends RSAKeyForPublication implements Signer {
 
 	public final BigInteger  privateExponent;
 	public final BigInteger  p;

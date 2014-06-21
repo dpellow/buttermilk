@@ -20,7 +20,8 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 
 /**
- * Builder which will generate the canonical data structure for a key materials wrapper
+ * <pre>
+ * Builder which will generate the canonical data structure for a buttermilk format wrapper
  * 
  * It has the general form:
  * 
@@ -58,6 +59,8 @@ import com.fasterxml.jackson.core.JsonGenerator;
  *   signature-uuid0
  *     signature info0 
  *     data-refs [ref0, ref1, ref2, ref3 ]
+ *    
+ *</pre>
  *    
  * @author Dave
  *

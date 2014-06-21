@@ -18,7 +18,6 @@ import com.cryptoregistry.c2.key.PublicKey;
 import com.cryptoregistry.c2.key.SecretKey;
 import com.cryptoregistry.c2.key.SigningPrivateKey;
 import com.cryptoregistry.signature.C2CryptoSignature;
-import com.cryptoregistry.signature.C2Signature;
 import com.cryptoregistry.util.XORUtil;
 
 import junit.framework.Assert;

@@ -7,6 +7,7 @@ package com.cryptoregistry.c2.key;
 
 import java.util.Date;
 
+import com.cryptoregistry.Signer;
 import com.cryptoregistry.formats.KeyFormat;
 
 
@@ -16,7 +17,7 @@ import com.cryptoregistry.formats.KeyFormat;
  * @author Dave
  *
  */
-public class Curve25519KeyContents extends Curve25519KeyForPublication {
+public class Curve25519KeyContents extends Curve25519KeyForPublication implements Signer {
 
 	public final SigningPrivateKey signingPrivateKey;
 	public final AgreementPrivateKey agreementPrivateKey;
