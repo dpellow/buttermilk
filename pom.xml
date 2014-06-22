@@ -55,7 +55,7 @@
 	 	<version>${jackson.version}</version>
 	</dependency>
     </dependencies>
- <dependencyManagement>
+ </dependencyManagement>
     
     <properties>
             <junit.version>4.8.2</junit.version>
