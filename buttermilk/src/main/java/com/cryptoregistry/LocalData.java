@@ -8,21 +8,21 @@ import java.util.UUID;
 public class LocalData {
 
 	public final String uuid;
-	public final Map<String,String> data;
+	public final Map<String,Object> data;
 	
 	public LocalData() {
 		uuid = UUID.randomUUID().toString();
-		data = new LinkedHashMap<String,String>();
+		data = new LinkedHashMap<String,Object>();
 	}
 	
 	public LocalData(String uuid) {
 		this.uuid = uuid;
-		data = new LinkedHashMap<String,String>();
+		data = new LinkedHashMap<String,Object>();
 	}
 	
 	public LocalData(String uuid, Map<String,Object> in) {
 		this.uuid = uuid;
-		data = new LinkedHashMap<String,String>();
+		data = new LinkedHashMap<String,Object>();
 		Iterator<String> keys = in.keySet().iterator();
 		while(keys.hasNext()){
 			String key = keys.next();

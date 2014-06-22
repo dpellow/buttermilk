@@ -15,6 +15,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.cryptoregistry.FileURLResolver;
+import com.cryptoregistry.HTTPURLResolver;
+import com.cryptoregistry.LocalData;
 import com.cryptoregistry.formats.Encoding;
 import com.cryptoregistry.formats.FormatUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,11 +25,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * The Resolver has the job of finding the values of references of the form uuid:tokenName where uuid
  * is an identifier and tokenName is the key for a child key/value pair. The data might be a cryptographic 
- * primitive, some contact info, a message part, etc. 
+ * primitive, some contact info, a message part, etc. The data has to be found, and then
+ * written to a ByteArrayOutputStream. This needs to happen in the correct order. 
  * 
- * The default resolver is given a directory containing JSON encoded files to search over. This implementation
- * is trivial and only functions as a way to prove the concept. A real implementation would use some form
- * of database and/or caching, etc.
+ * The default resolver is given a directory containing JSON encoded files to search over. It looks in these
+ * to find the desired uuid:token references and writes the associated value when it finds it to the 
+ * stream as bytes. For simplicity, we assume the Strings are in UTF-8 encoding.
+ * 
+ * This implementation is trivial and only functions as a way to prove the concept. A real 
+ * implementation would use some form of database and/or caching, etc., and have more awareness of data 
+ * encodings.
+ * 
+ * This implementation will normalize a list of items where the first defines the uuid and the following ones
+ * are in the form dot+tokenName
  * 
  * @author Dave
  *
@@ -114,6 +125,7 @@ public class DefaultResolver implements SignatureReferenceResolver {
 		}
 	}
 	
+	
 	@SuppressWarnings("unchecked")
 	String search(Map<String,Object> map, String ref, ByteArrayOutputStream collector, boolean useEncoding){
 		String retVal = null;
@@ -139,6 +151,45 @@ public class DefaultResolver implements SignatureReferenceResolver {
 				break;
 			}
 			if(key.equals("Signatures")){
+				Map<String,Object> inner = (Map<String,Object>)map.get(key);
+				retVal = search(inner,ref,collector,false);
+				break;
+			}
+			if(key.equals("Local")){
+				Map<String,Object> inner = (Map<String,Object>)map.get(key);
+				retVal = search(inner,ref,collector,false);
+				break;
+			}
+			if(key.equals("Remote")){
+				List<Object> inner = (List<Object>)map.get(key);
+				for(Object url : inner){
+					String item = String.valueOf(url);
+					final String scheme = item.substring(0,4).toUpperCase();
+					switch(scheme){
+						case "HTTP":{
+							HTTPURLResolver resolver = new HTTPURLResolver(item);
+							List<LocalData> localData = resolver.resolve();
+							for(LocalData ld: localData){
+								search(ld.data,ref,collector,false);
+							}
+							break;
+						}
+						case "FILE":{
+							FileURLResolver resolver = new FileURLResolver(item);
+							List<LocalData> localData = resolver.resolve();
+							for(LocalData ld: localData){
+								search(ld.data,ref,collector,false);
+							}
+							break;
+						}
+						default: {
+							throw new RuntimeException("don't handle this url scheme: "+scheme);
+						}
+					}
+				}
+				break;
+			}
+			if(key.equals("Data")){
 				Map<String,Object> inner = (Map<String,Object>)map.get(key);
 				retVal = search(inner,ref,collector,false);
 				break;

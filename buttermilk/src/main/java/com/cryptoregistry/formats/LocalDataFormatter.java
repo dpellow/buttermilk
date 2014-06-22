@@ -36,7 +36,7 @@ class LocalDataFormatter {
 			Iterator<String> inner = c.data.keySet().iterator();
 			while(inner.hasNext()){
 				String key = inner.next();
-				g.writeStringField(key, c.data.get(key));
+				g.writeStringField(key, String.valueOf(c.data.get(key)));
 			}
 			g.writeEndObject();
 		}

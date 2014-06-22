@@ -41,8 +41,8 @@ public class LocalDataContentsIterator implements MapIterator {
 	@Override
 	public String get(String key){
 		if(key.startsWith("."))
-		return localData.data.get(key.substring(1,key.length()));
-		else return localData.data.get(key.substring(localData.uuid.length()+1,key.length()));
+		return String.valueOf(localData.data.get(key.substring(1,key.length())));
+		else return String.valueOf(localData.data.get(key.substring(localData.uuid.length()+1,key.length())));
 	}
 	
 	public String getHandle(){
