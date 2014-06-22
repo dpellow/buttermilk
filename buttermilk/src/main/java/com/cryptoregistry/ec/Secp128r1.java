@@ -7,17 +7,17 @@ import x.org.bouncycastle.math.ec.ECCurve;
 import x.org.bouncycastle.math.ec.ECPoint;
 import x.org.bouncycastle.util.encoders.Hex;
 
-public class Secp112r1 extends ECParametersHolderBase {
+public class Secp128r1 extends ECParametersHolderBase {
 
-	private static final String NAME = "secp112r1";
+	private static final String NAME = "secp118r1";
 
-	private Secp112r1(ECDomainParameters params) {
+	private Secp128r1(ECDomainParameters params) {
 		super(params);
 	}
 
-	static Secp112r1 instance() {
+	static Secp128r1 instance() {
 		ECDomainParameters p = init(NAME);
-		return new Secp112r1(p);
+		return new Secp128r1(p);
 	}
 
 	private static ECDomainParameters init(String name) {
