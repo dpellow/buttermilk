@@ -45,7 +45,7 @@ public class GeneralFormattingTest {
 		ld.put("License", "http://www.apache.org/licenses/LICENSE-2.0.txt");
 		
 		RemoteData rd = new RemoteData();
-		rd.addURL("http://buttermilk.googlecode.com/svn/trunk/buttermilk/data/test0.json");
+		rd.addURL("http://buttermilk.googlecode.com/svn/trunk/buttermilk-core/data/test0.json");
 		
 		RSAKeyContents contents = CryptoFactory.INSTANCE.generateKeys();
 		MapIterator iter = new RSAKeyContentsIterator(contents);
@@ -152,7 +152,7 @@ public class GeneralFormattingTest {
 		Assert.assertTrue(data.size() == 2);
 		
 		HTTPURLResolver hur = new HTTPURLResolver();
-		hur.setUrl("http://buttermilk.googlecode.com/svn/trunk/buttermilk/data/test0.json");
+		hur.setUrl("http://buttermilk.googlecode.com/svn/trunk/buttermilk-core/data/test0.json");
 		
 		data = hur.resolve();
 		Assert.assertTrue(data != null);

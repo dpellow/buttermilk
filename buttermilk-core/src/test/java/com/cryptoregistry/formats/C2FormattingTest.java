@@ -40,7 +40,7 @@ public class C2FormattingTest {
 		ld.put("License", "http://www.apache.org/licenses/LICENSE-2.0.txt");
 		
 		RemoteData rd = new RemoteData();
-		rd.addURL("http://buttermilk.googlecode.com/svn/trunk/buttermilk/data/test0.json");
+		rd.addURL("http://buttermilk.googlecode.com/svn/trunk/buttermilk-core/data/test0.json");
 		
 		Curve25519KeyContents contents = CryptoFactory.INSTANCE.generateKeys();
 		MapIterator iter = new C2KeyContentsIterator(contents);

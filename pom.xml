@@ -7,7 +7,8 @@
     <groupId>com.cryptoregistry</groupId>
     <artifactId>buttermilk</artifactId>
     <packaging>pom</packaging>
-    <version>1.0</version>
+    <version>1.0.0</version>
+    
     <name>Buttermilk is a library for new cryptographic key and digital signature formats</name>
 
     <modules>
@@ -29,7 +30,6 @@
         </pluginManagement>
     </build>
 
-<dependencyManagement>
     <dependencies>
          <dependency>
 	      <groupId>junit</groupId>
@@ -37,6 +37,7 @@
 	      <version>${junit.version}</version>
 	      <scope>test</scope>
    	 </dependency>
+   	 
    	  <dependency>
 	 	<groupId>net.iharder</groupId>
 	 	 <artifactId>base64</artifactId>
@@ -55,7 +56,7 @@
 	 	<version>${jackson.version}</version>
 	</dependency>
     </dependencies>
- </dependencyManagement>
+ 
     
     <properties>
             <junit.version>4.8.2</junit.version>

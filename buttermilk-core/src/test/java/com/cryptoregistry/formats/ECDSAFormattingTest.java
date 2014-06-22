@@ -42,7 +42,7 @@ public class ECDSAFormattingTest {
 		ld.put("License", "http://www.apache.org/licenses/LICENSE-2.0.txt");
 		
 		RemoteData rd = new RemoteData();
-		rd.addURL("http://buttermilk.googlecode.com/svn/trunk/buttermilk/data/test0.json");
+		rd.addURL("http://buttermilk.googlecode.com/svn/trunk/buttermilk-core/data/test0.json");
 		
 		ECKeyContents contents = CryptoFactory.INSTANCE.generateKeys(curveName);
 		MapIterator iter = new ECKeyContentsIterator(contents);
