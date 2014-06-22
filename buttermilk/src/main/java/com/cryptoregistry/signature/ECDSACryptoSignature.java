@@ -3,6 +3,7 @@ package com.cryptoregistry.signature;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import com.cryptoregistry.SignatureAlgorithm;
@@ -17,6 +18,11 @@ public class ECDSACryptoSignature extends CryptoSignature {
 
 	public ECDSACryptoSignature(SignatureMetadata metadata, ECDSASignature sig) {
 		super(metadata);
+		this.signature=sig;
+	}
+	
+	public ECDSACryptoSignature(SignatureMetadata metadata, List<String> dataRefs, ECDSASignature sig) {
+		super(metadata,dataRefs);
 		this.signature=sig;
 	}
 	

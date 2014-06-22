@@ -33,6 +33,12 @@ public abstract class CryptoSignature implements Serializable,SignatureData {
 		this.metadata = metadata;
 		dataRefs = new ArrayList<String>();
 	}
+	
+	public CryptoSignature(SignatureMetadata metadata, List<String> refs) {
+		super();
+		this.metadata = metadata;
+		dataRefs = refs;
+	}
 
 	public void addDataReference(String ref){
 		dataRefs.add(ref);

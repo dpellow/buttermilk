@@ -19,6 +19,7 @@ import com.cryptoregistry.KeyGenerationAlgorithm;
 import com.cryptoregistry.KeyMaterials;
 import com.cryptoregistry.LocalData;
 import com.cryptoregistry.RemoteData;
+import com.cryptoregistry.SignatureAlgorithm;
 import com.cryptoregistry.c2.key.AgreementPrivateKey;
 import com.cryptoregistry.c2.key.C2KeyMetadata;
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
@@ -33,7 +34,14 @@ import com.cryptoregistry.pbe.PBEAlg;
 import com.cryptoregistry.rsa.RSAKeyContents;
 import com.cryptoregistry.rsa.RSAKeyForPublication;
 import com.cryptoregistry.rsa.RSAKeyMetadata;
+import com.cryptoregistry.signature.C2CryptoSignature;
+import com.cryptoregistry.signature.C2Signature;
 import com.cryptoregistry.signature.CryptoSignature;
+import com.cryptoregistry.signature.ECDSACryptoSignature;
+import com.cryptoregistry.signature.ECDSASignature;
+import com.cryptoregistry.signature.RSACryptoSignature;
+import com.cryptoregistry.signature.RSASignature;
+import com.cryptoregistry.signature.SignatureMetadata;
 import com.cryptoregistry.util.ArmoredString;
 import com.cryptoregistry.util.TimeUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -240,22 +248,90 @@ public class JSONReader {
 				return list;
 			}
 
+			@SuppressWarnings("unchecked")
 			@Override
 			public List<CryptoContact> contacts() {
-				// TODO Auto-generated method stub
-				return null;
+				
+				ArrayList<CryptoContact> list = new ArrayList<CryptoContact>();
+				
+				Map<String, Object> uuids = (Map<String, Object>) map.get("Contacts");
+				Iterator<String> iter = uuids.keySet().iterator();
+				while(iter.hasNext()) {
+					String handle = iter.next();
+					Map<String, Object> contactData = (Map<String, Object>) uuids.get(handle);
+					list.add(new CryptoContact(handle,contactData));
+				}
+				return list;
 			}
 
+			@SuppressWarnings("unchecked")
 			@Override
 			public List<CryptoSignature> signatures() {
-				// TODO Auto-generated method stub
-				return null;
+				ArrayList<CryptoSignature> list = new ArrayList<CryptoSignature>();
+				Map<String, Object> uuids = (Map<String, Object>) map.get("Signatures");
+				Iterator<String> iter = uuids.keySet().iterator();
+				while(iter.hasNext()) {
+					String handle = iter.next();
+					Map<String, Object> sigData = (Map<String, Object>) uuids.get(handle);
+					SignatureAlgorithm sigAlg = SignatureAlgorithm.valueOf(
+							String.valueOf(sigData.get("SignatureAlgorithm")));
+					// common to all
+					Date createdOn = TimeUtil.getISO8601FormatDate(String.valueOf(sigData.get("CreatedOn")));
+					String signedWith = String.valueOf(sigData.get("SignedWith"));
+					String signedBy = String.valueOf(sigData.get("SignedBy"));
+					String digestAlg = String.valueOf(sigData.get("DigestAlgorithm"));
+					SignatureMetadata meta = 
+							new SignatureMetadata(handle,createdOn,sigAlg,digestAlg,signedWith,signedBy);
+					List<String> dataRefs = collect(String.valueOf(sigData.get("DataRefs")));
+					
+					// specific to the encoding of each CryptoSignature subclass
+					switch(sigAlg){
+						case RSA: {
+							String sval = String.valueOf(sigData.get("s"));
+							RSASignature sig = new RSASignature(new ArmoredString(sval));
+							list.add(new RSACryptoSignature(meta,dataRefs,sig));
+							break;
+						}
+						case ECDSA: {
+							BigInteger r = new BigInteger(String.valueOf(sigData.get("r")), 16);
+							BigInteger s = new BigInteger(String.valueOf(sigData.get("s")), 16);
+							
+							ECDSASignature sig = new ECDSASignature(r,s);
+							list.add(new ECDSACryptoSignature(meta,dataRefs,sig));
+							break;
+						}
+						case ECKCDSA: {
+							ArmoredString v = new ArmoredString(String.valueOf(sigData.get("v")));
+							ArmoredString s = new ArmoredString(String.valueOf(sigData.get("s")));
+							C2Signature sig = new C2Signature(v,s);
+							list.add(new C2CryptoSignature(meta,dataRefs,sig));
+							break;
+						}
+						default: {
+							throw new RuntimeException("Unknown SignatureAlgorithm: "+sigAlg);
+						}
+					}
+				}
+				return list;
 			}
 
+			@SuppressWarnings("unchecked")
 			@Override
 			public List<LocalData> localData() {
-				// TODO Auto-generated method stub
-				return null;
+				
+				ArrayList<LocalData> list = new ArrayList<LocalData>();
+				
+				Map<String, Object> data = (Map<String, Object>) map.get("Data");
+				
+				Map<String, Object> uuids = (Map<String, Object>) data.get("Local");
+				Iterator<String> iter = uuids.keySet().iterator();
+				while(iter.hasNext()) {
+					String handle = iter.next();
+					Map<String, Object> localData = (Map<String, Object>) uuids.get(handle);
+					list.add(new LocalData(handle,localData));
+				}
+					
+				return list;
 			}
 
 			@Override
@@ -267,6 +343,15 @@ public class JSONReader {
 		};
 		
 		return km;
+	}
+	
+	private List<String> collect(String in) {
+		List<String> list = new ArrayList<String>();
+		String [] items = in.split("\\.");
+		for(String ref: items){
+			list.add(ref.trim());
+		}
+		return list;
 	}
 
 }

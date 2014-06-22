@@ -30,14 +30,19 @@ class SignatureFormatter {
 	
 	public void format(JsonGenerator g, Writer writer) throws JsonGenerationException, IOException{
 		for(CryptoSignature s: list){
+			
+			// common stuff
 			g.writeObjectFieldStart(s.getHandle());
 			g.writeStringField("CreatedOn", TimeUtil.format(s.getCreatedOn()));
 			g.writeStringField("SignedWith", s.getSignedWith());
 			g.writeStringField("SignedBy", s.getSignedBy());
 			g.writeStringField("SignatureAlgorithm", s.getSigAlg().toString());
 			g.writeStringField("DigestAlgorithm", s.metadata.digestAlg);
-			// does the actual key
+			
+			// does the actual key contents (possibly multiple fields)
 			s.formatSignaturePrimitivesJSON(g, writer);
+			
+			// also common
 			g.writeArrayFieldStart("DataRefs");
 			Iterator<String> iter = s.getDataRefs().iterator();
 			while(iter.hasNext()){

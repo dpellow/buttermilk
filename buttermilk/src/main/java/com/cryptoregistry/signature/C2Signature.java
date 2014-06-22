@@ -2,6 +2,12 @@ package com.cryptoregistry.signature;
 
 import com.cryptoregistry.util.ArmoredString;
 
+/**
+ * This is a signature using the EC variant of the KCDSA algorithm: http://en.wikipedia.org/wiki/KCDSA
+ * 
+ * @author Dave
+ *
+ */
 public class C2Signature {
 
 	public final ArmoredString v;

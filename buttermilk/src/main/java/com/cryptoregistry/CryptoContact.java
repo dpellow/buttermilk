@@ -1,5 +1,6 @@
 package com.cryptoregistry;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -12,14 +13,21 @@ public class CryptoContact {
 	public CryptoContact() {
 		map = new LinkedHashMap<String,String>();
 		handle = UUID.randomUUID().toString();
-		map.put("Handle",handle);
 	}
 	
 	public CryptoContact(String handle) {
 		map = new LinkedHashMap<String,String>();
 		this.handle = handle;
-		map.put("Handle",handle);
-		
+	}
+	
+	public CryptoContact(String handle, Map<String,Object> contents) {
+		map = new LinkedHashMap<String,String>();
+		this.handle = handle;
+		Iterator<String> iter = contents.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			map.put(key, String.valueOf(map.get(key)));
+		}
 	}
 	
 	public Map<String,String> add(String key, String value){

@@ -26,15 +26,17 @@
       "CountryCode" : "US"
     }
   },
-  "LocalData" : {
-	 "5638b25d-d60a-4924-ba48-15f976f993f7" : {
-	      "Copyright" : "©2014 David R. Smith, All Rights Reserved",
-	      "License" : "http://www.apache.org/licenses/LICENSE-2.0.txt"
-	 }
-   },
-   "RemoteData" : [
-	      "http://buttermilk.googlecode.com/svn/trunk/buttermilk/data/test0.json"
-	],
+  "Data" : {
+	  "Local" : {
+		 "5638b25d-d60a-4924-ba48-15f976f993f7" : {
+		      "Copyright" : "©2014 David R. Smith, All Rights Reserved",
+		      "License" : "http://www.apache.org/licenses/LICENSE-2.0.txt"
+		 }
+	   },
+	   "Remote" : [
+		      "http://buttermilk.googlecode.com/svn/trunk/buttermilk/data/test0.json"
+		]
+  },
   "Signatures" : {
     "e81ad793-9280-4e7e-ac48-340b04497278" : {
       "CreatedOn" : "2014-06-14T02:19:53+0000",
