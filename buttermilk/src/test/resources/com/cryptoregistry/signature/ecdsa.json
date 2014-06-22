@@ -1,0 +1,46 @@
+{
+  "Version" : "Buttermilk Key Materials 1.0",
+  "RegHandle" : "Chinese Eyes",
+  "Contacts" : {
+    "a3b4dadd-2fa1-497c-a7f9-f8058d994e11" : {
+      "GivenName.0" : "David",
+      "GivenName.1" : "Richard",
+      "FamilyName.0" : "Smith",
+      "Address.0" : "1714 Roberts Ct.",
+      "City" : "Madison",
+      "State" : "Wisconsin",
+      "PostalCode" : "53711",
+      "CountryCode" : "US"
+    }
+  },
+  "Data" : {
+    "Local" : {
+      "6a61e602-1235-44e7-95dc-2c626b094dfa" : {
+        "Copyright" : "© 2014, David R. Smith. All Rights Reserved",
+        "License" : "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    },
+    "Remote" : [ "http://buttermilk.googlecode.com/svn/trunk/buttermilk/data/test0.json" ]
+  },
+  "Keys" : {
+    "8e908fdd-0ea3-4f8c-a0cf-400850de5060-P" : {
+      "KeyAlgorithm" : "EC",
+      "CreatedOn" : "2014-06-22T03:50:23+0000",
+      "Encoding" : "Base64url",
+      "Q" : "AJWQWRokj_HUinWtptIu55c-hDwKgvrUjiVVYsK9R7-W,SdrFcGEeqkswEc7u4zst0zl02YgDk8a8hklrCf-N3TM=",
+      "CurveName" : "P-256"
+    }
+  },
+  "Signatures" : {
+    "a31e6025-ad2c-4552-94cd-627cb18e6d0c" : {
+      "CreatedOn" : "2014-06-22T03:50:24+0000",
+      "SignedWith" : "8e908fdd-0ea3-4f8c-a0cf-400850de5060",
+      "SignedBy" : "Chinese Eyes",
+      "SignatureAlgorithm" : "ECDSA",
+      "DigestAlgorithm" : "SHA-256",
+      "r" : "e197e6f265300c74d93ea16b6133ab093c4156dbddb09a68eb72ec6f6ae15425",
+      "s" : "d3779f6d7985f75c45f418ec3abab605f6982d1ad2d28eb27f302cab2363d0ac",
+      "DataRefs" : [ "980848c7-f347-496b-aadb-b39282b6e3b2:SignedBy", ".SignedWith", "8e908fdd-0ea3-4f8c-a0cf-400850de5060:Handle", ".CreatedOn", ".Algorithm", ".Q", ".CurveName", "a3b4dadd-2fa1-497c-a7f9-f8058d994e11:GivenName.0", ".GivenName.1", ".FamilyName.0", ".Address.0", ".City", ".State", ".PostalCode", ".CountryCode", "6a61e602-1235-44e7-95dc-2c626b094dfa:Copyright", ".License", "14ad6579-4eb7-44ed-983f-ebd61ab4ee8b:Copyright", ".License", "19007431-3eed-4a7a-b255-b600c4a9dffb:some key", ".another key" ]
+    }
+  }
+}

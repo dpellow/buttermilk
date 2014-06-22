@@ -32,7 +32,7 @@ class ContactFormatter {
 		Iterator<CryptoContact >iter = contacts.iterator();
 		while(iter.hasNext()){
 			CryptoContact c = iter.next();
-			g.writeObjectFieldStart(c.get("Handle"));
+			g.writeObjectFieldStart(c.getHandle());
 			Iterator<String> inner = c.getMap().keySet().iterator();
 			while(inner.hasNext()){
 				String key = inner.next();

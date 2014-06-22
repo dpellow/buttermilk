@@ -241,7 +241,7 @@ public class JSONReader {
 						}
 						
 					}else{
-						throw new RuntimeException("Unclear what the handle denotes, expected -P,-S,-U");
+						throw new RuntimeException("Unclear what the handle denotes, expected -P,-S,-U at end");
 					}
 				}
 				
@@ -334,10 +334,22 @@ public class JSONReader {
 				return list;
 			}
 
+			@SuppressWarnings("unchecked")
 			@Override
 			public List<RemoteData> remoteData() {
-				// TODO Auto-generated method stub
-				return null;
+				ArrayList<RemoteData> list = new ArrayList<RemoteData>();
+				
+				Map<String, Object> data = (Map<String, Object>) map.get("Data");
+				
+				List<Object> urls = (List<Object>) data.get("Remote");
+				RemoteData rd = new RemoteData();
+				for(Object url: urls){
+					rd.addURL(String.valueOf(url));
+				}
+				
+				list.add(rd);
+					
+				return list;
 			}
 			
 		};
