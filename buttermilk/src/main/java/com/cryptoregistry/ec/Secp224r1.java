@@ -3,7 +3,6 @@ package com.cryptoregistry.ec;
 import java.math.BigInteger;
 
 import x.org.bouncycastle.crypto.params.ECDomainParameters;
-import x.org.bouncycastle.math.ec.ECConstants;
 import x.org.bouncycastle.math.ec.ECCurve;
 import x.org.bouncycastle.math.ec.ECPoint;
 import x.org.bouncycastle.util.encoders.Hex;
@@ -20,6 +19,17 @@ public class Secp224r1 extends ECParametersHolderBase {
 		ECDomainParameters p = init(NAME);
 		return new Secp224r1(p);
 	}
+	
+	static Secp224r1 p224() {
+		ECDomainParameters p = init("P224");
+		return new Secp224r1(p);
+	}
+	
+	static Secp224r1 p224Dash() {
+		ECDomainParameters p = init("P-224");
+		return new Secp224r1(p);
+	}
+	
 
 	private static ECDomainParameters init(String name) {
 		// p = 2^224 - 2^96 + 1

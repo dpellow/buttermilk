@@ -64,6 +64,16 @@ public class CurveFactory {
 				return CurveFactory.secp256k1.createParameters();
 			}
 			
+			//NIST P-224
+			
+			case "P224":{
+				return CurveFactory.p224.createParameters();
+			}
+			case "P-224":{
+				return CurveFactory.p224Dash.createParameters();
+			}
+	
+			
 			//NIST P-256
 			
 			case "secp256r1":{
@@ -123,8 +133,11 @@ public class CurveFactory {
 	private static final ECParametersHolder secp192r1 = Secp192r1.instance();
 	
 	private static final ECParametersHolder secp224k1 = Secp224k1.instance();
-	private static final ECParametersHolder secp224r1 = Secp224r1.instance();
 	private static final ECParametersHolder secp256k1 = Secp256k1.instance();
+	
+	private static final ECParametersHolder secp224r1 = Secp224r1.instance();
+	private static final ECParametersHolder p224 = Secp224r1.p224();
+	private static final ECParametersHolder p224Dash = Secp224r1.p224Dash();
 	
 	private static final ECParametersHolder secp256r1 = Secp256r1.instance();
 	private static final ECParametersHolder p256 = Secp256r1.p256();
