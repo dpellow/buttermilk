@@ -35,8 +35,8 @@ public class ECKeyContents extends ECKeyForPublication implements Signer {
 		this.d = d;
 	}
 	
-	public ECKeyContents(ECKeyMetadata management, ECPoint q, String curveName, BigInteger d) {
-		super(management, q, curveName);
+	public ECKeyContents(ECKeyMetadata metadata, ECPoint q, String curveName, BigInteger d) {
+		super(metadata, q, curveName);
 		this.d = d;
 	}
 	
