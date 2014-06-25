@@ -80,12 +80,12 @@ public class RSAKeyContents extends RSAKeyForPublication implements Signer {
 		this.qInv = qInv;
 	}
     
-	public RSAKeyContents(RSAKeyMetadata management, 
+	public RSAKeyContents(RSAKeyMetadata metadata, 
 			BigInteger modulus, BigInteger publicExponent,
 			BigInteger privateExponent, BigInteger p, BigInteger q,
 			BigInteger dP, BigInteger dQ, BigInteger qInv) {
 		
-		super(management, modulus, publicExponent);
+		super(metadata, modulus, publicExponent);
 		
 		this.privateExponent = privateExponent;
 		this.p = p;
