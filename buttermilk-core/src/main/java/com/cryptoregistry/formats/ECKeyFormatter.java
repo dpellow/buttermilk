@@ -13,6 +13,7 @@ import com.cryptoregistry.pbe.ArmoredPBKDF2Result;
 import com.cryptoregistry.pbe.ArmoredScryptResult;
 import com.cryptoregistry.pbe.PBE;
 import com.cryptoregistry.pbe.PBEParams;
+import com.cryptoregistry.util.MapIterator;
 import com.cryptoregistry.util.TimeUtil;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -105,7 +106,18 @@ class ECKeyFormatter {
 		g.writeStringField("Encoding", enc.toString());
 		g.writeStringField("Q", FormatUtil.serializeECPoint(ecKeys.Q, enc));
 		g.writeStringField("D", FormatUtil.wrap(enc, ecKeys.d));
-		g.writeStringField("CurveName", ecKeys.curveName);
+		if(ecKeys.usesNamedCurve()) {
+			g.writeStringField("CurveName", ecKeys.curveName);
+		}else{
+			g.writeObjectFieldStart("Curve");
+			MapIterator iter = (MapIterator) ecKeys.getCustomCurveDefinition();
+			while(iter.hasNext()) {
+				String key = iter.next();
+				String value = iter.get(key);
+				g.writeStringField(key, value);
+			}
+			g.writeEndObject();
+		}
 		g.writeEndObject();
 
 	}
@@ -118,7 +130,18 @@ class ECKeyFormatter {
 		g.writeStringField("CreatedOn", TimeUtil.format(ecKeys.metadata.createdOn));
 		g.writeStringField("Encoding", enc.toString());
 		g.writeStringField("Q", FormatUtil.serializeECPoint(ecKeys.Q, enc));
-		g.writeStringField("CurveName", ecKeys.curveName);
+		if(ecKeys.usesNamedCurve()) {
+			g.writeStringField("CurveName", ecKeys.curveName);
+		}else{
+			g.writeObjectFieldStart("Curve");
+			MapIterator iter = (MapIterator) ecKeys.getCustomCurveDefinition();
+			while(iter.hasNext()) {
+				String key = iter.next();
+				String value = iter.get(key);
+				g.writeStringField(key, value);
+			}
+			g.writeEndObject();
+		}
 		g.writeEndObject();
 
 	}
@@ -136,7 +159,18 @@ class ECKeyFormatter {
 			g.writeStringField("Encoding", enc.toString());
 			g.writeStringField("Q", FormatUtil.serializeECPoint(ecKeys.Q, enc));
 			g.writeStringField("D", FormatUtil.wrap(enc, ecKeys.d));
-			g.writeStringField("CurveName", ecKeys.curveName);
+			if(ecKeys.usesNamedCurve()) {
+				g.writeStringField("CurveName", ecKeys.curveName);
+			}else{
+				g.writeObjectFieldStart("Curve");
+				MapIterator iter = (MapIterator) ecKeys.getCustomCurveDefinition();
+				while(iter.hasNext()) {
+					String key = iter.next();
+					String value = iter.get(key);
+					g.writeStringField(key, value);
+				}
+				g.writeEndObject();
+			}
 			g.writeEndObject();
 		} catch (IOException e) {
 			e.printStackTrace();

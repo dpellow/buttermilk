@@ -25,7 +25,8 @@ public class ECF2MCustomParameters extends ECCustomParameters {
 		super(FIELD.F2M, UUID.randomUUID().toString());
 	}
 	
-	private ECF2MCustomParameters(String uuid, LinkedHashMap<String,String> map) {
+	// public so it can be called from formatting package
+	public ECF2MCustomParameters(String uuid, LinkedHashMap<String,String> map) {
 		super(FIELD.F2M, uuid,map);
 	}
 	

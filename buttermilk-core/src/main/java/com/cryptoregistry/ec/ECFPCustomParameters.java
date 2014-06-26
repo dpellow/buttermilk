@@ -26,7 +26,8 @@ public class ECFPCustomParameters extends ECCustomParameters {
 		
 	}
 	
-	private ECFPCustomParameters(String uuid, LinkedHashMap<String,String> map) {
+	// public so it can be called from formatting package
+	public ECFPCustomParameters(String uuid, LinkedHashMap<String,String> map) {
 		super(FIELD.FP, uuid,map);
 	}
 	
