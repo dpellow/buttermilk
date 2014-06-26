@@ -31,7 +31,7 @@ public class ECKeyForPublication  implements CryptoKeyMetadata,Verifier {
 
 	public final ECKeyMetadata metadata;
 	public final ECPoint Q;
-	public final String curveName;
+	public final String curveName;  // if defined, then customCurveDefinition must equal null
 	public final ECCustomCurve customCurveDefinition;
 	
 	public ECKeyForPublication(ECKeyMetadata meta, ECPoint q, String curveName) {
@@ -52,23 +52,30 @@ public class ECKeyForPublication  implements CryptoKeyMetadata,Verifier {
 	
 	public boolean usesNamedCurve() {
 		return curveName != null;
-		
 	}
 	
 	public ECPublicKeyParameters getPublicKey() {
-		ECDomainParameters domain = CurveFactory.getCurveForName(curveName);
-		ECPublicKeyParameters p_params = new ECPublicKeyParameters(Q,domain);
-		return p_params;
+		if(usesNamedCurve()){
+			ECDomainParameters domain = CurveFactory.getCurveForName(curveName);
+			ECPublicKeyParameters p_params = new ECPublicKeyParameters(Q,domain);
+			return p_params;
+		}else{
+			ECDomainParameters domain = this.customCurveDefinition.getParameters();
+			ECPublicKeyParameters p_params = new ECPublicKeyParameters(Q,domain);
+			return p_params;
+		}
 	}
 	
 	public ECKeyForPublication clone(){
 		ECKeyMetadata meta = metadata.clone();
-		return new ECKeyForPublication(meta,Q,curveName);
+		if(usesNamedCurve()) return new ECKeyForPublication(meta,Q,curveName);
+		else return new ECKeyForPublication(meta,Q,customCurveDefinition);
 	}
 	
 	public ECKeyForPublication clone(KeyFormat format){
 		ECKeyMetadata meta = new ECKeyMetadata(this.getHandle(),new Date(this.getCreatedOn().getTime()),format);
-		return new ECKeyForPublication(meta,Q,curveName);
+		if(usesNamedCurve()) return new ECKeyForPublication(meta,Q,curveName);
+		else return new ECKeyForPublication(meta,Q,customCurveDefinition);
 	}
 	
 	// delegate
@@ -91,6 +98,10 @@ public class ECKeyForPublication  implements CryptoKeyMetadata,Verifier {
 
 	public KeyFormat getFormat() {
 		return metadata.getFormat();
+	}
+
+	public ECCustomCurve getCustomCurveDefinition() {
+		return customCurveDefinition;
 	}
 
 	@Override

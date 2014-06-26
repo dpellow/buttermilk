@@ -1,6 +1,8 @@
 package com.cryptoregistry.ec;
 
 import java.math.BigInteger;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.UUID;
 
 import com.cryptoregistry.formats.Encoding;
@@ -21,6 +23,10 @@ public class ECF2MCustomParameters extends ECCustomParameters {
 
 	private ECF2MCustomParameters() {
 		super(FIELD.F2M, UUID.randomUUID().toString());
+	}
+	
+	private ECF2MCustomParameters(String uuid, LinkedHashMap<String,String> map) {
+		super(FIELD.F2M, uuid,map);
 	}
 	
 	/**
@@ -59,6 +65,7 @@ public class ECF2MCustomParameters extends ECCustomParameters {
 		ArmoredString _seed = new ArmoredString(seed);
 		
 		parameters.put("Encoding", enc.toString());
+		parameters.put("Field", FIELD.F2M.toString());
 		parameters.put("m", String.valueOf(m));
 		parameters.put("k1", String.valueOf(k1));
 		parameters.put("k2", String.valueOf(k2));
@@ -112,6 +119,7 @@ public class ECF2MCustomParameters extends ECCustomParameters {
 		ArmoredString _seed = new ArmoredString(seed);
 		
 		parameters.put("Encoding", enc.toString());
+		parameters.put("Field", FIELD.F2M.toString());
 		parameters.put("m", String.valueOf(m));
 		parameters.put("k1", String.valueOf(k1));
 		parameters.put("k2", String.valueOf(k2));
@@ -145,6 +153,7 @@ public class ECF2MCustomParameters extends ECCustomParameters {
 	ArmoredString _seed = new ArmoredString(seed);
 	
 	parameters.put("Encoding", enc.toString());
+	parameters.put("Field", FIELD.F2M.toString());
 	parameters.put("m", String.valueOf(m));
 	parameters.put("k", String.valueOf(k));
 	parameters.put("a", _a);
@@ -154,6 +163,16 @@ public class ECF2MCustomParameters extends ECCustomParameters {
 	parameters.put("h", _h);
 	parameters.put("G", _G);
 }
+	
+	public ECF2MCustomParameters clone() {
+		LinkedHashMap<String,String> map = new LinkedHashMap<String,String>();
+		Iterator<String> iter = parameters.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			map.put(key, parameters.get(key));
+		}
+		return new ECF2MCustomParameters(uuid,map);
+	}
 
 	@Override
 	public ECDomainParameters getParameters() {
@@ -184,7 +203,7 @@ public class ECF2MCustomParameters extends ECCustomParameters {
 			ECPoint G = FormatUtil.parseECPoint(curve, enc, String.valueOf(parameters.get("G")));
 			byte [] S = new ArmoredString(String.valueOf(parameters.get("S"))).decodeToBytes();
 			
-			return new ECDomainParameters(curve,G,n,h,S,uuid);
+			return new ECDomainParameters(curve,G,n,h,S,null);
 			
 		}else if(parameters.containsKey("k1")){
 			// use the PPB constructor
@@ -212,7 +231,7 @@ public class ECF2MCustomParameters extends ECCustomParameters {
 			ECPoint G = FormatUtil.parseECPoint(curve, enc, String.valueOf(parameters.get("G")));
 			byte [] S = new ArmoredString(String.valueOf(parameters.get("S"))).decodeToBytes();
 			
-			return new ECDomainParameters(curve,G,n,h,S,uuid);
+			return new ECDomainParameters(curve,G,n,h,S,null);
 			
 		}else{
 			throw new RuntimeException("Not sure which ECcurve constructor to use...");

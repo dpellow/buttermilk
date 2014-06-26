@@ -1,5 +1,6 @@
 package com.cryptoregistry.ec;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -10,14 +11,17 @@ import com.cryptoregistry.ECCustomCurve;
 import com.cryptoregistry.util.MapIterator;
 
 /**<pre>
+ * 
+ * Base class for custom parameters in EC
+ * 
  * Buttermilk would like to provide a defined format for Elliptic Curve parameters so that
  * researchers can easily communicate and use such parameters. 
  * 
  * The author believes it probably always best to use named curves for business or professional use,
  * due to the probability that custom created curves will go wrong, be inefficient, or otherwise fail.
  * 
- * That said, there is no simple format to communicate curve parameters and we'd like to provide that
- * as a demonstration of the robustness of the buttermilk formats.
+ * That said, there is no simple format today to communicate curve parameters and we'd like to provide that
+ * as a demonstration of the robustness of the buttermilk json format concept.
  * 
  * See http://www.secg.org/collateral/sec2_final.pdf for the basic definitions of how to encode
  * Elliptic Curve parameters. In brief, the prime field parameters are a sextuplet of the form:
@@ -73,8 +77,6 @@ import com.cryptoregistry.util.MapIterator;
          * n The order of the main subgroup of the elliptic curve.
          * h The cofactor of the elliptic curve, i.e.
          * <code>#E<sub>a</sub>(F<sub>2<sup>m</sup></sub>) = h * n</code>.
-         
-         
  * 
  * It is beyond the author's present ability to find or define new useful curves; however, just
  * to provide a way to encode them, given user-provided values of the above forms, is not too difficult. 
@@ -86,20 +88,37 @@ import com.cryptoregistry.util.MapIterator;
  */
 public abstract class ECCustomParameters implements MapIterator, ECCustomCurve {
 	
-	protected final String uuid;
-	protected final Map<String,String> parameters;
-	protected final FIELD field;
+	public final String uuid;
+	public final Map<String,String> parameters;
+	public final FIELD field;
+	public final Iterator<String> iter;
 	
 	protected ECCustomParameters(FIELD field) {
 		uuid = UUID.randomUUID().toString();
 		parameters = new LinkedHashMap<String,String>();
 		this.field = field;
+		iter = parameters.keySet().iterator();
 	}
 	
 	protected ECCustomParameters(FIELD field, String uuid) {
 		this.uuid = uuid;
 		parameters = new LinkedHashMap<String,String>();
 		this.field = field;
+		iter = parameters.keySet().iterator();
+	}
+	
+	/**
+	 * Used for cloning in subclasses only
+	 * 
+	 * @param field
+	 * @param uuid
+	 * @param map
+	 */
+	protected ECCustomParameters(FIELD field, String uuid, LinkedHashMap<String,String> map) {
+		this.uuid = uuid;
+		parameters = map;
+		this.field = field;
+		iter = parameters.keySet().iterator();
 	}
 	
 	@Override
@@ -107,28 +126,24 @@ public abstract class ECCustomParameters implements MapIterator, ECCustomCurve {
 	
 	@Override
 	public boolean hasNext() {
-		// TODO Auto-generated method stub
-		return false;
+		return iter.hasNext();
 	}
 	@Override
 	public String next() {
-		// TODO Auto-generated method stub
-		return null;
+		return iter.next();
 	}
 	@Override
 	public void remove() {
-		// TODO Auto-generated method stub
+		iter.remove();
 		
 	}
 	@Override
 	public String getHandle() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.uuid;
 	}
 	@Override
 	public String get(String key) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.parameters.get(key);
 	}
 	
 	public static enum FIELD {
