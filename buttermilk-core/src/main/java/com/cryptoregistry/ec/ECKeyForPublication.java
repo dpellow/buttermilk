@@ -6,7 +6,9 @@
 package com.cryptoregistry.ec;
 
 import java.util.Date;
+
 import com.cryptoregistry.CryptoKeyMetadata;
+import com.cryptoregistry.ECCustomCurve;
 import com.cryptoregistry.KeyGenerationAlgorithm;
 import com.cryptoregistry.Verifier;
 import com.cryptoregistry.formats.KeyFormat;
@@ -15,17 +17,42 @@ import x.org.bouncycastle.crypto.params.ECDomainParameters;
 import x.org.bouncycastle.crypto.params.ECPublicKeyParameters;
 import x.org.bouncycastle.math.ec.ECPoint;
 
+/**
+ * An elliptic curve "public key."
+ * 
+ * Custom Curve support:
+ * 
+ * if "customCurve" is null, then customCurveDefinition will be defined and vice versa.
+ * 
+ * @author Dave
+ *
+ */
 public class ECKeyForPublication  implements CryptoKeyMetadata,Verifier {
 
 	public final ECKeyMetadata metadata;
 	public final ECPoint Q;
 	public final String curveName;
+	public final ECCustomCurve customCurveDefinition;
 	
 	public ECKeyForPublication(ECKeyMetadata meta, ECPoint q, String curveName) {
 		super();
 		this.metadata = meta;
 		Q = q;
 		this.curveName = curveName;
+		this.customCurveDefinition = null;
+	}
+	
+	public ECKeyForPublication(ECKeyMetadata meta, ECPoint q, ECCustomCurve customCurveDefinition) {
+		super();
+		this.metadata = meta;
+		Q = q;
+		this.curveName = null;
+		this.customCurveDefinition = customCurveDefinition;
+	}
+	
+	public boolean usesNamedCurve() {
+		return curveName != null;
+		
 	}
 	
 	public ECPublicKeyParameters getPublicKey() {

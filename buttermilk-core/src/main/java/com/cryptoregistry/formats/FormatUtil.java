@@ -27,29 +27,10 @@ public class FormatUtil {
 	private static ReentrantLock lock3 = new ReentrantLock();
 	private static ReentrantLock lock4 = new ReentrantLock();
 	
-	/*
-	public static RSAKeyContents extractRSAKeyContents(Password password, ArmoredPBEResult wrapper){
-		lock0.lock();
-		try {
-			PBEParams params = wrapper.generateParams(password);
-			PBE pbe = new PBE(params);
-			byte [] plain = pbe.decrypt(wrapper.getResultBytes());
-			String jsonKey;
-			try {
-				jsonKey = new String(plain,"UTF-8");
-				JsonRSAFormatReader reader = new JsonRSAFormatReader(new StringReader(jsonKey));
-				return reader.readUnsealedJson(wrapper.version,wrapper.createdOn);
-			} catch (UnsupportedEncodingException e) {
-				throw new RuntimeException(e);
-			}
-		}finally{
-			lock0.unlock();
-		}
-	
-	}
-	*/
-	
 	public static String wrap(Encoding enc, BigInteger bi) {
+		
+		if(bi == null) return null;
+		
 		lock1.lock();
 		try {
 	
@@ -87,6 +68,9 @@ public class FormatUtil {
 	 * @return
 	 */
 	public static BigInteger unwrap(Encoding enc, String s) {
+		
+		if(s == null) return null;
+		
 			lock2.lock();
 			try {
 				
@@ -122,6 +106,13 @@ public class FormatUtil {
 		}
 	}
 	
+	/**
+	 * Convert a point to a string using the Bouncy Castle approach. p cannot be null
+	 * 
+	 * @param p
+	 * @param enc
+	 * @return
+	 */
 	public static String serializeECPoint(ECPoint p, Encoding enc){
 		lock3.lock();
 		try {
@@ -137,6 +128,13 @@ public class FormatUtil {
 		}
 	}
 	
+	/**
+	 * Convert a string encoding back to a point using the Bouncy Castle approach. p cannot be null
+	 * 
+	 * @param p
+	 * @param enc
+	 * @return
+	 */
 	public static ECPoint parseECPoint(String curveName, Encoding enc, String in){
 		lock4.lock();
 		try {
@@ -144,6 +142,26 @@ public class FormatUtil {
 			BigInteger biX = unwrap(enc,xy[0]);
 			BigInteger biY = unwrap(enc,xy[1]);
 			ECCurve curve = CurveFactory.getCurveForName(curveName).getCurve();
+			return curve.createPoint(biX, biY);
+		}finally{
+			lock4.unlock();
+		}
+	}
+	
+	/**
+	 * Used only with custom curves 
+	 * 
+	 * @param curve
+	 * @param enc
+	 * @param in
+	 * @return
+	 */
+	public static ECPoint parseECPoint(ECCurve curve, Encoding enc, String in){
+		lock4.lock();
+		try {
+			String [] xy = in.split("\\,");
+			BigInteger biX = unwrap(enc,xy[0]);
+			BigInteger biY = unwrap(enc,xy[1]);
 			return curve.createPoint(biX, biY);
 		}finally{
 			lock4.unlock();

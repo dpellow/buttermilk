@@ -30,8 +30,7 @@ public class Secp112r1 extends ECParametersHolderBase {
 		BigInteger h = BigInteger.valueOf(1);
 
 		ECCurve curve = new ECCurve.Fp(p, a, b);
-		// ECPoint G = curve.decodePoint(Hex.decode("02"
-		// + "09487239995A5EE76B55F9C2F098"));
+
 		ECPoint G = curve.decodePoint(Hex.decode("04"
 				+ "09487239995A5EE76B55F9C2F098"
 				+ "A89CE5AF8724C0A23E0E0FF77500"));

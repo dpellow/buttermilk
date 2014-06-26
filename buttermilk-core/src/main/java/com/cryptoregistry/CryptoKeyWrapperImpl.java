@@ -4,7 +4,9 @@ import java.util.Iterator;
 import java.util.Map;
 
 import com.cryptoregistry.formats.C2KeyFormatReader;
+import com.cryptoregistry.formats.ECKeyFormatReader;
 import com.cryptoregistry.formats.KeyFormat;
+import com.cryptoregistry.formats.RSAKeyFormatReader;
 import com.cryptoregistry.passwords.Password;
 import com.cryptoregistry.pbe.ArmoredPBEResult;
 import com.cryptoregistry.pbe.ArmoredPBKDF2Result;
@@ -14,6 +16,13 @@ import com.cryptoregistry.pbe.PBEAlg;
 import com.cryptoregistry.pbe.PBEParams;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * After some key materials are parsed, we may not know at runtime what kind of keys
+ * they represent. This wrapper allows us to gain runtime information about what was parsed. 
+ * 
+ * @author Dave
+ *
+ */
 public class CryptoKeyWrapperImpl implements CryptoKeyWrapper {
 
 	private Object wrapped;
@@ -98,10 +107,12 @@ public class CryptoKeyWrapperImpl implements CryptoKeyWrapper {
 						wrapped = reader.read();
 					}
 					case EC:{
-						
+						ECKeyFormatReader reader = new ECKeyFormatReader(map);
+						wrapped = reader.read();
 					}
 					case RSA:{
-						
+						RSAKeyFormatReader reader = new RSAKeyFormatReader(map);
+						wrapped = reader.read();
 					}
 					default: throw new RuntimeException("Unknown KeyGenerationAlgorithm: "+keyAlgorithm);
 				}

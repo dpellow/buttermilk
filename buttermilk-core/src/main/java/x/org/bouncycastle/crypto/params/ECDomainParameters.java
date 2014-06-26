@@ -21,6 +21,10 @@ public class ECDomainParameters implements ECConstants {
 	public ECDomainParameters(ECCurve curve, ECPoint G, BigInteger n) {
 		this(curve, G, n, ONE, null,null);
 	}
+	
+	public ECDomainParameters(ECCurve curve, ECPoint G, BigInteger n, String name) {
+		this(curve, G, n, ONE, null,name);
+	}
 
 	public ECDomainParameters(ECCurve curve, ECPoint G, BigInteger n,
 			BigInteger h) {

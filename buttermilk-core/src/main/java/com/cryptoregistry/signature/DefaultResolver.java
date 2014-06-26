@@ -36,8 +36,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * implementation would use some form of database and/or caching, etc., and have more awareness of data 
  * encodings.
  * 
- * This implementation will normalize a list of items where the first defines the uuid and the following ones
- * are in the form dot+tokenName
+ * This implementation will normalize a list of items where the first defines the uuid:token and the following ones
+ * are in the abbreviated form .tokenName
  * 
  * @author Dave
  *

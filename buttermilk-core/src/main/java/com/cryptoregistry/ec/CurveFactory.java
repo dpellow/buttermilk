@@ -10,7 +10,6 @@ import x.org.bouncycastle.crypto.params.ECDomainParameters;
 /**
  * Static definitions of the various curves. These are adapted from Bouncy Castle's definitions
  * 
- * TODO yet: the certicom curves over F2m
  * 
  * @author Dave
  *
@@ -116,6 +115,19 @@ public class CurveFactory {
 				return CurveFactory.brainpoolP160r1.createParameters();
 			}
 			
+			// my own idea for a name but seems reasonable
+			
+			case "DSTU4145.0": return dstu4145.params[0];
+			case "DSTU4145.1": return dstu4145.params[1];
+			case "DSTU4145.2": return dstu4145.params[2];
+			case "DSTU4145.3": return dstu4145.params[3];
+			case "DSTU4145.4": return dstu4145.params[4];
+			case "DSTU4145.5": return dstu4145.params[5];
+			case "DSTU4145.6": return dstu4145.params[6];
+			case "DSTU4145.7": return dstu4145.params[7];
+			case "DSTU4145.8": return dstu4145.params[8];
+			case "DSTU4145.9": return dstu4145.params[9];
+			
 			// TODO add all the rest
 			
 			default: throw new RuntimeException("unknown curve name: "+name);
@@ -153,5 +165,7 @@ public class CurveFactory {
 	
 	
 	private static final ECParametersHolder brainpoolP160r1 = BrainpoolP160r1.instance();
+	
+	private static final DSTU4145NamedCurves dstu4145 = DSTU4145NamedCurves.getInstance();
 	
 }

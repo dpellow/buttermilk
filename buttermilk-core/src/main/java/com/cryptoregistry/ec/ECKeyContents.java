@@ -40,6 +40,27 @@ public class ECKeyContents extends ECKeyForPublication implements Signer {
 		this.d = d;
 	}
 	
+	// NOTICE
+	// the constructors below are used in the case of a user-defined curve. <b>Only very advanced
+	// cryptographers</b> would even attempt to define their own curves, but researchers might find
+	// the ability to format custom curves useful
+	
+	
+	public ECKeyContents(ECPoint q, ECCustomParameters customCurveDefinition, BigInteger d) {
+		super(ECKeyMetadata.createDefault(), q, customCurveDefinition);
+		this.d = d;
+	}
+	
+	public ECKeyContents(char [] password, ECPoint q, ECCustomParameters customCurveDefinition, BigInteger d) {
+		super(ECKeyMetadata.createSecureDefault(password), q, customCurveDefinition);
+		this.d = d;
+	}
+	
+	public ECKeyContents(ECKeyMetadata metadata, ECPoint q, ECCustomParameters customCurveDefinition, BigInteger d) {
+		super(metadata, q, customCurveDefinition);
+		this.d = d;
+	}
+	
 	public ECPrivateKeyParameters getPrivateKey() {
 		ECDomainParameters domain = CurveFactory.getCurveForName(curveName);
 		 ECPrivateKeyParameters params = new ECPrivateKeyParameters(d, domain);
