@@ -13,6 +13,7 @@ public class ECCryptoTest {
 	public void test0() {
 		String curveName = "secp112r1";
 		ECKeyContents ecc = CryptoFactory.INSTANCE.generateKeys(curveName);
+		
 	}
 
 }
