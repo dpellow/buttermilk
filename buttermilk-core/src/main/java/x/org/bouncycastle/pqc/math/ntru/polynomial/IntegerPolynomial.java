@@ -1356,4 +1356,6 @@ public class IntegerPolynomial
             return ModularResultant.combineRho(modRes1, modRes2);
         }
     }
+    
+    
 }
