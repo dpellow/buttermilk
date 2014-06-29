@@ -54,6 +54,7 @@ public class NTRUParametersFormatter {
 			g.writeStringField("dm0", String.valueOf(params.dm0));
 			g.writeStringField("c", String.valueOf(params.c));
 			g.writeStringField("minCallsR", String.valueOf(params.minCallsR));
+			g.writeStringField("minCallsMask", String.valueOf(params.minCallsMask));
 			g.writeStringField("hashSeed", String.valueOf(params.hashSeed));
 			g.writeStringField("oid", new ArmoredString(params.oid).toString());
 			g.writeStringField("sparse", String.valueOf(params.sparse));

@@ -10,6 +10,12 @@ import java.util.List;
 import java.util.Map;
 
 import x.org.bouncycastle.math.ec.ECPoint;
+import x.org.bouncycastle.pqc.crypto.ntru.NTRUEncryptionParameters;
+import x.org.bouncycastle.pqc.math.ntru.polynomial.DenseTernaryPolynomial;
+import x.org.bouncycastle.pqc.math.ntru.polynomial.IntegerPolynomial;
+import x.org.bouncycastle.pqc.math.ntru.polynomial.Polynomial;
+import x.org.bouncycastle.pqc.math.ntru.polynomial.ProductFormPolynomial;
+import x.org.bouncycastle.pqc.math.ntru.polynomial.SparseTernaryPolynomial;
 
 import com.cryptoregistry.CryptoContact;
 import com.cryptoregistry.CryptoKeyMetadata;
@@ -29,6 +35,10 @@ import com.cryptoregistry.c2.key.SigningPrivateKey;
 import com.cryptoregistry.ec.ECKeyContents;
 import com.cryptoregistry.ec.ECKeyForPublication;
 import com.cryptoregistry.ec.ECKeyMetadata;
+import com.cryptoregistry.ntru.NTRUKeyContents;
+import com.cryptoregistry.ntru.NTRUKeyForPublication;
+import com.cryptoregistry.ntru.NTRUKeyMetadata;
+import com.cryptoregistry.ntru.NTRUNamedParameters;
 import com.cryptoregistry.pbe.ArmoredPBEResult;
 import com.cryptoregistry.pbe.PBEAlg;
 import com.cryptoregistry.rsa.RSAKeyContents;
@@ -42,7 +52,9 @@ import com.cryptoregistry.signature.ECDSASignature;
 import com.cryptoregistry.signature.RSACryptoSignature;
 import com.cryptoregistry.signature.RSASignature;
 import com.cryptoregistry.signature.SignatureMetadata;
+import com.cryptoregistry.util.ArmoredCompressedString;
 import com.cryptoregistry.util.ArmoredString;
+import com.cryptoregistry.util.ArrayUtil;
 import com.cryptoregistry.util.TimeUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -154,6 +166,33 @@ public class JSONReader {
 								break;
 							}
 							case NTRU: {
+								NTRUEncryptionParameters params = null;
+								String paramName = null;
+								meta = new NTRUKeyMetadata(handle,createdOn,format);
+								ArmoredCompressedString _h = new ArmoredCompressedString(String.valueOf(keyData.get("h")));
+								IntegerPolynomial h = new IntegerPolynomial(ArrayUtil.unwrapIntArray(_h));
+							//	ArmoredCompressedString _fp = new ArmoredCompressedString(String.valueOf(keyData.get("fp")));
+							//	IntegerPolynomial fp = new IntegerPolynomial(ArrayUtil.unwrapIntArray(_fp));
+								if(keyData.containsKey("NTRUParams")){
+									// parse params
+									Map<String,Object> inner = (Map<String,Object>)keyData.get("NTRUParams");
+									NTRUParametersReader reader = new NTRUParametersReader(inner);
+									params = reader.parse();
+								}else{
+									paramName = String.valueOf(keyData.get("NamedParameters"));
+								//	params = NTRUNamedParameters.valueOf(paramName).getParameters();
+								}
+								
+								NTRUKeyForPublication key = null;
+								
+								if(paramName == null) {
+									key = new NTRUKeyForPublication((NTRUKeyMetadata)meta,params,h);
+								}else{
+									NTRUNamedParameters e = NTRUNamedParameters.valueOf(paramName);
+									key = new NTRUKeyForPublication((NTRUKeyMetadata)meta,e,h);
+								}
+								
+								list.add(new CryptoKeyWrapperImpl(key));
 								
 								break;
 							}
@@ -212,6 +251,77 @@ public class JSONReader {
 								BigInteger d = FormatUtil.unwrap(encoding, String.valueOf(keyData.get("D")));
 								ECKeyContents p=new ECKeyContents((ECKeyMetadata)meta,q,curveName,d);
 								list.add(new CryptoKeyWrapperImpl(p));
+								break;
+							}
+							case NTRU: {
+								NTRUEncryptionParameters params = null;
+								String paramName = null;
+								meta = new NTRUKeyMetadata(handle,createdOn,format);
+								ArmoredCompressedString _h = new ArmoredCompressedString(String.valueOf(keyData.get("h")));
+								IntegerPolynomial h = new IntegerPolynomial(ArrayUtil.unwrapIntArray(_h));
+								ArmoredCompressedString _fp = new ArmoredCompressedString(String.valueOf(keyData.get("fp")));
+								IntegerPolynomial fp = new IntegerPolynomial(ArrayUtil.unwrapIntArray(_fp));
+								
+								Polynomial t = null;
+								
+								if(keyData.containsKey("t0")){
+									// product form
+									int [] t0 = ArrayUtil.unwrapIntArray(
+											new ArmoredCompressedString(String.valueOf(keyData.get("t0")))
+									);
+									int [] t1 = ArrayUtil.unwrapIntArray(
+											new ArmoredCompressedString(String.valueOf(keyData.get("t1")))
+									);
+									int [] t2 = ArrayUtil.unwrapIntArray(
+											new ArmoredCompressedString(String.valueOf(keyData.get("t2")))
+									);
+									
+									t = new ProductFormPolynomial(
+											new SparseTernaryPolynomial(t0),
+											new SparseTernaryPolynomial(t1),
+											new SparseTernaryPolynomial(t2)
+									);
+									
+								}else if(keyData.containsKey("td")){
+									// dense ternary 
+									int [] td = ArrayUtil.unwrapIntArray(
+											new ArmoredCompressedString(String.valueOf(keyData.get("td")))
+									);
+									
+									t = new DenseTernaryPolynomial(td);
+									
+								}else if(keyData.containsKey("ts")){
+									// sparse ternary 
+									int [] td = ArrayUtil.unwrapIntArray(
+											new ArmoredCompressedString(String.valueOf(keyData.get("ts")))
+									);
+									
+									t = new SparseTernaryPolynomial(td);
+									
+								}
+								
+								
+								if(keyData.containsKey("NTRUParams")){
+									// parse params
+									Map<String,Object> inner = (Map<String,Object>)keyData.get("NTRUParams");
+									NTRUParametersReader reader = new NTRUParametersReader(inner);
+									params = reader.parse();
+								}else{
+									paramName = String.valueOf(keyData.get("NamedParameters"));
+								//	params = NTRUNamedParameters.valueOf(paramName).getParameters();
+								}
+								
+								NTRUKeyContents key = null;
+								
+								if(paramName == null) {
+									key = new NTRUKeyContents((NTRUKeyMetadata)meta,params,h,t,fp);
+								}else{
+									NTRUNamedParameters e = NTRUNamedParameters.valueOf(paramName);
+									key = new NTRUKeyContents((NTRUKeyMetadata)meta,e,h,t,fp);
+								}
+								
+								list.add(new CryptoKeyWrapperImpl(key));
+								
 								break;
 							}
 							case RSA: {
