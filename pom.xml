@@ -13,6 +13,7 @@
 
     <modules>
         <module>buttermilk-core</module>
+        <module>utility-apps</module>
     </modules>
 
     <build>
