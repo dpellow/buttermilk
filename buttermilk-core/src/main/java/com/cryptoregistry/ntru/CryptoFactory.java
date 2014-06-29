@@ -24,7 +24,7 @@ public class CryptoFactory {
 		AsymmetricCipherKeyPair pair = gen.generateKeyPair();
 		NTRUEncryptionPublicKeyParameters pub  = (NTRUEncryptionPublicKeyParameters) pair.getPublic();
 		NTRUEncryptionPrivateKeyParameters priv =  (NTRUEncryptionPrivateKeyParameters) pair.getPrivate();
-		return new NTRUKeyContents(pub.getParameters(),pub.h,priv.t,priv.fp);
+		return new NTRUKeyContents(NTRUNamedParameters.EES1087EP2,pub.h,priv.t,priv.fp);
 	}
 	
 	public NTRUKeyContents generateKeys(NTRUKeyMetadata metadata) {
@@ -33,7 +33,16 @@ public class CryptoFactory {
 		AsymmetricCipherKeyPair pair = gen.generateKeyPair();
 		NTRUEncryptionPublicKeyParameters pub  = (NTRUEncryptionPublicKeyParameters) pair.getPublic();
 		NTRUEncryptionPrivateKeyParameters priv =  (NTRUEncryptionPrivateKeyParameters) pair.getPrivate();
-		return new NTRUKeyContents(metadata,pub.getParameters(),pub.h,priv.t,priv.fp);
+		return new NTRUKeyContents(metadata,NTRUNamedParameters.EES1087EP2,pub.h,priv.t,priv.fp);
+	}
+	
+	public NTRUKeyContents generateKeys(NTRUEncryptionKeyGenerationParameters params) {
+		NTRUEncryptionKeyPairGenerator gen = new NTRUEncryptionKeyPairGenerator();
+		gen.init(params);
+		AsymmetricCipherKeyPair pair = gen.generateKeyPair();
+		NTRUEncryptionPublicKeyParameters pub  = (NTRUEncryptionPublicKeyParameters) pair.getPublic();
+		NTRUEncryptionPrivateKeyParameters priv =  (NTRUEncryptionPrivateKeyParameters) pair.getPrivate();
+		return new NTRUKeyContents(NTRUKeyMetadata.createDefault(),pub.getParameters(),pub.h,priv.t,priv.fp);
 	}
 	
 	public NTRUKeyContents generateKeys(NTRUKeyMetadata metadata, NTRUEncryptionKeyGenerationParameters params) {
@@ -43,6 +52,15 @@ public class CryptoFactory {
 		NTRUEncryptionPublicKeyParameters pub  = (NTRUEncryptionPublicKeyParameters) pair.getPublic();
 		NTRUEncryptionPrivateKeyParameters priv =  (NTRUEncryptionPrivateKeyParameters) pair.getPrivate();
 		return new NTRUKeyContents(metadata,pub.getParameters(),pub.h,priv.t,priv.fp);
+	}
+	
+	public NTRUKeyContents generateKeys(NTRUKeyMetadata metadata, NTRUNamedParameters e) {
+		NTRUEncryptionKeyPairGenerator gen = new NTRUEncryptionKeyPairGenerator();
+		gen.init(e.getKeyGenerationParameters());
+		AsymmetricCipherKeyPair pair = gen.generateKeyPair();
+		NTRUEncryptionPublicKeyParameters pub  = (NTRUEncryptionPublicKeyParameters) pair.getPublic();
+		NTRUEncryptionPrivateKeyParameters priv =  (NTRUEncryptionPrivateKeyParameters) pair.getPrivate();
+		return new NTRUKeyContents(metadata,e,pub.h,priv.t,priv.fp);
 	}
 	
 	public byte [] encrypt(NTRUKeyForPublication pKey, byte [] in){

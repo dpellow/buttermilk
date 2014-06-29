@@ -1,18 +1,36 @@
 package com.cryptoregistry.ntru;
 
+import com.cryptoregistry.util.ArmoredString;
+import com.cryptoregistry.util.ArrayUtil;
+
 import x.org.bouncycastle.pqc.crypto.ntru.NTRUEncryptionParameters;
 import x.org.bouncycastle.pqc.crypto.ntru.NTRUEncryptionPrivateKeyParameters;
+import x.org.bouncycastle.pqc.math.ntru.polynomial.DenseTernaryPolynomial;
 import x.org.bouncycastle.pqc.math.ntru.polynomial.IntegerPolynomial;
 import x.org.bouncycastle.pqc.math.ntru.polynomial.Polynomial;
+import x.org.bouncycastle.pqc.math.ntru.polynomial.ProductFormPolynomial;
+import x.org.bouncycastle.pqc.math.ntru.polynomial.SparseTernaryPolynomial;
 
 public class NTRUKeyContents extends NTRUKeyForPublication {
 	
 	public final Polynomial t;
+	@Override
+	public String toString() {
+		return "NTRUKeyContents [t=" + t + ", fp=" + fp + "h="+ h+"]";
+	}
+
 	public final IntegerPolynomial fp;
 
 	public NTRUKeyContents(NTRUEncryptionParameters params, 
 			IntegerPolynomial h, Polynomial t, IntegerPolynomial fp) {
 		super(params, h);
+		this.t = t;
+		this.fp = fp;
+	}
+	
+	public NTRUKeyContents(NTRUNamedParameters e, 
+			IntegerPolynomial h, Polynomial t, IntegerPolynomial fp) {
+		super(e, h);
 		this.t = t;
 		this.fp = fp;
 	}
@@ -24,9 +42,41 @@ public class NTRUKeyContents extends NTRUKeyForPublication {
 		this.t = t;
 		this.fp = fp;
 	}
+	
+	public NTRUKeyContents(NTRUKeyMetadata metadata, 
+			NTRUNamedParameters e, IntegerPolynomial h,
+			Polynomial t, IntegerPolynomial fp) {
+		super(metadata, e, h);
+		this.t = t;
+		this.fp = fp;
+	}
 
 	public NTRUEncryptionPrivateKeyParameters getPrivateKey() {
 		return new NTRUEncryptionPrivateKeyParameters(h,t,fp,params);
+	}
+	
+	public ArmoredString wrappedFp() {
+		return ArrayUtil.wrapIntArray(fp.coeffs);
+	}
+	
+	public Object wrappedT() {
+		if(t instanceof DenseTernaryPolynomial) {
+			DenseTernaryPolynomial poly = (DenseTernaryPolynomial) t;
+			return ArrayUtil.wrapIntArray(poly.coeffs);
+		}else if(t instanceof SparseTernaryPolynomial) {
+			SparseTernaryPolynomial poly = (SparseTernaryPolynomial) t;
+			return ArrayUtil.wrapIntArray(poly.getCoeffs());
+		}else if(t instanceof ProductFormPolynomial) {
+			ProductFormPolynomial poly = (ProductFormPolynomial) t;
+			SparseTernaryPolynomial []array = poly.getData();
+			ArmoredString [] wrapper = new ArmoredString[3];
+			wrapper[0] = ArrayUtil.wrapIntArray(array[0].getCoeffs());
+			wrapper[1] = ArrayUtil.wrapIntArray(array[1].getCoeffs());
+			wrapper[2] = ArrayUtil.wrapIntArray(array[2].getCoeffs());
+			return wrapper;
+		}
+		
+		throw new RuntimeException("Sorry, don't know how to create a wrapper which is not a DenseTernary, SparseTernary, or ProductForm Polynomial");
 	}
 
 	@Override

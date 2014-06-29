@@ -1,29 +1,62 @@
 package com.cryptoregistry.ntru;
 
+import com.cryptoregistry.util.ArmoredString;
+import com.cryptoregistry.util.ArrayUtil;
+
 import x.org.bouncycastle.pqc.crypto.ntru.NTRUEncryptionParameters;
 import x.org.bouncycastle.pqc.crypto.ntru.NTRUEncryptionPublicKeyParameters;
 import x.org.bouncycastle.pqc.math.ntru.polynomial.IntegerPolynomial;
 
+/**
+ * When parameterName is defined, we can format this using our internal definitions (NTRUNamedParams)
+ * @author Dave
+ *
+ */
 public class NTRUKeyForPublication {
 
 	public final NTRUKeyMetadata metadata;
 	public final NTRUEncryptionParameters params; 
+	public final NTRUNamedParameters parameterEnum; // may be null
 	public final IntegerPolynomial h;
 	
 	public NTRUKeyForPublication(NTRUEncryptionParameters params, IntegerPolynomial h) {
 		metadata = NTRUKeyMetadata.createDefault();
 		this.params = params;
+		this.parameterEnum = null;
 		this.h = h;
 	}
 	
 	public NTRUKeyForPublication(NTRUKeyMetadata metadata, NTRUEncryptionParameters params, IntegerPolynomial h) {
 		this.metadata = metadata;
 		this.params = params;
+		this.parameterEnum = null;
+		this.h = h;
+	}
+	
+	public NTRUKeyForPublication(NTRUNamedParameters e, IntegerPolynomial h) {
+		metadata = NTRUKeyMetadata.createDefault();
+		this.params = e.getParameters();
+		this.parameterEnum = e;
+		this.h = h;
+	}
+	
+	public NTRUKeyForPublication(NTRUKeyMetadata metadata, NTRUNamedParameters e, IntegerPolynomial h) {
+		this.metadata = metadata;
+		this.params = e.getParameters();
+		this.parameterEnum = e;
 		this.h = h;
 	}
 	
 	public NTRUEncryptionPublicKeyParameters getPublicKey() {
 		return new NTRUEncryptionPublicKeyParameters(h,params);
+	}
+	
+	public String getDistinguishedHandle() {
+		return metadata.handle+"-"+metadata.format.mode.code;
+	}
+	
+	public ArmoredString wrappedH() {
+		return ArrayUtil.wrapIntArray(h.coeffs);
 	}
 
 	@Override

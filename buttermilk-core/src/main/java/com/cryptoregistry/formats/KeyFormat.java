@@ -39,6 +39,12 @@ public class KeyFormat {
 		pbeParams = PBEParamsFactory.INSTANCE.createPBKDF2Params(password);
 	}
 	
+	public KeyFormat(Encoding enc, char [] password) {
+		encoding = enc;
+		mode = Mode.SECURED;
+		pbeParams = PBEParamsFactory.INSTANCE.createPBKDF2Params(password);
+	}
+	
 	public KeyFormat(Encoding encoding, PBEParams params) {
 		super();
 		this.encoding = encoding;

@@ -1,8 +1,7 @@
 package x.org.bouncycastle.pqc.math.ntru.polynomial;
 
-public interface Polynomial
-{
-
+public interface Polynomial {
+	
     /**
      * Multiplies the polynomial by an <code>IntegerPolynomial</code>,
      * taking the indices mod <code>N</code>.

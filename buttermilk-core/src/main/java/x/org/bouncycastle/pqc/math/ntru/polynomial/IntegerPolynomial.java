@@ -114,8 +114,7 @@ public class IntegerPolynomial
      *
      * @param N the number of coefficients
      */
-    public IntegerPolynomial(int N)
-    {
+    public IntegerPolynomial(int N){
         coeffs = new int[N];
     }
 
@@ -124,8 +123,7 @@ public class IntegerPolynomial
      *
      * @param coeffs the coefficients
      */
-    public IntegerPolynomial(int[] coeffs)
-    {
+    public IntegerPolynomial(int[] coeffs){
         this.coeffs = coeffs;
     }
 
@@ -1356,6 +1354,5 @@ public class IntegerPolynomial
             return ModularResultant.combineRho(modRes1, modRes2);
         }
     }
-    
     
 }

@@ -29,26 +29,26 @@ public class NTRUKeyMetadata implements CryptoKeyMetadata {
 	 * @return
 	 */
 	public static NTRUKeyMetadata createDefault() {
-		return new NTRUKeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat());
+		return new NTRUKeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat(Encoding.NoEncoding,Mode.UNSECURED));
 	}
 	
 	public static NTRUKeyMetadata createForPublication() {
-		return new NTRUKeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat(Mode.FOR_PUBLICATION));
+		return new NTRUKeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat(Encoding.NoEncoding,Mode.FOR_PUBLICATION));
 	}
 	
 	public static NTRUKeyMetadata createSecureDefault(char[]password) {
-		return new NTRUKeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat(password));
+		return new NTRUKeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat(Encoding.NoEncoding,password));
 	}
 	
 	public static NTRUKeyMetadata createSecureScrypt(char[]password) {
 		return new NTRUKeyMetadata(UUID.randomUUID().toString(), new Date(),
-				new KeyFormat(Encoding.Base64url,
+				new KeyFormat(Encoding.NoEncoding,
 						PBEParamsFactory.INSTANCE.createScryptParams(password)));
 	}
 	
 	public static NTRUKeyMetadata createSecure(PBEParams params) {
 		return new NTRUKeyMetadata(UUID.randomUUID().toString(), new Date(),
-				new KeyFormat(Encoding.Base64url,params));
+				new KeyFormat(Encoding.NoEncoding,params));
 	}
 
 	@Override

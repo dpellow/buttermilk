@@ -23,8 +23,15 @@ public class SparseTernaryPolynomial
     private int N;
     private int[] ones;
     private int[] negOnes;
+    
+    // private copy of original input
+    private int [] coeffs;
 
-    /**
+    public int[] getCoeffs() {
+		return coeffs;
+	}
+
+	/**
      * Constructs a new polynomial.
      *
      * @param N       total number of coefficients including zeros
@@ -56,6 +63,9 @@ public class SparseTernaryPolynomial
      */
     public SparseTernaryPolynomial(int[] coeffs)
     {
+    	// stash this away
+    	this.coeffs = coeffs;
+    	
         N = coeffs.length;
         ones = new int[N];
         negOnes = new int[N];

@@ -5,6 +5,8 @@
  */
 package com.cryptoregistry.util;
 
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -35,6 +37,21 @@ public class ArrayUtil {
 		}finally {
 			lock.unlock();
 		}
+	}
+	
+	public static ArmoredString wrapIntArray(int [] array){
+		ByteBuffer byteBuffer = ByteBuffer.allocate(array.length * 4);        
+        IntBuffer intBuffer = byteBuffer.asIntBuffer();
+        intBuffer.put(array);
+        return new ArmoredString(byteBuffer.array());
+	}
+	
+	public static int [] unwrapIntArray(ArmoredString in){
+		byte [] encoded = in.decodeToBytes();
+		IntBuffer intBuf = ByteBuffer.wrap(encoded).asIntBuffer();
+	    int [] array = new int[intBuf.remaining()];
+	    intBuf.get(array);
+	    return array;
 	}
 
 }
