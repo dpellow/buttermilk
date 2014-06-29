@@ -1,6 +1,11 @@
 package com.cryptoregistry.ntru;
 
-import com.cryptoregistry.util.ArmoredString;
+import java.util.Date;
+
+import com.cryptoregistry.CryptoKeyMetadata;
+import com.cryptoregistry.KeyGenerationAlgorithm;
+import com.cryptoregistry.formats.KeyFormat;
+import com.cryptoregistry.util.ArmoredCompressedString;
 import com.cryptoregistry.util.ArrayUtil;
 
 import x.org.bouncycastle.pqc.crypto.ntru.NTRUEncryptionParameters;
@@ -11,7 +16,7 @@ import x.org.bouncycastle.pqc.math.ntru.polynomial.Polynomial;
 import x.org.bouncycastle.pqc.math.ntru.polynomial.ProductFormPolynomial;
 import x.org.bouncycastle.pqc.math.ntru.polynomial.SparseTernaryPolynomial;
 
-public class NTRUKeyContents extends NTRUKeyForPublication {
+public class NTRUKeyContents extends NTRUKeyForPublication implements CryptoKeyMetadata{
 	
 	public final Polynomial t;
 	@Override
@@ -55,7 +60,7 @@ public class NTRUKeyContents extends NTRUKeyForPublication {
 		return new NTRUEncryptionPrivateKeyParameters(h,t,fp,params);
 	}
 	
-	public ArmoredString wrappedFp() {
+	public ArmoredCompressedString wrappedFp() {
 		return ArrayUtil.wrapIntArray(fp.coeffs);
 	}
 	
@@ -69,7 +74,7 @@ public class NTRUKeyContents extends NTRUKeyForPublication {
 		}else if(t instanceof ProductFormPolynomial) {
 			ProductFormPolynomial poly = (ProductFormPolynomial) t;
 			SparseTernaryPolynomial []array = poly.getData();
-			ArmoredString [] wrapper = new ArmoredString[3];
+			ArmoredCompressedString [] wrapper = new ArmoredCompressedString[3];
 			wrapper[0] = ArrayUtil.wrapIntArray(array[0].getCoeffs());
 			wrapper[1] = ArrayUtil.wrapIntArray(array[1].getCoeffs());
 			wrapper[2] = ArrayUtil.wrapIntArray(array[2].getCoeffs());
@@ -108,6 +113,26 @@ public class NTRUKeyContents extends NTRUKeyForPublication {
 		} else if (!t.equals(other.t))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String getHandle() {
+		return metadata.getHandle();
+	}
+
+	@Override
+	public KeyGenerationAlgorithm getKeyAlgorithm() {
+		return KeyGenerationAlgorithm.NTRU;
+	}
+
+	@Override
+	public Date getCreatedOn() {
+		return metadata.getCreatedOn();
+	}
+
+	@Override
+	public KeyFormat getFormat() {
+		return metadata.getFormat();
 	}
 
 }

@@ -6,16 +6,13 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
 import com.cryptoregistry.KeyGenerationAlgorithm;
-import com.cryptoregistry.ec.ECKeyContents;
-import com.cryptoregistry.formats.Encoding;
-import com.cryptoregistry.formats.FormatUtil;
 import com.cryptoregistry.ntru.NTRUKeyContents;
 import com.cryptoregistry.pbe.ArmoredPBEResult;
 import com.cryptoregistry.pbe.ArmoredPBKDF2Result;
 import com.cryptoregistry.pbe.ArmoredScryptResult;
 import com.cryptoregistry.pbe.PBE;
 import com.cryptoregistry.pbe.PBEParams;
-import com.cryptoregistry.util.MapIterator;
+import com.cryptoregistry.util.ArmoredCompressedString;
 import com.cryptoregistry.util.TimeUtil;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -39,15 +36,15 @@ class NTRUKeyFormatter {
 		try {
 			switch (format.mode) {
 			case UNSECURED: {
-				formatOpen(g, format.encoding, writer);
+				formatOpen(g, writer);
 				break;
 			}
 			case SECURED: {
-				seal(g, format.encoding, writer);
+				seal(g, writer);
 				break;
 			}
 			case FOR_PUBLICATION: {
-				formatForPublication(g, format.encoding, writer);
+				formatForPublication(g, writer);
 				break;
 			}
 			default:
@@ -59,10 +56,10 @@ class NTRUKeyFormatter {
 		
 	}
 
-	protected void seal(JsonGenerator g, Encoding enc, Writer writer)
+	protected void seal(JsonGenerator g, Writer writer)
 			throws JsonGenerationException, IOException {
 
-		String plain = formatItem(enc, ntruKeys);
+		String plain = formatItem(ntruKeys);
 		ArmoredPBEResult result;
 		try {
 			byte[] plainBytes = plain.getBytes("UTF-8");
@@ -98,20 +95,32 @@ class NTRUKeyFormatter {
 
 	}
 
-	protected void formatOpen(JsonGenerator g, Encoding enc, Writer writer)
+	protected void formatOpen(JsonGenerator g, Writer writer)
 			throws JsonGenerationException, IOException {
 
 		g.writeObjectFieldStart(ntruKeys.getDistinguishedHandle());
 		g.writeStringField("KeyAlgorithm", KeyGenerationAlgorithm.NTRU.toString());
 		g.writeStringField("CreatedOn", TimeUtil.format(ntruKeys.metadata.createdOn));
 		//g.writeStringField("Encoding", enc.toString());
-		g.writeArrayFieldStart("h");
-		for(int item : ntruKeys.h.coeffs) {
-			g.writeNumber(item);
-		}
-		g.writeEndArray();
 		
-		g.writeEndArray();
+		g.writeStringField("h", ntruKeys.wrappedH().toString());
+		g.writeStringField("fp", ntruKeys.wrappedFp().toString());
+		Object obj = ntruKeys.wrappedT();
+		// product form
+		if(obj.getClass().isArray()){
+			ArmoredCompressedString [] ar = (ArmoredCompressedString[])obj;
+			g.writeStringField("t0", ar[0].toString());
+			g.writeStringField("t1", ar[1].toString());
+			g.writeStringField("t2", ar[2].toString());
+		}else{
+			if(ntruKeys.params.sparse){
+				ArmoredCompressedString ar = (ArmoredCompressedString)obj;
+				g.writeStringField("ts", ar.toString());
+			}else{
+				ArmoredCompressedString ar = (ArmoredCompressedString)obj;
+				g.writeStringField("td", ar.toString());
+			}
+		}
 		
 		NTRUParametersFormatter pFormat = null;
 		if(ntruKeys.parameterEnum == null) pFormat = new NTRUParametersFormatter(ntruKeys.params);
@@ -122,19 +131,18 @@ class NTRUKeyFormatter {
 
 	}
 
-	protected void formatForPublication(JsonGenerator g, Encoding enc,
-			Writer writer) throws JsonGenerationException, IOException {
+	protected void formatForPublication(JsonGenerator g, Writer writer) throws JsonGenerationException, IOException {
 		
 		g.writeObjectFieldStart(ntruKeys.getDistinguishedHandle());
-		g.writeStringField("KeyAlgorithm", "EC");
+		g.writeStringField("KeyAlgorithm", "NTRU");
 		g.writeStringField("CreatedOn", TimeUtil.format(ntruKeys.metadata.createdOn));
-		g.writeStringField("Encoding", enc.toString());
-		
+	//	g.writeStringField("Encoding", enc.toString());
+		g.writeStringField("h", ntruKeys.wrappedH().toString());
 		g.writeEndObject();
 
 	}
 
-	private String formatItem(Encoding enc, NTRUKeyContents item) {
+	private String formatItem(NTRUKeyContents item) {
 		StringWriter privateDataWriter = new StringWriter();
 		JsonFactory f = new JsonFactory();
 		JsonGenerator g = null;
@@ -142,11 +150,31 @@ class NTRUKeyFormatter {
 			g = f.createGenerator(privateDataWriter);
 			g.useDefaultPrettyPrinter();
 			g.writeStartObject();
+			g.writeObjectFieldStart(ntruKeys.getDistinguishedHandle());
 			g.writeStringField("KeyAlgorithm", KeyGenerationAlgorithm.NTRU.toString());
 			g.writeStringField("CreatedOn", TimeUtil.format(ntruKeys.metadata.createdOn));
-		//	g.writeStringField("Encoding", Encoding.Base10.toString());
-		
+			//g.writeStringField("Encoding", enc.toString());
+			
+			g.writeStringField("h", ntruKeys.wrappedH().toString());
+			g.writeStringField("fp", ntruKeys.wrappedFp().toString());
+			Object obj = ntruKeys.wrappedT();
+			// product form
+			if(obj.getClass().isArray()){
+				ArmoredCompressedString [] ar = (ArmoredCompressedString[])obj;
+				g.writeStringField("t0", ar[0].toString());
+				g.writeStringField("t1", ar[1].toString());
+				g.writeStringField("t2", ar[2].toString());
+			}else{
+				if(ntruKeys.params.sparse){
+					ArmoredCompressedString ar = (ArmoredCompressedString)obj;
+					g.writeStringField("ts", ar.toString());
+				}else{
+					ArmoredCompressedString ar = (ArmoredCompressedString)obj;
+					g.writeStringField("td", ar.toString());
+				}
+			}
 			g.writeEndObject();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {

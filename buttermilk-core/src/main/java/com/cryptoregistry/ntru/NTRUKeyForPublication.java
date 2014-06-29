@@ -1,6 +1,6 @@
 package com.cryptoregistry.ntru;
 
-import com.cryptoregistry.util.ArmoredString;
+import com.cryptoregistry.util.ArmoredCompressedString;
 import com.cryptoregistry.util.ArrayUtil;
 
 import x.org.bouncycastle.pqc.crypto.ntru.NTRUEncryptionParameters;
@@ -55,7 +55,7 @@ public class NTRUKeyForPublication {
 		return metadata.handle+"-"+metadata.format.mode.code;
 	}
 	
-	public ArmoredString wrappedH() {
+	public ArmoredCompressedString wrappedH() {
 		return ArrayUtil.wrapIntArray(h.coeffs);
 	}
 

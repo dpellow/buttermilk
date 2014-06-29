@@ -39,14 +39,14 @@ public class ArrayUtil {
 		}
 	}
 	
-	public static ArmoredString wrapIntArray(int [] array){
+	public static ArmoredCompressedString wrapIntArray(int [] array){
 		ByteBuffer byteBuffer = ByteBuffer.allocate(array.length * 4);        
         IntBuffer intBuffer = byteBuffer.asIntBuffer();
         intBuffer.put(array);
-        return new ArmoredString(byteBuffer.array());
+        return new ArmoredCompressedString(byteBuffer.array());
 	}
 	
-	public static int [] unwrapIntArray(ArmoredString in){
+	public static int [] unwrapIntArray(ArmoredCompressedString in){
 		byte [] encoded = in.decodeToBytes();
 		IntBuffer intBuf = ByteBuffer.wrap(encoded).asIntBuffer();
 	    int [] array = new int[intBuf.remaining()];

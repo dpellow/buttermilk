@@ -153,6 +153,10 @@ public class JSONReader {
 								list.add(new CryptoKeyWrapperImpl(p));
 								break;
 							}
+							case NTRU: {
+								
+								break;
+							}
 							case RSA: {
 								meta = new RSAKeyMetadata(handle,createdOn,format);
 								BigInteger modulus = FormatUtil.unwrap(encoding, String.valueOf(keyData.get("Modulus")));

@@ -14,6 +14,7 @@ import com.cryptoregistry.RemoteData;
 import com.cryptoregistry.Version;
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
 import com.cryptoregistry.ec.ECKeyContents;
+import com.cryptoregistry.ntru.NTRUKeyContents;
 import com.cryptoregistry.rsa.RSAKeyContents;
 import com.cryptoregistry.signature.CryptoSignature;
 import com.fasterxml.jackson.core.JsonFactory;
@@ -222,6 +223,12 @@ public class JSONBuilder {
 							formatter.formatKeys(g, writer);
 							break;
 						}
+						case NTRU: {
+							NTRUKeyContents contents = (NTRUKeyContents)key;
+							NTRUKeyFormatter formatter = new NTRUKeyFormatter(contents);
+							formatter.formatKeys(g, writer);
+							break;
+						}
 						case RSA: {
 							RSAKeyContents contents = (RSAKeyContents)key;
 							RSAKeyFormatter formatter = new RSAKeyFormatter(contents);
@@ -234,8 +241,6 @@ public class JSONBuilder {
 				
 				g.writeEndObject();
 			}
-			
-			
 			
 			if(signatures.size()> 0) {
 				
