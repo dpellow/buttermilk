@@ -12,5 +12,5 @@ package com.cryptoregistry.formats;
  *
  */
 public enum Encoding {
-	NoEncoding,Base2,Base10,Base16,Base64,Base64url;
+	NoEncoding,RawBytes,Base2,Base10,Base16,Base64,Base64url;
 }

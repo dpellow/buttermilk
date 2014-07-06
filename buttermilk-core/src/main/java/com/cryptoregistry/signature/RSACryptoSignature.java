@@ -80,4 +80,9 @@ public class RSACryptoSignature extends CryptoSignature {
 			throws JsonGenerationException, IOException {
 		g.writeStringField("s", signature.s.toString());
 	}
+	
+	@Override
+	public SignatureBytes signatureBytes() {
+		return signature;
+	}
 }

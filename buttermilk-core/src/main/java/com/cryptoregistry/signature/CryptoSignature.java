@@ -112,6 +112,8 @@ public abstract class CryptoSignature implements Serializable,SignatureData {
 
 	public abstract void formatSignaturePrimitivesJSON(JsonGenerator g, Writer writer)
 			throws JsonGenerationException, IOException;
+	
+	public abstract SignatureBytes signatureBytes();
 
 }
 

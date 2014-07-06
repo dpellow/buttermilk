@@ -8,7 +8,7 @@ import com.cryptoregistry.util.ArmoredString;
  * @author Dave
  *
  */
-public class C2Signature {
+public class C2Signature implements SignatureBytes {
 
 	public final ArmoredString v;
 	public final ArmoredString r; 
@@ -61,5 +61,14 @@ public class C2Signature {
 		return "C2Signature [v=" + v + ", h=" + r + "]";
 	}
 
+	@Override
+	public byte[] b1() {
+		return this.v.decodeToBytes();
+	}
+
+	@Override
+	public byte[] b2() {
+		return this.r.decodeToBytes();
+	}
 
 }

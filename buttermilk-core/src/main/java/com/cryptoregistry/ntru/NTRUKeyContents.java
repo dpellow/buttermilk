@@ -19,11 +19,6 @@ import x.org.bouncycastle.pqc.math.ntru.polynomial.SparseTernaryPolynomial;
 public class NTRUKeyContents extends NTRUKeyForPublication implements CryptoKeyMetadata{
 	
 	public final Polynomial t;
-	@Override
-	public String toString() {
-		return "NTRUKeyContents [t=" + t + ", fp=" + fp + "h="+ h+"]";
-	}
-
 	public final IntegerPolynomial fp;
 
 	public NTRUKeyContents(NTRUEncryptionParameters params, 
@@ -133,6 +128,11 @@ public class NTRUKeyContents extends NTRUKeyForPublication implements CryptoKeyM
 	@Override
 	public KeyFormat getFormat() {
 		return metadata.getFormat();
+	}
+	
+	@Override
+	public String toString() {
+		return "NTRUKeyContents [t=" + t + ", fp=" + fp + "h="+ h+"]";
 	}
 
 }

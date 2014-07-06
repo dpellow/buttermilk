@@ -2,7 +2,7 @@ package com.cryptoregistry.signature;
 
 import com.cryptoregistry.util.ArmoredString;
 
-public class RSASignature {
+public class RSASignature implements SignatureBytes {
 
 	public final ArmoredString s;
 
@@ -40,6 +40,18 @@ public class RSASignature {
 		} else if (!s.equals(other.s))
 			return false;
 		return true;
+	}
+
+	@Override
+	public byte[] b1() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public byte[] b2() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

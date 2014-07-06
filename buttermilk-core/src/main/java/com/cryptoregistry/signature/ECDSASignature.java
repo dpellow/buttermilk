@@ -2,7 +2,7 @@ package com.cryptoregistry.signature;
 
 import java.math.BigInteger;
 
-public class ECDSASignature {
+public class ECDSASignature implements SignatureBytes {
 	
 	public final BigInteger r;
 	public final BigInteger s;
@@ -42,6 +42,16 @@ public class ECDSASignature {
 		} else if (!s.equals(other.s))
 			return false;
 		return true;
+	}
+
+	@Override
+	public byte[] b1() {
+		return r.toByteArray();
+	}
+
+	@Override
+	public byte[] b2() {
+		return s.toByteArray();
 	}
 
 }

@@ -73,6 +73,10 @@ public class ECDSACryptoSignature extends CryptoSignature {
 			throws JsonGenerationException, IOException {
 		g.writeStringField("r", signature.r.toString(16));
 		g.writeStringField("s", signature.s.toString(16));
-		
+	}
+	
+	@Override
+	public SignatureBytes signatureBytes() {
+		return signature;
 	}
 }

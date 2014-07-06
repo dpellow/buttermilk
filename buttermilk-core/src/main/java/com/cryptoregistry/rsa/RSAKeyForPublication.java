@@ -57,4 +57,45 @@ public class RSAKeyForPublication  implements CryptoKeyMetadata,Verifier {
 	public KeyGenerationAlgorithm getKeyAlgorithm() {
 		return KeyGenerationAlgorithm.RSA;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((metadata == null) ? 0 : metadata.hashCode());
+		result = prime * result + ((modulus == null) ? 0 : modulus.hashCode());
+		result = prime * result
+				+ ((publicExponent == null) ? 0 : publicExponent.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RSAKeyForPublication other = (RSAKeyForPublication) obj;
+		if (metadata == null) {
+			if (other.metadata != null)
+				return false;
+		} else if (!metadata.equals(other.metadata))
+			return false;
+		if (modulus == null) {
+			if (other.modulus != null)
+				return false;
+		} else if (!modulus.equals(other.modulus))
+			return false;
+		if (publicExponent == null) {
+			if (other.publicExponent != null)
+				return false;
+		} else if (!publicExponent.equals(other.publicExponent))
+			return false;
+		return true;
+	}
+	
+	
 }

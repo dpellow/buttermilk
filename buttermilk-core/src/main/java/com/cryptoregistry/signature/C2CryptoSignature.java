@@ -73,4 +73,9 @@ public class C2CryptoSignature extends CryptoSignature {
 		g.writeStringField("r", signature.r.data);
 	}
 
+	@Override
+	public SignatureBytes signatureBytes() {
+		return signature;
+	}
+
 }

@@ -117,6 +117,7 @@ public class CurveFactory {
 			
 			// my own idea for a name but seems reasonable
 			
+			/*
 			case "DSTU4145.0": return dstu4145.params[0];
 			case "DSTU4145.1": return dstu4145.params[1];
 			case "DSTU4145.2": return dstu4145.params[2];
@@ -127,7 +128,7 @@ public class CurveFactory {
 			case "DSTU4145.7": return dstu4145.params[7];
 			case "DSTU4145.8": return dstu4145.params[8];
 			case "DSTU4145.9": return dstu4145.params[9];
-			
+			*/
 			// TODO add all the rest
 			
 			default: throw new RuntimeException("unknown curve name: "+name);
@@ -166,6 +167,6 @@ public class CurveFactory {
 	
 	private static final ECParametersHolder brainpoolP160r1 = BrainpoolP160r1.instance();
 	
-	private static final DSTU4145NamedCurves dstu4145 = DSTU4145NamedCurves.getInstance();
+//	private static final DSTU4145NamedCurves dstu4145 = DSTU4145NamedCurves.getInstance();
 	
 }
