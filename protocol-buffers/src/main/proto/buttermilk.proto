@@ -1,0 +1,111 @@
+option java_package = "com.cryptoregistry.protos";
+option cc_generic_services = false;
+option java_generic_services = false;
+option py_generic_services = false;
+
+message EntryProto {
+	required string key = 1;
+	required string value = 2;
+}
+
+message MapProto {
+	repeated EntryProto entries = 1;
+}
+
+message NamedMapProto {
+	required string uuid = 1;
+	required MapProto map = 2;
+}
+
+message ListProto {
+  repeated string list = 1;
+}
+
+message CryptoContactProto {
+  required NamedMapProto map = 1;
+}
+
+message SignatureMetadataProto {
+  required string handle = 1;
+  required uint64 created_on = 2;
+	enum SigAlgProto {
+		RSA = 0;
+	   	ECDSA = 1;
+	   	ECKCDSA = 2;
+	   
+	}
+  required SigAlgProto signature_algorithm = 3;
+  required string digest_algorithm = 4;
+  required string signed_with = 5; //uuid from signer key
+  required string signed_by = 6; // uuid from signer registration
+}
+
+// one size fits all
+message SignatureProto {
+	required SignatureMetadataProto meta = 1;
+	required bytes b0 = 2;
+	optional bytes b1 = 3; // not used with some signatures
+	required ListProto data_refs = 4;
+}
+
+message KeyMetadataProto {
+	required string handle = 1;
+	required uint64 created_on = 2;
+	enum EncodingProto {
+	   	NOENCODING = 0;
+	   	RAWBYTES =1;
+		BASE2 = 2;
+		BASE10 = 3;
+		BASE16 = 4;
+		BASE64 = 5;
+		BASE64URL = 6;
+		
+	}
+	required EncodingProto encoding = 3 [default = RAWBYTES];
+	required string key_generation_algorithm = 4;
+}
+
+message C2KeyContentsProto {
+	required KeyMetadataProto meta = 1;
+	required bytes public_key = 2;
+	optional bytes signing_private_key = 3;
+	optional bytes agreement_private_key = 4;
+}
+
+message CurveDefinitionProto {
+
+	enum ECFieldProto {
+	    FP = 0;
+		F2M = 1;
+	}
+	
+	required ECFieldProto field = 1;  
+	required string uuid = 2;
+	required MapProto map = 3;
+}
+
+message ECKeyContentsProto {
+	required KeyMetadataProto meta = 1;
+	required string Q = 2; // BouncyCastle ECPoint in following format: [base16x comma base16y]
+	optional string curve_name = 3;
+	optional CurveDefinitionProto curve_definition = 4;
+	optional bytes d = 5;
+}
+
+message RSAKeyContentsProto {
+	required KeyMetadataProto meta = 1;
+    required bytes Modulus = 2;
+    required bytes public_exponent = 3;
+    optional bytes private_exponent = 4;
+    optional bytes p = 5;
+    optional bytes q = 6;
+    optional bytes dP = 7;
+    optional bytes dQ = 8;
+    optional bytes qInv = 9;
+}
+
+message NTRUKeyContentsProto {
+	
+}
+
+

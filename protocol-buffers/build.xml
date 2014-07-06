@@ -1,0 +1,14 @@
+<!-- not ideal but gets the job done. Assumes protoc is in the path -->
+<project name="proto" default="proto">
+	
+	<property name="proto.srcs" value="src/main/proto" />
+	
+		<target name="proto">
+			<exec executable="protoc" failonerror="true">
+				<arg value="--java_out=src/main/java" />
+				<arg value="--proto_path=${proto.srcs}" />
+				<arg line="${proto.srcs}/buttermilk.proto" />
+			</exec>
+		</target>
+	
+	</project>
