@@ -9,6 +9,8 @@ import java.util.Date;
 
 import com.cryptoregistry.Signer;
 import com.cryptoregistry.formats.KeyFormat;
+import com.cryptoregistry.passwords.Password;
+import com.cryptoregistry.pbe.PBEParams;
 
 
 /**
@@ -63,6 +65,20 @@ public class Curve25519KeyContents extends Curve25519KeyForPublication implement
 		SigningPrivateKey signingKey = (SigningPrivateKey) this.signingPrivateKey.clone();
 		Curve25519KeyContents c = new Curve25519KeyContents(meta, pubKey, signingKey, agree);
 		return c;
-}
+	}
+	
+	/**
+	 * If a password is set in the KeyFormat, clean that out. This call can be made once we're done
+	 * with the key materials in this cycle of use. 
+	 */
+	@Override
+	public void scrubPassword() {
+		PBEParams params = this.metadata.format.pbeParams;
+		if(params != null) {
+			Password password = params.getPassword();
+			if(password != null && password.isAlive()) password.selfDestruct();
+		}
+		
+	}
 
 }

@@ -82,5 +82,9 @@ public class ECKeyMetadata implements CryptoKeyMetadata {
 	public KeyFormat getFormat() {
 		return format;
 	}
+	
+	public ECKeyMetadata cloneForPublication() {
+		return new ECKeyMetadata(handle, createdOn,new KeyFormat(Mode.FOR_PUBLICATION));
+	}
 
 }

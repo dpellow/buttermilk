@@ -22,7 +22,7 @@ import x.org.bouncycastle.math.ec.ECPoint;
  * 
  * Custom Curve support:
  * 
- * if "customCurve" is null, then customCurveDefinition will be defined or vice versa.
+ * if "curveName" is null, then customCurveDefinition will be defined or vice versa.
  * 
  * @author Dave
  *

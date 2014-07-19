@@ -11,6 +11,8 @@ import java.util.Date;
 import com.cryptoregistry.ECCustomCurve;
 import com.cryptoregistry.Signer;
 import com.cryptoregistry.formats.KeyFormat;
+import com.cryptoregistry.passwords.Password;
+import com.cryptoregistry.pbe.PBEParams;
 
 import x.org.bouncycastle.crypto.params.ECDomainParameters;
 import x.org.bouncycastle.crypto.params.ECPrivateKeyParameters;
@@ -73,6 +75,15 @@ public class ECKeyContents extends ECKeyForPublication implements Signer {
 		}
 	}
 	
+	public ECKeyForPublication forPublication(){
+		ECKeyMetadata meta = metadata.cloneForPublication();
+		if(usesNamedCurve()) {
+			return new ECKeyForPublication(meta,Q,curveName);
+		}else{
+			return new ECKeyForPublication(meta,Q,this.customCurveDefinition);
+		}
+	}
+	
 	public ECKeyContents clone(){
 		ECKeyMetadata meta = metadata.clone();
 		if(usesNamedCurve()) {
@@ -114,5 +125,19 @@ public class ECKeyContents extends ECKeyForPublication implements Signer {
 		} else if (!d.equals(other.d))
 			return false;
 		return true;
+	}
+
+	/**
+	 * If a password is set in the KeyFormat, clean that out. This call can be made once we're done
+	 * with the key materials in this cycle of use. 
+	 */
+	@Override
+	public void scrubPassword() {
+		PBEParams params = this.metadata.format.pbeParams;
+		if(params != null) {
+			Password password = params.getPassword();
+			if(password != null && password.isAlive()) password.selfDestruct();
+		}
+		
 	}
 }

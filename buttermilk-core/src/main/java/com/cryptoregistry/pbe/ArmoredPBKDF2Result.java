@@ -59,4 +59,5 @@ public class ArmoredPBKDF2Result extends ArmoredPBEResult {
 				+ base64Enc + ", base64Salt=" + base64Salt + "]";
 	}
 
+
 }

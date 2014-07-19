@@ -15,7 +15,7 @@ import com.cryptoregistry.passwords.SensitiveBytes;
 
 import net.iharder.Base64;
 
-public abstract class ArmoredPBEResult implements Signer,Verifier {
+public abstract class ArmoredPBEResult {
 
 	public String version = "Buttermilk PBE 1.0";
 	public Date createdOn; 

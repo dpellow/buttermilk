@@ -8,6 +8,8 @@ package com.cryptoregistry.rsa;
 import java.math.BigInteger;
 
 import com.cryptoregistry.Signer;
+import com.cryptoregistry.passwords.Password;
+import com.cryptoregistry.pbe.PBEParams;
 
 import x.org.bouncycastle.crypto.params.RSAKeyParameters;
 import x.org.bouncycastle.crypto.params.RSAPrivateCrtKeyParameters;
@@ -154,6 +156,20 @@ public class RSAKeyContents extends RSAKeyForPublication implements Signer {
 		} else if (!qInv.equals(other.qInv))
 			return false;
 		return true;
+	}
+	
+	/**
+	 * If a password is set in the KeyFormat, clean that out. This call can be made once we're done
+	 * with the key materials in this cycle of use. 
+	 */
+	@Override
+	public void scrubPassword() {
+		PBEParams params = this.metadata.format.pbeParams;
+		if(params != null) {
+			Password password = params.getPassword();
+			if(password != null && password.isAlive()) password.selfDestruct();
+		}
+		
 	}
 	
 }

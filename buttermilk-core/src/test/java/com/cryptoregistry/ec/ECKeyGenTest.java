@@ -12,19 +12,17 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import com.cryptoregistry.formats.JSONBuilder;
+
 import x.org.bouncycastle.math.ec.ECCurve;
 import x.org.bouncycastle.math.ec.ECPoint;
 
-import com.cryptoregistry.formats.Encoding;
-import com.cryptoregistry.formats.Mode;
-import com.cryptoregistry.pbe.PBEParams;
-import com.cryptoregistry.pbe.PBEParamsFactory;
 
 public class ECKeyGenTest {
 
 	@Test
 	public void test0() {
-		String curveName = "secp112r1";
+		String curveName = "P-256";
 		ECKeyContents ecc = CryptoFactory.INSTANCE.generateKeys(curveName);
 		
 		String [] xy = ecc.Q.serialize().split("\\,");
@@ -33,6 +31,15 @@ public class ECKeyGenTest {
 		ECCurve curve = CurveFactory.getCurveForName(curveName).getCurve();
 		ECPoint recovered = curve.createPoint(biX, biY);
 		Assert.assertEquals(ecc.Q.serialize(),recovered.serialize());
+		
+
+		final String registrationHandle = "Chinese Eyes";
+		JSONBuilder f = new JSONBuilder(registrationHandle);
+		f.add(ecc);
+		StringWriter writer = new StringWriter();
+		f.format(writer);
+		System.err.println(writer.toString());
+		
 	}
 	
 
