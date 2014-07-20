@@ -1,10 +1,8 @@
 package com.cryptoregistry.ntru;
 
-import java.util.Date;
-
-import com.cryptoregistry.CryptoKeyMetadata;
-import com.cryptoregistry.KeyGenerationAlgorithm;
-import com.cryptoregistry.formats.KeyFormat;
+import com.cryptoregistry.Signer;
+import com.cryptoregistry.passwords.Password;
+import com.cryptoregistry.pbe.PBEParams;
 import com.cryptoregistry.util.ArmoredCompressedString;
 import com.cryptoregistry.util.ArrayUtil;
 
@@ -16,7 +14,7 @@ import x.org.bouncycastle.pqc.math.ntru.polynomial.Polynomial;
 import x.org.bouncycastle.pqc.math.ntru.polynomial.ProductFormPolynomial;
 import x.org.bouncycastle.pqc.math.ntru.polynomial.SparseTernaryPolynomial;
 
-public class NTRUKeyContents extends NTRUKeyForPublication implements CryptoKeyMetadata{
+public class NTRUKeyContents extends NTRUKeyForPublication implements Signer{
 	
 	public final Polynomial t;
 	public final IntegerPolynomial fp;
@@ -109,30 +107,28 @@ public class NTRUKeyContents extends NTRUKeyForPublication implements CryptoKeyM
 			return false;
 		return true;
 	}
-
-	@Override
-	public String getHandle() {
-		return metadata.getHandle();
-	}
-
-	@Override
-	public KeyGenerationAlgorithm getKeyAlgorithm() {
-		return KeyGenerationAlgorithm.NTRU;
-	}
-
-	@Override
-	public Date getCreatedOn() {
-		return metadata.getCreatedOn();
-	}
-
-	@Override
-	public KeyFormat getFormat() {
-		return metadata.getFormat();
-	}
 	
 	@Override
 	public String toString() {
 		return "NTRUKeyContents [t=" + t + ", fp=" + fp + "h="+ h+"]";
+	}
+	
+	public NTRUKeyForPublication forPublication(){
+		NTRUKeyMetadata meta = this.metadata.cloneForPublication();
+		return new NTRUKeyForPublication(meta,this.params,this.h);
+	}
+
+	/**
+	 * If a password is set in the KeyFormat, clean that out. This call can be made once we're done
+	 * with the key materials in this cycle of use. 
+	 */
+	@Override
+	public void scrubPassword() {
+		PBEParams params = this.metadata.format.pbeParams;
+		if(params != null) {
+			Password password = params.getPassword();
+			if(password != null && password.isAlive()) password.selfDestruct();
+		}
 	}
 
 }

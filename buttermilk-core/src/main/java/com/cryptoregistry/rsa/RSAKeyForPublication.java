@@ -6,16 +6,14 @@
 package com.cryptoregistry.rsa;
 
 import java.math.BigInteger;
-import java.util.Date;
 
+import com.cryptoregistry.CryptoKey;
 import com.cryptoregistry.CryptoKeyMetadata;
-import com.cryptoregistry.KeyGenerationAlgorithm;
 import com.cryptoregistry.Verifier;
-import com.cryptoregistry.formats.KeyFormat;
 
 import x.org.bouncycastle.crypto.params.RSAKeyParameters;
 
-public class RSAKeyForPublication  implements CryptoKeyMetadata,Verifier {
+public class RSAKeyForPublication  implements CryptoKey,Verifier {
 	
 	public final RSAKeyMetadata metadata;
 	public final BigInteger  modulus;
@@ -35,27 +33,6 @@ public class RSAKeyForPublication  implements CryptoKeyMetadata,Verifier {
 	
 	public final String toString() {
 		return metadata.handle;
-	}
-	
-	public String getHandle() {
-		return metadata.getHandle();
-	}
-	
-	public String getDistinguishedHandle() {
-		return metadata.handle+"-"+metadata.format.mode.code;
-	}
-
-	public Date getCreatedOn() {
-		return metadata.getCreatedOn();
-	}
-
-	public KeyFormat getFormat() {
-		return metadata.getFormat();
-	}
-
-	@Override
-	public KeyGenerationAlgorithm getKeyAlgorithm() {
-		return KeyGenerationAlgorithm.RSA;
 	}
 
 	@Override
@@ -95,6 +72,11 @@ public class RSAKeyForPublication  implements CryptoKeyMetadata,Verifier {
 		} else if (!publicExponent.equals(other.publicExponent))
 			return false;
 		return true;
+	}
+
+	@Override
+	public CryptoKeyMetadata getMetadata() {
+		return metadata;
 	}
 	
 	

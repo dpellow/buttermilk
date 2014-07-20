@@ -112,5 +112,9 @@ public class NTRUKeyMetadata implements CryptoKeyMetadata {
 			return false;
 		return true;
 	}
+	
+	public NTRUKeyMetadata cloneForPublication() {
+		return new NTRUKeyMetadata(handle, createdOn,new KeyFormat(Encoding.NoEncoding,Mode.FOR_PUBLICATION));
+	}
 
 }

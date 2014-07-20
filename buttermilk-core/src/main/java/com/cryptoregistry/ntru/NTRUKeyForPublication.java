@@ -1,5 +1,8 @@
 package com.cryptoregistry.ntru;
 
+import com.cryptoregistry.CryptoKey;
+import com.cryptoregistry.CryptoKeyMetadata;
+import com.cryptoregistry.Verifier;
 import com.cryptoregistry.util.ArmoredCompressedString;
 import com.cryptoregistry.util.ArrayUtil;
 
@@ -12,7 +15,7 @@ import x.org.bouncycastle.pqc.math.ntru.polynomial.IntegerPolynomial;
  * @author Dave
  *
  */
-public class NTRUKeyForPublication {
+public class NTRUKeyForPublication implements CryptoKey,Verifier {
 
 	public final NTRUKeyMetadata metadata;
 	public final NTRUEncryptionParameters params; 
@@ -101,6 +104,11 @@ public class NTRUKeyForPublication {
 	public String toString() {
 		return "NTRUKeyForPublication [metadata=" + metadata + ", params="
 				+ params + ", h=" + h + "]";
+	}
+
+	@Override
+	public CryptoKeyMetadata getMetadata() {
+		return metadata;
 	}
 
 }

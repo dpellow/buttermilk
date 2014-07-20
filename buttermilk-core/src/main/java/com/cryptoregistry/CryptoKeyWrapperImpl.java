@@ -1,11 +1,13 @@
 package com.cryptoregistry;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.Map;
 
 import com.cryptoregistry.formats.C2KeyFormatReader;
 import com.cryptoregistry.formats.ECKeyFormatReader;
 import com.cryptoregistry.formats.KeyFormat;
+import com.cryptoregistry.formats.NTRUKeyFormatReader;
 import com.cryptoregistry.formats.RSAKeyFormatReader;
 import com.cryptoregistry.passwords.Password;
 import com.cryptoregistry.pbe.ArmoredPBEResult;
@@ -17,9 +19,16 @@ import com.cryptoregistry.pbe.PBEParams;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * After some key materials are parsed, we may not know at runtime what kind of keys
- * they represent. This wrapper allows us to gain runtime information about what was parsed. 
+ * <pre>
+ * After key materials are parsed, we may not know at runtime what kind of keys they represent. 
+ * This wrapper allows us to gain runtime information about what was parsed. 
  * 
+ * General use:
+ * 
+ * isSecure() - tells us if the object is an instance of ArmoredPBEResult
+ * getMetadata() - if not secure, we can get the key generation algorithm with this method
+ * 
+ * </pre>
  * @author Dave
  *
  */
@@ -35,7 +44,7 @@ public class CryptoKeyWrapperImpl implements CryptoKeyWrapper {
 	@Override
 	public CryptoKeyMetadata getMetadata() {
 		if(!(wrapped instanceof ArmoredPBEResult)){
-			return (CryptoKeyMetadata) wrapped;
+			return ((CryptoKey)wrapped).getMetadata();
 		}else{
 			return null;
 		}
@@ -54,7 +63,6 @@ public class CryptoKeyWrapperImpl implements CryptoKeyWrapper {
 
 	@Override
 	public boolean isSecure() {
-		
 		return wrapped instanceof ArmoredPBEResult;
 	}
 
@@ -85,12 +93,20 @@ public class CryptoKeyWrapperImpl implements CryptoKeyWrapper {
 				data = pbe0.decrypt(res.getResultBytes());
 			}
 			
+			String reconstructed = null;
+			
+			try {
+				reconstructed = new String(data, "UTF-8");
+			} catch (UnsupportedEncodingException e1) {
+				e1.printStackTrace();
+			}
+			
 			ObjectMapper mapper = new ObjectMapper();
 			String keyAlgorithm = null;
 			try {
 				// top level map
 				@SuppressWarnings("unchecked")
-				Map<String,Object> map = (Map<String,Object>) mapper.readValue(data, Map.class);
+				Map<String,Object> map = (Map<String,Object>) mapper.readValue(reconstructed, Map.class);
 				// drill down to get key type
 				Iterator<String> iter = map.keySet().iterator();
 				if(iter.hasNext()){
@@ -105,17 +121,28 @@ public class CryptoKeyWrapperImpl implements CryptoKeyWrapper {
 					case Curve25519: {
 						C2KeyFormatReader reader = new C2KeyFormatReader(map);
 						wrapped = reader.read();
+						break;
 					}
 					case EC:{
 						ECKeyFormatReader reader = new ECKeyFormatReader(map);
 						wrapped = reader.read();
+						break;
 					}
 					case RSA:{
 						RSAKeyFormatReader reader = new RSAKeyFormatReader(map);
 						wrapped = reader.read();
+						break;
 					}
+					case NTRU: {
+						NTRUKeyFormatReader reader = new NTRUKeyFormatReader(map);
+						wrapped = reader.read();
+						break;
+					}
+					
 					default: throw new RuntimeException("Unknown KeyGenerationAlgorithm: "+keyAlgorithm);
 				}
+				
+				return true;
 				
 			} catch (Exception e) {
 				throw new RuntimeException(e);

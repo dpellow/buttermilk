@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
 import com.cryptoregistry.ec.ECKeyContents;
+import com.cryptoregistry.ec.ECKeyForPublication;
 import com.cryptoregistry.formats.Encoding;
 import com.cryptoregistry.formats.FormatUtil;
 import com.cryptoregistry.pbe.ArmoredPBEResult;
@@ -21,11 +22,11 @@ import com.fasterxml.jackson.core.JsonGenerator;
 
 class ECKeyFormatter {
 
-	protected ECKeyContents ecKeys;
+	protected ECKeyForPublication ecKeys;
 	protected final KeyFormat format;
 	protected PBEParams pbeParams;
 
-	public ECKeyFormatter(ECKeyContents ecKeys) {
+	public ECKeyFormatter(ECKeyForPublication ecKeys) {
 		super();
 		this.ecKeys = ecKeys;
 		this.format = ecKeys.getFormat();
@@ -60,7 +61,7 @@ class ECKeyFormatter {
 	protected void seal(JsonGenerator g, Encoding enc, Writer writer)
 			throws JsonGenerationException, IOException {
 
-		String plain = formatItem(enc, ecKeys);
+		String plain = formatItem(enc);
 		ArmoredPBEResult result;
 		try {
 			byte[] plainBytes = plain.getBytes("UTF-8");
@@ -105,7 +106,7 @@ class ECKeyFormatter {
 		g.writeStringField("CreatedOn", TimeUtil.format(ecKeys.metadata.createdOn));
 		g.writeStringField("Encoding", enc.toString());
 		g.writeStringField("Q", FormatUtil.serializeECPoint(ecKeys.Q, enc));
-		g.writeStringField("D", FormatUtil.wrap(enc, ecKeys.d));
+		g.writeStringField("D", FormatUtil.wrap(enc, ((ECKeyContents)ecKeys).d));
 		if(ecKeys.usesNamedCurve()) {
 			g.writeStringField("CurveName", ecKeys.curveName);
 		}else{
@@ -146,7 +147,7 @@ class ECKeyFormatter {
 
 	}
 
-	private String formatItem(Encoding enc, ECKeyContents item) {
+	private String formatItem(Encoding enc) {
 		StringWriter privateDataWriter = new StringWriter();
 		JsonFactory f = new JsonFactory();
 		JsonGenerator g = null;
@@ -154,11 +155,12 @@ class ECKeyFormatter {
 			g = f.createGenerator(privateDataWriter);
 			g.useDefaultPrettyPrinter();
 			g.writeStartObject();
+			g.writeObjectFieldStart(ecKeys.getHandle()+"-U");
 			g.writeStringField("KeyAlgorithm", "EC");
 			g.writeStringField("CreatedOn", TimeUtil.format(ecKeys.metadata.createdOn));
 			g.writeStringField("Encoding", enc.toString());
 			g.writeStringField("Q", FormatUtil.serializeECPoint(ecKeys.Q, enc));
-			g.writeStringField("D", FormatUtil.wrap(enc, ecKeys.d));
+			g.writeStringField("D", FormatUtil.wrap(enc, ((ECKeyContents)ecKeys).d));
 			if(ecKeys.usesNamedCurve()) {
 				g.writeStringField("CurveName", ecKeys.curveName);
 			}else{

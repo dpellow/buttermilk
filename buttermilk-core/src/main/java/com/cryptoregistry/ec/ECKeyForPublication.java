@@ -7,6 +7,7 @@ package com.cryptoregistry.ec;
 
 import java.util.Date;
 
+import com.cryptoregistry.CryptoKey;
 import com.cryptoregistry.CryptoKeyMetadata;
 import com.cryptoregistry.ECCustomCurve;
 import com.cryptoregistry.KeyGenerationAlgorithm;
@@ -27,7 +28,7 @@ import x.org.bouncycastle.math.ec.ECPoint;
  * @author Dave
  *
  */
-public class ECKeyForPublication  implements CryptoKeyMetadata,Verifier {
+public class ECKeyForPublication  implements CryptoKey,Verifier {
 
 	public final ECKeyMetadata metadata;
 	public final ECPoint Q;
@@ -141,5 +142,10 @@ public class ECKeyForPublication  implements CryptoKeyMetadata,Verifier {
 		} else if (!metadata.equals(other.metadata))
 			return false;
 		return true;
+	}
+
+	@Override
+	public CryptoKeyMetadata getMetadata() {
+		return metadata;
 	}
 }

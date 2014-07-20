@@ -32,18 +32,18 @@ public class RSAKeyContentsIterator implements MapIterator {
 	}
 	
 	private void init(boolean verbose){
-		String handle = pKey.getHandle();
+		String handle = pKey.getMetadata().getHandle();
 		
 		if(verbose){
 			map.put(handle+":"+"Handle",handle);
-			map.put(handle+":"+"CreatedOn",TimeUtil.format(pKey.getCreatedOn()));
-			map.put(handle+":"+"Algorithm",pKey.getKeyAlgorithm().toString());
+			map.put(handle+":"+"CreatedOn",TimeUtil.format(pKey.getMetadata().getCreatedOn()));
+			map.put(handle+":"+"Algorithm",pKey.getMetadata().getKeyAlgorithm().toString());
 			map.put(handle+":"+"Modulus",pKey.modulus.toString(16));
 			map.put(handle+":"+"PublicExponent",pKey.publicExponent.toString(16));
 		}else{
 			map.put(handle+":"+"Handle",handle);
-			map.put("."+"CreatedOn",TimeUtil.format(pKey.getCreatedOn()));
-			map.put("."+"Algorithm",pKey.getKeyAlgorithm().toString());
+			map.put("."+"CreatedOn",TimeUtil.format(pKey.getMetadata().getCreatedOn()));
+			map.put("."+"Algorithm",pKey.getMetadata().getKeyAlgorithm().toString());
 			map.put("."+"Modulus",pKey.modulus.toString(16));
 			map.put("."+"PublicExponent",pKey.publicExponent.toString(16));
 		}
@@ -66,7 +66,7 @@ public class RSAKeyContentsIterator implements MapIterator {
 	}
 	
 	public String getHandle() {
-		return pKey.getHandle();
+		return pKey.getMetadata().getHandle();
 	}
 
 	@Override

@@ -83,5 +83,18 @@ public class C2KeyMetadata implements CryptoKeyMetadata {
 	public KeyFormat getFormat() {
 		return format;
 	}
+	public C2KeyMetadata cloneForPublication() {
+		return new C2KeyMetadata(handle, createdOn,new KeyFormat(Mode.FOR_PUBLICATION));
+	}
+	
+	public C2KeyMetadata cloneSecurePBKDF2(char[]password) {
+		return new C2KeyMetadata(handle, createdOn, new KeyFormat(password));
+	}
+	
+	public C2KeyMetadata cloneSecureScrypt(char[]password) {
+		return new C2KeyMetadata(handle, createdOn,
+				new KeyFormat(Encoding.Base64url,
+						PBEParamsFactory.INSTANCE.createScryptParams(password)));
+	}
 
 }

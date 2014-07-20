@@ -6,16 +6,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.cryptoregistry.CryptoKey;
 import com.cryptoregistry.CryptoKeyMetadata;
 import com.cryptoregistry.CryptoContact;
 import com.cryptoregistry.KeyGenerationAlgorithm;
 import com.cryptoregistry.LocalData;
 import com.cryptoregistry.RemoteData;
 import com.cryptoregistry.Version;
-import com.cryptoregistry.c2.key.Curve25519KeyContents;
-import com.cryptoregistry.ec.ECKeyContents;
-import com.cryptoregistry.ntru.NTRUKeyContents;
-import com.cryptoregistry.rsa.RSAKeyContents;
+import com.cryptoregistry.c2.key.Curve25519KeyForPublication;
+import com.cryptoregistry.ec.ECKeyForPublication;
+import com.cryptoregistry.ntru.NTRUKeyForPublication;
+import com.cryptoregistry.rsa.RSAKeyForPublication;
 import com.cryptoregistry.signature.CryptoSignature;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -70,7 +71,7 @@ public class JSONBuilder {
 
 	protected String version;
 	protected String registrationHandle;
-	protected List<CryptoKeyMetadata> keys;
+	protected List<CryptoKey> keys;
 	protected List<CryptoContact> contacts;
 	protected List<CryptoSignature> signatures;
 	protected List<LocalData> localData;
@@ -79,7 +80,7 @@ public class JSONBuilder {
 	public JSONBuilder(String handle) {
 		version = Version.OVERALL_VERSION;
 		this.registrationHandle = handle;
-		keys = new ArrayList<CryptoKeyMetadata>();
+		keys = new ArrayList<CryptoKey>();
 		contacts = new ArrayList<CryptoContact>();
 		signatures = new ArrayList<CryptoSignature>();
 		localData = new ArrayList<LocalData>();
@@ -87,7 +88,7 @@ public class JSONBuilder {
 	}
 
 	public JSONBuilder(String version, String registrationHandle,
-			List<CryptoKeyMetadata> keys, List<CryptoContact> contacts,
+			List<CryptoKey> keys, List<CryptoContact> contacts,
 			List<CryptoSignature> signatures, List<LocalData> localData, 
 			List<RemoteData> remoteData) {
 		super();
@@ -110,12 +111,17 @@ public class JSONBuilder {
 		return this;
 	}
 	
-	public JSONBuilder add(CryptoKeyMetadata e) {
+	public JSONBuilder add(CryptoKey e) {
+		keys.add(e);
+		return this;
+	}
+	
+	public JSONBuilder addKey(CryptoKey e) {
 		keys.add(e);
 		return this;
 	}
 
-	public JSONBuilder addKeys(Collection<? extends CryptoKeyMetadata> c) {
+	public JSONBuilder addKeys(Collection<? extends CryptoKey> c) {
 		keys.addAll(c);
 		return this;
 	}
@@ -208,29 +214,31 @@ public class JSONBuilder {
 				
 				g.writeObjectFieldStart("Keys");
 				
-				for(CryptoKeyMetadata key: keys){
-					final KeyGenerationAlgorithm alg = key.getKeyAlgorithm();
+				// TODO allow public keys to work
+				for(CryptoKey key: keys){
+					final CryptoKeyMetadata meta = key.getMetadata();
+					final KeyGenerationAlgorithm alg = meta.getKeyAlgorithm();
 					switch(alg){
 						case Curve25519: {
-							Curve25519KeyContents contents = (Curve25519KeyContents)key;
+							Curve25519KeyForPublication contents = (Curve25519KeyForPublication)key;
 							C2KeyFormatter formatter = new C2KeyFormatter(contents);
 							formatter.formatKeys(g, writer);
 							break;
 						}
 						case EC: {
-							ECKeyContents contents = (ECKeyContents)key;
+							ECKeyForPublication contents = (ECKeyForPublication)key;
 							ECKeyFormatter formatter = new ECKeyFormatter(contents);
 							formatter.formatKeys(g, writer);
 							break;
 						}
 						case NTRU: {
-							NTRUKeyContents contents = (NTRUKeyContents)key;
+							NTRUKeyForPublication contents = (NTRUKeyForPublication)key;
 							NTRUKeyFormatter formatter = new NTRUKeyFormatter(contents);
 							formatter.formatKeys(g, writer);
 							break;
 						}
 						case RSA: {
-							RSAKeyContents contents = (RSAKeyContents)key;
+							RSAKeyForPublication contents = (RSAKeyForPublication)key;
 							RSAKeyFormatter formatter = new RSAKeyFormatter(contents);
 							formatter.formatKeys(g, writer);
 							break;

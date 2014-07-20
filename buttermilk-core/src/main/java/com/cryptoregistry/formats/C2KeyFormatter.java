@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
+import com.cryptoregistry.c2.key.Curve25519KeyForPublication;
 import com.cryptoregistry.pbe.ArmoredPBEResult;
 import com.cryptoregistry.pbe.ArmoredPBKDF2Result;
 import com.cryptoregistry.pbe.ArmoredScryptResult;
@@ -18,11 +19,11 @@ import com.fasterxml.jackson.core.JsonGenerator;
 
 class C2KeyFormatter {
 
-	protected final Curve25519KeyContents c2Keys;
+	protected final Curve25519KeyForPublication c2Keys;
 	protected final KeyFormat format;
 	protected final PBEParams pbeParams;
 
-	public C2KeyFormatter(Curve25519KeyContents c2Keys) {
+	public C2KeyFormatter(Curve25519KeyForPublication c2Keys) {
 		super();
 		this.c2Keys = c2Keys;
 		this.format = c2Keys.metadata.format;
@@ -57,7 +58,7 @@ class C2KeyFormatter {
 	protected void seal(JsonGenerator g, Encoding enc, Writer writer)
 			throws JsonGenerationException, IOException {
 
-		String plain = formatItem(enc, c2Keys);
+		String plain = formatItem(enc, (Curve25519KeyContents)c2Keys);
 		ArmoredPBEResult result;
 		try {
 			byte[] plainBytes = plain.getBytes("UTF-8");
@@ -102,9 +103,9 @@ class C2KeyFormatter {
 		g.writeStringField("CreatedOn", TimeUtil.format(c2Keys.metadata.createdOn));
 		g.writeStringField("Encoding", Encoding.Base64url.toString());
 		g.writeStringField("P", c2Keys.publicKey.getBase64UrlEncoding());
-		g.writeStringField("s", c2Keys.signingPrivateKey.getBase64UrlEncoding());
+		g.writeStringField("s", ((Curve25519KeyContents)c2Keys).signingPrivateKey.getBase64UrlEncoding());
 		g.writeStringField("k",
-				c2Keys.agreementPrivateKey.getBase64UrlEncoding());
+				((Curve25519KeyContents)c2Keys).agreementPrivateKey.getBase64UrlEncoding());
 		g.writeEndObject();
 	}
 
@@ -127,15 +128,15 @@ class C2KeyFormatter {
 			g = f.createGenerator(privateDataWriter);
 			g.useDefaultPrettyPrinter();
 			g.writeStartObject();
-			g.writeObjectFieldStart(c2Keys.metadata.getDistinguishedHandle());
+			g.writeObjectFieldStart(c2Keys.metadata.getHandle()+"-U");
 			g.writeStringField("KeyAlgorithm", "Curve25519");
 			g.writeStringField("CreatedOn", TimeUtil.format(c2Keys.metadata.createdOn));
 			g.writeStringField("Encoding", Encoding.Base64url.toString());
 			g.writeStringField("P", c2Keys.publicKey.getBase64UrlEncoding());
 			g.writeStringField("s",
-					c2Keys.signingPrivateKey.getBase64UrlEncoding());
+					((Curve25519KeyContents)c2Keys).signingPrivateKey.getBase64UrlEncoding());
 			g.writeStringField("k",
-					c2Keys.agreementPrivateKey.getBase64UrlEncoding());
+					((Curve25519KeyContents)c2Keys).agreementPrivateKey.getBase64UrlEncoding());
 			g.writeEndObject();
 		} catch (IOException e) {
 			e.printStackTrace();

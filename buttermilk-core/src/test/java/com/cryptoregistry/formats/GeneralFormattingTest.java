@@ -2,6 +2,7 @@ package com.cryptoregistry.formats;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.List;
 
@@ -11,10 +12,12 @@ import org.junit.Test;
 import com.cryptoregistry.CryptoContact;
 import com.cryptoregistry.FileURLResolver;
 import com.cryptoregistry.HTTPURLResolver;
+import com.cryptoregistry.KeyMaterials;
 import com.cryptoregistry.LocalData;
 import com.cryptoregistry.RemoteData;
 import com.cryptoregistry.rsa.CryptoFactory;
 import com.cryptoregistry.rsa.RSAKeyContents;
+import com.cryptoregistry.rsa.RSAKeyForPublication;
 import com.cryptoregistry.signature.CryptoSignature;
 import com.cryptoregistry.signature.builder.ContactContentsIterator;
 import com.cryptoregistry.signature.builder.LocalDataContentsIterator;
@@ -83,7 +86,7 @@ public class GeneralFormattingTest {
 		
 		JSONBuilder builder = new JSONBuilder("Chinese Eyes");
 		builder.add(contact)
-		.add(contents)
+		.addKey(contents)
 		.add(sig)
 		.add(ld)
 		.add(rd);
@@ -157,6 +160,29 @@ public class GeneralFormattingTest {
 		data = hur.resolve();
 		Assert.assertTrue(data != null);
 		Assert.assertTrue(data.size() == 2);
+		
+	}
+	
+	@Test
+	public void test3() {
+		
+		String reg = "Chinese Eyes";
+		char [] password = "password1".toCharArray();
+		RSAKeyContents contents = CryptoFactory.INSTANCE.generateKeys(password);
+		RSAKeyForPublication fp = contents.forPublication();
+
+		JSONBuilder builder = new JSONBuilder(reg);
+		builder.add(contents);
+		builder.add(fp);
+		
+		StringWriter writer = new StringWriter();
+		builder.format(writer);
+		String out = writer.toString();
+		System.err.println(out);
+		StringReader r = new StringReader(out);
+		JSONReader reader = new JSONReader(r);
+		KeyMaterials km = reader.parse();
+		Assert.assertEquals(2, km.keys().size());
 		
 	}
 

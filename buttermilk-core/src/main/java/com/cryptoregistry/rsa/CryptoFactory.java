@@ -201,7 +201,7 @@ public class CryptoFactory {
 					new Date(),
 					SignatureAlgorithm.RSA,
 					digestName,
-					sKeys.getHandle(),
+					sKeys.getMetadata().getHandle(),
 					signedBy);
 			return new RSACryptoSignature(meta,sig);
 		} finally {

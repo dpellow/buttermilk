@@ -168,8 +168,12 @@ public class RSAKeyContents extends RSAKeyForPublication implements Signer {
 		if(params != null) {
 			Password password = params.getPassword();
 			if(password != null && password.isAlive()) password.selfDestruct();
-		}
-		
+		}	
+	}
+	
+	public RSAKeyForPublication forPublication(){
+		RSAKeyMetadata meta = this.metadata.cloneForPublication();
+		return new RSAKeyForPublication(meta,this.modulus,this.publicExponent);
 	}
 	
 }

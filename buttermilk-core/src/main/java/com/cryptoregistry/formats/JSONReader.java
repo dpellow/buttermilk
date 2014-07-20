@@ -89,7 +89,7 @@ public class JSONReader {
 	@SuppressWarnings("unchecked")
 	public JSONReader(Reader in) {
 		
-		// TODO the below is reasonable, but use the stream parsing API to be more efficient
+		// TODO the below is reasonable, but someday use the stream parsing API to be more efficient
 		mapper = new ObjectMapper();
 		try {
 			map = mapper.readValue(in, Map.class);
@@ -97,8 +97,6 @@ public class JSONReader {
 			throw new RuntimeException(e);
 		}
 	}
-	
-	
 	
 	public KeyMaterials parse() {
 		

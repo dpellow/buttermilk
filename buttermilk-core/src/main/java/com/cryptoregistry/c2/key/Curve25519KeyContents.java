@@ -78,7 +78,11 @@ public class Curve25519KeyContents extends Curve25519KeyForPublication implement
 			Password password = params.getPassword();
 			if(password != null && password.isAlive()) password.selfDestruct();
 		}
-		
+	}
+	
+	public Curve25519KeyForPublication forPublication() {
+		C2KeyMetadata meta = this.metadata.cloneForPublication();
+		return new Curve25519KeyForPublication(meta,(PublicKey)publicKey.clone());
 	}
 
 }

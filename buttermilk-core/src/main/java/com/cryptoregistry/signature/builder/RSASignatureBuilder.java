@@ -51,10 +51,10 @@ public class RSASignatureBuilder {
 				new Date(),
 				SignatureAlgorithm.RSA,
 				digest.getAlgorithmName(),
-				sKey.getHandle(),
+				sKey.getMetadata().getHandle(),
 				signedBy);
 		update(meta.getHandle()+":SignedBy",signedBy);
-		update(".SignedWith",sKey.getHandle());
+		update(".SignedWith",sKey.getMetadata().getHandle());
 		
 	}
 	
@@ -77,10 +77,10 @@ public class RSASignatureBuilder {
 				new Date(),
 				SignatureAlgorithm.RSA,
 				digest.getAlgorithmName(),
-				sKey.getHandle(),
+				sKey.getMetadata().getHandle(),
 				signedBy);
 		update(meta.getHandle()+":SignedBy",signedBy);
-		update(".SignedWith",sKey.getHandle());
+		update(".SignedWith",sKey.getMetadata().getHandle());
 	}
 	
 	public RSASignatureBuilder update(String label, String input){

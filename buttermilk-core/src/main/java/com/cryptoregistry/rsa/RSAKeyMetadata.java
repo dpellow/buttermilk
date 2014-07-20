@@ -114,6 +114,8 @@ public class RSAKeyMetadata implements CryptoKeyMetadata {
 		return true;
 	}
 	
-	
+	public RSAKeyMetadata cloneForPublication() {
+		return new RSAKeyMetadata(handle, createdOn,new KeyFormat(Mode.FOR_PUBLICATION));
+	}
 
 }

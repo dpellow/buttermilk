@@ -9,7 +9,6 @@ import com.cryptoregistry.signature.CryptoSignature;
  * Holders for output of the JSONReader class must implement this interface
  * 
  * @author Dave
- * @param <E>
  *
  */
 public interface KeyMaterials {
@@ -22,5 +21,4 @@ public interface KeyMaterials {
 	List<LocalData> localData();
 	List<RemoteData> remoteData();
 	
-
 }

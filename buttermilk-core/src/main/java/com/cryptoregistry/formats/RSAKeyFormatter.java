@@ -13,6 +13,7 @@ import com.cryptoregistry.pbe.ArmoredScryptResult;
 import com.cryptoregistry.pbe.PBE;
 import com.cryptoregistry.pbe.PBEParams;
 import com.cryptoregistry.rsa.RSAKeyContents;
+import com.cryptoregistry.rsa.RSAKeyForPublication;
 import com.cryptoregistry.util.TimeUtil;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -20,15 +21,15 @@ import com.fasterxml.jackson.core.JsonGenerator;
 
 class RSAKeyFormatter {
 
-	protected final RSAKeyContents rsaKeys;
+	protected final RSAKeyForPublication rsaKeys;
 	protected final KeyFormat format;
 	protected final PBEParams pbeParams;
 
-	public RSAKeyFormatter(RSAKeyContents rsaKeys) {
+	public RSAKeyFormatter(RSAKeyForPublication rsaKeys) {
 		super();
 		this.rsaKeys = rsaKeys;
-		this.format = rsaKeys.getFormat();
-		this.pbeParams = rsaKeys.getFormat().pbeParams;
+		this.format = rsaKeys.getMetadata().getFormat();
+		this.pbeParams = rsaKeys.getMetadata().getFormat().pbeParams;
 	}
 
 	public void formatKeys(JsonGenerator g, Writer writer) {
@@ -59,7 +60,7 @@ class RSAKeyFormatter {
 	protected void seal(JsonGenerator g, Encoding enc, Writer writer)
 			throws JsonGenerationException, IOException {
 
-		String plain = formatItem(enc, rsaKeys);
+		String plain = formatItem(enc, (RSAKeyContents)rsaKeys);
 		ArmoredPBEResult result;
 		try {
 			byte[] plainBytes = plain.getBytes("UTF-8");
@@ -69,7 +70,7 @@ class RSAKeyFormatter {
 			throw new RuntimeException(e);
 		}
 
-		g.writeObjectFieldStart(rsaKeys.getDistinguishedHandle());
+		g.writeObjectFieldStart(rsaKeys.getMetadata().getDistinguishedHandle());
 		g.writeStringField("KeyData.Type", "RSA");
 		g.writeStringField("KeyData.PBEAlgorithm", pbeParams.getAlg()
 				.toString());
@@ -99,18 +100,18 @@ class RSAKeyFormatter {
 	protected void formatOpen(JsonGenerator g, Encoding enc, Writer writer)
 			throws JsonGenerationException, IOException {
 
-		g.writeObjectFieldStart(rsaKeys.getDistinguishedHandle());
+		g.writeObjectFieldStart(rsaKeys.getMetadata().getDistinguishedHandle());
 		g.writeStringField("KeyAlgorithm", "RSA");
 		g.writeStringField("CreatedOn", TimeUtil.format(rsaKeys.metadata.createdOn));
 		g.writeStringField("Encoding", enc.toString());
 		g.writeStringField("Modulus", FormatUtil.wrap(enc, rsaKeys.modulus));
 		g.writeStringField("PublicExponent", FormatUtil.wrap(enc, rsaKeys.publicExponent));
-		g.writeStringField("PrivateExponent", FormatUtil.wrap(enc, rsaKeys.privateExponent));
-		g.writeStringField("P", FormatUtil.wrap(enc, rsaKeys.p));
-		g.writeStringField("Q", FormatUtil.wrap(enc, rsaKeys.q));
-		g.writeStringField("dP", FormatUtil.wrap(enc, rsaKeys.dP));
-		g.writeStringField("dQ", FormatUtil.wrap(enc, rsaKeys.dQ));
-		g.writeStringField("qInv", FormatUtil.wrap(enc, rsaKeys.qInv));
+		g.writeStringField("PrivateExponent", FormatUtil.wrap(enc, ((RSAKeyContents)rsaKeys).privateExponent));
+		g.writeStringField("P", FormatUtil.wrap(enc, ((RSAKeyContents)rsaKeys).p));
+		g.writeStringField("Q", FormatUtil.wrap(enc, ((RSAKeyContents)rsaKeys).q));
+		g.writeStringField("dP", FormatUtil.wrap(enc, ((RSAKeyContents)rsaKeys).dP));
+		g.writeStringField("dQ", FormatUtil.wrap(enc, ((RSAKeyContents)rsaKeys).dQ));
+		g.writeStringField("qInv", FormatUtil.wrap(enc, ((RSAKeyContents)rsaKeys).qInv));
 		g.writeEndObject();
 
 	}
@@ -118,7 +119,7 @@ class RSAKeyFormatter {
 	protected void formatForPublication(JsonGenerator g, Encoding enc,
 			Writer writer) throws JsonGenerationException, IOException {
 
-		g.writeObjectFieldStart(rsaKeys.getDistinguishedHandle());
+		g.writeObjectFieldStart(rsaKeys.getMetadata().getDistinguishedHandle());
 		g.writeStringField("KeyAlgorithm", "RSA");
 		g.writeStringField("CreatedOn", TimeUtil.format(rsaKeys.metadata.createdOn));
 		g.writeStringField("Encoding", enc.toString());
@@ -136,18 +137,18 @@ class RSAKeyFormatter {
 			g = f.createGenerator(privateDataWriter);
 			g.useDefaultPrettyPrinter();
 			g.writeStartObject();
-			g.writeStringField("Handle", rsaKeys.getHandle());
+			g.writeObjectFieldStart(rsaKeys.metadata.getHandle()+"-U");
 			g.writeStringField("KeyAlgorithm", "RSA");
 			g.writeStringField("CreatedOn", TimeUtil.format(rsaKeys.metadata.createdOn));
 			g.writeStringField("Encoding", enc.toString());
 			g.writeStringField("Modulus", FormatUtil.wrap(enc, rsaKeys.modulus));
 			g.writeStringField("PublicExponent", FormatUtil.wrap(enc, rsaKeys.publicExponent));
-			g.writeStringField("PrivateExponent", FormatUtil.wrap(enc, rsaKeys.privateExponent));
-			g.writeStringField("P", FormatUtil.wrap(enc, rsaKeys.p));
-			g.writeStringField("Q", FormatUtil.wrap(enc, rsaKeys.q));
-			g.writeStringField("dP", FormatUtil.wrap(enc, rsaKeys.dP));
-			g.writeStringField("dQ", FormatUtil.wrap(enc, rsaKeys.dQ));
-			g.writeStringField("qInv", FormatUtil.wrap(enc, rsaKeys.qInv));
+			g.writeStringField("PrivateExponent", FormatUtil.wrap(enc, ((RSAKeyContents)rsaKeys).privateExponent));
+			g.writeStringField("P", FormatUtil.wrap(enc, ((RSAKeyContents)rsaKeys).p));
+			g.writeStringField("Q", FormatUtil.wrap(enc, ((RSAKeyContents)rsaKeys).q));
+			g.writeStringField("dP", FormatUtil.wrap(enc, ((RSAKeyContents)rsaKeys).dP));
+			g.writeStringField("dQ", FormatUtil.wrap(enc, ((RSAKeyContents)rsaKeys).dQ));
+			g.writeStringField("qInv", FormatUtil.wrap(enc, ((RSAKeyContents)rsaKeys).qInv));
 			g.writeEndObject();
 		} catch (IOException e) {
 			e.printStackTrace();
