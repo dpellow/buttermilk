@@ -8,8 +8,6 @@ package com.cryptoregistry.pbe;
 import java.io.IOException;
 import java.util.Date;
 
-import com.cryptoregistry.Signer;
-import com.cryptoregistry.Verifier;
 import com.cryptoregistry.passwords.Password;
 import com.cryptoregistry.passwords.SensitiveBytes;
 

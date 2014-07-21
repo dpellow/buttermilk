@@ -10,11 +10,14 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.cryptoregistry.CryptoContact;
+import com.cryptoregistry.CryptoKeyWrapper;
 import com.cryptoregistry.FileURLResolver;
 import com.cryptoregistry.HTTPURLResolver;
+import com.cryptoregistry.KeyGenerationAlgorithm;
 import com.cryptoregistry.KeyMaterials;
 import com.cryptoregistry.LocalData;
 import com.cryptoregistry.RemoteData;
+import com.cryptoregistry.passwords.Password;
 import com.cryptoregistry.rsa.CryptoFactory;
 import com.cryptoregistry.rsa.RSAKeyContents;
 import com.cryptoregistry.rsa.RSAKeyForPublication;
@@ -86,7 +89,7 @@ public class GeneralFormattingTest {
 		
 		JSONBuilder builder = new JSONBuilder("Chinese Eyes");
 		builder.add(contact)
-		.addKey(contents)
+		.add(contents)
 		.add(sig)
 		.add(ld)
 		.add(rd);
@@ -183,6 +186,13 @@ public class GeneralFormattingTest {
 		JSONReader reader = new JSONReader(r);
 		KeyMaterials km = reader.parse();
 		Assert.assertEquals(2, km.keys().size());
+		
+		CryptoKeyWrapper wrapper = km.keys().get(0);
+		boolean ok = wrapper.unlock(new Password(password));
+		if(ok){
+			contents = (RSAKeyContents) wrapper.getKeyContents();
+			System.err.println(contents.toString());
+		}
 		
 	}
 
