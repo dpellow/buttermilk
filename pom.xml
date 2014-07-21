@@ -14,6 +14,8 @@
     <modules>
         <module>buttermilk-core</module>
         <module>utility-apps</module>
+        <module>protocol-buffers</module>
+        <module>client-storage</module>
     </modules>
 
     <build>
