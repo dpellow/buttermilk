@@ -25,7 +25,7 @@ public class ProtoTest {
 		
 		KeyMetadataProto km = Buttermilk.KeyMetadataProto.newBuilder()
 		.setEncoding(Buttermilk.KeyMetadataProto.EncodingProto.RAWBYTES) // hard code to rawbytes
-		.setHandle(contents.getHandle())
+		.setHandle(contents.getMetadata().getHandle())
 		.setKeyGenerationAlgorithm(contents.metadata.getKeyAlgorithm().toString())
 		.setCreatedOn(contents.metadata.getCreatedOn().getTime()).build();
 		

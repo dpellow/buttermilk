@@ -87,8 +87,10 @@ message CurveDefinitionProto {
 message ECKeyContentsProto {
 	required KeyMetadataProto meta = 1;
 	required string Q = 2; // BouncyCastle ECPoint in following format: [base16x comma base16y]
-	optional string curve_name = 3;
+	
+	optional string curve_name = 3;                     // one of these is required
 	optional CurveDefinitionProto curve_definition = 4;
+	
 	optional bytes d = 5;
 }
 
@@ -107,5 +109,6 @@ message RSAKeyContentsProto {
 message NTRUKeyContentsProto {
 	
 }
+
 
 

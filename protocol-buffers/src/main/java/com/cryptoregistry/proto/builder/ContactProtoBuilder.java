@@ -1,13 +1,8 @@
 package com.cryptoregistry.proto.builder;
 
-import java.util.Iterator;
-import java.util.Map;
-
 import com.cryptoregistry.CryptoContact;
 import com.cryptoregistry.protos.Buttermilk;
 import com.cryptoregistry.protos.Buttermilk.CryptoContactProto;
-import com.cryptoregistry.protos.Buttermilk.EntryProto;
-import com.cryptoregistry.protos.Buttermilk.MapProto;
 import com.cryptoregistry.protos.Buttermilk.NamedMapProto;
 
 /**
@@ -27,19 +22,10 @@ public class ContactProtoBuilder {
 	public CryptoContactProto build() {
 		String handle = contact.getHandle();
 		
-		// create the map proto
-		Map<String,String> map = contact.getMap();
-		MapProto.Builder mapProtoBuilder = MapProto.newBuilder();
-		Iterator<String> iter = map.keySet().iterator();
-		while(iter.hasNext()){
-			String key = iter.next();
-			String value = map.get(key);
-			EntryProto entry = EntryProto.newBuilder().setKey(key).setValue(value).build();
-			mapProtoBuilder.addEntries(entry);
-		}
+		MapProtoBuilder mBuilder = new MapProtoBuilder(contact.getMap());
 		
 		NamedMapProto.Builder namedMapProtoBuilder = NamedMapProto.newBuilder();
-		namedMapProtoBuilder.setMap(mapProtoBuilder.build()).setUuid(handle);
+		namedMapProtoBuilder.setMap(mBuilder.build()).setUuid(handle);
 		
 		return Buttermilk.CryptoContactProto.newBuilder().setMap(namedMapProtoBuilder.build()).build();
 	}
