@@ -8,15 +8,27 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import com.cryptoregistry.client.storage.ButtermilkViews;
+import com.cryptoregistry.client.storage.DataStore;
 import com.cryptoregistry.passwords.NewPassword;
+import com.cryptoregistry.passwords.Password;
 import com.cryptoregistry.passwords.SensitiveBytes;
 
 import asia.redact.bracket.properties.Properties;
 
 public class SecTest {
+	
+	@Test
+	public void test1() {
+		char [] pass = {'p','a','s','s'};
+		Password password = new NewPassword(pass);
+		DataStore ds = new DataStore(password);
+		ButtermilkViews views = ds.getViews();
+		ds.getDb().close();
+	}
 
 	@Test
-	public void test() {
+	public void test0() {
 		InputStream in = Thread.currentThread().getClass().getResourceAsStream("/buttermilk.properties");
 		Properties props = Properties.Factory.getInstance(in);
 		
@@ -39,8 +51,9 @@ public class SecTest {
 			Assert.fail();
 		}
 		
+		char [] pass0 = {'p','a','s','s','w','o','r','d'};
 		try {
-		gen.generateAndSecureKeys("password1".toCharArray());
+		gen.generateAndSecureKeys(new NewPassword(pass0));
 		}catch(RuntimeException x){
 			x.printStackTrace();
 		}
@@ -48,7 +61,8 @@ public class SecTest {
 		if(!pf.exists()) Assert.fail();
 		if(!qf.exists()) Assert.fail();
 		
-		SensitiveBytes sb = gen.loadKey(new NewPassword("password1".toCharArray()));
+		char [] pass1 = {'p','a','s','s','w','o','r','d'};
+		SensitiveBytes sb = gen.loadKey(new NewPassword(pass1));
 		System.err.println(Arrays.toString(sb.getData()));
 		
 	}

@@ -21,6 +21,11 @@ message ListProto {
   repeated string list = 1;
 }
 
+message NamedListProto {
+  required string uuid = 1;
+  required ListProto map = 2;
+}
+
 message CryptoContactProto {
   required NamedMapProto map = 1;
 }

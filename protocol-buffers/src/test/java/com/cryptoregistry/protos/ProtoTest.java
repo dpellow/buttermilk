@@ -66,7 +66,5 @@ public class ProtoTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
-
 }

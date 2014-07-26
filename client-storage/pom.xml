@@ -27,7 +27,7 @@
 			<version>2.5.0</version>
 	</dependency>
 	
-		<dependency>
+	<dependency>
   	  <groupId>asia.redact.bracket.properties</groupId>
    	  <artifactId>bracket-properties</artifactId>
       <version>1.3.5</version>

@@ -2521,6 +2521,685 @@ public final class Buttermilk {
     // @@protoc_insertion_point(class_scope:ListProto)
   }
 
+  public interface NamedListProtoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string uuid = 1;
+    /**
+     * <code>required string uuid = 1;</code>
+     */
+    boolean hasUuid();
+    /**
+     * <code>required string uuid = 1;</code>
+     */
+    java.lang.String getUuid();
+    /**
+     * <code>required string uuid = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getUuidBytes();
+
+    // required .ListProto map = 2;
+    /**
+     * <code>required .ListProto map = 2;</code>
+     */
+    boolean hasMap();
+    /**
+     * <code>required .ListProto map = 2;</code>
+     */
+    com.cryptoregistry.protos.Buttermilk.ListProto getMap();
+    /**
+     * <code>required .ListProto map = 2;</code>
+     */
+    com.cryptoregistry.protos.Buttermilk.ListProtoOrBuilder getMapOrBuilder();
+  }
+  /**
+   * Protobuf type {@code NamedListProto}
+   */
+  public static final class NamedListProto extends
+      com.google.protobuf.GeneratedMessage
+      implements NamedListProtoOrBuilder {
+    // Use NamedListProto.newBuilder() to construct.
+    private NamedListProto(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private NamedListProto(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final NamedListProto defaultInstance;
+    public static NamedListProto getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public NamedListProto getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private NamedListProto(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              uuid_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              com.cryptoregistry.protos.Buttermilk.ListProto.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                subBuilder = map_.toBuilder();
+              }
+              map_ = input.readMessage(com.cryptoregistry.protos.Buttermilk.ListProto.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(map_);
+                map_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000002;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.cryptoregistry.protos.Buttermilk.internal_static_NamedListProto_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.cryptoregistry.protos.Buttermilk.internal_static_NamedListProto_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.cryptoregistry.protos.Buttermilk.NamedListProto.class, com.cryptoregistry.protos.Buttermilk.NamedListProto.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<NamedListProto> PARSER =
+        new com.google.protobuf.AbstractParser<NamedListProto>() {
+      public NamedListProto parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new NamedListProto(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<NamedListProto> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string uuid = 1;
+    public static final int UUID_FIELD_NUMBER = 1;
+    private java.lang.Object uuid_;
+    /**
+     * <code>required string uuid = 1;</code>
+     */
+    public boolean hasUuid() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string uuid = 1;</code>
+     */
+    public java.lang.String getUuid() {
+      java.lang.Object ref = uuid_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          uuid_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string uuid = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getUuidBytes() {
+      java.lang.Object ref = uuid_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        uuid_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required .ListProto map = 2;
+    public static final int MAP_FIELD_NUMBER = 2;
+    private com.cryptoregistry.protos.Buttermilk.ListProto map_;
+    /**
+     * <code>required .ListProto map = 2;</code>
+     */
+    public boolean hasMap() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required .ListProto map = 2;</code>
+     */
+    public com.cryptoregistry.protos.Buttermilk.ListProto getMap() {
+      return map_;
+    }
+    /**
+     * <code>required .ListProto map = 2;</code>
+     */
+    public com.cryptoregistry.protos.Buttermilk.ListProtoOrBuilder getMapOrBuilder() {
+      return map_;
+    }
+
+    private void initFields() {
+      uuid_ = "";
+      map_ = com.cryptoregistry.protos.Buttermilk.ListProto.getDefaultInstance();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasUuid()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasMap()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getUuidBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeMessage(2, map_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getUuidBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, map_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.cryptoregistry.protos.Buttermilk.NamedListProto parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.NamedListProto parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.NamedListProto parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.NamedListProto parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.NamedListProto parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.NamedListProto parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.NamedListProto parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.NamedListProto parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.NamedListProto parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.NamedListProto parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.cryptoregistry.protos.Buttermilk.NamedListProto prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code NamedListProto}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.cryptoregistry.protos.Buttermilk.NamedListProtoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.cryptoregistry.protos.Buttermilk.internal_static_NamedListProto_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.cryptoregistry.protos.Buttermilk.internal_static_NamedListProto_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.cryptoregistry.protos.Buttermilk.NamedListProto.class, com.cryptoregistry.protos.Buttermilk.NamedListProto.Builder.class);
+      }
+
+      // Construct using com.cryptoregistry.protos.Buttermilk.NamedListProto.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getMapFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        uuid_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (mapBuilder_ == null) {
+          map_ = com.cryptoregistry.protos.Buttermilk.ListProto.getDefaultInstance();
+        } else {
+          mapBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.cryptoregistry.protos.Buttermilk.internal_static_NamedListProto_descriptor;
+      }
+
+      public com.cryptoregistry.protos.Buttermilk.NamedListProto getDefaultInstanceForType() {
+        return com.cryptoregistry.protos.Buttermilk.NamedListProto.getDefaultInstance();
+      }
+
+      public com.cryptoregistry.protos.Buttermilk.NamedListProto build() {
+        com.cryptoregistry.protos.Buttermilk.NamedListProto result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.cryptoregistry.protos.Buttermilk.NamedListProto buildPartial() {
+        com.cryptoregistry.protos.Buttermilk.NamedListProto result = new com.cryptoregistry.protos.Buttermilk.NamedListProto(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.uuid_ = uuid_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        if (mapBuilder_ == null) {
+          result.map_ = map_;
+        } else {
+          result.map_ = mapBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.cryptoregistry.protos.Buttermilk.NamedListProto) {
+          return mergeFrom((com.cryptoregistry.protos.Buttermilk.NamedListProto)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.cryptoregistry.protos.Buttermilk.NamedListProto other) {
+        if (other == com.cryptoregistry.protos.Buttermilk.NamedListProto.getDefaultInstance()) return this;
+        if (other.hasUuid()) {
+          bitField0_ |= 0x00000001;
+          uuid_ = other.uuid_;
+          onChanged();
+        }
+        if (other.hasMap()) {
+          mergeMap(other.getMap());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasUuid()) {
+          
+          return false;
+        }
+        if (!hasMap()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.cryptoregistry.protos.Buttermilk.NamedListProto parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.cryptoregistry.protos.Buttermilk.NamedListProto) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string uuid = 1;
+      private java.lang.Object uuid_ = "";
+      /**
+       * <code>required string uuid = 1;</code>
+       */
+      public boolean hasUuid() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string uuid = 1;</code>
+       */
+      public java.lang.String getUuid() {
+        java.lang.Object ref = uuid_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          uuid_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string uuid = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getUuidBytes() {
+        java.lang.Object ref = uuid_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          uuid_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string uuid = 1;</code>
+       */
+      public Builder setUuid(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        uuid_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string uuid = 1;</code>
+       */
+      public Builder clearUuid() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        uuid_ = getDefaultInstance().getUuid();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string uuid = 1;</code>
+       */
+      public Builder setUuidBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        uuid_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required .ListProto map = 2;
+      private com.cryptoregistry.protos.Buttermilk.ListProto map_ = com.cryptoregistry.protos.Buttermilk.ListProto.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.cryptoregistry.protos.Buttermilk.ListProto, com.cryptoregistry.protos.Buttermilk.ListProto.Builder, com.cryptoregistry.protos.Buttermilk.ListProtoOrBuilder> mapBuilder_;
+      /**
+       * <code>required .ListProto map = 2;</code>
+       */
+      public boolean hasMap() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required .ListProto map = 2;</code>
+       */
+      public com.cryptoregistry.protos.Buttermilk.ListProto getMap() {
+        if (mapBuilder_ == null) {
+          return map_;
+        } else {
+          return mapBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>required .ListProto map = 2;</code>
+       */
+      public Builder setMap(com.cryptoregistry.protos.Buttermilk.ListProto value) {
+        if (mapBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          map_ = value;
+          onChanged();
+        } else {
+          mapBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>required .ListProto map = 2;</code>
+       */
+      public Builder setMap(
+          com.cryptoregistry.protos.Buttermilk.ListProto.Builder builderForValue) {
+        if (mapBuilder_ == null) {
+          map_ = builderForValue.build();
+          onChanged();
+        } else {
+          mapBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>required .ListProto map = 2;</code>
+       */
+      public Builder mergeMap(com.cryptoregistry.protos.Buttermilk.ListProto value) {
+        if (mapBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+              map_ != com.cryptoregistry.protos.Buttermilk.ListProto.getDefaultInstance()) {
+            map_ =
+              com.cryptoregistry.protos.Buttermilk.ListProto.newBuilder(map_).mergeFrom(value).buildPartial();
+          } else {
+            map_ = value;
+          }
+          onChanged();
+        } else {
+          mapBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>required .ListProto map = 2;</code>
+       */
+      public Builder clearMap() {
+        if (mapBuilder_ == null) {
+          map_ = com.cryptoregistry.protos.Buttermilk.ListProto.getDefaultInstance();
+          onChanged();
+        } else {
+          mapBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+      /**
+       * <code>required .ListProto map = 2;</code>
+       */
+      public com.cryptoregistry.protos.Buttermilk.ListProto.Builder getMapBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return getMapFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>required .ListProto map = 2;</code>
+       */
+      public com.cryptoregistry.protos.Buttermilk.ListProtoOrBuilder getMapOrBuilder() {
+        if (mapBuilder_ != null) {
+          return mapBuilder_.getMessageOrBuilder();
+        } else {
+          return map_;
+        }
+      }
+      /**
+       * <code>required .ListProto map = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.cryptoregistry.protos.Buttermilk.ListProto, com.cryptoregistry.protos.Buttermilk.ListProto.Builder, com.cryptoregistry.protos.Buttermilk.ListProtoOrBuilder> 
+          getMapFieldBuilder() {
+        if (mapBuilder_ == null) {
+          mapBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.cryptoregistry.protos.Buttermilk.ListProto, com.cryptoregistry.protos.Buttermilk.ListProto.Builder, com.cryptoregistry.protos.Buttermilk.ListProtoOrBuilder>(
+                  map_,
+                  getParentForChildren(),
+                  isClean());
+          map_ = null;
+        }
+        return mapBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:NamedListProto)
+    }
+
+    static {
+      defaultInstance = new NamedListProto(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:NamedListProto)
+  }
+
   public interface CryptoContactProtoOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -7982,14 +8661,26 @@ public final class Buttermilk {
     // optional string curve_name = 3;
     /**
      * <code>optional string curve_name = 3;</code>
+     *
+     * <pre>
+     * one of these is required
+     * </pre>
      */
     boolean hasCurveName();
     /**
      * <code>optional string curve_name = 3;</code>
+     *
+     * <pre>
+     * one of these is required
+     * </pre>
      */
     java.lang.String getCurveName();
     /**
      * <code>optional string curve_name = 3;</code>
+     *
+     * <pre>
+     * one of these is required
+     * </pre>
      */
     com.google.protobuf.ByteString
         getCurveNameBytes();
@@ -8232,12 +8923,20 @@ public final class Buttermilk {
     private java.lang.Object curveName_;
     /**
      * <code>optional string curve_name = 3;</code>
+     *
+     * <pre>
+     * one of these is required
+     * </pre>
      */
     public boolean hasCurveName() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>optional string curve_name = 3;</code>
+     *
+     * <pre>
+     * one of these is required
+     * </pre>
      */
     public java.lang.String getCurveName() {
       java.lang.Object ref = curveName_;
@@ -8255,6 +8954,10 @@ public final class Buttermilk {
     }
     /**
      * <code>optional string curve_name = 3;</code>
+     *
+     * <pre>
+     * one of these is required
+     * </pre>
      */
     public com.google.protobuf.ByteString
         getCurveNameBytes() {
@@ -8880,12 +9583,20 @@ public final class Buttermilk {
       private java.lang.Object curveName_ = "";
       /**
        * <code>optional string curve_name = 3;</code>
+       *
+       * <pre>
+       * one of these is required
+       * </pre>
        */
       public boolean hasCurveName() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>optional string curve_name = 3;</code>
+       *
+       * <pre>
+       * one of these is required
+       * </pre>
        */
       public java.lang.String getCurveName() {
         java.lang.Object ref = curveName_;
@@ -8900,6 +9611,10 @@ public final class Buttermilk {
       }
       /**
        * <code>optional string curve_name = 3;</code>
+       *
+       * <pre>
+       * one of these is required
+       * </pre>
        */
       public com.google.protobuf.ByteString
           getCurveNameBytes() {
@@ -8916,6 +9631,10 @@ public final class Buttermilk {
       }
       /**
        * <code>optional string curve_name = 3;</code>
+       *
+       * <pre>
+       * one of these is required
+       * </pre>
        */
       public Builder setCurveName(
           java.lang.String value) {
@@ -8929,6 +9648,10 @@ public final class Buttermilk {
       }
       /**
        * <code>optional string curve_name = 3;</code>
+       *
+       * <pre>
+       * one of these is required
+       * </pre>
        */
       public Builder clearCurveName() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -8938,6 +9661,10 @@ public final class Buttermilk {
       }
       /**
        * <code>optional string curve_name = 3;</code>
+       *
+       * <pre>
+       * one of these is required
+       * </pre>
        */
       public Builder setCurveNameBytes(
           com.google.protobuf.ByteString value) {
@@ -10655,6 +11382,11 @@ public final class Buttermilk {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_ListProto_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_NamedListProto_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_NamedListProto_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_CryptoContactProto_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -10712,41 +11444,42 @@ public final class Buttermilk {
       "\001 \002(\t\022\r\n\005value\030\002 \002(\t\"(\n\010MapProto\022\034\n\007entr" +
       "ies\030\001 \003(\0132\013.EntryProto\"5\n\rNamedMapProto\022" +
       "\014\n\004uuid\030\001 \002(\t\022\026\n\003map\030\002 \002(\0132\t.MapProto\"\031\n" +
-      "\tListProto\022\014\n\004list\030\001 \003(\t\"1\n\022CryptoContac" +
-      "tProto\022\033\n\003map\030\001 \002(\0132\016.NamedMapProto\"\360\001\n\026" +
-      "SignatureMetadataProto\022\016\n\006handle\030\001 \002(\t\022\022" +
-      "\n\ncreated_on\030\002 \002(\004\022@\n\023signature_algorith" +
-      "m\030\003 \002(\0162#.SignatureMetadataProto.SigAlgP" +
-      "roto\022\030\n\020digest_algorithm\030\004 \002(\t\022\023\n\013signed",
-      "_with\030\005 \002(\t\022\021\n\tsigned_by\030\006 \002(\t\".\n\013SigAlg" +
-      "Proto\022\007\n\003RSA\020\000\022\t\n\005ECDSA\020\001\022\013\n\007ECKCDSA\020\002\"n" +
-      "\n\016SignatureProto\022%\n\004meta\030\001 \002(\0132\027.Signatu" +
-      "reMetadataProto\022\n\n\002b0\030\002 \002(\014\022\n\n\002b1\030\003 \001(\014\022" +
-      "\035\n\tdata_refs\030\004 \002(\0132\n.ListProto\"\202\002\n\020KeyMe" +
-      "tadataProto\022\016\n\006handle\030\001 \002(\t\022\022\n\ncreated_o" +
-      "n\030\002 \002(\004\022;\n\010encoding\030\003 \002(\0162\037.KeyMetadataP" +
-      "roto.EncodingProto:\010RAWBYTES\022 \n\030key_gene" +
-      "ration_algorithm\030\004 \002(\t\"k\n\rEncodingProto\022" +
-      "\016\n\nNOENCODING\020\000\022\014\n\010RAWBYTES\020\001\022\t\n\005BASE2\020\002",
-      "\022\n\n\006BASE10\020\003\022\n\n\006BASE16\020\004\022\n\n\006BASE64\020\005\022\r\n\t" +
-      "BASE64URL\020\006\"\205\001\n\022C2KeyContentsProto\022\037\n\004me" +
-      "ta\030\001 \002(\0132\021.KeyMetadataProto\022\022\n\npublic_ke" +
-      "y\030\002 \002(\014\022\033\n\023signing_private_key\030\003 \001(\014\022\035\n\025" +
-      "agreement_private_key\030\004 \001(\014\"\220\001\n\024CurveDef" +
-      "initionProto\0221\n\005field\030\001 \002(\0162\".CurveDefin" +
-      "itionProto.ECFieldProto\022\014\n\004uuid\030\002 \002(\t\022\026\n" +
-      "\003map\030\003 \002(\0132\t.MapProto\"\037\n\014ECFieldProto\022\006\n" +
-      "\002FP\020\000\022\007\n\003F2M\020\001\"\220\001\n\022ECKeyContentsProto\022\037\n" +
-      "\004meta\030\001 \002(\0132\021.KeyMetadataProto\022\t\n\001Q\030\002 \002(",
-      "\t\022\022\n\ncurve_name\030\003 \001(\t\022/\n\020curve_definitio" +
-      "n\030\004 \001(\0132\025.CurveDefinitionProto\022\t\n\001d\030\005 \001(" +
-      "\014\"\266\001\n\023RSAKeyContentsProto\022\037\n\004meta\030\001 \002(\0132" +
-      "\021.KeyMetadataProto\022\017\n\007Modulus\030\002 \002(\014\022\027\n\017p" +
-      "ublic_exponent\030\003 \002(\014\022\030\n\020private_exponent" +
-      "\030\004 \001(\014\022\t\n\001p\030\005 \001(\014\022\t\n\001q\030\006 \001(\014\022\n\n\002dP\030\007 \001(\014" +
-      "\022\n\n\002dQ\030\010 \001(\014\022\014\n\004qInv\030\t \001(\014\"\026\n\024NTRUKeyCon" +
-      "tentsProtoB$\n\031com.cryptoregistry.protos\200" +
-      "\001\000\210\001\000\220\001\000"
+      "\tListProto\022\014\n\004list\030\001 \003(\t\"7\n\016NamedListPro" +
+      "to\022\014\n\004uuid\030\001 \002(\t\022\027\n\003map\030\002 \002(\0132\n.ListProt" +
+      "o\"1\n\022CryptoContactProto\022\033\n\003map\030\001 \002(\0132\016.N" +
+      "amedMapProto\"\360\001\n\026SignatureMetadataProto\022" +
+      "\016\n\006handle\030\001 \002(\t\022\022\n\ncreated_on\030\002 \002(\004\022@\n\023s" +
+      "ignature_algorithm\030\003 \002(\0162#.SignatureMeta",
+      "dataProto.SigAlgProto\022\030\n\020digest_algorith" +
+      "m\030\004 \002(\t\022\023\n\013signed_with\030\005 \002(\t\022\021\n\tsigned_b" +
+      "y\030\006 \002(\t\".\n\013SigAlgProto\022\007\n\003RSA\020\000\022\t\n\005ECDSA" +
+      "\020\001\022\013\n\007ECKCDSA\020\002\"n\n\016SignatureProto\022%\n\004met" +
+      "a\030\001 \002(\0132\027.SignatureMetadataProto\022\n\n\002b0\030\002" +
+      " \002(\014\022\n\n\002b1\030\003 \001(\014\022\035\n\tdata_refs\030\004 \002(\0132\n.Li" +
+      "stProto\"\202\002\n\020KeyMetadataProto\022\016\n\006handle\030\001" +
+      " \002(\t\022\022\n\ncreated_on\030\002 \002(\004\022;\n\010encoding\030\003 \002" +
+      "(\0162\037.KeyMetadataProto.EncodingProto:\010RAW" +
+      "BYTES\022 \n\030key_generation_algorithm\030\004 \002(\t\"",
+      "k\n\rEncodingProto\022\016\n\nNOENCODING\020\000\022\014\n\010RAWB" +
+      "YTES\020\001\022\t\n\005BASE2\020\002\022\n\n\006BASE10\020\003\022\n\n\006BASE16\020" +
+      "\004\022\n\n\006BASE64\020\005\022\r\n\tBASE64URL\020\006\"\205\001\n\022C2KeyCo" +
+      "ntentsProto\022\037\n\004meta\030\001 \002(\0132\021.KeyMetadataP" +
+      "roto\022\022\n\npublic_key\030\002 \002(\014\022\033\n\023signing_priv" +
+      "ate_key\030\003 \001(\014\022\035\n\025agreement_private_key\030\004" +
+      " \001(\014\"\220\001\n\024CurveDefinitionProto\0221\n\005field\030\001" +
+      " \002(\0162\".CurveDefinitionProto.ECFieldProto" +
+      "\022\014\n\004uuid\030\002 \002(\t\022\026\n\003map\030\003 \002(\0132\t.MapProto\"\037" +
+      "\n\014ECFieldProto\022\006\n\002FP\020\000\022\007\n\003F2M\020\001\"\220\001\n\022ECKe",
+      "yContentsProto\022\037\n\004meta\030\001 \002(\0132\021.KeyMetada" +
+      "taProto\022\t\n\001Q\030\002 \002(\t\022\022\n\ncurve_name\030\003 \001(\t\022/" +
+      "\n\020curve_definition\030\004 \001(\0132\025.CurveDefiniti" +
+      "onProto\022\t\n\001d\030\005 \001(\014\"\266\001\n\023RSAKeyContentsPro" +
+      "to\022\037\n\004meta\030\001 \002(\0132\021.KeyMetadataProto\022\017\n\007M" +
+      "odulus\030\002 \002(\014\022\027\n\017public_exponent\030\003 \002(\014\022\030\n" +
+      "\020private_exponent\030\004 \001(\014\022\t\n\001p\030\005 \001(\014\022\t\n\001q\030" +
+      "\006 \001(\014\022\n\n\002dP\030\007 \001(\014\022\n\n\002dQ\030\010 \001(\014\022\014\n\004qInv\030\t " +
+      "\001(\014\"\026\n\024NTRUKeyContentsProtoB$\n\031com.crypt" +
+      "oregistry.protos\200\001\000\210\001\000\220\001\000"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -10777,56 +11510,62 @@ public final class Buttermilk {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ListProto_descriptor,
               new java.lang.String[] { "List", });
-          internal_static_CryptoContactProto_descriptor =
+          internal_static_NamedListProto_descriptor =
             getDescriptor().getMessageTypes().get(4);
+          internal_static_NamedListProto_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_NamedListProto_descriptor,
+              new java.lang.String[] { "Uuid", "Map", });
+          internal_static_CryptoContactProto_descriptor =
+            getDescriptor().getMessageTypes().get(5);
           internal_static_CryptoContactProto_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_CryptoContactProto_descriptor,
               new java.lang.String[] { "Map", });
           internal_static_SignatureMetadataProto_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(6);
           internal_static_SignatureMetadataProto_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_SignatureMetadataProto_descriptor,
               new java.lang.String[] { "Handle", "CreatedOn", "SignatureAlgorithm", "DigestAlgorithm", "SignedWith", "SignedBy", });
           internal_static_SignatureProto_descriptor =
-            getDescriptor().getMessageTypes().get(6);
+            getDescriptor().getMessageTypes().get(7);
           internal_static_SignatureProto_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_SignatureProto_descriptor,
               new java.lang.String[] { "Meta", "B0", "B1", "DataRefs", });
           internal_static_KeyMetadataProto_descriptor =
-            getDescriptor().getMessageTypes().get(7);
+            getDescriptor().getMessageTypes().get(8);
           internal_static_KeyMetadataProto_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_KeyMetadataProto_descriptor,
               new java.lang.String[] { "Handle", "CreatedOn", "Encoding", "KeyGenerationAlgorithm", });
           internal_static_C2KeyContentsProto_descriptor =
-            getDescriptor().getMessageTypes().get(8);
+            getDescriptor().getMessageTypes().get(9);
           internal_static_C2KeyContentsProto_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_C2KeyContentsProto_descriptor,
               new java.lang.String[] { "Meta", "PublicKey", "SigningPrivateKey", "AgreementPrivateKey", });
           internal_static_CurveDefinitionProto_descriptor =
-            getDescriptor().getMessageTypes().get(9);
+            getDescriptor().getMessageTypes().get(10);
           internal_static_CurveDefinitionProto_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_CurveDefinitionProto_descriptor,
               new java.lang.String[] { "Field", "Uuid", "Map", });
           internal_static_ECKeyContentsProto_descriptor =
-            getDescriptor().getMessageTypes().get(10);
+            getDescriptor().getMessageTypes().get(11);
           internal_static_ECKeyContentsProto_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ECKeyContentsProto_descriptor,
               new java.lang.String[] { "Meta", "Q", "CurveName", "CurveDefinition", "D", });
           internal_static_RSAKeyContentsProto_descriptor =
-            getDescriptor().getMessageTypes().get(11);
+            getDescriptor().getMessageTypes().get(12);
           internal_static_RSAKeyContentsProto_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RSAKeyContentsProto_descriptor,
               new java.lang.String[] { "Meta", "Modulus", "PublicExponent", "PrivateExponent", "P", "Q", "DP", "DQ", "QInv", });
           internal_static_NTRUKeyContentsProto_descriptor =
-            getDescriptor().getMessageTypes().get(12);
+            getDescriptor().getMessageTypes().get(13);
           internal_static_NTRUKeyContentsProto_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_NTRUKeyContentsProto_descriptor,

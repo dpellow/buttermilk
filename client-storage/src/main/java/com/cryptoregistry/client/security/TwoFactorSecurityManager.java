@@ -26,7 +26,7 @@ import com.cryptoregistry.passwords.SensitiveBytes;
 
 /**
  * Cheap two-factor security: a thumb drive and two EC keys. The thumb drive can be removed 
- * from the PC once the secret has been generated.
+ * from the PC once the program has initialized.
  * 
  * @author Dave
  *
@@ -94,14 +94,29 @@ public class TwoFactorSecurityManager {
 			}
 		}
 		
-	//	System.err.println(p);
-	//	System.err.println(_q);
-		
 		return new SensitiveBytes(CryptoFactory.INSTANCE.keyAgreement(p, _q));
 		
 	}
 	
-	public void generateAndSecureKeys(char [] password) {
+	public boolean keysExist() {
+		
+		String path_p = location_p+File.separatorChar+fileName;
+		String path_q = location_q+File.separatorChar+fileName;
+		
+		File pf= new File(path_p);
+		if(!pf.exists()) {
+			return false;
+		}
+		File qf= new File(path_q);
+		if(!qf.exists()) {
+			return false;
+		}
+		
+		return true;
+		
+	}
+	
+	public void generateAndSecureKeys(Password password) {
 		
 		ECKeyContents p, q;
 		
@@ -122,14 +137,13 @@ public class TwoFactorSecurityManager {
 				);
 		}
 		
-		
 		File loc_p = new File(location_p);
 		loc_p.mkdirs();
 		
 		File loc_q = new File(location_q);
 		loc_q.mkdirs();
 		
-		p = CryptoFactory.INSTANCE.generateKeys(password, curveName);
+		p = CryptoFactory.INSTANCE.generateKeys(password.getPassword(), curveName);
 		q = CryptoFactory.INSTANCE.generateKeys(curveName);
 		
 		JSONBuilder builder = new JSONBuilder(registrationHandle);
@@ -155,6 +169,7 @@ public class TwoFactorSecurityManager {
 			e.printStackTrace();
 		}
 		
+		if(password.isAlive()) password.selfDestruct();
 		p.scrubPassword();
 		q.scrubPassword();
 	}

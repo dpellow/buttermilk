@@ -12,16 +12,14 @@ public class SecureKey implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String handle;
-	private String protoName; // the proto name, e.g. RSAKeyContentsProto
 
 	public SecureKey() {
 		super();
 	}
 
-	public SecureKey(String handle, String protoName) {
+	public SecureKey(String handle) {
 		super();
 		this.handle = handle;
-		this.protoName = protoName;
 	}
 
 	public String getHandle() {
@@ -32,21 +30,11 @@ public class SecureKey implements Serializable {
 		this.handle = handle;
 	}
 
-	public String getProtoName() {
-		return protoName;
-	}
-
-	public void setProtoName(String protoName) {
-		this.protoName = protoName;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((handle == null) ? 0 : handle.hashCode());
-		result = prime * result
-				+ ((protoName == null) ? 0 : protoName.hashCode());
 		return result;
 	}
 
@@ -64,13 +52,12 @@ public class SecureKey implements Serializable {
 				return false;
 		} else if (!handle.equals(other.handle))
 			return false;
-		if (protoName == null) {
-			if (other.protoName != null)
-				return false;
-		} else if (!protoName.equals(other.protoName))
-			return false;
 		return true;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "SecureKey [handle=" + handle + "]";
+	}
+
 }

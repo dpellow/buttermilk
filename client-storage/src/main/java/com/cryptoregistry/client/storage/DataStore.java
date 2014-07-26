@@ -1,14 +1,24 @@
 package com.cryptoregistry.client.storage;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
+import asia.redact.bracket.properties.Properties;
+import asia.redact.bracket.properties.mgmt.PropertiesReference;
+import asia.redact.bracket.properties.mgmt.ReferenceType;
+
+import com.cryptoregistry.client.security.TwoFactorSecurityManager;
+import com.cryptoregistry.passwords.Password;
+import com.cryptoregistry.passwords.SensitiveBytes;
 import com.sleepycat.je.DatabaseException;
 
 /**
- * Create a database
+ * Create a datastore for key data. The store will be encrypted using two factor security. to
+ * prepare for this you will need a thumb drive (flash drive)
  * 
  * @author Dave
- *
+ * 
  */
 public class DataStore {
 
@@ -16,21 +26,40 @@ public class DataStore {
 
 	protected ButtermilkDatabase db;
 	protected ButtermilkViews views;
+	protected Properties props;
+	protected TwoFactorSecurityManager securityManager;
 
 	/**
 	 * Will put the store into <user.home>/buttermilk-db
 	 */
-	public DataStore() {
+	public DataStore(Password password) {
 		initDb(defaultDBFolder());
+		initProperties();
+		securityManager = new TwoFactorSecurityManager(props);
+		if(!securityManager.checkForRemovableDisk()) {
+			throw new RuntimeException("Please insert removable disk");
+		}
+		if(securityManager.keysExist()) {
+			SensitiveBytes cachedKey = securityManager.loadKey(password);
+			views.setCachedKey(cachedKey);
+		}else{
+			securityManager.generateAndSecureKeys(password);
+		}
+		
 	}
-	
-	/**
-	 * alternateLoc should be a full path to a directory for the store
-	 * 
-	 * @param alternateLoc
-	 */
-	public DataStore(String alternateLoc) {
-		initDb(alternateLoc);
+
+	protected void initProperties() {
+
+		String userHome = System.getProperty("user.home");
+		String overridePath = userHome + File.separator
+				+ "buttermilk.properties";
+
+		List<PropertiesReference> refs = new ArrayList<PropertiesReference>();
+		refs.add(new PropertiesReference(ReferenceType.CLASSLOADED,
+				"/buttermilk.properties"));
+		refs.add(new PropertiesReference(ReferenceType.EXTERNAL, overridePath));
+
+		props = Properties.Factory.loadReferences(refs);
 	}
 
 	protected void initDb(String dataHomeDir) throws DatabaseException {
@@ -56,6 +85,7 @@ public class DataStore {
 
 	public void closeDb() throws DatabaseException {
 		db.close();
+		views.clearCachedKey();
 	}
 
 	public ButtermilkDatabase getDb() {
@@ -65,5 +95,7 @@ public class DataStore {
 	public ButtermilkViews getViews() {
 		return views;
 	}
+	
+	
 
 }
