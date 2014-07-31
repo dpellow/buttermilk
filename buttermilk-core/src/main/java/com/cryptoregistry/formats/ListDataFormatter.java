@@ -10,16 +10,16 @@ import com.cryptoregistry.ListData;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 
-class RemoteDataFormatter {
+class ListDataFormatter {
 
 	private List<ListData> listData;
 
-	public RemoteDataFormatter() {
+	public ListDataFormatter() {
 		super();
 		listData = new ArrayList<ListData>();
 	}
 
-	public RemoteDataFormatter(List<ListData> listData) {
+	public ListDataFormatter(List<ListData> listData) {
 		super();
 		this.listData = listData;
 	}

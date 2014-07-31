@@ -13,7 +13,6 @@ import com.cryptoregistry.CryptoContact;
 import com.cryptoregistry.CryptoKeyWrapper;
 import com.cryptoregistry.FileURLResolver;
 import com.cryptoregistry.HTTPURLResolver;
-import com.cryptoregistry.KeyGenerationAlgorithm;
 import com.cryptoregistry.KeyMaterials;
 import com.cryptoregistry.MapData;
 import com.cryptoregistry.ListData;
@@ -73,7 +72,7 @@ public class GeneralFormattingTest {
 			sigBuilder.update(label, iter3.get(label));
 		}
 		
-		// a bit more complex - the remote iterator outputs a list resolved into LocalData
+		// a bit more complex - the List iterator outputs a list resolved into MapData
 		while(remoteIter.hasNext()){
 			List<MapData> list = remoteIter.nextData();
 			for(MapData data: list){
@@ -112,7 +111,7 @@ public class GeneralFormattingTest {
 		MapData ld1 = new MapData();
 		ld1.put("some key", "some data");
 		ld1.put("another key", "more data");
-		LocalDataFormatter format = new LocalDataFormatter();
+		MapDataFormatter format = new MapDataFormatter();
 		format.add(ld0);
 		format.add(ld1);
 		

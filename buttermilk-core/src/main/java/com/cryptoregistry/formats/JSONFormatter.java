@@ -189,7 +189,7 @@ public class JSONFormatter {
 					
 					g.writeObjectFieldStart("Local");
 					
-						LocalDataFormatter ldf = new LocalDataFormatter(mapData);
+						MapDataFormatter ldf = new MapDataFormatter(mapData);
 						ldf.format(g, writer);
 					
 					g.writeEndObject();
@@ -200,7 +200,7 @@ public class JSONFormatter {
 					
 					g.writeArrayFieldStart("Remote");
 					
-						RemoteDataFormatter rdf = new RemoteDataFormatter(listData);
+						ListDataFormatter rdf = new ListDataFormatter(listData);
 						rdf.format(g, writer);
 				
 					g.writeEndArray();

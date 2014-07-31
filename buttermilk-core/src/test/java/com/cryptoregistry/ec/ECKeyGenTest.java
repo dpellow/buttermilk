@@ -22,6 +22,21 @@ public class ECKeyGenTest {
 
 	@Test
 	public void test0() {
+		char [] password = {'p','a','s','s','w','w','o','r','d'};
+		String curveName = "P-256";
+		ECKeyContents ecc = CryptoFactory.INSTANCE.generateKeys(password, curveName);
+
+		final String registrationHandle = "Chinese Eyes";
+		JSONFormatter f = new JSONFormatter(registrationHandle);
+		f.add(ecc);
+		StringWriter writer = new StringWriter();
+		f.format(writer);
+		System.err.println(writer.toString());
+		
+	}
+	
+	@Test
+	public void test1() {
 		String curveName = "P-256";
 		ECKeyContents ecc = CryptoFactory.INSTANCE.generateKeys(curveName);
 		

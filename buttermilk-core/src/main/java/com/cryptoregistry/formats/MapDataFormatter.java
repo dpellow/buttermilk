@@ -10,16 +10,16 @@ import com.cryptoregistry.MapData;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 
-class LocalDataFormatter {
+class MapDataFormatter {
 
 	private List<MapData> mapData;
 
-	public LocalDataFormatter() {
+	public MapDataFormatter() {
 		super();
 		mapData = new ArrayList<MapData>();
 	}
 
-	public LocalDataFormatter(List<MapData> mapData) {
+	public MapDataFormatter(List<MapData> mapData) {
 		super();
 		this.mapData = mapData;
 	}
