@@ -13,6 +13,8 @@ import com.sleepycat.je.DatabaseConfig;
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.je.Environment;
 import com.sleepycat.je.EnvironmentConfig;
+import com.cryptoregistry.passwords.SensitiveBytes;
+
 
 /**
  * ButtermilkDatabase defines the storage containers, indices and foreign keys for the database.
@@ -23,20 +25,28 @@ public class ButtermilkDatabase {
 
     private static final String CLASS_CATALOG = "java_class_catalog";
     private static final String SecureStore = "secure_store";
+    private static final String MetadataStore = "metadata_store";
+	//private static final String KEY_GEN_ALG_INDEX = "key_gen_alg";
 
-    private Environment env;
-    private Database secureDb;
+    private final Environment env;
+    private final Database secureDb;
+    private final Database metadataDb;
     
-//    private SecondaryDatabase keysByRegDb; // keys by Registration (SecretKeeper). Given a registration handle, get his keys
+ //   private final SecondaryDatabase keyGenAlgDb; // find keys by KeyGenerationAlgorithm
     
-    private StoredClassCatalog javaCatalog;
+    private final StoredClassCatalog javaCatalog;
+    
+    // not used currently may be useful in a subclass
+    protected final SensitiveBytes cachedKey;
 
     /**
      * Open all storage containers, indices, and catalogs.
      */
-    public ButtermilkDatabase(String homeDirectory)
+    public ButtermilkDatabase(String homeDirectory, SensitiveBytes cachedKey)
         throws DatabaseException {
 
+    	this.cachedKey = cachedKey;
+    	
         // Open the Berkeley DB environment in transactional mode.
         //
         System.out.println("Opening environment in: " + homeDirectory);
@@ -57,20 +67,27 @@ public class ButtermilkDatabase {
         Database catalogDb = env.openDatabase(null, CLASS_CATALOG, dbConfig);
         javaCatalog = new StoredClassCatalog(catalogDb);
 
-        // Open the Berkeley DB database for the part, supplier and shipment
-        // stores.  The stores are opened with no duplicate keys allowed.
+        // Open the Berkeley DB database 
         //
         secureDb = env.openDatabase(null, SecureStore, dbConfig);
+        metadataDb = env.openDatabase(null, MetadataStore, dbConfig);
         
         // now do secondary indexes
-        
-   //     SecondaryConfig secConfig = new SecondaryConfig();
-   //     secConfig.setTransactional(true);
-   //     secConfig.setAllowCreate(true);
-   //     secConfig.setSortedDuplicates(true);
-   //     secConfig.setKeyCreator(new KeysByRegKeyCreator(javaCatalog, KeysData.class));
-   //     keysByRegDb = env.openSecondaryDatabase(null, KEYS_BY_REG_INDEX, keysDb, secConfig);
-        
+
+        /*
+          SecondaryConfig secConfig = new SecondaryConfig();
+          secConfig.setTransactional(true);
+          secConfig.setAllowCreate(true);
+          secConfig.setSortedDuplicates(false);
+          secConfig.setKeyCreator(
+        	new KeyGenAlgSecondaryKeyCreator<SecureData,SecureKey,String>(
+        			javaCatalog, 
+        			SecureKey.class,
+        			SecureData.class, 
+        			String.class, 
+        			cachedKey));
+        keyGenAlgDb = env.openSecondaryDatabase(null, KEY_GEN_ALG_INDEX, secureDb, secConfig);
+        */
                
     }
 
@@ -91,49 +108,31 @@ public class ButtermilkDatabase {
     }
     
     /**
-     * Return the password storage container.
+     * Return the secure database
      */
     public final Database getSecureDatabase() {
-
         return secureDb;
     }
+    
+  //  public final Database getKeyGenAlgDatabase() {
+  //      return keyGenAlgDb;
+  //  }
 
-    /**
+    public final Database getMetadataDatabase() {
+        return metadataDb;
+    }
+
+	/**
      * Close all databases and the environment.
      */
     public void close() throws DatabaseException {
     	
     	// secondary
-    	
+    //	this.keyGenAlgDb.close();
     	// primary
+    	metadataDb.close();
     	secureDb.close();
         javaCatalog.close();
         env.close();
     }
-    
- 
-    /*
-	private static class KeysByRegKeyCreator extends TupleSerialKeyCreator {
-
-        @SuppressWarnings("unchecked")
-		private KeysByRegKeyCreator(ClassCatalog catalog, Class valueClass) {
-            super(catalog, valueClass);
-        }
-
-        public boolean createSecondaryKey(TupleInput primaryKeyInput,
-                                          Object valueInput,
-                                          TupleOutput indexKeyOutput) {
-
-            KeysData keyData = (KeysData) valueInput;
-            String regHandle = keyData.get(CryptoAttribute.SecretKeeper);
-            if (regHandle != null) {
-                indexKeyOutput.writeString(regHandle);
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
-    */
-    
 }

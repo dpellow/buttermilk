@@ -33,18 +33,23 @@ public class DataStore {
 	 * Will put the store into <user.home>/buttermilk-db
 	 */
 	public DataStore(Password password) {
-		initDb(defaultDBFolder());
+		
+		SensitiveBytes cachedKey = null;
+		
 		initProperties();
 		securityManager = new TwoFactorSecurityManager(props);
 		if(!securityManager.checkForRemovableDisk()) {
 			throw new RuntimeException("Please insert removable disk");
 		}
 		if(securityManager.keysExist()) {
-			SensitiveBytes cachedKey = securityManager.loadKey(password);
-			views.setCachedKey(cachedKey);
+			cachedKey = securityManager.loadKey(password);
 		}else{
 			securityManager.generateAndSecureKeys(password);
 		}
+		
+		initDb(defaultDBFolder(), cachedKey);
+		
+		if(password.isAlive()) password.selfDestruct();
 		
 	}
 
@@ -62,15 +67,15 @@ public class DataStore {
 		props = Properties.Factory.loadReferences(refs);
 	}
 
-	protected void initDb(String dataHomeDir) throws DatabaseException {
+	protected void initDb(String dataHomeDir, SensitiveBytes cachedKey) throws DatabaseException {
 
 		File dbPathFile = new File(dataHomeDir);
 		if (!dbPathFile.exists()) {
 			dbPathFile.mkdirs();
 		}
 
-		db = new ButtermilkDatabase(dataHomeDir);
-		views = new ButtermilkViews(db);
+		db = new ButtermilkDatabase(dataHomeDir, cachedKey);
+		views = new ButtermilkViews(db, cachedKey);
 	}
 
 	protected String defaultDBFolder() {

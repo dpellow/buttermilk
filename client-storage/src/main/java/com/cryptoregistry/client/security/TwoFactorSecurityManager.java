@@ -19,7 +19,7 @@ import com.cryptoregistry.KeyMaterials;
 import com.cryptoregistry.ec.CryptoFactory;
 import com.cryptoregistry.ec.ECKeyContents;
 import com.cryptoregistry.ec.ECKeyForPublication;
-import com.cryptoregistry.formats.JSONBuilder;
+import com.cryptoregistry.formats.JSONFormatter;
 import com.cryptoregistry.formats.JSONReader;
 import com.cryptoregistry.passwords.Password;
 import com.cryptoregistry.passwords.SensitiveBytes;
@@ -146,7 +146,7 @@ public class TwoFactorSecurityManager {
 		p = CryptoFactory.INSTANCE.generateKeys(password.getPassword(), curveName);
 		q = CryptoFactory.INSTANCE.generateKeys(curveName);
 		
-		JSONBuilder builder = new JSONBuilder(registrationHandle);
+		JSONFormatter builder = new JSONFormatter(registrationHandle);
 		builder.add(p);
 		
 		StringWriter writer = new StringWriter();
@@ -158,7 +158,7 @@ public class TwoFactorSecurityManager {
 		}
 		
 		// only keep _q
-		builder = new JSONBuilder(registrationHandle);
+		builder = new JSONFormatter(registrationHandle);
 		builder.add(q.forPublication());
 		
 		writer = new StringWriter();

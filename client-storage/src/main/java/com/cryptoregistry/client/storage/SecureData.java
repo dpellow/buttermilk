@@ -14,6 +14,7 @@ public class SecureData implements Serializable {
 	
 	private byte [] data;
 	private byte [] iv;
+	
 	private String protoClass;
 
 	public SecureData(byte[] data, byte[] iv, String protoClass) {
