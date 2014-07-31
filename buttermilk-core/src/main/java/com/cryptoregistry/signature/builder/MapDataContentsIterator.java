@@ -1,3 +1,8 @@
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2014 David R. Smith All Rights Reserved.
+ *
+ */
 package com.cryptoregistry.signature.builder;
 
 import java.util.Iterator;
@@ -5,13 +10,13 @@ import java.util.Iterator;
 import com.cryptoregistry.MapData;
 import com.cryptoregistry.util.MapIterator;
 
-public class LocalDataContentsIterator implements MapIterator {
+public class MapDataContentsIterator implements MapIterator {
 	
 	final MapData mapData;
 	private Iterator<String> iter;
 	int index = 0;
 
-	public LocalDataContentsIterator(MapData ld) {
+	public MapDataContentsIterator(MapData ld) {
 		super();
 		this.mapData = ld;
 		iter = mapData.data.keySet().iterator();

@@ -1,3 +1,8 @@
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2014 David R. Smith All Rights Reserved.
+ *
+ */
 package com.cryptoregistry.signature.builder;
 
 import java.io.File;
@@ -9,13 +14,13 @@ import com.cryptoregistry.HTTPURLResolver;
 import com.cryptoregistry.MapData;
 import com.cryptoregistry.ListData;
 
-public class RemoteDataContentsIterator implements Iterator<String> {
+public class ListDataContentsIterator implements Iterator<String> {
 	
 	final ListData listData;
 	private Iterator<String> iter;
 	int index = 0;
 
-	public RemoteDataContentsIterator(ListData rd) {
+	public ListDataContentsIterator(ListData rd) {
 		super();
 		this.listData = rd;
 		iter = listData.urls.iterator();

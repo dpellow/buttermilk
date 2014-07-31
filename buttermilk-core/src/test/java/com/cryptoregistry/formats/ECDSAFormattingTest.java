@@ -13,10 +13,10 @@ import com.cryptoregistry.ec.CryptoFactory;
 import com.cryptoregistry.ec.ECKeyContents;
 import com.cryptoregistry.signature.CryptoSignature;
 import com.cryptoregistry.signature.builder.ContactContentsIterator;
-import com.cryptoregistry.signature.builder.LocalDataContentsIterator;
+import com.cryptoregistry.signature.builder.MapDataContentsIterator;
 import com.cryptoregistry.signature.builder.ECKeyContentsIterator;
 import com.cryptoregistry.signature.builder.ECDSASignatureBuilder;
-import com.cryptoregistry.signature.builder.RemoteDataContentsIterator;
+import com.cryptoregistry.signature.builder.ListDataContentsIterator;
 import com.cryptoregistry.util.MapIterator;
 
 
@@ -47,8 +47,8 @@ public class ECDSAFormattingTest {
 		ECKeyContents contents = CryptoFactory.INSTANCE.generateKeys(curveName);
 		MapIterator iter = new ECKeyContentsIterator(contents);
 		MapIterator iter2 = new ContactContentsIterator(contact);
-		MapIterator iter3 = new LocalDataContentsIterator(ld);
-		RemoteDataContentsIterator remoteIter = new RemoteDataContentsIterator(rd);
+		MapIterator iter3 = new MapDataContentsIterator(ld);
+		ListDataContentsIterator remoteIter = new ListDataContentsIterator(rd);
 		ECDSASignatureBuilder sigBuilder = new ECDSASignatureBuilder("Chinese Eyes", contents);
 		
 		while(iter.hasNext()){
@@ -68,7 +68,7 @@ public class ECDSAFormattingTest {
 		while(remoteIter.hasNext()){
 			List<MapData> list = remoteIter.nextData();
 			for(MapData data: list){
-				MapIterator inner = new LocalDataContentsIterator(data);
+				MapIterator inner = new MapDataContentsIterator(data);
 				while(inner.hasNext()){
 					String label = inner.next();
 					sigBuilder.update(label, inner.get(label));

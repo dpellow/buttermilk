@@ -23,10 +23,10 @@ import com.cryptoregistry.rsa.RSAKeyContents;
 import com.cryptoregistry.rsa.RSAKeyForPublication;
 import com.cryptoregistry.signature.CryptoSignature;
 import com.cryptoregistry.signature.builder.ContactContentsIterator;
-import com.cryptoregistry.signature.builder.LocalDataContentsIterator;
+import com.cryptoregistry.signature.builder.MapDataContentsIterator;
 import com.cryptoregistry.signature.builder.RSAKeyContentsIterator;
 import com.cryptoregistry.signature.builder.RSASignatureBuilder;
-import com.cryptoregistry.signature.builder.RemoteDataContentsIterator;
+import com.cryptoregistry.signature.builder.ListDataContentsIterator;
 import com.cryptoregistry.util.MapIterator;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -56,8 +56,8 @@ public class GeneralFormattingTest {
 		RSAKeyContents contents = CryptoFactory.INSTANCE.generateKeys();
 		MapIterator iter = new RSAKeyContentsIterator(contents);
 		MapIterator iter2 = new ContactContentsIterator(contact);
-		MapIterator iter3 = new LocalDataContentsIterator(ld);
-		RemoteDataContentsIterator remoteIter = new RemoteDataContentsIterator(rd);
+		MapIterator iter3 = new MapDataContentsIterator(ld);
+		ListDataContentsIterator remoteIter = new ListDataContentsIterator(rd);
 		RSASignatureBuilder sigBuilder = new RSASignatureBuilder("Chinese Eyes", contents);
 		
 		while(iter.hasNext()){
@@ -77,7 +77,7 @@ public class GeneralFormattingTest {
 		while(remoteIter.hasNext()){
 			List<MapData> list = remoteIter.nextData();
 			for(MapData data: list){
-				MapIterator inner = new LocalDataContentsIterator(data);
+				MapIterator inner = new MapDataContentsIterator(data);
 				while(inner.hasNext()){
 					String label = inner.next();
 					sigBuilder.update(label, inner.get(label));
@@ -131,7 +131,7 @@ public class GeneralFormattingTest {
 		
 		System.err.println(writer.toString());
 		
-		MapIterator iter3 = new LocalDataContentsIterator(ld0);
+		MapIterator iter3 = new MapDataContentsIterator(ld0);
 		while(iter3.hasNext()){
 			String label = iter3.next();
 			Assert.assertNotNull(iter3.get(label));

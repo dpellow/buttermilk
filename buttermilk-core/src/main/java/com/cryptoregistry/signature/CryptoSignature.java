@@ -21,7 +21,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
  * @author Dave
  *
  */
-public abstract class CryptoSignature implements Serializable,SignatureData {
+public abstract class CryptoSignature implements Serializable,CanFormatSignatureData {
 
 	protected static final long serialVersionUID = 1L;
 	

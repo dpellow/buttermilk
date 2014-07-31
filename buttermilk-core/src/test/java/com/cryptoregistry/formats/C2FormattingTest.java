@@ -15,8 +15,8 @@ import com.cryptoregistry.signature.CryptoSignature;
 import com.cryptoregistry.signature.builder.C2KeyContentsIterator;
 import com.cryptoregistry.signature.builder.C2SignatureBuilder;
 import com.cryptoregistry.signature.builder.ContactContentsIterator;
-import com.cryptoregistry.signature.builder.LocalDataContentsIterator;
-import com.cryptoregistry.signature.builder.RemoteDataContentsIterator;
+import com.cryptoregistry.signature.builder.MapDataContentsIterator;
+import com.cryptoregistry.signature.builder.ListDataContentsIterator;
 import com.cryptoregistry.util.MapIterator;
 
 
@@ -45,8 +45,8 @@ public class C2FormattingTest {
 		Curve25519KeyContents contents = CryptoFactory.INSTANCE.generateKeys();
 		MapIterator iter = new C2KeyContentsIterator(contents);
 		MapIterator iter2 = new ContactContentsIterator(contact);
-		MapIterator iter3 = new LocalDataContentsIterator(ld);
-		RemoteDataContentsIterator remoteIter = new RemoteDataContentsIterator(rd);
+		MapIterator iter3 = new MapDataContentsIterator(ld);
+		ListDataContentsIterator remoteIter = new ListDataContentsIterator(rd);
 		C2SignatureBuilder sigBuilder = new C2SignatureBuilder("Chinese Eyes", contents);
 		
 		while(iter.hasNext()){
@@ -66,7 +66,7 @@ public class C2FormattingTest {
 		while(remoteIter.hasNext()){
 			List<MapData> list = remoteIter.nextData();
 			for(MapData data: list){
-				MapIterator inner = new LocalDataContentsIterator(data);
+				MapIterator inner = new MapDataContentsIterator(data);
 				while(inner.hasNext()){
 					String label = inner.next();
 					sigBuilder.update(label, inner.get(label));
