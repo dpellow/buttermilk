@@ -1,3 +1,8 @@
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2014 David R. Smith All Rights Reserved.
+ *
+ */
 package com.cryptoregistry.formats;
 
 import java.io.File;
@@ -59,7 +64,8 @@ import com.cryptoregistry.util.TimeUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * Read the canonical format as output by JSONBuilder
+ * Read the canonical format as output by JSONBuilder. This reader is for the scenario where
+ * nothing is known at runtime about the contents of the JSON being passed in
  * 
  * @author Dave
  * @see JSONFormatter

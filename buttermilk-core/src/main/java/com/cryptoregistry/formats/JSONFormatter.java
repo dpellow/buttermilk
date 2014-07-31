@@ -1,3 +1,8 @@
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2014 David R. Smith All Rights Reserved.
+ *
+ */
 package com.cryptoregistry.formats;
 
 import java.io.IOException;
@@ -23,7 +28,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 
 /**
  * <pre>
- * Builder which will generate the canonical data structure for a buttermilk format wrapper
+ * Builder which will generate the canonical data structure for a buttermilk format JSON wrapper
  * 
  * It has the general form:
  * 

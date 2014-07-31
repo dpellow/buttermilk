@@ -1,3 +1,8 @@
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2014 David R. Smith All Rights Reserved.
+ *
+ */
 package com.cryptoregistry.ec;
 
 import java.math.BigInteger;
@@ -10,6 +15,8 @@ import x.org.bouncycastle.math.ec.ECPoint;
  * Ukrainian standard for Digital Signatures with EC.
  * 
  * http://sourceforge.net/projects/dstu4145-2002/
+ * 
+ * TODO = complete this
  * 
  * 
  * @author Dave

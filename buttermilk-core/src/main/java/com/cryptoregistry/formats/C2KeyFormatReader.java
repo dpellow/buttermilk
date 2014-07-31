@@ -1,3 +1,8 @@
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2014 David R. Smith All Rights Reserved.
+ *
+ */
 package com.cryptoregistry.formats;
 
 import java.util.Date;
@@ -13,7 +18,7 @@ import com.cryptoregistry.util.ArmoredString;
 import com.cryptoregistry.util.TimeUtil;
 
 /**
- * This class is used to read the contents of the ArmoredPBE
+ * Given a map of key data, create a C2 style key from that
  * 
  * @author Dave
  *

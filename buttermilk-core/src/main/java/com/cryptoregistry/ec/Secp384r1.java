@@ -1,4 +1,8 @@
-package com.cryptoregistry.ec;
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2014 David R. Smith All Rights Reserved.
+ *
+ */package com.cryptoregistry.ec;
 
 import java.math.BigInteger;
 

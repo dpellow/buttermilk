@@ -11,7 +11,7 @@ package com.cryptoregistry.formats;
  *
  */
 public enum Mode {
-	UNSECURED('U'),SECURED('S'),FOR_PUBLICATION('P');
+	UNSECURED('U'), SECURED('S'), FOR_PUBLICATION('P');
 	
 	public final char code;
 
