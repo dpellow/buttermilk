@@ -1,3 +1,8 @@
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2014 David R. Smith All Rights Reserved.
+ *
+ */
 package com.cryptoregistry.proto.reader;
 
 import java.util.Date;
@@ -6,7 +11,7 @@ import com.cryptoregistry.CryptoKeyMetadata;
 import com.cryptoregistry.KeyGenerationAlgorithm;
 import com.cryptoregistry.c2.key.C2KeyMetadata;
 import com.cryptoregistry.ec.ECKeyMetadata;
-import com.cryptoregistry.formats.Encoding;
+import com.cryptoregistry.formats.EncodingHint;
 import com.cryptoregistry.formats.KeyFormat;
 import com.cryptoregistry.formats.Mode;
 import com.cryptoregistry.ntru.NTRUKeyMetadata;
@@ -27,8 +32,8 @@ public class KeyMetadataReader {
 		String uuid = proto.getHandle();
 		String alg = proto.getKeyGenerationAlgorithm();
 		Date createdOn = new Date(proto.getCreatedOn());
-		Encoding encoding = EncodingAdapter.getEncodingFor(proto.getEncoding());
-		KeyFormat format = new KeyFormat(encoding,Mode.UNSECURED);
+		EncodingHint encodingHint = EncodingAdapter.getEncodingFor(proto.getEncodingHint());
+		KeyFormat format = new KeyFormat(encodingHint,Mode.UNSECURED);
 		KeyGenerationAlgorithm kga = KeyGenerationAlgorithm.valueOf(alg);
 	
 		switch(kga){

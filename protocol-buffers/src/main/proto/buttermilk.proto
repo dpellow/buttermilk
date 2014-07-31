@@ -56,7 +56,7 @@ message SignatureProto {
 message KeyMetadataProto {
 	required string handle = 1;
 	required uint64 created_on = 2;
-	enum EncodingProto {
+	enum EncodingHintProto {
 	   	NOENCODING = 0;
 	   	RAWBYTES =1;
 		BASE2 = 2;
@@ -66,7 +66,7 @@ message KeyMetadataProto {
 		BASE64URL = 6;
 		
 	}
-	required EncodingProto encoding = 3 [default = RAWBYTES];
+	required EncodingHintProto encoding_hint = 3 [default = RAWBYTES];
 	required string key_generation_algorithm = 4;
 }
 

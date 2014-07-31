@@ -15,10 +15,11 @@ public class TestReaders {
 
 	@Test
 	public void test1() {
+		
 		RSAKeyContents contents = CryptoFactory.INSTANCE.generateKeys();
 		
 		KeyMetadataProto km = Buttermilk.KeyMetadataProto.newBuilder()
-		.setEncoding(EncodingAdapter.getProtoFor(contents.metadata.format.encoding))
+		.setEncodingHint(EncodingAdapter.getProtoFor(contents.metadata.format.encodingHint))
 		.setHandle(contents.getMetadata().getHandle())
 		.setKeyGenerationAlgorithm(contents.metadata.getKeyAlgorithm().toString())
 		.setCreatedOn(contents.metadata.getCreatedOn().getTime()).build();
@@ -35,7 +36,7 @@ public class TestReaders {
 		.setQInv(ByteString.copyFrom(contents.qInv.toByteArray())).build();
 		
 		RSAKeyContentsReader reader = new RSAKeyContentsReader(rsaProto);
-		RSAKeyContents _contents = reader.read();
+		RSAKeyContents _contents = (RSAKeyContents) reader.read();
 		
 		Assert.assertEquals(contents,_contents);
 	}

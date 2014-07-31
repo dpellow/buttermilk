@@ -1,9 +1,9 @@
 package com.cryptoregistry.proto.builder;
 
 import com.cryptoregistry.CryptoKeyMetadata;
-import com.cryptoregistry.formats.Encoding;
+import com.cryptoregistry.formats.EncodingHint;
 import com.cryptoregistry.protos.Buttermilk.KeyMetadataProto;
-import com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.EncodingProto;
+import com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.EncodingHintProto;
 
 public class KeyMetadataProtoBuilder {
 
@@ -15,23 +15,24 @@ public class KeyMetadataProtoBuilder {
 	
 	public KeyMetadataProto build() {
 		
-		EncodingProto enc = null;
-		Encoding e = meta.getFormat().encoding;
+		EncodingHintProto enc = null;
+		EncodingHint e = meta.getFormat().encodingHint;
 		switch(e){
-			case NoEncoding: enc = EncodingProto.NOENCODING; break;
-			case RawBytes: enc = EncodingProto.RAWBYTES; break;
-			case Base2: enc = EncodingProto.BASE2; break;
-			case Base10: enc = EncodingProto.BASE10; break;
-			case Base16: enc = EncodingProto.BASE16; break;
-			case Base64: enc = EncodingProto.BASE64; break;
-			case Base64url: enc = EncodingProto.BASE64URL; break;
+			case NoEncoding: enc = EncodingHintProto.NOENCODING; break;
+			case RawBytes: enc = EncodingHintProto.RAWBYTES; break;
+			case Base2: enc = EncodingHintProto.BASE2; break;
+			case Base10: enc = EncodingHintProto.BASE10; break;
+			case Base16: enc = EncodingHintProto.BASE16; break;
+			case Base64: enc = EncodingHintProto.BASE64; break;
+			case Base64url: enc = EncodingHintProto.BASE64URL; break;
 			default: throw new RuntimeException("Unknown: "+e);
 		}
 		
 		KeyMetadataProto metaDataProto = KeyMetadataProto.newBuilder()
 		.setHandle(meta.getHandle())
 		.setCreatedOn(meta.getCreatedOn().getTime())
-		.setEncoding(enc)
+		.setKeyGenerationAlgorithm(meta.getKeyAlgorithm().toString())
+		.setEncodingHint(enc)
 		.build();
 		
 		return metaDataProto;

@@ -1,32 +1,32 @@
 package com.cryptoregistry.proto.compat;
 
-import com.cryptoregistry.formats.Encoding;
-import com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.EncodingProto;
+import com.cryptoregistry.formats.EncodingHint;
+import com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.EncodingHintProto;
 
 public class EncodingAdapter {
 
-	public static EncodingProto getProtoFor(Encoding enc){
+	public static EncodingHintProto getProtoFor(EncodingHint enc){
 		switch(enc){
-		case NoEncoding: return EncodingProto.NOENCODING;
-		case RawBytes: return EncodingProto.RAWBYTES;
-		case Base2: return EncodingProto.BASE2;
-		case Base10: return EncodingProto.BASE10;
-		case Base16: return EncodingProto.BASE16;
-		case Base64: return EncodingProto.BASE64;
-		case Base64url: return EncodingProto.BASE64URL;
+		case NoEncoding: return EncodingHintProto.NOENCODING;
+		case RawBytes: return EncodingHintProto.RAWBYTES;
+		case Base2: return EncodingHintProto.BASE2;
+		case Base10: return EncodingHintProto.BASE10;
+		case Base16: return EncodingHintProto.BASE16;
+		case Base64: return EncodingHintProto.BASE64;
+		case Base64url: return EncodingHintProto.BASE64URL;
 			default: { throw new RuntimeException("Encoding not found: "+enc);}
 		}
 	}
 	
-	public static Encoding getEncodingFor(EncodingProto enc){
+	public static EncodingHint getEncodingFor(EncodingHintProto enc){
 		switch(enc){
-		case NOENCODING: return Encoding.NoEncoding;
-		case RAWBYTES: return Encoding.RawBytes;
-		case BASE2: return Encoding.Base2;
-		case BASE10: return Encoding.Base10;
-		case BASE16: return Encoding.Base16;
-		case BASE64: return Encoding.Base64;
-		case BASE64URL: return Encoding.Base64url;
+		case NOENCODING: return EncodingHint.NoEncoding;
+		case RAWBYTES: return EncodingHint.RawBytes;
+		case BASE2: return EncodingHint.Base2;
+		case BASE10: return EncodingHint.Base10;
+		case BASE16: return EncodingHint.Base16;
+		case BASE64: return EncodingHint.Base64;
+		case BASE64URL: return EncodingHint.Base64url;
 			default: { throw new RuntimeException("Encoding not found: "+enc);}
 		}
 	}
