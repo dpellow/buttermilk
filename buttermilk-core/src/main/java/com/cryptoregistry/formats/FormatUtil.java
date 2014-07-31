@@ -27,7 +27,7 @@ public class FormatUtil {
 	private static ReentrantLock lock3 = new ReentrantLock();
 	private static ReentrantLock lock4 = new ReentrantLock();
 	
-	public static String wrap(Encoding enc, BigInteger bi) {
+	public static String wrap(EncodingHint enc, BigInteger bi) {
 		
 		if(bi == null) return null;
 		
@@ -61,13 +61,14 @@ public class FormatUtil {
 	}
 
 	/**
-	 * only for BigIntegers 
+	 * decode a BigInteger. There is some ambiguity in RawBytes, which we will assume is
+	 * hex - you should avoid this encoding hint in this scenario
 	 * 
 	 * @param enc
 	 * @param s
 	 * @return
 	 */
-	public static BigInteger unwrap(Encoding enc, String s) {
+	public static BigInteger unwrap(EncodingHint enc, String s) {
 		
 		if(s == null) return null;
 		
@@ -81,6 +82,8 @@ public class FormatUtil {
 					return new BigInteger(s,10);
 				case Base16:
 					return new BigInteger(s,16);
+				case RawBytes:
+					return new BigInteger(s,16);  //assume RawBytes is hex
 				case Base64: {
 					try {
 						byte [] b = Base64.decode(s);
@@ -113,7 +116,7 @@ public class FormatUtil {
 	 * @param enc
 	 * @return
 	 */
-	public static String serializeECPoint(ECPoint p, Encoding enc){
+	public static String serializeECPoint(ECPoint p, EncodingHint enc){
 		lock3.lock();
 		try {
 			BigInteger biX = new BigInteger(p.getAffineXCoord().toString(),16);
@@ -135,7 +138,7 @@ public class FormatUtil {
 	 * @param enc
 	 * @return
 	 */
-	public static ECPoint parseECPoint(String curveName, Encoding enc, String in){
+	public static ECPoint parseECPoint(String curveName, EncodingHint enc, String in){
 		lock4.lock();
 		try {
 			String [] xy = in.split("\\,");
@@ -156,7 +159,7 @@ public class FormatUtil {
 	 * @param in
 	 * @return
 	 */
-	public static ECPoint parseECPoint(ECCurve curve, Encoding enc, String in){
+	public static ECPoint parseECPoint(ECCurve curve, EncodingHint enc, String in){
 		lock4.lock();
 		try {
 			String [] xy = in.split("\\,");

@@ -10,8 +10,8 @@ import org.junit.Test;
 import com.cryptoregistry.CryptoContact;
 import com.cryptoregistry.CryptoKeyWrapper;
 import com.cryptoregistry.KeyMaterials;
-import com.cryptoregistry.LocalData;
-import com.cryptoregistry.RemoteData;
+import com.cryptoregistry.MapData;
+import com.cryptoregistry.ListData;
 import com.cryptoregistry.signature.CryptoSignature;
 
 public class GeneralReadingTest {
@@ -38,8 +38,8 @@ public class GeneralReadingTest {
 		Assert.assertTrue(km.keys() != null);
 		Assert.assertTrue(km.contacts() != null);
 		Assert.assertTrue(km.signatures() != null);
-		Assert.assertTrue(km.localData() != null);
-		Assert.assertTrue(km.remoteData() != null);
+		Assert.assertTrue(km.mapData() != null);
+		Assert.assertTrue(km.listData() != null);
 		
 		for(CryptoKeyWrapper wrapper: km.keys()){
 			System.err.println(wrapper);
@@ -53,11 +53,11 @@ public class GeneralReadingTest {
 			System.err.println(wrapper);
 		}
 		
-		for(LocalData wrapper: km.localData()){
+		for(MapData wrapper: km.mapData()){
 			System.err.println(wrapper);
 		}
 		
-		for(RemoteData wrapper: km.remoteData()){
+		for(ListData wrapper: km.listData()){
 			System.err.println(wrapper);
 		}
 		
@@ -73,8 +73,8 @@ public class GeneralReadingTest {
 		Assert.assertTrue(km.keys() != null);
 		Assert.assertTrue(km.contacts() != null);
 		Assert.assertTrue(km.signatures() != null);
-		Assert.assertTrue(km.localData() != null);
-		Assert.assertTrue(km.remoteData() != null);
+		Assert.assertTrue(km.mapData() != null);
+		Assert.assertTrue(km.listData() != null);
 		
 		for(CryptoKeyWrapper wrapper: km.keys()){
 			System.err.println(wrapper);
@@ -88,11 +88,11 @@ public class GeneralReadingTest {
 			System.err.println(wrapper);
 		}
 		
-		for(LocalData wrapper: km.localData()){
+		for(MapData wrapper: km.mapData()){
 			System.err.println(wrapper);
 		}
 		
-		for(RemoteData wrapper: km.remoteData()){
+		for(ListData wrapper: km.listData()){
 			System.err.println(wrapper);
 		}
 		
@@ -108,8 +108,8 @@ public class GeneralReadingTest {
 		Assert.assertTrue(km.keys() != null);
 		Assert.assertTrue(km.contacts() != null);
 		Assert.assertTrue(km.signatures() != null);
-		Assert.assertTrue(km.localData() != null);
-		Assert.assertTrue(km.remoteData() != null);
+		Assert.assertTrue(km.mapData() != null);
+		Assert.assertTrue(km.listData() != null);
 		
 		for(CryptoKeyWrapper wrapper: km.keys()){
 			System.err.println(wrapper);
@@ -123,11 +123,11 @@ public class GeneralReadingTest {
 			System.err.println(wrapper);
 		}
 		
-		for(LocalData wrapper: km.localData()){
+		for(MapData wrapper: km.mapData()){
 			System.err.println(wrapper);
 		}
 		
-		for(RemoteData wrapper: km.remoteData()){
+		for(ListData wrapper: km.listData()){
 			System.err.println(wrapper);
 		}
 		

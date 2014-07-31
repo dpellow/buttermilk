@@ -6,19 +6,19 @@ import java.util.List;
 
 import com.cryptoregistry.FileURLResolver;
 import com.cryptoregistry.HTTPURLResolver;
-import com.cryptoregistry.LocalData;
-import com.cryptoregistry.RemoteData;
+import com.cryptoregistry.MapData;
+import com.cryptoregistry.ListData;
 
 public class RemoteDataContentsIterator implements Iterator<String> {
 	
-	final RemoteData remoteData;
+	final ListData listData;
 	private Iterator<String> iter;
 	int index = 0;
 
-	public RemoteDataContentsIterator(RemoteData rd) {
+	public RemoteDataContentsIterator(ListData rd) {
 		super();
-		this.remoteData = rd;
-		iter = remoteData.urls.iterator();
+		this.listData = rd;
+		iter = listData.urls.iterator();
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class RemoteDataContentsIterator implements Iterator<String> {
 		iter.remove();
 	}
 
-	public List<LocalData> nextData(){
+	public List<MapData> nextData(){
 		
 		String url = next();
 		String three = url.substring(0, 3).toUpperCase(); // first 3 chars

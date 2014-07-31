@@ -33,7 +33,7 @@ public class RSAKeyFormatReader {
 				Date createdOn = TimeUtil.getISO8601FormatDate(String
 						.valueOf(inner.get("CreatedOn")));
 				
-				Encoding enc = Encoding.valueOf(String.valueOf(inner.get("Encoding")));
+				EncodingHint enc = EncodingHint.valueOf(String.valueOf(inner.get("Encoding")));
 				BigInteger Modulus = FormatUtil.unwrap(enc, String.valueOf(inner.get("Modulus")));
 				BigInteger publicExponent = FormatUtil.unwrap(enc, String.valueOf(inner.get("PublicExponent")));
 				BigInteger privateExponent = FormatUtil.unwrap(enc, String.valueOf(inner.get("PrivateExponent")));

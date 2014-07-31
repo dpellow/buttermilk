@@ -2,19 +2,19 @@ package com.cryptoregistry.signature.builder;
 
 import java.util.Iterator;
 
-import com.cryptoregistry.LocalData;
+import com.cryptoregistry.MapData;
 import com.cryptoregistry.util.MapIterator;
 
 public class LocalDataContentsIterator implements MapIterator {
 	
-	final LocalData localData;
+	final MapData mapData;
 	private Iterator<String> iter;
 	int index = 0;
 
-	public LocalDataContentsIterator(LocalData ld) {
+	public LocalDataContentsIterator(MapData ld) {
 		super();
-		this.localData = ld;
-		iter = localData.data.keySet().iterator();
+		this.mapData = ld;
+		iter = mapData.data.keySet().iterator();
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class LocalDataContentsIterator implements MapIterator {
 	public String next() {
 		if(index == 0){
 			index++;
-			return localData.uuid+":"+iter.next();
+			return mapData.uuid+":"+iter.next();
 		}else{
 			index++;
 			return "."+iter.next();
@@ -41,12 +41,12 @@ public class LocalDataContentsIterator implements MapIterator {
 	@Override
 	public String get(String key){
 		if(key.startsWith("."))
-		return String.valueOf(localData.data.get(key.substring(1,key.length())));
-		else return String.valueOf(localData.data.get(key.substring(localData.uuid.length()+1,key.length())));
+		return String.valueOf(mapData.data.get(key.substring(1,key.length())));
+		else return String.valueOf(mapData.data.get(key.substring(mapData.uuid.length()+1,key.length())));
 	}
 	
 	public String getHandle(){
-		return localData.uuid;
+		return mapData.uuid;
 	}
 
 }

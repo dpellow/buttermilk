@@ -6,32 +6,32 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.cryptoregistry.RemoteData;
+import com.cryptoregistry.ListData;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 
 class RemoteDataFormatter {
 
-	private List<RemoteData> remoteData;
+	private List<ListData> listData;
 
 	public RemoteDataFormatter() {
 		super();
-		remoteData = new ArrayList<RemoteData>();
+		listData = new ArrayList<ListData>();
 	}
 
-	public RemoteDataFormatter(List<RemoteData> remoteData) {
+	public RemoteDataFormatter(List<ListData> listData) {
 		super();
-		this.remoteData = remoteData;
+		this.listData = listData;
 	}
 	
-	public void add(RemoteData rd){
-		remoteData.add(rd);
+	public void add(ListData rd){
+		listData.add(rd);
 	}
 
 	public void format(JsonGenerator g, Writer writer) throws JsonGenerationException, IOException{
-		Iterator<RemoteData>iter = remoteData.iterator();
+		Iterator<ListData>iter = listData.iterator();
 		while(iter.hasNext()){
-			RemoteData c = iter.next();
+			ListData c = iter.next();
 		//	g.writeStartArray();
 			Iterator<String> inner = c.urls.iterator();
 			while(inner.hasNext()){

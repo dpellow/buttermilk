@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
-import com.cryptoregistry.formats.Encoding;
+import com.cryptoregistry.formats.EncodingHint;
 import com.cryptoregistry.formats.FormatUtil;
 import com.cryptoregistry.util.ArmoredString;
 
@@ -44,7 +44,7 @@ public class ECFPCustomParameters extends ECCustomParameters {
 	 * @param h
 	 * @param G
 	 */
-	public ECFPCustomParameters(String uuid, Encoding enc, BigInteger p, BigInteger a, BigInteger b, byte [] seed, BigInteger n, BigInteger h, ECPoint G){
+	public ECFPCustomParameters(String uuid, EncodingHint enc, BigInteger p, BigInteger a, BigInteger b, byte [] seed, BigInteger n, BigInteger h, ECPoint G){
 		super(FIELD.FP,uuid);
 		String _p = FormatUtil.wrap(enc, p);
 		String _a = FormatUtil.wrap(enc, a);
@@ -77,7 +77,7 @@ public class ECFPCustomParameters extends ECCustomParameters {
 	 */
 	public ECFPCustomParameters(BigInteger p, BigInteger a, BigInteger b, byte [] seed, BigInteger n, BigInteger h, ECPoint G){
 		this();
-		Encoding enc = Encoding.Base16;
+		EncodingHint enc = EncodingHint.Base16;
 		String _p = FormatUtil.wrap(enc, p);
 		String _a = FormatUtil.wrap(enc, a);
 		String _b = FormatUtil.wrap(enc, b);
@@ -109,7 +109,7 @@ public class ECFPCustomParameters extends ECCustomParameters {
 	@Override
 	public ECDomainParameters getParameters() {
 		
-		Encoding enc = Encoding.valueOf(parameters.get("Encoding"));
+		EncodingHint enc = EncodingHint.valueOf(parameters.get("Encoding"));
 		
 		 BigInteger a=null,b=null,p=null;
 		 if(parameters.containsKey("p")) {

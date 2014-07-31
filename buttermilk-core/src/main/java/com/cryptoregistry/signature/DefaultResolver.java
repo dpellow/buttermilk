@@ -17,8 +17,8 @@ import java.util.Map;
 
 import com.cryptoregistry.FileURLResolver;
 import com.cryptoregistry.HTTPURLResolver;
-import com.cryptoregistry.LocalData;
-import com.cryptoregistry.formats.Encoding;
+import com.cryptoregistry.MapData;
+import com.cryptoregistry.formats.EncodingHint;
 import com.cryptoregistry.formats.FormatUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -126,8 +126,8 @@ public class DefaultResolver implements SignatureReferenceResolver {
 	}
 	
 	
-	@SuppressWarnings("unchecked")
-	String search(Map<String,Object> map, String ref, ByteArrayOutputStream collector, boolean useEncoding){
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	String search(Map map, String ref, ByteArrayOutputStream collector, boolean useEncoding){
 		String retVal = null;
 		String [] parts = ref.split("\\:");
 		String uuid = "", tokenName = "";
@@ -141,43 +141,43 @@ public class DefaultResolver implements SignatureReferenceResolver {
 		while(iter.hasNext()){
 			String key = iter.next();
 			if(key.equals("Keys")){
-				Map<String,Object> inner = (Map<String,Object>)map.get(key);
+				Map inner = (Map)map.get(key);
 				retVal = search(inner,ref,collector,true);
 				break;
 			}
 			if(key.equals("Contacts")){
-				Map<String,Object> inner = (Map<String,Object>)map.get(key);
+				Map inner = (Map)map.get(key);
 				retVal = search(inner,ref,collector,false);
 				break;
 			}
 			if(key.equals("Signatures")){
-				Map<String,Object> inner = (Map<String,Object>)map.get(key);
+				Map inner = (Map)map.get(key);
 				retVal = search(inner,ref,collector,false);
 				break;
 			}
-			if(key.equals("Local")){
-				Map<String,Object> inner = (Map<String,Object>)map.get(key);
+			if(key.equals("Map")){
+				Map inner = (Map)map.get(key);
 				retVal = search(inner,ref,collector,false);
 				break;
 			}
-			if(key.equals("Remote")){
-				List<Object> inner = (List<Object>)map.get(key);
+			if(key.equals("List")){
+				List<String> inner = (List<String>)map.get(key);
 				for(Object url : inner){
 					String item = String.valueOf(url);
 					final String scheme = item.substring(0,4).toUpperCase();
 					switch(scheme){
 						case "HTTP":{
 							HTTPURLResolver resolver = new HTTPURLResolver(item);
-							List<LocalData> localData = resolver.resolve();
-							for(LocalData ld: localData){
+							List<MapData> mapData = resolver.resolve();
+							for(MapData ld: mapData){
 								search(ld.data,ref,collector,false);
 							}
 							break;
 						}
 						case "FILE":{
 							FileURLResolver resolver = new FileURLResolver(item);
-							List<LocalData> localData = resolver.resolve();
-							for(LocalData ld: localData){
+							List<MapData> mapData = resolver.resolve();
+							for(MapData ld: mapData){
 								search(ld.data,ref,collector,false);
 							}
 							break;
@@ -190,12 +190,12 @@ public class DefaultResolver implements SignatureReferenceResolver {
 				break;
 			}
 			if(key.equals("Data")){
-				Map<String,Object> inner = (Map<String,Object>)map.get(key);
+				Map inner = (Map)map.get(key);
 				retVal = search(inner,ref,collector,false);
 				break;
 			}
 			if(key.equals(uuid)){
-				Map<String,Object> inner = (Map<String,Object>)map.get(key);
+				Map inner = (Map)map.get(key);
 				retVal = search(inner,ref,collector,useEncoding);
 				break;
 			}
@@ -206,7 +206,7 @@ public class DefaultResolver implements SignatureReferenceResolver {
 					retVal = (String) map.get(tokenName);
 					String enc = (String)map.get("Encoding");
 					if(enc != null) {
-						BigInteger bi = FormatUtil.unwrap(Encoding.valueOf(enc), retVal);
+						BigInteger bi = FormatUtil.unwrap(EncodingHint.valueOf(enc), retVal);
 						byte [] b = bi.toByteArray();
 						collector.write(b, 0, b.length);
 					}

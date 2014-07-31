@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import com.cryptoregistry.CryptoKeyMetadata;
 import com.cryptoregistry.KeyGenerationAlgorithm;
-import com.cryptoregistry.formats.Encoding;
+import com.cryptoregistry.formats.EncodingHint;
 import com.cryptoregistry.formats.KeyFormat;
 import com.cryptoregistry.formats.Mode;
 import com.cryptoregistry.pbe.PBEParams;
@@ -50,13 +50,13 @@ public class ECKeyMetadata implements CryptoKeyMetadata {
 	
 	public static ECKeyMetadata createSecureScrypt(char[]password) {
 		return new ECKeyMetadata(UUID.randomUUID().toString(), new Date(),
-				new KeyFormat(Encoding.Base64url,
+				new KeyFormat(EncodingHint.Base64url,
 						PBEParamsFactory.INSTANCE.createScryptParams(password)));
 	}
 	
 	public static ECKeyMetadata createSecure(PBEParams params) {
 		return new ECKeyMetadata(UUID.randomUUID().toString(), new Date(),
-				new KeyFormat(Encoding.Base64url,params));
+				new KeyFormat(EncodingHint.Base64url,params));
 	}
 
 	@Override

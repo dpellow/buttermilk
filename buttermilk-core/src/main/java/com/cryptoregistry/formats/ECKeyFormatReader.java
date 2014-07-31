@@ -61,7 +61,7 @@ public class ECKeyFormatReader {
 					}
 				}
 				
-				Encoding enc = Encoding.valueOf(String.valueOf(inner.get("Encoding")));
+				EncodingHint enc = EncodingHint.valueOf(String.valueOf(inner.get("Encoding")));
 				ECPoint Q = null;
 				if(curveName != null) {
 					Q = FormatUtil.parseECPoint(curveName, enc, String.valueOf(inner.get("Q")));

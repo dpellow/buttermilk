@@ -13,7 +13,7 @@ import x.org.bouncycastle.pqc.math.ntru.polynomial.ProductFormPolynomial;
 import x.org.bouncycastle.pqc.math.ntru.polynomial.SparseTernaryPolynomial;
 import x.org.bouncycastle.util.Arrays;
 
-import com.cryptoregistry.formats.JSONBuilder;
+import com.cryptoregistry.formats.JSONFormatter;
 import com.cryptoregistry.ntru.CryptoFactory;
 import com.cryptoregistry.ntru.NTRUKeyContents;
 import com.cryptoregistry.ntru.NTRUNamedParameters;
@@ -57,7 +57,7 @@ public class CryptoFactoryTest {
 			NTRUKeyContents sKey = CryptoFactory.INSTANCE.generateKeys(p.getKeyGenerationParameters());
 			
 			final String registrationHandle = "Chinese Eyes";
-			JSONBuilder f = new JSONBuilder(registrationHandle);
+			JSONFormatter f = new JSONFormatter(registrationHandle);
 			f.add(sKey);
 			StringWriter writer = new StringWriter();
 			f.format(writer);

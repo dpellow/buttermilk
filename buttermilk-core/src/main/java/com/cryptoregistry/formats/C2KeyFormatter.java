@@ -35,15 +35,15 @@ class C2KeyFormatter {
 		try {
 			switch (format.mode) {
 			case UNSECURED: {
-				formatOpen(g, format.encoding, writer);
+				formatOpen(g, format.encodingHint, writer);
 				break;
 			}
 			case SECURED: {
-				seal(g, format.encoding, writer);
+				seal(g, format.encodingHint, writer);
 				break;
 			}
 			case FOR_PUBLICATION: {
-				formatForPublication(g, format.encoding, writer);
+				formatForPublication(g, format.encodingHint, writer);
 				break;
 			}
 			default:
@@ -55,7 +55,7 @@ class C2KeyFormatter {
 		
 	}
 
-	protected void seal(JsonGenerator g, Encoding enc, Writer writer)
+	protected void seal(JsonGenerator g, EncodingHint enc, Writer writer)
 			throws JsonGenerationException, IOException {
 
 		String plain = formatItem(enc, (Curve25519KeyContents)c2Keys);
@@ -95,13 +95,13 @@ class C2KeyFormatter {
 
 	}
 
-	protected void formatOpen(JsonGenerator g, Encoding enc, Writer writer)
+	protected void formatOpen(JsonGenerator g, EncodingHint enc, Writer writer)
 			throws JsonGenerationException, IOException {
 
 		g.writeObjectFieldStart(c2Keys.metadata.getDistinguishedHandle());
 		g.writeStringField("KeyAlgorithm", "Curve25519");
 		g.writeStringField("CreatedOn", TimeUtil.format(c2Keys.metadata.createdOn));
-		g.writeStringField("Encoding", Encoding.Base64url.toString());
+		g.writeStringField("Encoding", EncodingHint.Base64url.toString());
 		g.writeStringField("P", c2Keys.publicKey.getBase64UrlEncoding());
 		g.writeStringField("s", ((Curve25519KeyContents)c2Keys).signingPrivateKey.getBase64UrlEncoding());
 		g.writeStringField("k",
@@ -109,18 +109,18 @@ class C2KeyFormatter {
 		g.writeEndObject();
 	}
 
-	protected void formatForPublication(JsonGenerator g, Encoding enc,
+	protected void formatForPublication(JsonGenerator g, EncodingHint enc,
 			Writer writer) throws JsonGenerationException, IOException {
 
 		g.writeObjectFieldStart(c2Keys.metadata.getDistinguishedHandle());
 		g.writeStringField("KeyAlgorithm", "Curve25519");
 		g.writeStringField("CreatedOn", TimeUtil.format(c2Keys.metadata.createdOn));
-		g.writeStringField("Encoding", Encoding.Base64url.toString());
+		g.writeStringField("Encoding", EncodingHint.Base64url.toString());
 		g.writeStringField("P", c2Keys.publicKey.getBase64UrlEncoding());
 		g.writeEndObject();
 	}
 
-	private String formatItem(Encoding enc, Curve25519KeyContents item) {
+	private String formatItem(EncodingHint enc, Curve25519KeyContents item) {
 		StringWriter privateDataWriter = new StringWriter();
 		JsonFactory f = new JsonFactory();
 		JsonGenerator g = null;
@@ -131,7 +131,7 @@ class C2KeyFormatter {
 			g.writeObjectFieldStart(c2Keys.metadata.getHandle()+"-U");
 			g.writeStringField("KeyAlgorithm", "Curve25519");
 			g.writeStringField("CreatedOn", TimeUtil.format(c2Keys.metadata.createdOn));
-			g.writeStringField("Encoding", Encoding.Base64url.toString());
+			g.writeStringField("Encoding", EncodingHint.Base64url.toString());
 			g.writeStringField("P", c2Keys.publicKey.getBase64UrlEncoding());
 			g.writeStringField("s",
 					((Curve25519KeyContents)c2Keys).signingPrivateKey.getBase64UrlEncoding());

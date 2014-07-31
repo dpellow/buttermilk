@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import com.cryptoregistry.CryptoKeyMetadata;
 import com.cryptoregistry.KeyGenerationAlgorithm;
-import com.cryptoregistry.formats.Encoding;
+import com.cryptoregistry.formats.EncodingHint;
 import com.cryptoregistry.formats.KeyFormat;
 import com.cryptoregistry.formats.Mode;
 import com.cryptoregistry.pbe.PBEParams;
@@ -29,26 +29,26 @@ public class NTRUKeyMetadata implements CryptoKeyMetadata {
 	 * @return
 	 */
 	public static NTRUKeyMetadata createDefault() {
-		return new NTRUKeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat(Encoding.NoEncoding,Mode.UNSECURED));
+		return new NTRUKeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat(EncodingHint.NoEncoding,Mode.UNSECURED));
 	}
 	
 	public static NTRUKeyMetadata createForPublication() {
-		return new NTRUKeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat(Encoding.NoEncoding,Mode.FOR_PUBLICATION));
+		return new NTRUKeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat(EncodingHint.NoEncoding,Mode.FOR_PUBLICATION));
 	}
 	
 	public static NTRUKeyMetadata createSecureDefault(char[]password) {
-		return new NTRUKeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat(Encoding.NoEncoding,password));
+		return new NTRUKeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat(EncodingHint.NoEncoding,password));
 	}
 	
 	public static NTRUKeyMetadata createSecureScrypt(char[]password) {
 		return new NTRUKeyMetadata(UUID.randomUUID().toString(), new Date(),
-				new KeyFormat(Encoding.NoEncoding,
+				new KeyFormat(EncodingHint.NoEncoding,
 						PBEParamsFactory.INSTANCE.createScryptParams(password)));
 	}
 	
 	public static NTRUKeyMetadata createSecure(PBEParams params) {
 		return new NTRUKeyMetadata(UUID.randomUUID().toString(), new Date(),
-				new KeyFormat(Encoding.NoEncoding,params));
+				new KeyFormat(EncodingHint.NoEncoding,params));
 	}
 
 	@Override
@@ -114,7 +114,7 @@ public class NTRUKeyMetadata implements CryptoKeyMetadata {
 	}
 	
 	public NTRUKeyMetadata cloneForPublication() {
-		return new NTRUKeyMetadata(handle, createdOn,new KeyFormat(Encoding.NoEncoding,Mode.FOR_PUBLICATION));
+		return new NTRUKeyMetadata(handle, createdOn,new KeyFormat(EncodingHint.NoEncoding,Mode.FOR_PUBLICATION));
 	}
 
 }

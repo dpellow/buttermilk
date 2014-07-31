@@ -7,8 +7,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.cryptoregistry.CryptoContact;
-import com.cryptoregistry.LocalData;
-import com.cryptoregistry.RemoteData;
+import com.cryptoregistry.MapData;
+import com.cryptoregistry.ListData;
 import com.cryptoregistry.ec.CryptoFactory;
 import com.cryptoregistry.ec.ECKeyContents;
 import com.cryptoregistry.signature.CryptoSignature;
@@ -37,11 +37,11 @@ public class ECDSAFormattingTest {
 		contact.add("PostalCode", "53711");
 		contact.add("CountryCode", "US");
 		
-		LocalData ld = new LocalData();
+		MapData ld = new MapData();
 		ld.put("Copyright", "\u00A9 2014, David R. Smith. All Rights Reserved");
 		ld.put("License", "http://www.apache.org/licenses/LICENSE-2.0.txt");
 		
-		RemoteData rd = new RemoteData();
+		ListData rd = new ListData();
 		rd.addURL("http://buttermilk.googlecode.com/svn/trunk/buttermilk-core/data/test0.json");
 		
 		ECKeyContents contents = CryptoFactory.INSTANCE.generateKeys(curveName);
@@ -66,8 +66,8 @@ public class ECDSAFormattingTest {
 		
 		// a bit more complex - the remote iterator outputs a list resolved into LocalData
 		while(remoteIter.hasNext()){
-			List<LocalData> list = remoteIter.nextData();
-			for(LocalData data: list){
+			List<MapData> list = remoteIter.nextData();
+			for(MapData data: list){
 				MapIterator inner = new LocalDataContentsIterator(data);
 				while(inner.hasNext()){
 					String label = inner.next();
@@ -78,7 +78,7 @@ public class ECDSAFormattingTest {
 		
 		CryptoSignature sig = sigBuilder.build();
 		
-		JSONBuilder builder = new JSONBuilder("Chinese Eyes");
+		JSONFormatter builder = new JSONFormatter("Chinese Eyes");
 		builder.add(contact)
 		.add(contents)
 		.add(sig)

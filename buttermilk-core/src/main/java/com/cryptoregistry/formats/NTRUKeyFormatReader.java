@@ -36,7 +36,7 @@ public class NTRUKeyFormatReader {
 			Map<String, Object> inner = (Map<String, Object>) map.get(distUUID);
 			if (distUUID.endsWith("-U")) {
 				Date createdOn = TimeUtil.getISO8601FormatDate(String.valueOf(inner.get("CreatedOn")));
-				Encoding enc = Encoding.valueOf(String.valueOf(inner.get("Encoding")));
+				EncodingHint enc = EncodingHint.valueOf(String.valueOf(inner.get("Encoding")));
 				NTRUKeyMetadata meta = new NTRUKeyMetadata(distUUID.substring(0,
 						distUUID.length() - 2), createdOn, new KeyFormat(enc,
 						Mode.UNSECURED, null));

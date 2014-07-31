@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import com.cryptoregistry.CryptoKeyMetadata;
 import com.cryptoregistry.KeyGenerationAlgorithm;
-import com.cryptoregistry.formats.Encoding;
+import com.cryptoregistry.formats.EncodingHint;
 import com.cryptoregistry.formats.KeyFormat;
 import com.cryptoregistry.formats.Mode;
 import com.cryptoregistry.pbe.PBEParams;
@@ -42,13 +42,13 @@ public class RSAKeyMetadata implements CryptoKeyMetadata {
 	
 	public static RSAKeyMetadata createSecureScrypt(char[]password) {
 		return new RSAKeyMetadata(UUID.randomUUID().toString(), new Date(),
-				new KeyFormat(Encoding.Base64url,
+				new KeyFormat(EncodingHint.Base64url,
 						PBEParamsFactory.INSTANCE.createScryptParams(password)));
 	}
 	
 	public static RSAKeyMetadata createSecure(PBEParams params) {
 		return new RSAKeyMetadata(UUID.randomUUID().toString(), new Date(),
-				new KeyFormat(Encoding.Base64url,params));
+				new KeyFormat(EncodingHint.Base64url,params));
 	}
 
 	@Override

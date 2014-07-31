@@ -24,11 +24,11 @@ public class HTTPURLResolver extends URLResolver {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<LocalData> resolve() {
+	public List<MapData> resolve() {
 		
 		URLGrabber g = new URLGrabber(url);
 		
-		List<LocalData> list = new ArrayList<LocalData>();
+		List<MapData> list = new ArrayList<MapData>();
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			Map<String,Object> root = mapper.readValue(g.grab(), Map.class);
@@ -36,7 +36,7 @@ public class HTTPURLResolver extends URLResolver {
 			while(keys.hasNext()){
 				String key = keys.next();
 				Map<String,Object> attribs = (Map<String,Object>) root.get(key);
-				LocalData ld = new LocalData(key,attribs);
+				MapData ld = new MapData(key,attribs);
 				list.add(ld);
 			}
 		} catch (Exception e) {

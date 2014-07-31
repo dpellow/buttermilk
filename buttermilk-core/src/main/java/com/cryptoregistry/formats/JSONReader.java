@@ -23,8 +23,8 @@ import com.cryptoregistry.CryptoKeyWrapper;
 import com.cryptoregistry.CryptoKeyWrapperImpl;
 import com.cryptoregistry.KeyGenerationAlgorithm;
 import com.cryptoregistry.KeyMaterials;
-import com.cryptoregistry.LocalData;
-import com.cryptoregistry.RemoteData;
+import com.cryptoregistry.MapData;
+import com.cryptoregistry.ListData;
 import com.cryptoregistry.SignatureAlgorithm;
 import com.cryptoregistry.c2.key.AgreementPrivateKey;
 import com.cryptoregistry.c2.key.C2KeyMetadata;
@@ -62,7 +62,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * Read the canonical format as output by JSONBuilder
  * 
  * @author Dave
- * @see JSONBuilder
+ * @see JSONFormatter
  * 
  */
 public class JSONReader {
@@ -137,7 +137,7 @@ public class JSONReader {
 						// key metadata - 
 						String handle = distinguishedKey.substring(0,distinguishedKey.length()-2);
 						Date createdOn = TimeUtil.getISO8601FormatDate(String.valueOf(keyData.get("CreatedOn")));
-						Encoding encoding = Encoding.valueOf((String)keyData.get("Encoding"));
+						EncodingHint encoding = EncodingHint.valueOf((String)keyData.get("Encoding"));
 						String keyAlgorithm = (String) keyData.get("KeyAlgorithm");
 						Mode mode = Mode.FOR_PUBLICATION;
 						KeyFormat format = new KeyFormat(encoding,mode);
@@ -220,7 +220,7 @@ public class JSONReader {
 						// key metadata - 
 						String handle = distinguishedKey.substring(0,distinguishedKey.length()-2);
 						Date createdOn = TimeUtil.getISO8601FormatDate((String) keyData.get("CreatedOn"));
-						Encoding encoding = Encoding.valueOf((String)keyData.get("Encoding"));
+						EncodingHint encoding = EncodingHint.valueOf((String)keyData.get("Encoding"));
 						String keyAlgorithm = (String) keyData.get("KeyAlgorithm");
 						Mode mode = Mode.FOR_PUBLICATION;
 						KeyFormat format = new KeyFormat(encoding,mode);
@@ -429,9 +429,9 @@ public class JSONReader {
 
 			@SuppressWarnings("unchecked")
 			@Override
-			public List<LocalData> localData() {
+			public List<MapData> mapData() {
 				
-				ArrayList<LocalData> list = new ArrayList<LocalData>();
+				ArrayList<MapData> list = new ArrayList<MapData>();
 				
 				Map<String, Object> data = (Map<String, Object>) map.get("Data");
 				
@@ -440,7 +440,7 @@ public class JSONReader {
 				while(iter.hasNext()) {
 					String handle = iter.next();
 					Map<String, Object> localData = (Map<String, Object>) uuids.get(handle);
-					list.add(new LocalData(handle,localData));
+					list.add(new MapData(handle,localData));
 				}
 					
 				return list;
@@ -448,13 +448,13 @@ public class JSONReader {
 
 			@SuppressWarnings("unchecked")
 			@Override
-			public List<RemoteData> remoteData() {
-				ArrayList<RemoteData> list = new ArrayList<RemoteData>();
+			public List<ListData> listData() {
+				ArrayList<ListData> list = new ArrayList<ListData>();
 				
 				Map<String, Object> data = (Map<String, Object>) map.get("Data");
 				
 				List<Object> urls = (List<Object>) data.get("Remote");
-				RemoteData rd = new RemoteData();
+				ListData rd = new ListData();
 				for(Object url: urls){
 					rd.addURL(String.valueOf(url));
 				}

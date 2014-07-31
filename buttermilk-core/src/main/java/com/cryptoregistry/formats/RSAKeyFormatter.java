@@ -5,7 +5,7 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
-import com.cryptoregistry.formats.Encoding;
+import com.cryptoregistry.formats.EncodingHint;
 import com.cryptoregistry.formats.FormatUtil;
 import com.cryptoregistry.pbe.ArmoredPBEResult;
 import com.cryptoregistry.pbe.ArmoredPBKDF2Result;
@@ -37,15 +37,15 @@ class RSAKeyFormatter {
 		try {
 			switch (format.mode) {
 			case UNSECURED: {
-				formatOpen(g, format.encoding, writer);
+				formatOpen(g, format.encodingHint, writer);
 				break;
 			}
 			case SECURED: {
-				seal(g, format.encoding, writer);
+				seal(g, format.encodingHint, writer);
 				break;
 			}
 			case FOR_PUBLICATION: {
-				formatForPublication(g, format.encoding, writer);
+				formatForPublication(g, format.encodingHint, writer);
 				break;
 			}
 			default:
@@ -57,7 +57,7 @@ class RSAKeyFormatter {
 		
 	}
 
-	protected void seal(JsonGenerator g, Encoding enc, Writer writer)
+	protected void seal(JsonGenerator g, EncodingHint enc, Writer writer)
 			throws JsonGenerationException, IOException {
 
 		String plain = formatItem(enc, (RSAKeyContents)rsaKeys);
@@ -97,7 +97,7 @@ class RSAKeyFormatter {
 
 	}
 
-	protected void formatOpen(JsonGenerator g, Encoding enc, Writer writer)
+	protected void formatOpen(JsonGenerator g, EncodingHint enc, Writer writer)
 			throws JsonGenerationException, IOException {
 
 		g.writeObjectFieldStart(rsaKeys.getMetadata().getDistinguishedHandle());
@@ -116,7 +116,7 @@ class RSAKeyFormatter {
 
 	}
 
-	protected void formatForPublication(JsonGenerator g, Encoding enc,
+	protected void formatForPublication(JsonGenerator g, EncodingHint enc,
 			Writer writer) throws JsonGenerationException, IOException {
 
 		g.writeObjectFieldStart(rsaKeys.getMetadata().getDistinguishedHandle());
@@ -129,7 +129,7 @@ class RSAKeyFormatter {
 
 	}
 
-	private String formatItem(Encoding enc, RSAKeyContents item) {
+	private String formatItem(EncodingHint enc, RSAKeyContents item) {
 		StringWriter privateDataWriter = new StringWriter();
 		JsonFactory f = new JsonFactory();
 		JsonGenerator g = null;

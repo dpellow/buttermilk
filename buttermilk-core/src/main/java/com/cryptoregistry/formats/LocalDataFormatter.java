@@ -6,32 +6,32 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.cryptoregistry.LocalData;
+import com.cryptoregistry.MapData;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 
 class LocalDataFormatter {
 
-	private List<LocalData> localData;
+	private List<MapData> mapData;
 
 	public LocalDataFormatter() {
 		super();
-		localData = new ArrayList<LocalData>();
+		mapData = new ArrayList<MapData>();
 	}
 
-	public LocalDataFormatter(List<LocalData> localData) {
+	public LocalDataFormatter(List<MapData> mapData) {
 		super();
-		this.localData = localData;
+		this.mapData = mapData;
 	}
 	
-	public void add(LocalData ld){
-		localData.add(ld);
+	public void add(MapData ld){
+		mapData.add(ld);
 	}
 
 	public void format(JsonGenerator g, Writer writer) throws JsonGenerationException, IOException{
-		Iterator<LocalData>iter = localData.iterator();
+		Iterator<MapData>iter = mapData.iterator();
 		while(iter.hasNext()){
-			LocalData c = iter.next();
+			MapData c = iter.next();
 			g.writeObjectFieldStart(c.uuid);
 			Iterator<String> inner = c.data.keySet().iterator();
 			while(inner.hasNext()){

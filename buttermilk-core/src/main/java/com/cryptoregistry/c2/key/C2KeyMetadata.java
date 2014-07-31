@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import com.cryptoregistry.CryptoKeyMetadata;
 import com.cryptoregistry.KeyGenerationAlgorithm;
-import com.cryptoregistry.formats.Encoding;
+import com.cryptoregistry.formats.EncodingHint;
 import com.cryptoregistry.formats.KeyFormat;
 import com.cryptoregistry.formats.Mode;
 import com.cryptoregistry.pbe.PBEParams;
@@ -51,13 +51,13 @@ public class C2KeyMetadata implements CryptoKeyMetadata {
 	
 	public static C2KeyMetadata createSecureScrypt(char[]password) {
 		return new C2KeyMetadata(UUID.randomUUID().toString(), new Date(),
-				new KeyFormat(Encoding.Base64url,
+				new KeyFormat(EncodingHint.Base64url,
 						PBEParamsFactory.INSTANCE.createScryptParams(password)));
 	}
 	
 	public static C2KeyMetadata createSecure(PBEParams params) {
 		return new C2KeyMetadata(UUID.randomUUID().toString(), new Date(),
-				new KeyFormat(Encoding.Base64url,params));
+				new KeyFormat(EncodingHint.Base64url,params));
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class C2KeyMetadata implements CryptoKeyMetadata {
 	
 	public C2KeyMetadata cloneSecureScrypt(char[]password) {
 		return new C2KeyMetadata(handle, createdOn,
-				new KeyFormat(Encoding.Base64url,
+				new KeyFormat(EncodingHint.Base64url,
 						PBEParamsFactory.INSTANCE.createScryptParams(password)));
 	}
 

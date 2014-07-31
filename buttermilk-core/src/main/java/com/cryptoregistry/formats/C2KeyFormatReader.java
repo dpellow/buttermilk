@@ -37,8 +37,8 @@ public class C2KeyFormatReader {
 				Date createdOn = TimeUtil.getISO8601FormatDate(String.valueOf(inner.get("CreatedOn")));
 				
 				// at the moment these are always base64url
-				Encoding enc =	Encoding.valueOf(String.valueOf(inner.get("Encoding")));
-				if(enc != Encoding.Base64url) throw new RuntimeException("Unexpected encoding, needs to be Base64url");
+				EncodingHint enc =	EncodingHint.valueOf(String.valueOf(inner.get("Encoding")));
+				if(enc != EncodingHint.Base64url) throw new RuntimeException("Unexpected encoding, needs to be Base64url");
 				
 				ArmoredString P = new ArmoredString(String.valueOf(inner.get("P")));
 				ArmoredString k = new ArmoredString(String.valueOf(inner.get("k")));

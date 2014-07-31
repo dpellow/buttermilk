@@ -23,5 +23,5 @@ public abstract class URLResolver {
 		this.url = url;
 	}
 	
-	public abstract List<LocalData> resolve();
+	public abstract List<MapData> resolve();
 }

@@ -5,24 +5,24 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class LocalData {
+public class MapData {
 
 	public final String uuid;
-	public final Map<String,Object> data;
+	public final Map<String,String> data;
 	
-	public LocalData() {
+	public MapData() {
 		uuid = UUID.randomUUID().toString();
-		data = new LinkedHashMap<String,Object>();
+		data = new LinkedHashMap<String,String>();
 	}
 	
-	public LocalData(String uuid) {
+	public MapData(String uuid) {
 		this.uuid = uuid;
-		data = new LinkedHashMap<String,Object>();
+		data = new LinkedHashMap<String,String>();
 	}
 	
-	public LocalData(String uuid, Map<String,Object> in) {
+	public MapData(String uuid, Map<String,Object> in) {
 		this.uuid = uuid;
-		data = new LinkedHashMap<String,Object>();
+		data = new LinkedHashMap<String,String>();
 		Iterator<String> keys = in.keySet().iterator();
 		while(keys.hasNext()){
 			String key = keys.next();
@@ -52,7 +52,7 @@ public class LocalData {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		LocalData other = (LocalData) obj;
+		MapData other = (MapData) obj;
 		if (data == null) {
 			if (other.data != null)
 				return false;

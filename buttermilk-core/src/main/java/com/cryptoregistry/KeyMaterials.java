@@ -18,7 +18,7 @@ public interface KeyMaterials {
 	List<CryptoKeyWrapper> keys();
 	List<CryptoContact> contacts();
 	List<CryptoSignature> signatures();
-	List<LocalData> localData();
-	List<RemoteData> remoteData();
+	List<MapData> mapData();
+	List<ListData> listData();
 	
 }

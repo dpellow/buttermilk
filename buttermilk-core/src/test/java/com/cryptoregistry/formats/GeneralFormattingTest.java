@@ -15,8 +15,8 @@ import com.cryptoregistry.FileURLResolver;
 import com.cryptoregistry.HTTPURLResolver;
 import com.cryptoregistry.KeyGenerationAlgorithm;
 import com.cryptoregistry.KeyMaterials;
-import com.cryptoregistry.LocalData;
-import com.cryptoregistry.RemoteData;
+import com.cryptoregistry.MapData;
+import com.cryptoregistry.ListData;
 import com.cryptoregistry.passwords.Password;
 import com.cryptoregistry.rsa.CryptoFactory;
 import com.cryptoregistry.rsa.RSAKeyContents;
@@ -46,11 +46,11 @@ public class GeneralFormattingTest {
 		contact.add("PostalCode", "53711");
 		contact.add("CountryCode", "US");
 		
-		LocalData ld = new LocalData();
+		MapData ld = new MapData();
 		ld.put("Copyright", "\u00A9 2014, David R. Smith. All Rights Reserved");
 		ld.put("License", "http://www.apache.org/licenses/LICENSE-2.0.txt");
 		
-		RemoteData rd = new RemoteData();
+		ListData rd = new ListData();
 		rd.addURL("http://buttermilk.googlecode.com/svn/trunk/buttermilk-core/data/test0.json");
 		
 		RSAKeyContents contents = CryptoFactory.INSTANCE.generateKeys();
@@ -75,8 +75,8 @@ public class GeneralFormattingTest {
 		
 		// a bit more complex - the remote iterator outputs a list resolved into LocalData
 		while(remoteIter.hasNext()){
-			List<LocalData> list = remoteIter.nextData();
-			for(LocalData data: list){
+			List<MapData> list = remoteIter.nextData();
+			for(MapData data: list){
 				MapIterator inner = new LocalDataContentsIterator(data);
 				while(inner.hasNext()){
 					String label = inner.next();
@@ -87,7 +87,7 @@ public class GeneralFormattingTest {
 		
 		CryptoSignature sig = sigBuilder.build();
 		
-		JSONBuilder builder = new JSONBuilder("Chinese Eyes");
+		JSONFormatter builder = new JSONFormatter("Chinese Eyes");
 		builder.add(contact)
 		.add(contents)
 		.add(sig)
@@ -105,11 +105,11 @@ public class GeneralFormattingTest {
 	@Test
 	public void test1() throws IOException {
 		
-		LocalData ld0 = new LocalData();
+		MapData ld0 = new MapData();
 		ld0.put("Copyright", "\u00A9 2014, David R. Smith. All Rights Reserved");
 		ld0.put("License", "http://www.apache.org/licenses/LICENSE-2.0.txt");
 		
-		LocalData ld1 = new LocalData();
+		MapData ld1 = new MapData();
 		ld1.put("some key", "some data");
 		ld1.put("another key", "more data");
 		LocalDataFormatter format = new LocalDataFormatter();
@@ -148,7 +148,7 @@ public class GeneralFormattingTest {
 		String fileUrl = f.toURI().toURL().toExternalForm();
 		
 		FileURLResolver fur = new FileURLResolver(fileUrl);
-		List<LocalData> data = fur.resolve();
+		List<MapData> data = fur.resolve();
 		Assert.assertTrue(data != null);
 		Assert.assertTrue(data.size() == 2);
 		
@@ -174,7 +174,7 @@ public class GeneralFormattingTest {
 		RSAKeyContents contents = CryptoFactory.INSTANCE.generateKeys(password);
 		RSAKeyForPublication fp = contents.forPublication();
 
-		JSONBuilder builder = new JSONBuilder(reg);
+		JSONFormatter builder = new JSONFormatter(reg);
 		builder.add(contents);
 		builder.add(fp);
 		

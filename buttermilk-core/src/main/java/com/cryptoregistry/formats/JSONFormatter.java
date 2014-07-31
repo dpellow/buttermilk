@@ -10,8 +10,8 @@ import com.cryptoregistry.CryptoKey;
 import com.cryptoregistry.CryptoKeyMetadata;
 import com.cryptoregistry.CryptoContact;
 import com.cryptoregistry.KeyGenerationAlgorithm;
-import com.cryptoregistry.LocalData;
-import com.cryptoregistry.RemoteData;
+import com.cryptoregistry.MapData;
+import com.cryptoregistry.ListData;
 import com.cryptoregistry.Version;
 import com.cryptoregistry.c2.key.Curve25519KeyForPublication;
 import com.cryptoregistry.ec.ECKeyForPublication;
@@ -67,92 +67,92 @@ import com.fasterxml.jackson.core.JsonGenerator;
  * @author Dave
  *
  */
-public class JSONBuilder {
+public class JSONFormatter {
 
 	protected String version;
 	protected String registrationHandle;
 	protected List<CryptoKey> keys;
 	protected List<CryptoContact> contacts;
 	protected List<CryptoSignature> signatures;
-	protected List<LocalData> localData;
-	protected List<RemoteData> remoteData;
+	protected List<MapData> mapData;
+	protected List<ListData> listData;
 	
-	public JSONBuilder(String handle) {
+	public JSONFormatter(String handle) {
 		version = Version.OVERALL_VERSION;
 		this.registrationHandle = handle;
 		keys = new ArrayList<CryptoKey>();
 		contacts = new ArrayList<CryptoContact>();
 		signatures = new ArrayList<CryptoSignature>();
-		localData = new ArrayList<LocalData>();
-		remoteData = new ArrayList<RemoteData>();
+		mapData = new ArrayList<MapData>();
+		listData = new ArrayList<ListData>();
 	}
 
-	public JSONBuilder(String version, String registrationHandle,
+	public JSONFormatter(String version, String registrationHandle,
 			List<CryptoKey> keys, List<CryptoContact> contacts,
-			List<CryptoSignature> signatures, List<LocalData> localData, 
-			List<RemoteData> remoteData) {
+			List<CryptoSignature> signatures, List<MapData> mapData, 
+			List<ListData> listData) {
 		super();
 		this.version = version;
 		this.registrationHandle = registrationHandle;
 		this.keys = keys;
 		this.contacts = contacts;
 		this.signatures = signatures;
-		this.localData = localData;
-		this.remoteData = remoteData;
+		this.mapData = mapData;
+		this.listData = listData;
 	}
 	
-	public JSONBuilder add(CryptoContact e) {
+	public JSONFormatter add(CryptoContact e) {
 		 contacts.add(e);
 		 return this;
 	}
 
-	public JSONBuilder addContacts(Collection<? extends CryptoContact> c) {
+	public JSONFormatter addContacts(Collection<? extends CryptoContact> c) {
 		contacts.addAll(c);
 		return this;
 	}
 	
-	public JSONBuilder add(CryptoKey e) {
+	public JSONFormatter add(CryptoKey e) {
 		keys.add(e);
 		return this;
 	}
 	
-	public JSONBuilder addKey(CryptoKey e) {
+	public JSONFormatter addKey(CryptoKey e) {
 		keys.add(e);
 		return this;
 	}
 
-	public JSONBuilder addKeys(Collection<? extends CryptoKey> c) {
+	public JSONFormatter addKeys(Collection<? extends CryptoKey> c) {
 		keys.addAll(c);
 		return this;
 	}
 	
-	public JSONBuilder add(CryptoSignature e) {
+	public JSONFormatter add(CryptoSignature e) {
 		signatures.add(e);
 		return this;
 	}
 
-	public JSONBuilder addSignatures(Collection<? extends CryptoSignature> c) {
+	public JSONFormatter addSignatures(Collection<? extends CryptoSignature> c) {
 		signatures.addAll(c);
 		return this;
 	}
 	
-	public JSONBuilder add(LocalData e) {
-		localData.add(e);
+	public JSONFormatter add(MapData e) {
+		mapData.add(e);
 		return this;
 	}
 
-	public JSONBuilder addLocalData(Collection<? extends LocalData> c) {
-		localData.addAll(c);
+	public JSONFormatter addLocalData(Collection<? extends MapData> c) {
+		mapData.addAll(c);
 		return this;
 	}
 	
-	public JSONBuilder add(RemoteData e) {
-		remoteData.add(e);
+	public JSONFormatter add(ListData e) {
+		listData.add(e);
 		return this;
 	}
 
-	public JSONBuilder addRemoteData(Collection<? extends RemoteData> c) {
-		remoteData.addAll(c);
+	public JSONFormatter addRemoteData(Collection<? extends ListData> c) {
+		listData.addAll(c);
 		return this;
 	}
 
@@ -181,26 +181,26 @@ public class JSONBuilder {
 				g.writeEndObject();
 			}
 			
-			if(localData.size()>0 || remoteData.size()>0){
+			if(mapData.size()>0 || listData.size()>0){
 				
 				g.writeObjectFieldStart("Data");
 				
-				if(localData.size()>0){
+				if(mapData.size()>0){
 					
 					g.writeObjectFieldStart("Local");
 					
-						LocalDataFormatter ldf = new LocalDataFormatter(localData);
+						LocalDataFormatter ldf = new LocalDataFormatter(mapData);
 						ldf.format(g, writer);
 					
 					g.writeEndObject();
 				}
 				
 				
-				if(remoteData.size()>0){
+				if(listData.size()>0){
 					
 					g.writeArrayFieldStart("Remote");
 					
-						RemoteDataFormatter rdf = new RemoteDataFormatter(remoteData);
+						RemoteDataFormatter rdf = new RemoteDataFormatter(listData);
 						rdf.format(g, writer);
 				
 					g.writeEndArray();

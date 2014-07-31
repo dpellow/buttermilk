@@ -21,19 +21,19 @@ public class KeyFormatterTest {
 		char [] password = {'p','a','s','s'};
 		PBEParams params0 = PBEParamsFactory.INSTANCE.createPBKDF2Params(password);
 		params0.setIterations(params0.getIterations()+1);
-		KeyFormat secureFormat = new KeyFormat(Encoding.Base64url,Mode.SECURED,params0);
-		KeyFormat publicFormat = new KeyFormat(Encoding.Base64url,Mode.FOR_PUBLICATION,null);
+		KeyFormat secureFormat = new KeyFormat(EncodingHint.Base64url,Mode.SECURED,params0);
+		KeyFormat publicFormat = new KeyFormat(EncodingHint.Base64url,Mode.FOR_PUBLICATION,null);
 		
 		ECKeyContents c1 = c0.clone(secureFormat);
 		ECKeyContents c2 = c0.clone(publicFormat);
 		
 		// define a different PBE
 		params0 = PBEParamsFactory.INSTANCE.createScryptParams(password);
-		secureFormat = new KeyFormat(Encoding.Base64url,Mode.SECURED,params0);
+		secureFormat = new KeyFormat(EncodingHint.Base64url,Mode.SECURED,params0);
 		ECKeyContents c3 = c0.clone(secureFormat);
 		
 		final String registrationHandle = "Chinese Eyes";
-		JSONBuilder f = new JSONBuilder(registrationHandle);
+		JSONFormatter f = new JSONFormatter(registrationHandle);
 		f.add(c2);
 		f.add(c0);
 		f.add(c1);
@@ -53,19 +53,19 @@ public class KeyFormatterTest {
 		char [] password = {'p','a','s','s'};
 		PBEParams params0 = PBEParamsFactory.INSTANCE.createPBKDF2Params(password);
 		params0.setIterations(params0.getIterations()+1);
-		KeyFormat secureFormat = new KeyFormat(Encoding.Base64url,Mode.SECURED,params0);
-		KeyFormat publicFormat = new KeyFormat(Encoding.Base64url,Mode.FOR_PUBLICATION,null);
+		KeyFormat secureFormat = new KeyFormat(EncodingHint.Base64url,Mode.SECURED,params0);
+		KeyFormat publicFormat = new KeyFormat(EncodingHint.Base64url,Mode.FOR_PUBLICATION,null);
 		
 		Curve25519KeyContents c1 = c0.clone(secureFormat);
 		Curve25519KeyContents c2 = c0.clone(publicFormat);
 		
 		// define a different PBE
 		params0 = PBEParamsFactory.INSTANCE.createScryptParams(password);
-		secureFormat = new KeyFormat(Encoding.Base64url,Mode.SECURED,params0);
+		secureFormat = new KeyFormat(EncodingHint.Base64url,Mode.SECURED,params0);
 		Curve25519KeyContents c3 = c0.clone(secureFormat);
 		
 		final String registrationHandle = "Chinese Eyes";
-		JSONBuilder f = new JSONBuilder(registrationHandle);
+		JSONFormatter f = new JSONFormatter(registrationHandle);
 		f.add(c2);
 		f.add(c0);
 		f.add(c1);

@@ -12,7 +12,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import com.cryptoregistry.formats.JSONBuilder;
+import com.cryptoregistry.formats.JSONFormatter;
 
 import x.org.bouncycastle.math.ec.ECCurve;
 import x.org.bouncycastle.math.ec.ECPoint;
@@ -34,7 +34,7 @@ public class ECKeyGenTest {
 		
 
 		final String registrationHandle = "Chinese Eyes";
-		JSONBuilder f = new JSONBuilder(registrationHandle);
+		JSONFormatter f = new JSONFormatter(registrationHandle);
 		f.add(ecc);
 		StringWriter writer = new StringWriter();
 		f.format(writer);

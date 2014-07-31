@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
-import com.cryptoregistry.formats.Encoding;
+import com.cryptoregistry.formats.EncodingHint;
 import com.cryptoregistry.formats.FormatUtil;
 import com.cryptoregistry.util.ArmoredString;
 
@@ -57,7 +57,7 @@ public class ECF2MCustomParameters extends ECCustomParameters {
 	            ECPoint G,
 	            byte [] seed) {
 		this();
-		Encoding enc = Encoding.Base16;
+		EncodingHint enc = EncodingHint.Base16;
 		String _a = FormatUtil.wrap(enc, a);
 		String _b = FormatUtil.wrap(enc, b);
 		String _n = FormatUtil.wrap(enc, n);
@@ -98,7 +98,7 @@ public class ECF2MCustomParameters extends ECCustomParameters {
 	 * @param seed
 	 */
 	public ECF2MCustomParameters( 
-			    Encoding enc,
+			    EncodingHint enc,
 				String uuid,
 			 	int m, 
 	            int k1, 
@@ -134,7 +134,7 @@ public class ECF2MCustomParameters extends ECCustomParameters {
 	}
 	
 	public ECF2MCustomParameters( 
-		    Encoding enc,
+		    EncodingHint enc,
 			String uuid,
 		 	int m, 
             int k, 
@@ -178,7 +178,7 @@ public class ECF2MCustomParameters extends ECCustomParameters {
 	@Override
 	public ECDomainParameters getParameters() {
 		
-		Encoding enc = Encoding.valueOf(parameters.get("Encoding"));
+		EncodingHint enc = EncodingHint.valueOf(parameters.get("Encoding"));
 		
 		if(parameters.containsKey("k")) {
 			// use the TPB constructor 
