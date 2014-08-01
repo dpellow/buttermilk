@@ -20,13 +20,13 @@ import com.cryptoregistry.util.MapIterator;
  * Base class for custom parameters in EC
  * 
  * Buttermilk would like to provide a defined format for Elliptic Curve parameters so that
- * researchers can easily communicate and use such parameters. 
+ * researchers can easily communicate new curves and use such parameters. 
  * 
  * The author believes it probably always best to use named curves for business or professional use,
  * due to the probability that custom created curves will go wrong, be inefficient, or otherwise fail.
  * 
  * That said, there is no simple format today to communicate curve parameters and we'd like to provide that
- * as a demonstration of the robustness of the buttermilk json format concept.
+ * as a demonstration of the robustness of the buttermilk JSON format concept.
  * 
  * See http://www.secg.org/collateral/sec2_final.pdf for the basic definitions of how to encode
  * Elliptic Curve parameters. In brief, the prime field parameters are a sextuplet of the form:
@@ -83,8 +83,7 @@ import com.cryptoregistry.util.MapIterator;
          * h The cofactor of the elliptic curve, i.e.
          * <code>#E<sub>a</sub>(F<sub>2<sup>m</sup></sub>) = h * n</code>.
  * 
- * It is beyond the author's present ability to find or define new useful curves; however, just
- * to provide a way to encode them, given user-provided values of the above forms, is not too difficult. 
+ * 
  * 
  * </pre>
  * 

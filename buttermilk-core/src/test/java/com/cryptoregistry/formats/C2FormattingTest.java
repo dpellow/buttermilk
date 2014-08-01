@@ -21,6 +21,8 @@ import com.cryptoregistry.util.MapIterator;
 
 
 public class C2FormattingTest {
+	
+	
 
 	@Test
 	public void test0() {

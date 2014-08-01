@@ -6,6 +6,7 @@
 
 package com.cryptoregistry.c2;
 
+import java.io.StringWriter;
 import java.nio.charset.Charset;
 
 import org.junit.Test;
@@ -17,6 +18,7 @@ import com.cryptoregistry.c2.key.Curve25519KeyContents;
 import com.cryptoregistry.c2.key.PublicKey;
 import com.cryptoregistry.c2.key.SecretKey;
 import com.cryptoregistry.c2.key.SigningPrivateKey;
+import com.cryptoregistry.formats.JSONFormatter;
 import com.cryptoregistry.signature.C2CryptoSignature;
 import com.cryptoregistry.util.XORUtil;
 
@@ -33,6 +35,12 @@ public class Curve25519Test {
 		Assert.assertTrue(test_equal(s0.getBytes(),s1.getBytes()));
 		System.err.println(s0.getBase64Encoding());
 		System.err.println(s1.getBase64Encoding());
+		
+		JSONFormatter format = new JSONFormatter("Chinese Eyes");
+		format.add(keys0).add(keys1);
+		StringWriter writer = new StringWriter();
+		format.format(writer);
+		System.err.println(writer.toString());
 	}
 	
 	private boolean test_equal(byte[] a, byte[] b) {

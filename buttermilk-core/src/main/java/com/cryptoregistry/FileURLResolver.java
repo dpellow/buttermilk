@@ -48,7 +48,7 @@ public class FileURLResolver extends URLResolver {
 			Iterator<String> keys = root.keySet().iterator();
 			while(keys.hasNext()){
 				String key = keys.next();
-				Map<String,Object> attribs = (Map<String,Object>) root.get(key);
+				Map<String,String> attribs = (Map<String,String>) root.get(key);
 				MapData ld = new MapData(key,attribs);
 				list.add(ld);
 			}

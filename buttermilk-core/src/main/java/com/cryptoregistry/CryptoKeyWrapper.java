@@ -26,5 +26,4 @@ public interface CryptoKeyWrapper {
 	Object getKeyContents();
 	void setKeyContents(Object obj);
 	
-	
 }

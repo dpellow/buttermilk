@@ -25,7 +25,7 @@ public class MapData {
 		data = new LinkedHashMap<String,String>();
 	}
 	
-	public MapData(String uuid, Map<String,Object> in) {
+	public MapData(String uuid, Map<String,String> in) {
 		this.uuid = uuid;
 		data = new LinkedHashMap<String,String>();
 		Iterator<String> keys = in.keySet().iterator();

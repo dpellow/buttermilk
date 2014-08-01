@@ -445,7 +445,7 @@ public class JSONReader {
 				Iterator<String> iter = uuids.keySet().iterator();
 				while(iter.hasNext()) {
 					String handle = iter.next();
-					Map<String, Object> localData = (Map<String, Object>) uuids.get(handle);
+					Map<String, String> localData = (Map<String, String>) uuids.get(handle);
 					list.add(new MapData(handle,localData));
 				}
 					
