@@ -1,8 +1,12 @@
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2014 David R. Smith All Rights Reserved.
+ *
+ */
 package com.cryptoregistry.proto.builder;
 
 import com.cryptoregistry.ec.ECCustomParameters;
 import com.cryptoregistry.ec.ECKeyContents;
-import com.cryptoregistry.formats.EncodingHint;
 import com.cryptoregistry.formats.FormatUtil;
 import com.cryptoregistry.protos.Buttermilk.CurveDefinitionProto;
 import com.cryptoregistry.protos.Buttermilk.ECKeyContentsProto;
@@ -24,7 +28,7 @@ public class ECKeyContentsProtoBuilder {
 	}
 	
 	/**
-	 * Assume Q is encoded in Hex (Base16)
+	 * Note: the encoding hint should be reasonable for encoding Q, such as base16
 	 * 
 	 * @return
 	 */
@@ -45,7 +49,7 @@ public class ECKeyContentsProtoBuilder {
 			ecProtoBuilder.setCurveDefinition(curveDefProto);
 		}
 		
-		ecProtoBuilder.setQ(FormatUtil.serializeECPoint(keyContents.Q, EncodingHint.Base16));
+		ecProtoBuilder.setQ(FormatUtil.serializeECPoint(keyContents.Q, keyContents.metadata.format.encodingHint));
 		ecProtoBuilder.setD(ByteString.copyFrom(keyContents.d.toByteArray()));
 		
 		return ecProtoBuilder.build();

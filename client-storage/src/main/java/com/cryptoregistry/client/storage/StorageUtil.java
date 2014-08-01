@@ -3,9 +3,9 @@ package com.cryptoregistry.client.storage;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.cryptoregistry.passwords.SensitiveBytes;
-import com.cryptoregistry.proto.reader.C2KeyContentsReader;
+import com.cryptoregistry.proto.reader.C2KeyContentsProtoReader;
 import com.cryptoregistry.proto.reader.CryptoContactProtoReader;
-import com.cryptoregistry.proto.reader.RSAKeyContentsReader;
+import com.cryptoregistry.proto.reader.RSAKeyContentsProtoReader;
 import com.cryptoregistry.protos.Buttermilk.C2KeyContentsProto;
 import com.cryptoregistry.protos.Buttermilk.CryptoContactProto;
 import com.cryptoregistry.protos.Buttermilk.ECKeyContentsProto;
@@ -29,7 +29,7 @@ public class StorageUtil {
 			
 			case "C2KeyContentsProto": {
 				C2KeyContentsProto proto = C2KeyContentsProto.parseFrom(bytes);
-				C2KeyContentsReader reader = new C2KeyContentsReader(proto);
+				C2KeyContentsProtoReader reader = new C2KeyContentsProtoReader(proto);
 				return reader.read();
 			}
 			case "CryptoContactProto": {
@@ -53,7 +53,7 @@ public class StorageUtil {
 			*/
 			case "RSAKeyContentsProto": {
 				RSAKeyContentsProto proto = RSAKeyContentsProto.parseFrom(bytes);
-				RSAKeyContentsReader reader = new RSAKeyContentsReader(proto);
+				RSAKeyContentsProtoReader reader = new RSAKeyContentsProtoReader(proto);
 				return reader.read();
 			}
 			case "SignatureProto": {

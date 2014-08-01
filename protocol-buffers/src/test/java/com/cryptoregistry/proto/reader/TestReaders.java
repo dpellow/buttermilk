@@ -35,7 +35,7 @@ public class TestReaders {
 		.setQ(ByteString.copyFrom(contents.q.toByteArray()))
 		.setQInv(ByteString.copyFrom(contents.qInv.toByteArray())).build();
 		
-		RSAKeyContentsReader reader = new RSAKeyContentsReader(rsaProto);
+		RSAKeyContentsProtoReader reader = new RSAKeyContentsProtoReader(rsaProto);
 		RSAKeyContents _contents = (RSAKeyContents) reader.read();
 		
 		Assert.assertEquals(contents,_contents);

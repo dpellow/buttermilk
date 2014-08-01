@@ -1,3 +1,8 @@
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2014 David R. Smith All Rights Reserved.
+ *
+ */
 package com.cryptoregistry.proto.builder;
 
 import com.cryptoregistry.protos.Buttermilk.KeyMetadataProto;
@@ -9,10 +14,6 @@ import com.google.protobuf.ByteString;
  * Make a proto buffer out of an RSAKeyForPublication instance. If a full RSAKeyContents object is
  * passed in, we still get a proto suitable for publication as RSAKeyContentsProto has optional
  * fields for the private key portions
- * </p>
- * 
- * <p>
- * In other words, this is a fast way to make a public key proto
  * </p>
  * 
  * @author Dave
