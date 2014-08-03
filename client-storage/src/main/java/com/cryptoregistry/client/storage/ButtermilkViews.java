@@ -91,64 +91,96 @@ public class ButtermilkViews {
 		cachedKey.selfDestruct();
 	}
 	
-	public void put(Curve25519KeyForPublication key){
+	public void put(String regHandle, Curve25519KeyForPublication key){
+		Metadata metadata = new Metadata();
+		metadata.setKey(true);
+		metadata.setRegistrationHandle(regHandle);
+		metadata.setKeyGenerationAlgorithm(key.getMetadata().getKeyAlgorithm().toString());
+		metadata.setCreatedOn(key.getMetadata().getCreatedOn().getTime());
 		if(key instanceof Signer){
 			C2KeyContentsProtoBuilder builder = new C2KeyContentsProtoBuilder((Curve25519KeyContents)key);
 			C2KeyContentsProto proto = builder.build();
-			putSecure(key.getMetadata().getHandle(),proto);
+			putSecure(key.getMetadata().getHandle(),metadata,proto);
 		}else{
+			metadata.setForPublication(true);
 			C2KeyForPublicationProtoBuilder builder = new C2KeyForPublicationProtoBuilder(key);
 			C2KeyContentsProto proto = builder.build();
-			putSecure(key.getMetadata().getHandle(),proto);
+			putSecure(key.getMetadata().getHandle(),metadata,proto);
 		}
 	}
 	
-	public void put(RSAKeyForPublication key){
+	public void put(String regHandle, RSAKeyForPublication key){
+		Metadata metadata = new Metadata();
+		metadata.setKey(true);
+		metadata.setRegistrationHandle(regHandle);
+		metadata.setKeyGenerationAlgorithm(key.getMetadata().getKeyAlgorithm().toString());
+		metadata.setCreatedOn(key.getMetadata().getCreatedOn().getTime());
 		if(key instanceof Signer){
 			RSAKeyContentsProtoBuilder builder = new RSAKeyContentsProtoBuilder((RSAKeyContents)key);
 			RSAKeyContentsProto proto = builder.build();
-			putSecure(key.getMetadata().getHandle(),proto);
+			putSecure(key.getMetadata().getHandle(),metadata,proto);
 		}else{
+			metadata.setForPublication(true);
 			RSAKeyForPublicationProtoBuilder builder = new RSAKeyForPublicationProtoBuilder(key);
 			RSAKeyContentsProto proto = builder.build();
-			putSecure(key.getMetadata().getHandle(),proto);
+			putSecure(key.getMetadata().getHandle(),metadata,proto);
 		}
 	}
 	
-	public void put(ECKeyForPublication key){
+	public void put(String regHandle,ECKeyForPublication key){
+		Metadata metadata = new Metadata();
+		metadata.setKey(true);
+		metadata.setRegistrationHandle(regHandle);
+		metadata.setKeyGenerationAlgorithm(key.getMetadata().getKeyAlgorithm().toString());
+		metadata.setCreatedOn(key.getMetadata().getCreatedOn().getTime());
+		
 		if(key instanceof Signer){
 			ECKeyContentsProtoBuilder builder = new ECKeyContentsProtoBuilder((ECKeyContents)key);
 			ECKeyContentsProto proto = builder.build();
-			putSecure(key.getMetadata().getHandle(),proto);
+			putSecure(key.getMetadata().getHandle(),metadata,proto);
 		}else{
+			metadata.setForPublication(true);
 			ECKeyForPublicationProtoBuilder builder = new ECKeyForPublicationProtoBuilder(key);
 			ECKeyContentsProto proto = builder.build();
-			putSecure(key.getMetadata().getHandle(),proto);
+			putSecure(key.getMetadata().getHandle(),metadata,proto);
 		}
 	}
 	
-	public void put(CryptoContact contact){
+	public void put(String regHandle, CryptoContact contact){
+		Metadata metadata = new Metadata();
+		metadata.setRegistrationHandle(regHandle);
+		metadata.setContact(true);
 		ContactProtoBuilder builder = new ContactProtoBuilder(contact);
 		CryptoContactProto proto = builder.build();
-		putSecure(contact.getHandle(),proto);
+		putSecure(contact.getHandle(),metadata,proto);
 	}
 	
-	public void put(CryptoSignature signature){
+	public void put(String regHandle, CryptoSignature signature){
+		Metadata metadata = new Metadata();
+		metadata.setRegistrationHandle(regHandle);
+		metadata.setSignatureAlgorithm(signature.getSigAlg().toString());
+		metadata.setCreatedOn(signature.metadata.createdOn.getTime());
 		SignatureProtoBuilder builder = new SignatureProtoBuilder(signature);
-		putSecure(signature.getHandle(),builder.build());
+		putSecure(signature.getHandle(),metadata,builder.build());
 	}
 	
-	public void put(MapData local){
+	public void put(String regHandle, MapData local){
+		Metadata metadata = new Metadata();
+		metadata.setRegistrationHandle(regHandle);
+		metadata.setNamedMap(true);
 		NamedMapProtoBuilder builder = new NamedMapProtoBuilder(local.uuid,local.data);
-		putSecure(local.uuid,builder.build());
+		putSecure(local.uuid,metadata,builder.build());
 	}
 	
-	public void put(ListData remote){
+	public void put(String regHandle, ListData remote){
+		Metadata metadata = new Metadata();
+		metadata.setRegistrationHandle(regHandle);
+		metadata.setNamedList(true);
 		NamedListProtoBuilder builder = new NamedListProtoBuilder(remote.uuid,remote.urls);
-		putSecure(remote.uuid,builder.build());
+		putSecure(remote.uuid,metadata,builder.build());
 	}
 
-	protected void putSecure(String handle, Message proto){
+	protected void putSecure(String handle, Metadata meta, Message proto){
 		byte [] input = proto.toByteArray();
 		Handle key = new Handle(handle);
 		byte [] iv = new byte [16];
@@ -158,10 +190,12 @@ public class ButtermilkViews {
 		String simpleName = proto.getClass().getSimpleName();
 		SecureData value = new SecureData(encrypted, iv, simpleName);
 		this.getSecureMap().put(key, value);
+		this.getMetadataMap().put(key,meta);
 	}
 
 	public Object getSecure(String handle) throws InvalidProtocolBufferException{
 		SecureData data = this.getSecureMap().get(new Handle(handle));
 		return StorageUtil.getSecure(cachedKey, data);
 	}
+	
 }

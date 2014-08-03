@@ -1,0 +1,22 @@
+Buttermilk(tm) Command Line Client
+----------------------------------
+
+most flags can be set with defaults in your buttermilk.properties configuration file:
+--regHandle|-r <handle>
+-a|--alg <algorithm>
+-p|--password <value>
+
+verbs:
+
+genKey -a|--alg <keyGenAlg> 
+listAlgs
+listKeys [-a|--alg <alg>]
+listContacts
+listSignatures
+listData
+listAll
+export [-h|--handle <handle>, ...] [-all]
+show -h|--handle <handle>
+
+check 
+info

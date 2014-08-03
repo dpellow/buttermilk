@@ -8,6 +8,7 @@ import java.util.Iterator;
 
 import junit.framework.Assert;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.cryptoregistry.client.storage.ButtermilkViews;
@@ -25,10 +26,16 @@ import asia.redact.bracket.properties.Properties;
 
 public class SecTest {
 	
+	public static Properties props;
+	
+	@BeforeClass
+	public static final void setup() {
+		InputStream in = Thread.currentThread().getClass().getResourceAsStream("/buttermilk.properties");
+		props = Properties.Factory.getInstance(in);
+	}
+	
 	@Test
 	public void test0() {
-		InputStream in = Thread.currentThread().getClass().getResourceAsStream("/buttermilk.properties");
-		Properties props = Properties.Factory.getInstance(in);
 		
 		String location_p = props.get("p.home");
 		String location_q = props.get("q.home");
@@ -77,13 +84,12 @@ public class SecTest {
 			ButtermilkViews views = ds.getViews();
 			
 			RSAKeyContents rsa = CryptoFactory.INSTANCE.generateKeys();
-			views.put(rsa);
+			views.put(props.get("registration.handle"), rsa);
 			
-			JSONFormatter formatter = new JSONFormatter("Chinese Eyes");
+			JSONFormatter formatter = new JSONFormatter(props.get("registration.handle"));
 			Iterator<Handle> iter = views.getSecureMap().keySet().iterator();
 			while(iter.hasNext()) {
 				Handle key = iter.next();
-			//	System.err.println(key);
 				Object obj;
 				try {
 					obj = ds.getViews().getSecure(key.getHandle());

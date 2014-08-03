@@ -1,0 +1,7 @@
+Buttermilk(tm) BiEntropy Command Line Client
+--------------------------------------------
+
+usage:
+
+com.cryptoregistry.utility.app.BiEntropy -f|--file <path> | 
+										 -a|--arg <string>

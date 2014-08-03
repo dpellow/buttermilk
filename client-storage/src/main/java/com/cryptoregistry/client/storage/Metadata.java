@@ -1,9 +1,13 @@
 package com.cryptoregistry.client.storage;
 
-public class Metadata {
+import java.io.Serializable;
 
-	private String type;
+public class Metadata implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	
 	private boolean key;
+	private boolean forPublication;
 	private boolean contact;
 	private boolean signature;
 	private boolean namedList;
@@ -11,34 +15,10 @@ public class Metadata {
 	private String keyGenerationAlgorithm;
 	private String signatureAlgorithm;
 	private long createdOn;
-	private boolean publicOnly;
 	private String registrationHandle;
-
 	
-	public Metadata(String type, boolean key, boolean contact,
-			boolean signature, boolean namedList, boolean namedMap,
-			String keyGenerationAlgorithm, String signatureAlgorithm,
-			long createdOn, boolean publicOnly, String registrationHandle) {
+	public Metadata() {
 		super();
-		this.type = type;
-		this.key = key;
-		this.contact = contact;
-		this.signature = signature;
-		this.namedList = namedList;
-		this.namedMap = namedMap;
-		this.keyGenerationAlgorithm = keyGenerationAlgorithm;
-		this.signatureAlgorithm = signatureAlgorithm;
-		this.createdOn = createdOn;
-		this.publicOnly = publicOnly;
-		this.registrationHandle = registrationHandle;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
 	}
 
 	public boolean isKey() {
@@ -105,20 +85,20 @@ public class Metadata {
 		this.createdOn = createdOn;
 	}
 
-	public boolean isPublicOnly() {
-		return publicOnly;
-	}
-
-	public void setPublicOnly(boolean publicOnly) {
-		this.publicOnly = publicOnly;
-	}
-
 	public String getRegistrationHandle() {
 		return registrationHandle;
 	}
 
 	public void setRegistrationHandle(String registrationHandle) {
 		this.registrationHandle = registrationHandle;
+	}
+
+	public boolean isForPublication() {
+		return forPublication;
+	}
+
+	public void setForPublication(boolean forPublication) {
+		this.forPublication = forPublication;
 	}
 
 }
