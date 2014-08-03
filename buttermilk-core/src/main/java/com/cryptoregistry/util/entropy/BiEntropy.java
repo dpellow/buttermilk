@@ -5,8 +5,17 @@
  */
 package com.cryptoregistry.util.entropy;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 /**
  * Implementation of bientropy algorithm as described in
@@ -115,7 +124,7 @@ public class BiEntropy {
 		collect();
 		compute(binaryExpansion);
 		double res = U/T;
-		return new Result(res, res*1*8);
+		return new Result(input, res, res*1*8);
 	}
 	
 
@@ -144,11 +153,13 @@ public class BiEntropy {
 		
 		public double biEntropy;
 		public double bitsOfEntropy;
+		private byte in;
 		
-		public Result(double biEntropy, double bitsOfEntropy) {
+		public Result(byte in, double biEntropy, double bitsOfEntropy) {
 			super();
 			this.biEntropy = biEntropy;
 			this.bitsOfEntropy = bitsOfEntropy;
+			this.in = in;
 		}
 
 		@Override
@@ -156,7 +167,30 @@ public class BiEntropy {
 			return "Result [biEntropy=" + format.format(biEntropy) + ", bitsOfEntropy="
 					+ Math.round(bitsOfEntropy) + "]";
 		}
-
+		
+		public String toJSON() {
+			Map<String,Object> map = new LinkedHashMap<String,Object>();
+			map.put("version", "Buttermilk BiEntropy v1.0");
+			map.put("algorithm", "TresBiEntropy");
+			map.put("input", Character.valueOf((char)in));
+			map.put("biEntropy", format.format(biEntropy));
+			map.put("bitsOfEntropy", Math.round(bitsOfEntropy));
+			ObjectMapper mapper = new ObjectMapper();
+			mapper.enable(SerializationFeature.INDENT_OUTPUT);
+			StringWriter writer = new StringWriter();
+			try {
+				mapper.writeValue(writer, map);
+			} catch (JsonGenerationException e) {
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return writer.toString();
+		}
+		
+		
 		@Override
 		public int hashCode() {
 			final int prime = 31;

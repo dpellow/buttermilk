@@ -5,8 +5,17 @@
  */
 package com.cryptoregistry.util.entropy;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 /**
  * Implementation of tres bientropy algorithm described in
@@ -112,7 +121,7 @@ public class TresBiEntropy {
 		int length = collect();
 		compute(binaryExpansion);
 		double res = U/T;
-		return new Result(res, res*length*8);
+		return new Result(input, res, res*length*8);
 	}
 	
 	/**
@@ -155,12 +164,14 @@ public class TresBiEntropy {
 		
 		public double biEntropy;
 		public double bitsOfEntropy;
+		private byte [] input;
 		final DecimalFormat format = new DecimalFormat("#######0.00");
 		
-		public Result(double biEntropy, double bitsOfEntropy) {
+		public Result(byte [] input, double biEntropy, double bitsOfEntropy) {
 			super();
 			this.biEntropy = biEntropy;
 			this.bitsOfEntropy = bitsOfEntropy;
+			this.input = input;
 		}
 
 		@Override
@@ -169,8 +180,58 @@ public class TresBiEntropy {
 					+ Math.round(bitsOfEntropy) + "]";
 		}
 
-		
-		
+		public String toJSON() {
+			Map<String,Object> map = new LinkedHashMap<String,Object>();
+			map.put("version", "Buttermilk BiEntropy v1.0");
+			map.put("algorithm", "TresBiEntropy");
+			if(input.length < 64) map.put("input", new String(input));
+			if(input.length >= 64) map.put("input", new String(input).substring(0, 64)+"...");
+			map.put("biEntropy", format.format(biEntropy));
+			map.put("bitsOfEntropy", Math.round(bitsOfEntropy));
+			ObjectMapper mapper = new ObjectMapper();
+			mapper.enable(SerializationFeature.INDENT_OUTPUT);
+			StringWriter writer = new StringWriter();
+			try {
+				mapper.writeValue(writer, map);
+			} catch (JsonGenerationException e) {
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return writer.toString();
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			long temp;
+			temp = Double.doubleToLongBits(biEntropy);
+			result = prime * result + (int) (temp ^ (temp >>> 32));
+			temp = Double.doubleToLongBits(bitsOfEntropy);
+			result = prime * result + (int) (temp ^ (temp >>> 32));
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Result other = (Result) obj;
+			if (Double.doubleToLongBits(biEntropy) != Double
+					.doubleToLongBits(other.biEntropy))
+				return false;
+			if (Double.doubleToLongBits(bitsOfEntropy) != Double
+					.doubleToLongBits(other.bitsOfEntropy))
+				return false;
+			return true;
+		}
 		
 	}
 }
