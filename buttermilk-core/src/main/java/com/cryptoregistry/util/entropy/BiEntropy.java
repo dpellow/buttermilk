@@ -38,6 +38,8 @@ public class BiEntropy {
 	final static Character ONE = new Character('1');
 	final DecimalFormat format = new DecimalFormat("#######0.00");
 	
+	String bitsAsString;
+	
 	double U, T; // intermediate values
 	
 	public BiEntropy(byte input) {
@@ -95,7 +97,7 @@ public class BiEntropy {
 		T+=r1;
 		U+=u;
 		
-		System.err.println("binaryExpansion="+list+", BiEn="+format.format(bien)+", k="+r+", (r-1)^2="+r1+", bien*(r-1)^2="+format.format(u));
+	//	System.err.println("binaryExpansion="+list+", BiEn="+format.format(bien)+", k="+r+", (r-1)^2="+r1+", bien*(r-1)^2="+format.format(u));
 			
 		// don't do a list of 1 item or less - escape recurse
 		if( list.size() == 2) return;
@@ -124,7 +126,8 @@ public class BiEntropy {
 		collect();
 		compute(binaryExpansion);
 		double res = U/T;
-		return new Result(input, res, res*1*8);
+		bitsAsString = binaryExpansion.toString();
+		return new Result(input, bitsAsString, res, res*1*8);
 	}
 	
 
@@ -143,23 +146,25 @@ public class BiEntropy {
 		else return "";
 	}
 	
-	public static void main(String [] args){
-		BiEntropy bi = new BiEntropy((byte) 'x');
-		Result result = bi.calc();
-		System.err.println(result);
-	}
+//	public static void main(String [] args){
+//		BiEntropy bi = new BiEntropy((byte) 'x');
+//		Result result = bi.calc();
+//		System.err.println(result);
+//	}
 	
-	class Result {
+	public class Result {
 		
 		public double biEntropy;
 		public double bitsOfEntropy;
 		private byte in;
+		String bitsAsString;
 		
-		public Result(byte in, double biEntropy, double bitsOfEntropy) {
+		public Result(byte in, String bitsAsString, double biEntropy, double bitsOfEntropy) {
 			super();
 			this.biEntropy = biEntropy;
 			this.bitsOfEntropy = bitsOfEntropy;
 			this.in = in;
+			this.bitsAsString = bitsAsString;
 		}
 
 		@Override
@@ -171,8 +176,9 @@ public class BiEntropy {
 		public String toJSON() {
 			Map<String,Object> map = new LinkedHashMap<String,Object>();
 			map.put("version", "Buttermilk BiEntropy v1.0");
-			map.put("algorithm", "TresBiEntropy");
+			map.put("algorithm", "BiEntropy");
 			map.put("input", Character.valueOf((char)in));
+			map.put("bits", bitsAsString);
 			map.put("biEntropy", format.format(biEntropy));
 			map.put("bitsOfEntropy", Math.round(bitsOfEntropy));
 			ObjectMapper mapper = new ObjectMapper();
