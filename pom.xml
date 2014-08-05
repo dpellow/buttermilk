@@ -65,6 +65,7 @@
             <junit.version>4.8.2</junit.version>
             <iharder.version>2.3.8</iharder.version>
             <jackson.version>2.2.3</jackson.version>
+            <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     
 </project>

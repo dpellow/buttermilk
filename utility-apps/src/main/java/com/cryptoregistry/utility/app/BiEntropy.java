@@ -1,6 +1,12 @@
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2014 David R. Smith All Rights Reserved.
+ *
+ */
 package com.cryptoregistry.utility.app;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 
 import com.cryptoregistry.util.CmdLineParser;
@@ -61,7 +67,23 @@ public class BiEntropy {
 	}
 	
 	public static final void showHelp() {
-		
+		InputStream in = Thread.currentThread().getClass().getResourceAsStream("/bientropy-help-message.txt");
+		try {
+	        byte[] buf = new byte[1024];
+	        int len;
+	        while((len=in.read(buf))>0){
+	            System.out.write(buf,0,len);
+	        }
+	       
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }finally{
+	    	if(in != null){
+	    		 try {
+					in.close();
+				} catch (IOException e) {}
+	    	}
+	    }
 	}
 
 }

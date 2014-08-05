@@ -22,21 +22,17 @@ import com.sleepycat.je.DatabaseException;
  */
 public class DataStore {
 
-	private static final String DEFAULT_DB_DATABASE_FOLDERNAME = "buttermilk-db";
-
 	protected ButtermilkDatabase db;
 	protected ButtermilkViews views;
 	protected Properties props;
 	protected TwoFactorSecurityManager securityManager;
-
-	/**
-	 * Will put the store into <user.home>/buttermilk-db
-	 */
-	public DataStore(Password password) {
+	
+	
+	public DataStore(List<PropertiesReference> refList, Password password) {
 		
 		SensitiveBytes cachedKey = null;
 		
-		initProperties();
+		initProperties(refList);
 		securityManager = new TwoFactorSecurityManager(props);
 		if(!securityManager.checkForRemovableDisk()) {
 			throw new RuntimeException("Please insert removable disk");
@@ -47,24 +43,22 @@ public class DataStore {
 			securityManager.generateAndSecureKeys(password);
 		}
 		
-		initDb(defaultDBFolder(), cachedKey);
+		String dbHome = props.get("p.home");
+		initDb(dbHome, cachedKey);
 		
 		if(password.isAlive()) password.selfDestruct();
 		
 	}
 
-	protected void initProperties() {
+	protected void initProperties(List<PropertiesReference> refList) {
 
-		String userHome = System.getProperty("user.home");
-		String overridePath = userHome + File.separator
-				+ "buttermilk.properties";
+		String overridePath = null;
+		
+	//	List<PropertiesReference> refs = new ArrayList<PropertiesReference>();
+	//	refs.add(new PropertiesReference(ReferenceType.CLASSLOADED, "/buttermilk.properties"));
+	//	refs.add(new PropertiesReference(ReferenceType.EXTERNAL, overridePath));
 
-		List<PropertiesReference> refs = new ArrayList<PropertiesReference>();
-		refs.add(new PropertiesReference(ReferenceType.CLASSLOADED,
-				"/buttermilk.properties"));
-		refs.add(new PropertiesReference(ReferenceType.EXTERNAL, overridePath));
-
-		props = Properties.Factory.loadReferences(refs);
+		props = Properties.Factory.loadReferences(refList);
 	}
 
 	protected void initDb(String dataHomeDir, SensitiveBytes cachedKey) throws DatabaseException {

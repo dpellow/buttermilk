@@ -3,5 +3,7 @@ Buttermilk(tm) BiEntropy Command Line Client
 
 usage:
 
-com.cryptoregistry.utility.app.BiEntropy -f|--file <path> | 
-										 -a|--arg <string>
+BiEntropy [-f|--file <path]> | [-a|--arg <string>] | 
+
+If the input is one byte, the BiEntropy algorithm variant will be used (Power Series).
+If the input is multiple bytes, the TresBiEntropy algorithm variant will be used (Logarithmic Series).
