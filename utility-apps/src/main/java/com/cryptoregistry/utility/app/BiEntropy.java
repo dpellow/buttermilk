@@ -13,6 +13,7 @@ import com.cryptoregistry.util.CmdLineParser;
 import com.cryptoregistry.util.CmdLineParser.Option;
 import com.cryptoregistry.util.CmdLineParser.OptionException;
 import com.cryptoregistry.util.FileUtil;
+import com.cryptoregistry.util.ShowHelpUtil;
 import com.cryptoregistry.util.entropy.TresBiEntropy;
 import com.cryptoregistry.util.entropy.TresBiEntropy.Result;
 
@@ -57,33 +58,13 @@ public class BiEntropy {
 				Result res = bi.calc();
 				System.out.println(res.toJSON());
 			}else{
-				showHelp();
+				ShowHelpUtil.showHelp("/bientropy-help-message.txt");
 			}
 		} catch (OptionException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public static final void showHelp() {
-		InputStream in = Thread.currentThread().getClass().getResourceAsStream("/bientropy-help-message.txt");
-		try {
-	        byte[] buf = new byte[1024];
-	        int len;
-	        while((len=in.read(buf))>0){
-	            System.out.write(buf,0,len);
-	        }
-	       
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }finally{
-	    	if(in != null){
-	    		 try {
-					in.close();
-				} catch (IOException e) {}
-	    	}
-	    }
 	}
 
 }
