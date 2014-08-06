@@ -3,7 +3,9 @@ Buttermilk(tm) BiEntropy Command Line Client
 
 usage:
 
-bientropy.sh [-f|--file <path]> | [-a|--arg <string>] | [-c|--charset <charset-of-input>]
+bientropy.sh -f|--file <path]> 
+			 -a|--arg <string> 
+			[-c|--charset <charset-of-input>]
 
 For one byte, the BiEntropy algorithm variant will be used (Power Series).
 For multiple bytes, the TresBiEntropy algorithm variant will be used (Logarithmic Series).
