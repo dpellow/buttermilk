@@ -6,7 +6,6 @@
 package com.cryptoregistry.utility.app;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.Charset;
 
 import com.cryptoregistry.util.CmdLineParser;
