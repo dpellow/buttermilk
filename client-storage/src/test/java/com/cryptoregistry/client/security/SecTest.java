@@ -71,7 +71,7 @@ public class SecTest {
 				String userHome = System.getProperty("user.home");
 				String overridePath = userHome + File.separator + "buttermilk.properties.test";
 				
-				ds = new DataStore(overridePath,password);
+			//	ds = new DataStore(overridePath,password);
 				ButtermilkViews views = ds.getViews();
 				System.err.println(views.toString());
 			}finally {
@@ -108,7 +108,7 @@ public class SecTest {
 		
 		try {
 			
-			ds = new DataStore(password);
+		//	ds = new DataStore(password);
 			ButtermilkViews views = ds.getViews();
 			
 			RSAKeyContents rsa = CryptoFactory.INSTANCE.generateKeys();

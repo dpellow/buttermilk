@@ -1,12 +1,10 @@
 package com.cryptoregistry.client.storage;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import asia.redact.bracket.properties.Properties;
 import asia.redact.bracket.properties.mgmt.PropertiesReference;
-import asia.redact.bracket.properties.mgmt.ReferenceType;
 
 import com.cryptoregistry.client.security.TwoFactorSecurityManager;
 import com.cryptoregistry.passwords.Password;
@@ -35,7 +33,7 @@ public class DataStore {
 		initProperties(refList);
 		securityManager = new TwoFactorSecurityManager(props);
 		if(!securityManager.checkForRemovableDisk()) {
-			throw new RuntimeException("Please insert removable disk");
+			throw new RuntimeException("Please insert your Removable Drive");
 		}
 		if(securityManager.keysExist()) {
 			cachedKey = securityManager.loadKey(password);
@@ -70,16 +68,6 @@ public class DataStore {
 
 		db = new ButtermilkDatabase(dataHomeDir, cachedKey);
 		views = new ButtermilkViews(db, cachedKey);
-	}
-
-	protected String defaultDBFolder() {
-		StringBuffer buf = new StringBuffer();
-		String userHome = System.getProperties().getProperty("user.home");
-		buf.append(userHome);
-		buf.append(File.separator);
-		buf.append(DEFAULT_DB_DATABASE_FOLDERNAME);
-
-		return buf.toString();
 	}
 
 	public void closeDb() throws DatabaseException {
