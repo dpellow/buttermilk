@@ -1,7 +1,6 @@
-package com.cryptoregistry.client.deamon;
+package com.cryptoregistry.client.console;
 
 import java.io.Console;
-import java.io.UnsupportedEncodingException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -9,18 +8,17 @@ import org.jgroups.Address;
 import org.jgroups.JChannel;
 import org.jgroups.Message;
 import org.jgroups.ReceiverAdapter;
-import org.jgroups.util.Buffer;
-import org.jgroups.util.Util;
 
 
-public class DataStoreFrontEnd {
+public class DSConsoleFrontEnd {
 
 	final MODE	 					mode;
 	JChannel 						rootChannel;
 	BlockingQueue<Message>			queue;
-	private static int count = 0;
+	private static int 				count = 0;
+	private boolean 				wait;
 
-    protected DataStoreFrontEnd(MODE mode) {
+    protected DSConsoleFrontEnd(MODE mode) {
 		super();
 		this.mode = mode;
 		if(mode.equals(MODE.buttermilkDB)){
@@ -34,8 +32,6 @@ public class DataStoreFrontEnd {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-    	
-    	
     }
 
 	protected void start() throws Exception {
@@ -64,7 +60,9 @@ public class DataStoreFrontEnd {
 	                // if we are a client and if the message is from the server, show it; otherwise not
 	                }else{
 	                	if(msg.getSrc().toString().equals("buttermilkDB")){
-	                		System.err.println("\nServer sent: "+processBuf(msg));
+	                		System.err.println("  "+processBuf(msg));
+	                		System.err.flush();
+	                		wait = false;
 	                	}
 	                }
 	            }
@@ -89,13 +87,17 @@ public class DataStoreFrontEnd {
 	    	
 	    	while(true){
 	    		try {
+	    			if(wait) {
+	    				Thread.sleep(50);
+	    				continue;
+	    			}
 	    			String in = con.readLine("%s", "$ ");
 	    			if(in == null || in.trim().equals("")) {
-	    				con.flush();
 	    				continue;
 	    			}
 				    rootChannel.send(new Message(null, in.trim()));
-				    con.flush();
+				    wait = true;
+				    
 				} catch (Exception e) {
 					break;
 				}
@@ -113,7 +115,7 @@ public class DataStoreFrontEnd {
     	    			// message data
     	    			String buf = processBuf(val);
     	    			// do processing of message request
-    	    			System.err.println("\nServer got: "+buf);
+    	    			System.err.println("Server got: "+buf);
     	    			
     	    			Message response = new Message(val.getSrc(),"OK");
     	    			// respond

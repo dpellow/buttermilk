@@ -8,5 +8,4 @@ jgroups=~/.m2/repository/org/jgroups/jgroups/3.4.4.Final/jgroups-3.4.4.Final.jar
 
 CLASSPATH=$bracket:$cstorage:$log4j:$jgroups
 
-
-java -cp "$(cygpath -pw "$CLASSPATH")" com.cryptoregistry.client.deamon.DSServer "$@"
+java -cp "$(cygpath -pw "$CLASSPATH")" com.cryptoregistry.client.console.DSConsoleServer "$@"
