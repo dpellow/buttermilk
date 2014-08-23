@@ -1,0 +1,10 @@
+Buttermilk(tm) Obfuscator
+--------------------------------------------
+
+usage:
+
+obfuscate.sh -f|--file <path]>
+            
+Create an empty file and put the password value to obfuscate into it and then run the above. 
+The result will be a properties file with the value password=xxx where xxx is your obfuscated password.
+

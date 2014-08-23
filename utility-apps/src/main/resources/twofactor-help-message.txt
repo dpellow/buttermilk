@@ -1,0 +1,19 @@
+Buttermilk(tm) Two Factor Security Key Generator
+--------------------------------------------
+
+usage:
+
+1) to create a configuration:
+
+twofactor.sh -f | --configFile <path-to-config properties]> \
+            [-i | --initialize]
+
+2) to validate an existing configuration:
+
+twofactor.sh -f | --configFile <path-to-config-properties]>
+
+
+Please insert your removable disk (flash drive) prior to using this command.
+            
+
+

@@ -16,6 +16,7 @@
         <module>utility-apps</module>
         <module>protocol-buffers</module>
         <module>client-storage</module>
+        <module>bTLS</module>
     </modules>
 
     <build>

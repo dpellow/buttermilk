@@ -24,6 +24,7 @@ public class DataStore {
 	protected ButtermilkViews views;
 	protected Properties props;
 	protected TwoFactorSecurityManager securityManager;
+	protected String regHandle;
 	
 	
 	public DataStore(List<PropertiesReference> refList, Password password) {
@@ -50,13 +51,14 @@ public class DataStore {
 
 	protected void initProperties(List<PropertiesReference> refList) {
 
-		String overridePath = null;
+	//	String overridePath = null;
 		
 	//	List<PropertiesReference> refs = new ArrayList<PropertiesReference>();
 	//	refs.add(new PropertiesReference(ReferenceType.CLASSLOADED, "/buttermilk.properties"));
 	//	refs.add(new PropertiesReference(ReferenceType.EXTERNAL, overridePath));
 
 		props = Properties.Factory.loadReferences(refList);
+		regHandle = props.get("registration.handle");
 	}
 
 	protected void initDb(String dataHomeDir, SensitiveBytes cachedKey) throws DatabaseException {
@@ -82,7 +84,18 @@ public class DataStore {
 	public ButtermilkViews getViews() {
 		return views;
 	}
-	
-	
 
+	public String getRegHandle() {
+		return regHandle;
+	}
+
+	public Properties getProps() {
+		return props;
+	}
+
+	public TwoFactorSecurityManager getSecurityManager() {
+		return securityManager;
+	}
+	
+	
 }

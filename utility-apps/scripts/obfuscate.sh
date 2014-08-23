@@ -12,4 +12,4 @@ CLASSPATH=$bracket:$jcore:$jdatabind:$jannotations:$bcore:$utilapps
 
 #echo "$(cygpath -pw "$CLASSPATH")" 
 echo 
-java -cp "$(cygpath -pw "$CLASSPATH")" com.cryptoregistry.utility.app.BiEntropyApp "$@"
+java -cp "$(cygpath -pw "$CLASSPATH")" com.cryptoregistry.utility.app.ObfuscateApp "$@"
