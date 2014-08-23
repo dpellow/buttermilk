@@ -37,6 +37,10 @@ public class RSAKeyMetadata implements CryptoKeyMetadata {
 		return new RSAKeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat());
 	}
 	
+	public static RSAKeyMetadata createDefault(String handle) {
+		return new RSAKeyMetadata(handle, new Date(),new KeyFormat());
+	}
+	
 	public static RSAKeyMetadata createForPublication() {
 		return new RSAKeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat(Mode.FOR_PUBLICATION));
 	}
