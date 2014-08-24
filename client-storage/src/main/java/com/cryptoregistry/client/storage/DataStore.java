@@ -13,7 +13,7 @@ import com.sleepycat.je.DatabaseException;
 
 /**
  * Create a datastore for key data. The store will be encrypted using two factor security. to
- * prepare for this you will need a thumb drive (flash drive)
+ * prepare for this you will need a thumb drive (flash drive) and run the twofactor.sh script
  * 
  * @author Dave
  * 
@@ -39,10 +39,13 @@ public class DataStore {
 		if(securityManager.keysExist()) {
 			cachedKey = securityManager.loadKey(password);
 		}else{
-			securityManager.generateAndSecureKeys(password);
+			throw new RuntimeException("Please use twofactor.sh to establish security keys.");
 		}
 		
-		String dbHome = props.get("p.home");
+		if(!props.containsKey("buttermilk.datastore.home")){
+			throw new RuntimeException("Please define buttermilk.datastore.home in your properties");
+		}
+		String dbHome = props.get("buttermilk.datastore.home");
 		initDb(dbHome, cachedKey);
 		
 		if(password.isAlive()) password.selfDestruct();
@@ -50,9 +53,8 @@ public class DataStore {
 	}
 
 	protected void initProperties(List<PropertiesReference> refList) {
-
-	//	String overridePath = null;
 		
+	//  e.g.
 	//	List<PropertiesReference> refs = new ArrayList<PropertiesReference>();
 	//	refs.add(new PropertiesReference(ReferenceType.CLASSLOADED, "/buttermilk.properties"));
 	//	refs.add(new PropertiesReference(ReferenceType.EXTERNAL, overridePath));
@@ -96,6 +98,5 @@ public class DataStore {
 	public TwoFactorSecurityManager getSecurityManager() {
 		return securityManager;
 	}
-	
 	
 }

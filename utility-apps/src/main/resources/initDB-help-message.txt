@@ -1,0 +1,13 @@
+Buttermilk(tm) Secure Database Generator
+--------------------------------------------
+
+usage:
+
+1) to create a secure database:
+
+init-db.sh -f | --configFile <path-to-config properties]> 
+
+Please run twofactor-setup.sh prior to running this command.
+            
+
+

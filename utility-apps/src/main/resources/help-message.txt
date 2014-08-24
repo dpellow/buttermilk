@@ -1,11 +1,13 @@
-Buttermilk(tm) Genkey Command Line Client
+Buttermilk(tm) Command Line Client
 ----------------------------------
-
-Most arguments can be set with defaults in your buttermilk.properties configuration file.
 
 *** Back-end data store ***********************************************************************
 
-The app will look by default for its configuration 
+Use two-factor.sh to generate security keys prior to running this operation
+
+--create 							- Create data store based on configuration in the ~/buttermilk.properties file
+
+--altConfig	<path>					- specify a different config file location
 
 *** Secure Key Database ***********************************************************************
 
@@ -14,6 +16,7 @@ The app will look by default for its configuration
 -l| --list							- list existing records in tabular form
 
 -i| --import -f| --file <path>		- import a buttermilk formatted file into the store
+
 -e| --export [-f| --file <path>]	- export the selected items in buttermilk format
 		 -k| --key <handle>, ...	- if no file is provided, sent to stdout.
 		 --contact <handle>, ...
