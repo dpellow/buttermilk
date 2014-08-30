@@ -9,6 +9,8 @@ import org.jgroups.JChannel;
 import org.jgroups.Message;
 import org.jgroups.ReceiverAdapter;
 
+import com.cryptoregistry.client.storage.DataStore;
+
 
 public class DSConsoleFrontEnd {
 
@@ -17,12 +19,18 @@ public class DSConsoleFrontEnd {
 	BlockingQueue<Message>			queue;
 	private static int 				count = 0;
 	private boolean 				wait;
+	
+	private final DataStore				ds;
 
-    protected DSConsoleFrontEnd(MODE mode) {
+	// ds can be null for client
+    protected DSConsoleFrontEnd(MODE mode, DataStore ds) {
 		super();
 		this.mode = mode;
 		if(mode.equals(MODE.buttermilkDB)){
 			queue = new LinkedBlockingQueue<Message>();
+			this.ds = ds;
+		}else{
+			this.ds = null;
 		}
 	}
     
@@ -32,6 +40,15 @@ public class DSConsoleFrontEnd {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+    }
+    
+    protected void initShutdownHook() {
+    	Runtime.getRuntime().addShutdownHook(new Thread() {
+    	    public void run() { 
+    	     if(ds != null) ds.closeDb();
+    	     System.err.println("Closed datastore in shutdown hook.");
+    	     }
+    	 });
     }
 
 	protected void start() throws Exception {
@@ -72,6 +89,10 @@ public class DSConsoleFrontEnd {
 	        
 		}finally {
 			  rootChannel.close();
+			  if(ds != null){
+				  ds.closeDb();
+				  System.err.println("Closed datastore.");
+			  }
 		}
       
     }
@@ -128,6 +149,9 @@ public class DSConsoleFrontEnd {
         	}
     	}
     }
+    
+    
+    
     
     public static enum MODE {
     	buttermilkClient,buttermilkDB;

@@ -128,6 +128,9 @@ public class TwoFactorSecurityManager {
 
 		String path_p = location_p + File.separatorChar + fileName;
 		String path_q = location_q + File.separatorChar + fileName;
+		
+		System.err.println(path_p);
+		System.err.println(path_q);
 
 		File pf = new File(path_p);
 		if (!pf.exists()) {

@@ -1,6 +1,7 @@
 package com.cryptoregistry.utility.app;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.Charset;
 
 import asia.redact.bracket.properties.Properties;
@@ -40,7 +41,11 @@ public class TwoFactorSecurityApp {
 
 		File f = new File(propertiesFile);
 		if (!f.exists()) {
-			System.err.println("File is not readable or does not exist");
+			try {
+				System.err.println("File is not readable or does not exist: "+f.getCanonicalPath());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			return;
 		}
 

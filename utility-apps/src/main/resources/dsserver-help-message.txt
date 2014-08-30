@@ -1,0 +1,11 @@
+Buttermilk(tm) DataStore Server
+--------------------------------------------
+
+usage:
+
+dsserver.sh [-f | --configFile <path-to-config properties]> | ... ]
+
+Please insert your removable disk (flash drive) prior to using this command.
+            
+
+

@@ -3,7 +3,7 @@ package com.cryptoregistry.client.console;
 public class DSConsoleClient extends DSConsoleFrontEnd {
 
 	public DSConsoleClient(MODE name) {
-		super(name);
+		super(name, null);
 	}
 	
 	public static void main(String [] args){
