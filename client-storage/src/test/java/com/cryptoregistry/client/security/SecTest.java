@@ -24,7 +24,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import asia.redact.bracket.properties.Properties;
 
 public class SecTest {
-	
+	/*
 	public static Properties props;
 
 	// Prep - should be run only once 
@@ -92,8 +92,8 @@ public class SecTest {
 		
 		TwoFactorSecurityManager gen = new TwoFactorSecurityManager(props);
 		
-		char [] pass1 = {'p','a','s','s'};
-		SensitiveBytes sb = gen.loadKey(new NewPassword(pass1));
+		char [] pass0 = {'p','a','s','s','w','o','r','d','1'};
+		SensitiveBytes sb = gen.loadKey(new NewPassword(pass0));
 	//	System.err.println(Arrays.toString(sb.getData()));
 		Assert.assertTrue(sb != null);
 		Assert.assertTrue(sb.getData() != null);
@@ -102,7 +102,7 @@ public class SecTest {
 	
 	@Test
 	public void test1() {
-		char [] pass0 = {'p','a','s','s'};
+		char [] pass0 = {'p','a','s','s','w','o','r','d','1'};
 		Password password = new NewPassword(pass0);
 		DataStore ds = null;
 		
@@ -137,5 +137,5 @@ public class SecTest {
 	}
 
 
-
+*/
 }

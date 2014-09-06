@@ -1,4 +1,5 @@
-<!-- not ideal but gets the job done. Assumes protoc is in the path -->
+<!-- not ideal but gets the job done. Assumes protoc is in the path. 
+You would only run this if buttermilk.proto has changed -->
 <project name="proto" default="proto">
 	
 	<property name="proto.srcs" value="src/main/proto" />
