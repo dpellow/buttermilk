@@ -14,13 +14,13 @@ import com.cryptoregistry.client.storage.DataStore;
 
 public class DSConsoleFrontEnd {
 
-	final MODE	 					mode;
-	JChannel 						rootChannel;
-	BlockingQueue<Message>			queue;
-	private static int 				count = 0;
-	private boolean 				wait;
+	final MODE	 						mode;
+	JChannel 							rootChannel;
+	BlockingQueue<Message>				queue;
+	private static int 					count = 0;
 	
-	private final DataStore				ds;
+	protected final DataStore			ds;
+	
 
 	// ds can be null for client
     protected DSConsoleFrontEnd(MODE mode, DataStore ds) {
@@ -31,6 +31,7 @@ public class DSConsoleFrontEnd {
 			this.ds = ds;
 		}else{
 			this.ds = null;
+
 		}
 	}
     
@@ -52,6 +53,8 @@ public class DSConsoleFrontEnd {
     }
 
 	protected void start() throws Exception {
+		
+		initShutdownHook();
 		
 		try {
 			
@@ -77,9 +80,8 @@ public class DSConsoleFrontEnd {
 	                // if we are a client and if the message is from the server, show it; otherwise not
 	                }else{
 	                	if(msg.getSrc().toString().equals("buttermilkDB")){
-	                		System.err.println("  "+processBuf(msg));
-	                		System.err.flush();
-	                		wait = false;
+	                		System.out.println("  "+processBuf(msg));
+	                		System.out.flush();
 	                	}
 	                }
 	            }
@@ -91,7 +93,7 @@ public class DSConsoleFrontEnd {
 			  rootChannel.close();
 			  if(ds != null){
 				  ds.closeDb();
-				  System.err.println("Closed datastore.");
+				  System.err.println("Closed datastore. Done.");
 			  }
 		}
       
@@ -108,18 +110,15 @@ public class DSConsoleFrontEnd {
 	    	
 	    	while(true){
 	    		try {
-	    			if(wait) {
-	    				Thread.sleep(50);
-	    				continue;
-	    			}
-	    			String in = con.readLine("%s", "$ ");
-	    			if(in == null || in.trim().equals("")) {
-	    				continue;
-	    			}
-				    rootChannel.send(new Message(null, in.trim()));
-				    wait = true;
-				    
+	    				String in = con.readLine("%s", "$ ");
+	    				if(in == null || in.trim().equals("")) continue;
+	    				if(in.contains("quit") || in.contains("exit")){
+	    					System.out.println("Exiting");
+	    					break;
+	    				}
+	    				rootChannel.send(new Message(null, in.trim()));
 				} catch (Exception e) {
+					e.printStackTrace();
 					break;
 				}
 	    	}
@@ -127,6 +126,8 @@ public class DSConsoleFrontEnd {
     	}else{
     		
     		if(mode.equals(MODE.buttermilkDB)){
+    			
+    			System.out.println("Starting server event loop...");
     	    	while(true){
     	    		try {
     	    			
@@ -138,9 +139,17 @@ public class DSConsoleFrontEnd {
     	    			// do processing of message request
     	    			System.err.println("Server got: "+buf);
     	    			
-    	    			Message response = new Message(val.getSrc(),"OK");
+    	    			ButtermilkExec app = new ButtermilkExec(ds);
+    	    			app.init(args(buf));
+    	    			String res = app.execute();
+    	    			
+    	    			Message response = new Message(val.getSrc(),res);
     	    			// respond
     	    			rootChannel.send(response);
+    	    			
+    	    			if(res.equals("DONE")){
+    	    				break;
+    	    			}
     	    			
     				} catch (Exception e) {
     					break;
@@ -150,7 +159,16 @@ public class DSConsoleFrontEnd {
     	}
     }
     
-    
+    private String [] args(String s){
+    	String [] args = s.split(" ");
+    	if(args.length == 0) {
+    		args = new String[1];
+    		args[0] =s;
+    		return args;
+    	}else{
+    		return args;
+    	}
+    }
     
     
     public static enum MODE {

@@ -25,6 +25,11 @@ public class DSConsoleServer extends DSConsoleFrontEnd {
 	
 	public static void main(String [] args){
 		
+		if(args.length == 0) {
+			ShowHelpUtil.showHelp("/dsserver-help-message.txt");
+			System.exit(2);
+		}
+		
 		CmdLineParser parser = new CmdLineParser();
 		Option<String> fileOpt = parser.addStringOption('f', "configFile");
 		try {
