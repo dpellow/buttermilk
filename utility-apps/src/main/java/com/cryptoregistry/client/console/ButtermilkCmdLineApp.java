@@ -3,7 +3,7 @@
  *  Copyright 2011-2014 David R. Smith All Rights Reserved.
  *
  */
-package com.cryptoregistry.utility.app;
+package com.cryptoregistry.client.console;
 
 import java.util.Date;
 
