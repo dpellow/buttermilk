@@ -24,6 +24,7 @@ public class DSConsoleServer extends DSConsoleFrontEnd {
 	}
 	
 	public static void main(String [] args){
+		System.out.println("Starting up...");
 		
 		if(args.length == 0) {
 			ShowHelpUtil.showHelp("/dsserver-help-message.txt");
@@ -43,6 +44,7 @@ public class DSConsoleServer extends DSConsoleFrontEnd {
 		refs.add(new PropertiesReference(ReferenceType.CLASSLOADED, "/buttermilk.properties"));
 		
 		Collection<String> cl = parser.getOptionValues(fileOpt);
+		System.out.println("options: "+cl);
 		if(cl.size() == 0) {
 			ShowHelpUtil.showHelp("/dsserver-help-message.txt");
 			System.exit(2);
@@ -50,7 +52,9 @@ public class DSConsoleServer extends DSConsoleFrontEnd {
 		
 		Iterator<String> iter = cl.iterator();
 		while(iter.hasNext()){
-			refs.add(new PropertiesReference(ReferenceType.EXTERNAL, iter.next()));
+			String i = iter.next();
+			System.out.println("option: "+i);
+			refs.add(new PropertiesReference(ReferenceType.EXTERNAL, i));
 		}
 
 		// load the properties from the file
