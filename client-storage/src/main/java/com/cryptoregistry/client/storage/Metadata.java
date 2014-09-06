@@ -101,4 +101,15 @@ public class Metadata implements Serializable {
 		this.forPublication = forPublication;
 	}
 
+	@Override
+	public String toString() {
+		return "Metadata [key=" + key + ", forPublication=" + forPublication
+				+ ", contact=" + contact + ", signature=" + signature
+				+ ", namedList=" + namedList + ", namedMap=" + namedMap
+				+ ", keyGenerationAlgorithm=" + keyGenerationAlgorithm
+				+ ", signatureAlgorithm=" + signatureAlgorithm + ", createdOn="
+				+ createdOn + ", registrationHandle=" + registrationHandle
+				+ "]";
+	}
+
 }
