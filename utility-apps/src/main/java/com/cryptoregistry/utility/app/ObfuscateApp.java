@@ -15,13 +15,20 @@ import com.cryptoregistry.util.CmdLineParser.Option;
 import com.cryptoregistry.util.CmdLineParser.OptionException;
 import com.cryptoregistry.util.ShowHelpUtil;
 
-/**
+/**<p>
  * Obfuscate password files so they are harder to leak information. This is not
  * to be confused with encryption. Obfuscation just makes it harder for someone
- * to easily see the password if they have read access to the file.
+ * to easily see the password if they have read access to the file.</p>
  * 
- * This app will attempt to set the file permissions to read-only for the
- * current user.
+ * <p>To use this, put a plain text password in a file, then pass that in as -f <filename>. The
+ * program will obfuscate the password. </p>
+ * 
+ * <p>The key is compiled into the program, so it is portable. To make the obfuscation more
+ * specific to your system, put a file called "salt.txt" into your home folder or into the
+ * top level of the classpath for this program (for example, by putting it into utility-apps.jar).</p>
+ * 
+ * <p>This app will attempt to set the file permissions to read-only for the
+ * current user.</p>
  * 
  * @author Dave
  * 
