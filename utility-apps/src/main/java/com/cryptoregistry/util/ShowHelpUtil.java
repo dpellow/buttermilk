@@ -57,12 +57,12 @@ public class ShowHelpUtil {
 	}
 	
 	/**
-	 * Return the help file contents
+	 * Return a formatted response
 	 * 
 	 * @param path
 	 * @return
 	 */
-	public static final String res(String cmdLine, String response, long ms) {
+	public static final String formatResponse(String cmdLine, String response, long ms) {
 		InputStream in = Thread.currentThread().getClass().getResourceAsStream("/response.txt");
 		InputStreamReader reader = new InputStreamReader(in);
 		StringWriter builder = new StringWriter();
