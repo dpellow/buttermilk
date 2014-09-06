@@ -16,7 +16,7 @@ import com.cryptoregistry.util.CmdLineParser.OptionException;
 import com.cryptoregistry.util.ShowHelpUtil;
 import com.cryptoregistry.util.CmdLineParser.Option;
 
-public class ButtermilkCmdLineApp {
+public class ButtermilkExec {
 	
 	private DataStore ds;
 	
@@ -34,7 +34,7 @@ public class ButtermilkCmdLineApp {
 	
 	String commandLine;
 	
-	public ButtermilkCmdLineApp(DataStore ds){
+	public ButtermilkExec(DataStore ds){
 		this.ds = ds;
 	}
 	

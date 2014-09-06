@@ -2,7 +2,7 @@ package com.cryptoregistry.utility.app;
 
 import org.junit.Test;
 
-import com.cryptoregistry.client.console.ButtermilkCmdLineApp;
+import com.cryptoregistry.client.console.ButtermilkExec;
 
 public class UtilAppTest {
 
