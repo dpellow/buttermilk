@@ -65,10 +65,9 @@ set "CLASSPATH=%CLASSPATH%;%M2%\org\jgroups\jgroups\3.4.4.Final\jgroups-3.4.4.Fi
 
 rem echo %CLASSPATH%
 
-set MAINCLASS=com.cryptoregistry.client.console.DSConsoleServer
+set MAINCLASS=com.cryptoregistry.client.console.DSConsoleClient
 set "JAVA_OPTS="
 
-rem echo "%_RUNJAVA% %JAVA_OPTS% -classpath "%CLASSPATH%" %MAINCLASS% %*"
-%_RUNJAVA% %JAVA_OPTS% -classpath "%CLASSPATH%" %MAINCLASS% %1 %2
+%_RUNJAVA% %JAVA_OPTS% -classpath "%CLASSPATH%" %MAINCLASS% %*
 
 :end
