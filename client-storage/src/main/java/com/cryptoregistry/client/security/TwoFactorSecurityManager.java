@@ -126,8 +126,8 @@ public class TwoFactorSecurityManager {
 
 	public boolean keysExist() {
 
-		String path_p = location_p + File.separatorChar + fileName;
-		String path_q = location_q + File.separatorChar + fileName;
+		String path_p = location_p + "/" + fileName;
+		String path_q = location_q + "/" + fileName;
 		
 		System.err.println(path_p);
 		System.err.println(path_q);
