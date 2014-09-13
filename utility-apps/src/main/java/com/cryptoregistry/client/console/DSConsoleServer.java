@@ -41,7 +41,6 @@ public class DSConsoleServer extends DSConsoleFrontEnd {
 		}
 		
 		List<PropertiesReference> refs = new ArrayList<PropertiesReference>();
-		refs.add(new PropertiesReference(ReferenceType.CLASSLOADED, "/buttermilk.properties"));
 		
 		Collection<String> cl = parser.getOptionValues(fileOpt);
 		System.out.println("options: "+cl);
@@ -53,9 +52,10 @@ public class DSConsoleServer extends DSConsoleFrontEnd {
 		Iterator<String> iter = cl.iterator();
 		while(iter.hasNext()){
 			String i = iter.next();
-			System.out.println("option: "+i);
 			refs.add(new PropertiesReference(ReferenceType.EXTERNAL, i));
 		}
+		
+		refs.add(new PropertiesReference(ReferenceType.CLASSLOADED, "/buttermilk.properties"));
 
 		// load the properties from the file
 		Properties props = Properties.Factory.loadReferences(refs);
