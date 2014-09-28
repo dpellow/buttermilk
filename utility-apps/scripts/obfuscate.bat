@@ -51,24 +51,18 @@ rem Deal with classpath
 set "M2=%HOMEPATH%\.m2\repository"
 
 set "CLASSPATH=%M2%\asia\redact\bracket\properties\bracket-properties\1.3.6\bracket-properties-1.3.6.jar"
-set "CLASSPATH=%CLASSPATH%;%M2%\com\sleepycat\je\6.0.11\je-6.0.11.jar"
 set "CLASSPATH=%CLASSPATH%;%M2%\com\fasterxml\jackson\core\jackson-core\2.2.3\jackson-core-2.2.3.jar"
 set "CLASSPATH=%CLASSPATH%;%M2%\com\fasterxml\jackson\core\jackson-databind\2.2.3\jackson-databind-2.2.3.jar"
 set "CLASSPATH=%CLASSPATH%;%M2%\com\fasterxml\jackson\core\jackson-annotations\2.2.3\jackson-annotations-2.2.3.jar"
 set "CLASSPATH=%CLASSPATH%;%M2%\com\cryptoregistry\buttermilk-core\1.0.0\buttermilk-core-1.0.0.jar"
 set "CLASSPATH=%CLASSPATH%;%M2%\net\iharder\base64\2.3.8\base64-2.3.8.jar"
-set "CLASSPATH=%CLASSPATH%;%M2%\com\google\protobuf\protobuf-java\2.5.0\protobuf-java-2.5.0.jar"
-set "CLASSPATH=%CLASSPATH%;%M2%\com\cryptoregistry\protocol-buffers\1.0.0\protocol-buffers-1.0.0.jar"
-set "CLASSPATH=%CLASSPATH%;%M2%\com\cryptoregistry\client-storage\1.0.0\client-storage-1.0.0.jar"
 set "CLASSPATH=%CLASSPATH%;%M2%\com\cryptoregistry\utility-apps\1.0.0\utility-apps-1.0.0.jar"
-set "CLASSPATH=%CLASSPATH%;%M2%\org\jgroups\jgroups\3.4.4.Final\jgroups-3.4.4.Final.jar"
 
 rem echo %CLASSPATH%
 
-set MAINCLASS=com.cryptoregistry.client.console.DSConsoleServer
+set MAINCLASS=com.cryptoregistry.utility.app.ObfuscateApp
 set "JAVA_OPTS="
 
-rem echo "%_RUNJAVA% %JAVA_OPTS% -classpath "%CLASSPATH%" %MAINCLASS% %*"
-%_RUNJAVA% %JAVA_OPTS% -classpath "%CLASSPATH%" %MAINCLASS% %1 %2
+%_RUNJAVA% %JAVA_OPTS% -classpath "%CLASSPATH%" %MAINCLASS% %*
 
 :end

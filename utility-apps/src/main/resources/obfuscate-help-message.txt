@@ -3,8 +3,15 @@ Buttermilk(tm) Obfuscator
 
 usage:
 
-obfuscate.sh -f|--file <path]>
+obfuscate.bat -f|--file <path]>
             
-Create an empty file and put the password value to obfuscate into it and then run the above. 
-The result will be a properties file with the value password=xxx where xxx is your obfuscated password.
+Create an empty file called something like "password.file" and put a one line string with the password 
+value to obfuscate and then run the above command, e.g., 
 
+obfuscate.sh -f password.file
+ 
+The result will be a properties file with the value password=xxx where xxx is your obfuscated password. E.g.,
+
+obfuscate.bat -f C:\Users\Dave\Desktop\password.file
+"C:\Program Files\Java\jdk1.7.0\bin\java"
+Wrote password file to C:\Users\Dave\Desktop\password.file.properties
