@@ -26,8 +26,6 @@ public class AESService {
 		this.key = key;
 		this.iv = iv;
 	}
-	
-	
 
 	public List<Future<Segment>> runEncryptTasks(List<Segment> segments){
 		ArrayList<Encryptor> list = new ArrayList<Encryptor>();
