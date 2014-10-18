@@ -1,3 +1,8 @@
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2014 David R. Smith All Rights Reserved.
+ *
+ */
 package com.cryptoregistry.crypto.mt;
 
 import java.util.ArrayList;
@@ -6,6 +11,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+/**
+ * Process a list of Segment objects using an Executor and a set of threads
+ * 
+ * @author Dave
+ *
+ */
 public class AESService {
 
 	private final ExecutorService pool;
@@ -14,7 +25,7 @@ public class AESService {
 	// ask the JVM about how many cores are available
 	public AESService(byte [] key, byte[] iv) {
 		int cores = Runtime.getRuntime().availableProcessors();
-		System.err.println("Cores: "+cores);
+	//	System.err.println("Cores: "+cores);
 		pool = Executors.newFixedThreadPool(cores);
 		this.key = key;
 		this.iv = iv;

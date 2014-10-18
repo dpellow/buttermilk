@@ -5,6 +5,10 @@
  */
 package com.cryptoregistry.crypto.mt;
 
+/**
+ * Base class for AES-GCM done with our multi-threaded executor
+ *  
+ */
 import x.org.bouncycastle.crypto.params.KeyParameter;
 import x.org.bouncycastle.crypto.params.ParametersWithIV;
 
