@@ -7,7 +7,7 @@ package com.cryptoregistry.proto.reader;
 
 import java.util.List;
 
-import com.cryptoregistry.protos.Buttermilk.ListProto;
+import com.cryptoregistry.protos.Buttermilk.*;
 
 public class ListProtoReader {
 

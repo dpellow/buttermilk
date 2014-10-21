@@ -1,10 +1,18 @@
 <!-- not ideal but gets the job done. Assumes protoc is in the path. 
 You would only run this if buttermilk.proto has changed -->
+
 <project name="proto" default="proto">
 	
 	<property name="proto.srcs" value="src/main/proto" />
 	
-		<target name="proto">
+	<!-- we're expecting protoc version 2.6.0 from https://code.google.com/p/protobuf/wiki/Download -->
+	<target name="proto-version">
+				<exec executable="protoc" failonerror="true">
+					<arg value="--version" />
+				</exec>
+			</target>
+	
+		<target name="proto" depends="proto-version">
 			<exec executable="protoc" failonerror="true">
 				<arg value="--java_out=src/main/java" />
 				<arg value="--proto_path=${proto.srcs}" />

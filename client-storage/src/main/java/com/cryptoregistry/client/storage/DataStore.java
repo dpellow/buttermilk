@@ -1,13 +1,10 @@
 package com.cryptoregistry.client.storage;
 
 import java.io.File;
-import java.util.List;
 
 import asia.redact.bracket.properties.Properties;
-import asia.redact.bracket.properties.mgmt.PropertiesReference;
 
-import com.cryptoregistry.client.security.TwoFactorSecurityManager;
-import com.cryptoregistry.passwords.Password;
+import com.cryptoregistry.client.security.SecurityManagerInterface;
 import com.cryptoregistry.passwords.SensitiveBytes;
 import com.sleepycat.je.DatabaseException;
 
@@ -23,24 +20,15 @@ public class DataStore {
 	protected ButtermilkDatabase db;
 	protected ButtermilkViews views;
 	protected Properties props;
-	protected TwoFactorSecurityManager securityManager;
+	protected SecurityManagerInterface securityManagerInterface;
 	protected String regHandle;
 	
 	
-	public DataStore(List<PropertiesReference> refList, Password password) {
+	public DataStore(Properties props, SecurityManagerInterface securityManagerInterface) {
+		this.props = props;
+		this.securityManagerInterface = securityManagerInterface;
 		
-		SensitiveBytes cachedKey = null;
-		
-		initProperties(refList);
-		securityManager = new TwoFactorSecurityManager(props);
-		if(!securityManager.checkForRemovableDisk()) {
-			throw new RuntimeException("Please insert your Removable Drive");
-		}
-		if(securityManager.keysExist()) {
-			cachedKey = securityManager.loadKey(password);
-		}else{
-			throw new RuntimeException("Please use twofactor.sh to establish security keys.");
-		}
+		SensitiveBytes cachedKey = securityManagerInterface.loadKey(securityManagerInterface.getPassword());
 		
 		if(!props.containsKey("buttermilk.datastore.home")){
 			throw new RuntimeException("Please define buttermilk.datastore.home in your properties");
@@ -48,19 +36,7 @@ public class DataStore {
 		String dbHome = props.get("buttermilk.datastore.home");
 		initDb(dbHome, cachedKey);
 		
-		if(password.isAlive()) password.selfDestruct();
 		
-	}
-
-	protected void initProperties(List<PropertiesReference> refList) {
-		
-	//  e.g.
-	//	List<PropertiesReference> refs = new ArrayList<PropertiesReference>();
-	//	refs.add(new PropertiesReference(ReferenceType.CLASSLOADED, "/buttermilk.properties"));
-	//	refs.add(new PropertiesReference(ReferenceType.EXTERNAL, overridePath));
-
-		props = Properties.Factory.loadReferences(refList);
-		regHandle = props.get("registration.handle");
 	}
 
 	protected void initDb(String dataHomeDir, SensitiveBytes cachedKey) throws DatabaseException {
@@ -95,8 +71,8 @@ public class DataStore {
 		return props;
 	}
 
-	public TwoFactorSecurityManager getSecurityManager() {
-		return securityManager;
+	public SecurityManagerInterface getSecurityManager() {
+		return securityManagerInterface;
 	}
 	
 }

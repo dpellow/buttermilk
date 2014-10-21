@@ -3,6 +3,50 @@ option cc_generic_services = false;
 option java_generic_services = false;
 option py_generic_services = false;
 
+message SegmentProto {
+	required int32 segment_index = 1;
+	required int64 segment_length = 2;
+	required bytes segment_data = 3;
+	
+}
+
+message ClientHelloProto {
+	required string message_uuid = 1;
+	required string author_reg_handle = 2;
+	
+	// a public key with an algorithm which can be used for Key Agreement (Diffie-Hellman) 
+	
+	oneof client_key_contents {
+		C2KeyContentsProto c2_key_contents = 4; 
+		ECKeyContentsProto ec_key_contents = 5; 
+	} 
+}	
+
+message ServerHelloAckProto {
+	required string message_uuid = 1; // from client request
+	required bool proceed = 2; 		  // indicates we want to continue or not  
+	enum ProceedReasonProto {
+	   	OK = 0;
+	   	NO_AVAILABLE_CACHED_KEY = 1;
+	   	ALGORITHM_NOT_SUPPORTED = 2;
+	   	POINTS = 3;
+		YOU_SUCK = 4;
+	}
+	required ProceedReasonProto proceed_reason = 5 [default = OK];
+	
+	// a server public key with a matching algorithm which can be used for Key Agreement (Diffie-Hellman) 
+	// or nothing if we are not going to proceed
+	oneof server_key_contents {
+		C2KeyContentsProto c2_key_contents = 6; 
+		ECKeyContentsProto ec_key_contents = 7; 
+	} 
+}	
+
+message SecureMessage {
+	required string message_uuid = 1;
+	repeated SegmentProto segments = 6;
+}
+
 message EntryProto {
 	required string key = 1;
 	required string value = 2;

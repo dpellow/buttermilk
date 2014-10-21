@@ -5,13 +5,13 @@ usage:
 
 obfuscate.bat -f|--file <path]>
             
-Create an empty file called something like "password.file" and put a one line string with the password 
-value to obfuscate and then run the above command, e.g., 
+Create a file called something like "password.txt" and put one line with the password 
+value you want obfuscated into it. Then run the above command, e.g., 
 
-obfuscate.sh -f password.file
+obfuscate.sh -f password.txt
  
-The result will be a properties file with the value password=xxx where xxx is your obfuscated password. E.g.,
+The result will be a new properties file with the value password=xxx where xxx is your obfuscated password E.g.,
 
-obfuscate.bat -f C:\Users\Dave\Desktop\password.file
+obfuscate.bat -f C:\Users\Dave\Desktop\password.txt
 "C:\Program Files\Java\jdk1.7.0\bin\java"
-Wrote password file to C:\Users\Dave\Desktop\password.file.properties
+Wrote password file to C:\Users\Dave\Desktop\password.txt.properties

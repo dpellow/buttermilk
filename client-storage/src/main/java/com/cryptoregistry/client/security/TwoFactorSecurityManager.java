@@ -31,12 +31,10 @@ import com.cryptoregistry.passwords.SensitiveBytes;
  * Cheap two-factor security: a thumb drive and two EC keys. The removable drive can be removed 
  * from the PC once the program using the keys has initialized.
  * 
- * 
- * 
  * @author Dave
  * </pre>
  */
-public class TwoFactorSecurityManager {
+public class TwoFactorSecurityManager implements SecurityManagerInterface {
 
 	String location_p, location_q, fileName;
 	String curveName;
@@ -55,8 +53,17 @@ public class TwoFactorSecurityManager {
 	public boolean passwordFileDefined() {
 		return passwordFilePath != null;
 	}
+	
+	public Password getPassword() {
+		return loadPassword();
+	}
 
-	public Password loadPassword() {
+	/**
+	 * Used with non-interactive password file
+	 * 
+	 * @return
+	 */
+	private Password loadPassword() {
 		if (!passwordFileDefined())
 			throw new RuntimeException(
 					"Password file location needs to be defined in your configuration as password.file=xxxx");
@@ -72,6 +79,10 @@ public class TwoFactorSecurityManager {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.cryptoregistry.client.security.SecurityManager#loadKey(com.cryptoregistry.passwords.Password)
+	 */
+	@Override
 	public SensitiveBytes loadKey(Password password) {
 
 		ECKeyContents p = null;
@@ -129,8 +140,8 @@ public class TwoFactorSecurityManager {
 		String path_p = location_p + "/" + fileName;
 		String path_q = location_q + "/" + fileName;
 		
-		System.err.println(path_p);
-		System.err.println(path_q);
+	//	System.err.println(path_p);
+	//	System.err.println(path_q);
 
 		File pf = new File(path_p);
 		if (!pf.exists()) {
