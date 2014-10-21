@@ -5,9 +5,9 @@ import java.io.InputStream;
 
 import com.cryptoregistry.crypto.mt.Segment;
 
-public class SegementInputStream extends FilterInputStream {
+public class SegmentInputStream extends FilterInputStream {
 
-	protected SegementInputStream(InputStream in) {
+	protected SegmentInputStream(InputStream in) {
 		super(in);
 	}
 
