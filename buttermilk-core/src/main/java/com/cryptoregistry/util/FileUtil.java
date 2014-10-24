@@ -5,6 +5,7 @@
  */
 package com.cryptoregistry.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.ByteBuffer;
@@ -13,17 +14,27 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * The Java 7 idioms
+ * 
+ */
 public class FileUtil {
 
-	/**
-	 * The Java 7 idiom
-	 * 
-	 * @param path
-	 * @return
-	 */
 	public static String readFile(String path) {
 		try {
 			return readFile(path, StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public static void writeFile(String fileName, String data){
+		try {
+			File file = new File(fileName);
+			String path = file.getCanonicalPath();
+			Files.write(Paths.get(path), 
+					data.getBytes(StandardCharsets.UTF_8));
+			System.out.println("Wrote: "+path);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
