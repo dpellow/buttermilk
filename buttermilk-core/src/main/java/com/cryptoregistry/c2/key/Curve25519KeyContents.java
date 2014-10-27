@@ -85,4 +85,41 @@ public class Curve25519KeyContents extends Curve25519KeyForPublication implement
 		return new Curve25519KeyForPublication(meta,(PublicKey)publicKey.clone());
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime
+				* result
+				+ ((agreementPrivateKey == null) ? 0 : agreementPrivateKey
+						.hashCode());
+		result = prime
+				* result
+				+ ((signingPrivateKey == null) ? 0 : signingPrivateKey
+						.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Curve25519KeyContents other = (Curve25519KeyContents) obj;
+		if (agreementPrivateKey == null) {
+			if (other.agreementPrivateKey != null)
+				return false;
+		} else if (!agreementPrivateKey.equals(other.agreementPrivateKey))
+			return false;
+		if (signingPrivateKey == null) {
+			if (other.signingPrivateKey != null)
+				return false;
+		} else if (!signingPrivateKey.equals(other.signingPrivateKey))
+			return false;
+		return true;
+	}
+
 }

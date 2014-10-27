@@ -18,7 +18,7 @@ import com.cryptoregistry.util.ArmoredString;
 import com.cryptoregistry.util.TimeUtil;
 
 /**
- * Given a map of key data, create a C2 style key from that
+ * Given a map of key data in unlocked condition, create a C2 style key from that
  * 
  * @author Dave
  *
@@ -56,8 +56,8 @@ public class C2KeyFormatReader {
 				);
 				
 				PublicKey pKey = new PublicKey(P.decodeToBytes());
-				SigningPrivateKey sPrivKey = new SigningPrivateKey(k.decodeToBytes());
-				AgreementPrivateKey aPrivKey = new AgreementPrivateKey(s.decodeToBytes());
+				SigningPrivateKey sPrivKey = new SigningPrivateKey(s.decodeToBytes());
+				AgreementPrivateKey aPrivKey = new AgreementPrivateKey(k.decodeToBytes());
 				
 				return new Curve25519KeyContents(meta,pKey,sPrivKey,aPrivKey);
 				

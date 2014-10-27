@@ -19,7 +19,7 @@ import com.cryptoregistry.formats.KeyFormat;
  * @author Dave
  *
  */
-public class Curve25519KeyForPublication  implements CryptoKey,Verifier {
+public class Curve25519KeyForPublication  implements CryptoKey, Verifier {
 
 	public final PublicKey publicKey;
 	public final C2KeyMetadata metadata;
@@ -72,5 +72,40 @@ public class Curve25519KeyForPublication  implements CryptoKey,Verifier {
 	public CryptoKeyMetadata getMetadata() {
 		return metadata;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		
+	// do not include metadata
+	//	result = prime * result
+	//			+ ((metadata == null) ? 0 : metadata.hashCode());
+		
+		result = prime * result
+				+ ((publicKey == null) ? 0 : publicKey.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Curve25519KeyForPublication other = (Curve25519KeyForPublication) obj;
 	
+		//
+		// do not include metadata in the equals method
+		//
+		
+		if (publicKey == null) {
+			if (other.publicKey != null)
+				return false;
+		} else if (!publicKey.equals(other.publicKey))
+			return false;
+		return true;
+	}
 }

@@ -5,6 +5,8 @@
  */
 package com.cryptoregistry.c2.key;
 
+import java.util.Arrays;
+
 /**
  * Type for holding a KeyAgreement key.
  * 
@@ -20,5 +22,13 @@ public class AgreementPrivateKey extends PrivateKey {
 	AgreementPrivateKey(byte[] bytes,boolean alive) {
 		super(bytes,alive);
 	}
-
+	
+	public boolean equals(Object obj){
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
+		AgreementPrivateKey k = (AgreementPrivateKey) obj;
+		if((this.alive != k.alive)) return false; 
+		return Arrays.equals(this.getBytes(),k.getBytes());
+	}
 }
