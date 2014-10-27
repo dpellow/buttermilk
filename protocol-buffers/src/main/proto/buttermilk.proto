@@ -3,48 +3,46 @@ option cc_generic_services = false;
 option java_generic_services = false;
 option py_generic_services = false;
 
-message SegmentProto {
-	required int32 segment_index = 1;
-	required int64 segment_length = 2;
-	required bytes segment_data = 3;
-	
+// client send hello with her key
+message HelloProto {
+	oneof client_key_contents {
+		C2KeyContentsProto c2_key_contents = 1;
+		ECKeyContentsProto ec_key_contents = 2; 
+	}
+}	
+
+// server sends key, a random string of 32 bytes, and a random 32 bit integer 
+message HelloAckProto {
+	oneof server_key_contents { 
+		C2KeyContentsProto c2_key_contents = 1;
+		ECKeyContentsProto ec_key_contents = 2; 
+	} 
+	required bytes rand32 = 3;
+	required int32 randInt = 4;
+}	
+
+// client computes shared secret, than makes 
+// a hash of the shared secret appended with the random 32 bytes. 
+// This is the shared secret key augmented with perfect forward secrecy
+// finally, client encrypts the randInt using AES-GCM and sends it back as validation_bytes.
+
+message ClientReadyProto {
+	required bytes validation_bytes = 1;
 }
 
-message ClientHelloProto {
-	required string message_uuid = 1;
-	required string author_reg_handle = 2;
-	
-	// a public key with an algorithm which can be used for Key Agreement (Diffie-Hellman) 
-	
-	oneof client_key_contents {
-		C2KeyContentsProto c2_key_contents = 4; 
-		ECKeyContentsProto ec_key_contents = 5; 
-	} 
-}	
+message ServerReadyProto {
+	required bool ready = 1; // true if validation_bytes look good, else bail
+}
 
-message ServerHelloAckProto {
-	required string message_uuid = 1; // from client request
-	required bool proceed = 2; 		  // indicates we want to continue or not  
-	enum ProceedReasonProto {
-	   	OK = 0;
-	   	NO_AVAILABLE_CACHED_KEY = 1;
-	   	ALGORITHM_NOT_SUPPORTED = 2;
-	   	POINTS = 3;
-		YOU_SUCK = 4;
-	}
-	required ProceedReasonProto proceed_reason = 5 [default = OK];
-	
-	// a server public key with a matching algorithm which can be used for Key Agreement (Diffie-Hellman) 
-	// or nothing if we are not going to proceed
-	oneof server_key_contents {
-		C2KeyContentsProto c2_key_contents = 6; 
-		ECKeyContentsProto ec_key_contents = 7; 
-	} 
-}	
+// at this point secure communications can commence by passing SecureMessageProtos
 
-message SecureMessage {
-	required string message_uuid = 1;
-	repeated SegmentProto segments = 6;
+message SecureMessageProto {
+	repeated SegmentProto segments = 1; // large messages should be broken up into roughly equal length segments for parallel processing
+}
+
+message SegmentProto {
+	required int32 index = 1;
+	required bytes data = 2;	
 }
 
 message EntryProto {
