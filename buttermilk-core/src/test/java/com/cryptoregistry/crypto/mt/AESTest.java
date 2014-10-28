@@ -16,18 +16,15 @@ public class AESTest {
 		long lastElapsed = elapsed;
 		elapsed = System.nanoTime()-startTime;
 		dif = elapsed-lastElapsed;
-		System.err.println("("+desc+" - e:"+elapsed/1000000+", d:"+dif/1000000+") ms");
+		System.err.println("("+desc+" - elapsed time:"+elapsed/1000000+"ms, delta time:"+dif/1000000+"ms)");
 	}
 	
 	
 	@Test
 	public void test3() {
 		String s = "abcdefghijklmnopqrstuvwxyz";
-		List<Segment> list = Segment.createSegments(s);
-		for(Segment seg: list){
-			System.err.println((new String(seg.input)));
-		}
-		Assert.assertEquals(9, list.size());
+		LargeMessage msg = new LargeMessage(s);
+		Assert.assertEquals(9, msg.count());
 	}
 	
 	
@@ -36,25 +33,29 @@ public class AESTest {
 		
 		SecureRandom rand = new SecureRandom();
 		byte [] key = new byte[32];
-		byte [] iv = new byte[16];
-		byte [] exampleData = new byte[1048576*8]; // a megabyte * 8
+		byte [] exampleData = new byte[1048576*8]; // 1 megabyte * 8
 		
 		rand.nextBytes(key);
-		rand.nextBytes(iv);
 		rand.nextBytes(exampleData);
 		
 		startTime = System.nanoTime();
 		t("start");
 		
-		AESService serv = new AESService(key, iv);
-		List<Segment> list = Segment.createSegments(exampleData);
+		LargeMessage msg = new LargeMessage(exampleData);
+		LargeMessageService service = new LargeMessageService(key,msg);
+		service.encrypt();
+	
+		t("encrypt complete");
 		
-		t("created segments");
+		msg.rotate();
 		
-		List<Future<Segment>> futures = serv.runEncryptTasks(list);
+		service = new LargeMessageService(key,msg);
 		
-		t("complete encrypt");
+		service.decrypt();
 		
+		t("decrypt complete");
+		
+		Assert.assertTrue(test_equal(exampleData,msg.byteResult()));
 	}
 	
 	@Test
@@ -139,8 +140,11 @@ public class AESTest {
 	}
 	
 	private boolean test_equal(byte[] a, byte[] b) {
+		
+		if(a.length != b.length) return false;
+		
 		int i;
-		for (i = 0; i < 32; i++) {
+		for (i = 0; i < a.length; i++) {
 			if (a[i] != b[i]) {
 				return false;
 			}
