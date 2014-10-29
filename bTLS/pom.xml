@@ -22,6 +22,12 @@
 			<version>2.5.0</version>
 	</dependency>
 	
+	  <dependency>
+      <groupId>com.cryptoregistry</groupId>
+      <artifactId>protocol-buffers</artifactId>
+      <version>LATEST</version>
+    </dependency>
+	
 	<dependency>
   	  <groupId>asia.redact.bracket.properties</groupId>
    	  <artifactId>bracket-properties</artifactId>
