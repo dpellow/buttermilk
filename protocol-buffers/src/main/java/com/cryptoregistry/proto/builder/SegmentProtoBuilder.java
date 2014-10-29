@@ -5,15 +5,12 @@
  */
 package com.cryptoregistry.proto.builder;
 
-import com.cryptoregistry.c2.key.Curve25519KeyForPublication;
-import com.cryptoregistry.protos.Buttermilk.C2KeyContentsProto;
-import com.cryptoregistry.protos.Buttermilk.HelloProto;
-import com.cryptoregistry.protos.Buttermilk.KeyMetadataProto;
+import com.cryptoregistry.crypto.mt.Segment;
 import com.cryptoregistry.protos.Buttermilk.SegmentProto;
 import com.google.protobuf.ByteString;
 
 /**
- * Make a proto buffer out of an C25519KeyForPublication instance. 
+ * Make a proto from a Segment
  * 
  * @author Dave
  *
@@ -22,6 +19,11 @@ public class SegmentProtoBuilder {
 
 	final byte [] data;
 	final byte [] iv;
+	
+	public SegmentProtoBuilder(Segment segment) {
+		this.data = segment.getOutput();
+		this.iv = segment.getIv();
+	}
 	
 	public SegmentProtoBuilder(byte[]data,byte[]iv) {
 		this.data = data;
