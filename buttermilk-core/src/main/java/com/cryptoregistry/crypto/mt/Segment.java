@@ -16,10 +16,17 @@ public class Segment {
 	
 	private byte [] input; // data to operate on
 	private byte[] output; // result of the operations
+	private byte [] iv; //optional
 	
 	public Segment(byte[] input) {
 		super();
 		this.input = input;
+	}
+	
+	public Segment(byte[] input, byte [] iv) {
+		super();
+		this.input = input;
+		this.iv = iv;
 	}
 
 	public byte[] getInput() {
@@ -45,6 +52,10 @@ public class Segment {
 		input = null;
 		input = output;
 		output = null;
+	}
+
+	public byte[] getIv() {
+		return iv;
 	}
 	
 }
