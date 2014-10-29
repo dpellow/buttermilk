@@ -8,7 +8,6 @@ package com.cryptoregistry.proto.builder;
 import com.cryptoregistry.c2.key.Curve25519KeyForPublication;
 import com.cryptoregistry.protos.Buttermilk.C2KeyContentsProto;
 import com.cryptoregistry.protos.Buttermilk.HelloAckProto;
-import com.cryptoregistry.protos.Buttermilk.HelloProto;
 import com.cryptoregistry.protos.Buttermilk.KeyMetadataProto;
 import com.google.protobuf.ByteString;
 
@@ -21,9 +20,11 @@ import com.google.protobuf.ByteString;
 public class HelloAckProtoBuilder {
 
 	final Curve25519KeyForPublication keyContents;
+	final byte [] rand32;
 	
-	public HelloAckProtoBuilder(Curve25519KeyForPublication keyContents) {
+	public HelloAckProtoBuilder(Curve25519KeyForPublication keyContents, byte [] bytes) {
 		this.keyContents = keyContents;
+		this.rand32=bytes;
 	}
 	
 	public HelloAckProto build() {
@@ -36,7 +37,10 @@ public class HelloAckProtoBuilder {
 				.setPublicKey(ByteString.copyFrom(keyContents.publicKey.getBytes()))
 				.build();
 		
-		HelloAckProto hProto = HelloAckProto.newBuilder().setC2KeyContents(c2Proto).build();
+		HelloAckProto hProto = HelloAckProto.newBuilder()
+				.setC2KeyContents(c2Proto)
+				.setRand32(ByteString.copyFrom(rand32))
+				.build();
 		
 		return hProto;
 		

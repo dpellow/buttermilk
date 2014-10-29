@@ -3,14 +3,20 @@ package com.cryptoregistry.crypto.mt;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.concurrent.Future;
+
 import junit.framework.Assert;
+
 import org.junit.Test;
 
 
 public class AESTest {
 	
-	long startTime = System.nanoTime();
-	long elapsed=0, dif=0;
+	long startTime=0, elapsed=0, dif=0;
+	
+	void init_t(){
+		startTime = System.nanoTime();
+		dif = elapsed = 0;
+	}
 	
 	void t(String desc){
 		long lastElapsed = elapsed;
@@ -33,29 +39,54 @@ public class AESTest {
 		
 		SecureRandom rand = new SecureRandom();
 		byte [] key = new byte[32];
-		byte [] exampleData = new byte[1048576*8]; // 1 megabyte * 8
-		
+		byte [] exampleData = new byte[1048576*8*10]; // 1 megabyte * 8 * 10 = 80MB
 		rand.nextBytes(key);
 		rand.nextBytes(exampleData);
 		
-		startTime = System.nanoTime();
-		t("start");
-		
+		init_t();
+		t("start MT");
 		LargeMessage msg = new LargeMessage(exampleData);
 		LargeMessageService service = new LargeMessageService(key,msg);
 		service.encrypt();
-	
+		t("encrypt complete");
+		msg.rotate();
+		service = new LargeMessageService(key,msg);
+		service.decrypt();
+		t("decrypt complete");
+		Assert.assertTrue(test_equal(exampleData,msg.byteResult()));
+		
+		// now try as a single thread
+		
+		init_t();
+		t("start ST");
+		
+		byte [] iv = new byte[16];
+		rand.nextBytes(iv);
+		Segment seg0 = new Segment(exampleData);
+		Encryptor enc = new Encryptor(key,iv,seg0);
+		try {
+			enc.call();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		t("encrypt complete");
 		
-		msg.rotate();
+		seg0.rotate();
 		
-		service = new LargeMessageService(key,msg);
+		Decryptor de = new Decryptor(key,iv,seg0);
+		try {
+			de.call();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		service.decrypt();
+		t("encrypt complete");
 		
-		t("decrypt complete");
+		Assert.assertTrue(test_equal(exampleData,seg0.getOutput()));
 		
-		Assert.assertTrue(test_equal(exampleData,msg.byteResult()));
 	}
 	
 	@Test

@@ -861,21 +861,12 @@ public final class Buttermilk {
      * <code>required bytes rand32 = 3;</code>
      */
     com.google.protobuf.ByteString getRand32();
-
-    /**
-     * <code>required int32 randInt = 4;</code>
-     */
-    boolean hasRandInt();
-    /**
-     * <code>required int32 randInt = 4;</code>
-     */
-    int getRandInt();
   }
   /**
    * Protobuf type {@code HelloAckProto}
    *
    * <pre>
-   * server sends key, a random string of 32 bytes, and a random 32 bit integer 
+   * server sends key and a random string of 32 bytes 
    * </pre>
    */
   public static final class HelloAckProto extends
@@ -956,11 +947,6 @@ public final class Buttermilk {
             case 26: {
               bitField0_ |= 0x00000004;
               rand32_ = input.readBytes();
-              break;
-            }
-            case 32: {
-              bitField0_ |= 0x00000008;
-              randInt_ = input.readInt32();
               break;
             }
           }
@@ -1101,24 +1087,8 @@ public final class Buttermilk {
       return rand32_;
     }
 
-    public static final int RANDINT_FIELD_NUMBER = 4;
-    private int randInt_;
-    /**
-     * <code>required int32 randInt = 4;</code>
-     */
-    public boolean hasRandInt() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>required int32 randInt = 4;</code>
-     */
-    public int getRandInt() {
-      return randInt_;
-    }
-
     private void initFields() {
       rand32_ = com.google.protobuf.ByteString.EMPTY;
-      randInt_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1127,10 +1097,6 @@ public final class Buttermilk {
       if (isInitialized == 0) return false;
 
       if (!hasRand32()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasRandInt()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -1162,9 +1128,6 @@ public final class Buttermilk {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBytes(3, rand32_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(4, randInt_);
-      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1185,10 +1148,6 @@ public final class Buttermilk {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(3, rand32_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, randInt_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1272,7 +1231,7 @@ public final class Buttermilk {
      * Protobuf type {@code HelloAckProto}
      *
      * <pre>
-     * server sends key, a random string of 32 bytes, and a random 32 bit integer 
+     * server sends key and a random string of 32 bytes 
      * </pre>
      */
     public static final class Builder extends
@@ -1313,8 +1272,6 @@ public final class Buttermilk {
         super.clear();
         rand32_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000004);
-        randInt_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
         serverKeyContentsCase_ = 0;
         serverKeyContents_ = null;
         return this;
@@ -1363,10 +1320,6 @@ public final class Buttermilk {
           to_bitField0_ |= 0x00000004;
         }
         result.rand32_ = rand32_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000008;
-        }
-        result.randInt_ = randInt_;
         result.bitField0_ = to_bitField0_;
         result.serverKeyContentsCase_ = serverKeyContentsCase_;
         onBuilt();
@@ -1387,9 +1340,6 @@ public final class Buttermilk {
         if (other.hasRand32()) {
           setRand32(other.getRand32());
         }
-        if (other.hasRandInt()) {
-          setRandInt(other.getRandInt());
-        }
         switch (other.getServerKeyContentsCase()) {
           case C2_KEY_CONTENTS: {
             mergeC2KeyContents(other.getC2KeyContents());
@@ -1409,10 +1359,6 @@ public final class Buttermilk {
 
       public final boolean isInitialized() {
         if (!hasRand32()) {
-          
-          return false;
-        }
-        if (!hasRandInt()) {
           
           return false;
         }
@@ -1770,38 +1716,6 @@ public final class Buttermilk {
         return this;
       }
 
-      private int randInt_ ;
-      /**
-       * <code>required int32 randInt = 4;</code>
-       */
-      public boolean hasRandInt() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>required int32 randInt = 4;</code>
-       */
-      public int getRandInt() {
-        return randInt_;
-      }
-      /**
-       * <code>required int32 randInt = 4;</code>
-       */
-      public Builder setRandInt(int value) {
-        bitField0_ |= 0x00000008;
-        randInt_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 randInt = 4;</code>
-       */
-      public Builder clearRandInt() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        randInt_ = 0;
-        onChanged();
-        return this;
-      }
-
       // @@protoc_insertion_point(builder_scope:HelloAckProto)
     }
 
@@ -1813,414 +1727,6 @@ public final class Buttermilk {
     // @@protoc_insertion_point(class_scope:HelloAckProto)
   }
 
-  public interface ClientReadyProtoOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:ClientReadyProto)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>required bytes validation_bytes = 1;</code>
-     */
-    boolean hasValidationBytes();
-    /**
-     * <code>required bytes validation_bytes = 1;</code>
-     */
-    com.google.protobuf.ByteString getValidationBytes();
-  }
-  /**
-   * Protobuf type {@code ClientReadyProto}
-   */
-  public static final class ClientReadyProto extends
-      com.google.protobuf.GeneratedMessage implements
-      // @@protoc_insertion_point(message_implements:ClientReadyProto)
-      ClientReadyProtoOrBuilder {
-    // Use ClientReadyProto.newBuilder() to construct.
-    private ClientReadyProto(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private ClientReadyProto(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final ClientReadyProto defaultInstance;
-    public static ClientReadyProto getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public ClientReadyProto getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private ClientReadyProto(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              bitField0_ |= 0x00000001;
-              validationBytes_ = input.readBytes();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.cryptoregistry.protos.Buttermilk.internal_static_ClientReadyProto_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return com.cryptoregistry.protos.Buttermilk.internal_static_ClientReadyProto_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              com.cryptoregistry.protos.Buttermilk.ClientReadyProto.class, com.cryptoregistry.protos.Buttermilk.ClientReadyProto.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<ClientReadyProto> PARSER =
-        new com.google.protobuf.AbstractParser<ClientReadyProto>() {
-      public ClientReadyProto parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ClientReadyProto(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<ClientReadyProto> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    public static final int VALIDATION_BYTES_FIELD_NUMBER = 1;
-    private com.google.protobuf.ByteString validationBytes_;
-    /**
-     * <code>required bytes validation_bytes = 1;</code>
-     */
-    public boolean hasValidationBytes() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required bytes validation_bytes = 1;</code>
-     */
-    public com.google.protobuf.ByteString getValidationBytes() {
-      return validationBytes_;
-    }
-
-    private void initFields() {
-      validationBytes_ = com.google.protobuf.ByteString.EMPTY;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      if (!hasValidationBytes()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, validationBytes_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, validationBytes_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static com.cryptoregistry.protos.Buttermilk.ClientReadyProto parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.cryptoregistry.protos.Buttermilk.ClientReadyProto parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.cryptoregistry.protos.Buttermilk.ClientReadyProto parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.cryptoregistry.protos.Buttermilk.ClientReadyProto parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.cryptoregistry.protos.Buttermilk.ClientReadyProto parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.cryptoregistry.protos.Buttermilk.ClientReadyProto parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static com.cryptoregistry.protos.Buttermilk.ClientReadyProto parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static com.cryptoregistry.protos.Buttermilk.ClientReadyProto parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static com.cryptoregistry.protos.Buttermilk.ClientReadyProto parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.cryptoregistry.protos.Buttermilk.ClientReadyProto parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.cryptoregistry.protos.Buttermilk.ClientReadyProto prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code ClientReadyProto}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:ClientReadyProto)
-        com.cryptoregistry.protos.Buttermilk.ClientReadyProtoOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return com.cryptoregistry.protos.Buttermilk.internal_static_ClientReadyProto_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return com.cryptoregistry.protos.Buttermilk.internal_static_ClientReadyProto_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                com.cryptoregistry.protos.Buttermilk.ClientReadyProto.class, com.cryptoregistry.protos.Buttermilk.ClientReadyProto.Builder.class);
-      }
-
-      // Construct using com.cryptoregistry.protos.Buttermilk.ClientReadyProto.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        validationBytes_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return com.cryptoregistry.protos.Buttermilk.internal_static_ClientReadyProto_descriptor;
-      }
-
-      public com.cryptoregistry.protos.Buttermilk.ClientReadyProto getDefaultInstanceForType() {
-        return com.cryptoregistry.protos.Buttermilk.ClientReadyProto.getDefaultInstance();
-      }
-
-      public com.cryptoregistry.protos.Buttermilk.ClientReadyProto build() {
-        com.cryptoregistry.protos.Buttermilk.ClientReadyProto result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public com.cryptoregistry.protos.Buttermilk.ClientReadyProto buildPartial() {
-        com.cryptoregistry.protos.Buttermilk.ClientReadyProto result = new com.cryptoregistry.protos.Buttermilk.ClientReadyProto(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.validationBytes_ = validationBytes_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.cryptoregistry.protos.Buttermilk.ClientReadyProto) {
-          return mergeFrom((com.cryptoregistry.protos.Buttermilk.ClientReadyProto)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(com.cryptoregistry.protos.Buttermilk.ClientReadyProto other) {
-        if (other == com.cryptoregistry.protos.Buttermilk.ClientReadyProto.getDefaultInstance()) return this;
-        if (other.hasValidationBytes()) {
-          setValidationBytes(other.getValidationBytes());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasValidationBytes()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.cryptoregistry.protos.Buttermilk.ClientReadyProto parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.cryptoregistry.protos.Buttermilk.ClientReadyProto) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      private com.google.protobuf.ByteString validationBytes_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <code>required bytes validation_bytes = 1;</code>
-       */
-      public boolean hasValidationBytes() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required bytes validation_bytes = 1;</code>
-       */
-      public com.google.protobuf.ByteString getValidationBytes() {
-        return validationBytes_;
-      }
-      /**
-       * <code>required bytes validation_bytes = 1;</code>
-       */
-      public Builder setValidationBytes(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        validationBytes_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required bytes validation_bytes = 1;</code>
-       */
-      public Builder clearValidationBytes() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        validationBytes_ = getDefaultInstance().getValidationBytes();
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:ClientReadyProto)
-    }
-
-    static {
-      defaultInstance = new ClientReadyProto(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:ClientReadyProto)
-  }
-
   public interface ServerReadyProtoOrBuilder extends
       // @@protoc_insertion_point(interface_extends:ServerReadyProto)
       com.google.protobuf.MessageOrBuilder {
@@ -2229,7 +1735,7 @@ public final class Buttermilk {
      * <code>required bool ready = 1;</code>
      *
      * <pre>
-     * true if validation_bytes look good, else bail
+     * true if check decrypts, else bail
      * </pre>
      */
     boolean hasReady();
@@ -2237,7 +1743,7 @@ public final class Buttermilk {
      * <code>required bool ready = 1;</code>
      *
      * <pre>
-     * true if validation_bytes look good, else bail
+     * true if check decrypts, else bail
      * </pre>
      */
     boolean getReady();
@@ -2345,7 +1851,7 @@ public final class Buttermilk {
      * <code>required bool ready = 1;</code>
      *
      * <pre>
-     * true if validation_bytes look good, else bail
+     * true if check decrypts, else bail
      * </pre>
      */
     public boolean hasReady() {
@@ -2355,7 +1861,7 @@ public final class Buttermilk {
      * <code>required bool ready = 1;</code>
      *
      * <pre>
-     * true if validation_bytes look good, else bail
+     * true if check decrypts, else bail
      * </pre>
      */
     public boolean getReady() {
@@ -2604,7 +2110,7 @@ public final class Buttermilk {
        * <code>required bool ready = 1;</code>
        *
        * <pre>
-       * true if validation_bytes look good, else bail
+       * true if check decrypts, else bail
        * </pre>
        */
       public boolean hasReady() {
@@ -2614,7 +2120,7 @@ public final class Buttermilk {
        * <code>required bool ready = 1;</code>
        *
        * <pre>
-       * true if validation_bytes look good, else bail
+       * true if check decrypts, else bail
        * </pre>
        */
       public boolean getReady() {
@@ -2624,7 +2130,7 @@ public final class Buttermilk {
        * <code>required bool ready = 1;</code>
        *
        * <pre>
-       * true if validation_bytes look good, else bail
+       * true if check decrypts, else bail
        * </pre>
        */
       public Builder setReady(boolean value) {
@@ -2637,7 +2143,7 @@ public final class Buttermilk {
        * <code>required bool ready = 1;</code>
        *
        * <pre>
-       * true if validation_bytes look good, else bail
+       * true if check decrypts, else bail
        * </pre>
        */
       public Builder clearReady() {
@@ -2663,45 +2169,57 @@ public final class Buttermilk {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>repeated .SegmentProto segments = 1;</code>
-     *
-     * <pre>
-     * large messages should be broken up into roughly equal length segments for parallel processing
-     * </pre>
+     * <code>optional .SecureMessageProto.InputTypeProto input_type = 3;</code>
+     */
+    boolean hasInputType();
+    /**
+     * <code>optional .SecureMessageProto.InputTypeProto input_type = 3;</code>
+     */
+    com.cryptoregistry.protos.Buttermilk.SecureMessageProto.InputTypeProto getInputType();
+
+    /**
+     * <code>optional string charset = 4;</code>
+     */
+    boolean hasCharset();
+    /**
+     * <code>optional string charset = 4;</code>
+     */
+    java.lang.String getCharset();
+    /**
+     * <code>optional string charset = 4;</code>
+     */
+    com.google.protobuf.ByteString
+        getCharsetBytes();
+
+    /**
+     * <code>required bytes iv = 5;</code>
+     */
+    boolean hasIv();
+    /**
+     * <code>required bytes iv = 5;</code>
+     */
+    com.google.protobuf.ByteString getIv();
+
+    /**
+     * <code>repeated .SegmentProto segments = 6;</code>
      */
     java.util.List<com.cryptoregistry.protos.Buttermilk.SegmentProto> 
         getSegmentsList();
     /**
-     * <code>repeated .SegmentProto segments = 1;</code>
-     *
-     * <pre>
-     * large messages should be broken up into roughly equal length segments for parallel processing
-     * </pre>
+     * <code>repeated .SegmentProto segments = 6;</code>
      */
     com.cryptoregistry.protos.Buttermilk.SegmentProto getSegments(int index);
     /**
-     * <code>repeated .SegmentProto segments = 1;</code>
-     *
-     * <pre>
-     * large messages should be broken up into roughly equal length segments for parallel processing
-     * </pre>
+     * <code>repeated .SegmentProto segments = 6;</code>
      */
     int getSegmentsCount();
     /**
-     * <code>repeated .SegmentProto segments = 1;</code>
-     *
-     * <pre>
-     * large messages should be broken up into roughly equal length segments for parallel processing
-     * </pre>
+     * <code>repeated .SegmentProto segments = 6;</code>
      */
     java.util.List<? extends com.cryptoregistry.protos.Buttermilk.SegmentProtoOrBuilder> 
         getSegmentsOrBuilderList();
     /**
-     * <code>repeated .SegmentProto segments = 1;</code>
-     *
-     * <pre>
-     * large messages should be broken up into roughly equal length segments for parallel processing
-     * </pre>
+     * <code>repeated .SegmentProto segments = 6;</code>
      */
     com.cryptoregistry.protos.Buttermilk.SegmentProtoOrBuilder getSegmentsOrBuilder(
         int index);
@@ -2758,10 +2276,32 @@ public final class Buttermilk {
               }
               break;
             }
-            case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+            case 24: {
+              int rawValue = input.readEnum();
+              com.cryptoregistry.protos.Buttermilk.SecureMessageProto.InputTypeProto value = com.cryptoregistry.protos.Buttermilk.SecureMessageProto.InputTypeProto.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(3, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                inputType_ = value;
+              }
+              break;
+            }
+            case 34: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000002;
+              charset_ = bs;
+              break;
+            }
+            case 42: {
+              bitField0_ |= 0x00000004;
+              iv_ = input.readBytes();
+              break;
+            }
+            case 50: {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
                 segments_ = new java.util.ArrayList<com.cryptoregistry.protos.Buttermilk.SegmentProto>();
-                mutable_bitField0_ |= 0x00000001;
+                mutable_bitField0_ |= 0x00000008;
               }
               segments_.add(input.readMessage(com.cryptoregistry.protos.Buttermilk.SegmentProto.PARSER, extensionRegistry));
               break;
@@ -2774,7 +2314,7 @@ public final class Buttermilk {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
           segments_ = java.util.Collections.unmodifiableList(segments_);
         }
         this.unknownFields = unknownFields.build();
@@ -2808,55 +2348,203 @@ public final class Buttermilk {
       return PARSER;
     }
 
-    public static final int SEGMENTS_FIELD_NUMBER = 1;
-    private java.util.List<com.cryptoregistry.protos.Buttermilk.SegmentProto> segments_;
     /**
-     * <code>repeated .SegmentProto segments = 1;</code>
+     * Protobuf enum {@code SecureMessageProto.InputTypeProto}
      *
      * <pre>
-     * large messages should be broken up into roughly equal length segments for parallel processing
+     * hint on form to unpack on other side
      * </pre>
+     */
+    public enum InputTypeProto
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>STRING = 0;</code>
+       */
+      STRING(0, 0),
+      /**
+       * <code>BYTE_ARRAY = 1;</code>
+       */
+      BYTE_ARRAY(1, 1),
+      /**
+       * <code>CHAR_ARRAY = 2;</code>
+       */
+      CHAR_ARRAY(2, 2),
+      ;
+
+      /**
+       * <code>STRING = 0;</code>
+       */
+      public static final int STRING_VALUE = 0;
+      /**
+       * <code>BYTE_ARRAY = 1;</code>
+       */
+      public static final int BYTE_ARRAY_VALUE = 1;
+      /**
+       * <code>CHAR_ARRAY = 2;</code>
+       */
+      public static final int CHAR_ARRAY_VALUE = 2;
+
+
+      public final int getNumber() { return value; }
+
+      public static InputTypeProto valueOf(int value) {
+        switch (value) {
+          case 0: return STRING;
+          case 1: return BYTE_ARRAY;
+          case 2: return CHAR_ARRAY;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<InputTypeProto>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static com.google.protobuf.Internal.EnumLiteMap<InputTypeProto>
+          internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<InputTypeProto>() {
+              public InputTypeProto findValueByNumber(int number) {
+                return InputTypeProto.valueOf(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(index);
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return com.cryptoregistry.protos.Buttermilk.SecureMessageProto.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final InputTypeProto[] VALUES = values();
+
+      public static InputTypeProto valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int index;
+      private final int value;
+
+      private InputTypeProto(int index, int value) {
+        this.index = index;
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:SecureMessageProto.InputTypeProto)
+    }
+
+    private int bitField0_;
+    public static final int INPUT_TYPE_FIELD_NUMBER = 3;
+    private com.cryptoregistry.protos.Buttermilk.SecureMessageProto.InputTypeProto inputType_;
+    /**
+     * <code>optional .SecureMessageProto.InputTypeProto input_type = 3;</code>
+     */
+    public boolean hasInputType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional .SecureMessageProto.InputTypeProto input_type = 3;</code>
+     */
+    public com.cryptoregistry.protos.Buttermilk.SecureMessageProto.InputTypeProto getInputType() {
+      return inputType_;
+    }
+
+    public static final int CHARSET_FIELD_NUMBER = 4;
+    private java.lang.Object charset_;
+    /**
+     * <code>optional string charset = 4;</code>
+     */
+    public boolean hasCharset() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional string charset = 4;</code>
+     */
+    public java.lang.String getCharset() {
+      java.lang.Object ref = charset_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          charset_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string charset = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCharsetBytes() {
+      java.lang.Object ref = charset_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        charset_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int IV_FIELD_NUMBER = 5;
+    private com.google.protobuf.ByteString iv_;
+    /**
+     * <code>required bytes iv = 5;</code>
+     */
+    public boolean hasIv() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required bytes iv = 5;</code>
+     */
+    public com.google.protobuf.ByteString getIv() {
+      return iv_;
+    }
+
+    public static final int SEGMENTS_FIELD_NUMBER = 6;
+    private java.util.List<com.cryptoregistry.protos.Buttermilk.SegmentProto> segments_;
+    /**
+     * <code>repeated .SegmentProto segments = 6;</code>
      */
     public java.util.List<com.cryptoregistry.protos.Buttermilk.SegmentProto> getSegmentsList() {
       return segments_;
     }
     /**
-     * <code>repeated .SegmentProto segments = 1;</code>
-     *
-     * <pre>
-     * large messages should be broken up into roughly equal length segments for parallel processing
-     * </pre>
+     * <code>repeated .SegmentProto segments = 6;</code>
      */
     public java.util.List<? extends com.cryptoregistry.protos.Buttermilk.SegmentProtoOrBuilder> 
         getSegmentsOrBuilderList() {
       return segments_;
     }
     /**
-     * <code>repeated .SegmentProto segments = 1;</code>
-     *
-     * <pre>
-     * large messages should be broken up into roughly equal length segments for parallel processing
-     * </pre>
+     * <code>repeated .SegmentProto segments = 6;</code>
      */
     public int getSegmentsCount() {
       return segments_.size();
     }
     /**
-     * <code>repeated .SegmentProto segments = 1;</code>
-     *
-     * <pre>
-     * large messages should be broken up into roughly equal length segments for parallel processing
-     * </pre>
+     * <code>repeated .SegmentProto segments = 6;</code>
      */
     public com.cryptoregistry.protos.Buttermilk.SegmentProto getSegments(int index) {
       return segments_.get(index);
     }
     /**
-     * <code>repeated .SegmentProto segments = 1;</code>
-     *
-     * <pre>
-     * large messages should be broken up into roughly equal length segments for parallel processing
-     * </pre>
+     * <code>repeated .SegmentProto segments = 6;</code>
      */
     public com.cryptoregistry.protos.Buttermilk.SegmentProtoOrBuilder getSegmentsOrBuilder(
         int index) {
@@ -2864,6 +2552,9 @@ public final class Buttermilk {
     }
 
     private void initFields() {
+      inputType_ = com.cryptoregistry.protos.Buttermilk.SecureMessageProto.InputTypeProto.STRING;
+      charset_ = "";
+      iv_ = com.google.protobuf.ByteString.EMPTY;
       segments_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
@@ -2872,6 +2563,10 @@ public final class Buttermilk {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
+      if (!hasIv()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       for (int i = 0; i < getSegmentsCount(); i++) {
         if (!getSegments(i).isInitialized()) {
           memoizedIsInitialized = 0;
@@ -2885,8 +2580,17 @@ public final class Buttermilk {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(3, inputType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(4, getCharsetBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(5, iv_);
+      }
       for (int i = 0; i < segments_.size(); i++) {
-        output.writeMessage(1, segments_.get(i));
+        output.writeMessage(6, segments_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -2897,9 +2601,21 @@ public final class Buttermilk {
       if (size != -1) return size;
 
       size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(3, inputType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, getCharsetBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, iv_);
+      }
       for (int i = 0; i < segments_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, segments_.get(i));
+          .computeMessageSize(6, segments_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3019,9 +2735,15 @@ public final class Buttermilk {
 
       public Builder clear() {
         super.clear();
+        inputType_ = com.cryptoregistry.protos.Buttermilk.SecureMessageProto.InputTypeProto.STRING;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        charset_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        iv_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
         if (segmentsBuilder_ == null) {
           segments_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000008);
         } else {
           segmentsBuilder_.clear();
         }
@@ -3052,15 +2774,29 @@ public final class Buttermilk {
       public com.cryptoregistry.protos.Buttermilk.SecureMessageProto buildPartial() {
         com.cryptoregistry.protos.Buttermilk.SecureMessageProto result = new com.cryptoregistry.protos.Buttermilk.SecureMessageProto(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.inputType_ = inputType_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.charset_ = charset_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.iv_ = iv_;
         if (segmentsBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000008) == 0x00000008)) {
             segments_ = java.util.Collections.unmodifiableList(segments_);
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000008);
           }
           result.segments_ = segments_;
         } else {
           result.segments_ = segmentsBuilder_.build();
         }
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -3076,11 +2812,22 @@ public final class Buttermilk {
 
       public Builder mergeFrom(com.cryptoregistry.protos.Buttermilk.SecureMessageProto other) {
         if (other == com.cryptoregistry.protos.Buttermilk.SecureMessageProto.getDefaultInstance()) return this;
+        if (other.hasInputType()) {
+          setInputType(other.getInputType());
+        }
+        if (other.hasCharset()) {
+          bitField0_ |= 0x00000002;
+          charset_ = other.charset_;
+          onChanged();
+        }
+        if (other.hasIv()) {
+          setIv(other.getIv());
+        }
         if (segmentsBuilder_ == null) {
           if (!other.segments_.isEmpty()) {
             if (segments_.isEmpty()) {
               segments_ = other.segments_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000008);
             } else {
               ensureSegmentsIsMutable();
               segments_.addAll(other.segments_);
@@ -3093,7 +2840,7 @@ public final class Buttermilk {
               segmentsBuilder_.dispose();
               segmentsBuilder_ = null;
               segments_ = other.segments_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000008);
               segmentsBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getSegmentsFieldBuilder() : null;
@@ -3107,6 +2854,10 @@ public final class Buttermilk {
       }
 
       public final boolean isInitialized() {
+        if (!hasIv()) {
+          
+          return false;
+        }
         for (int i = 0; i < getSegmentsCount(); i++) {
           if (!getSegments(i).isInitialized()) {
             
@@ -3135,12 +2886,158 @@ public final class Buttermilk {
       }
       private int bitField0_;
 
+      private com.cryptoregistry.protos.Buttermilk.SecureMessageProto.InputTypeProto inputType_ = com.cryptoregistry.protos.Buttermilk.SecureMessageProto.InputTypeProto.STRING;
+      /**
+       * <code>optional .SecureMessageProto.InputTypeProto input_type = 3;</code>
+       */
+      public boolean hasInputType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional .SecureMessageProto.InputTypeProto input_type = 3;</code>
+       */
+      public com.cryptoregistry.protos.Buttermilk.SecureMessageProto.InputTypeProto getInputType() {
+        return inputType_;
+      }
+      /**
+       * <code>optional .SecureMessageProto.InputTypeProto input_type = 3;</code>
+       */
+      public Builder setInputType(com.cryptoregistry.protos.Buttermilk.SecureMessageProto.InputTypeProto value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        inputType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .SecureMessageProto.InputTypeProto input_type = 3;</code>
+       */
+      public Builder clearInputType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        inputType_ = com.cryptoregistry.protos.Buttermilk.SecureMessageProto.InputTypeProto.STRING;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object charset_ = "";
+      /**
+       * <code>optional string charset = 4;</code>
+       */
+      public boolean hasCharset() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional string charset = 4;</code>
+       */
+      public java.lang.String getCharset() {
+        java.lang.Object ref = charset_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            charset_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string charset = 4;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCharsetBytes() {
+        java.lang.Object ref = charset_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          charset_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string charset = 4;</code>
+       */
+      public Builder setCharset(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        charset_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string charset = 4;</code>
+       */
+      public Builder clearCharset() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        charset_ = getDefaultInstance().getCharset();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string charset = 4;</code>
+       */
+      public Builder setCharsetBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        charset_ = value;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString iv_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>required bytes iv = 5;</code>
+       */
+      public boolean hasIv() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required bytes iv = 5;</code>
+       */
+      public com.google.protobuf.ByteString getIv() {
+        return iv_;
+      }
+      /**
+       * <code>required bytes iv = 5;</code>
+       */
+      public Builder setIv(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        iv_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bytes iv = 5;</code>
+       */
+      public Builder clearIv() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        iv_ = getDefaultInstance().getIv();
+        onChanged();
+        return this;
+      }
+
       private java.util.List<com.cryptoregistry.protos.Buttermilk.SegmentProto> segments_ =
         java.util.Collections.emptyList();
       private void ensureSegmentsIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
           segments_ = new java.util.ArrayList<com.cryptoregistry.protos.Buttermilk.SegmentProto>(segments_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000008;
          }
       }
 
@@ -3148,11 +3045,7 @@ public final class Buttermilk {
           com.cryptoregistry.protos.Buttermilk.SegmentProto, com.cryptoregistry.protos.Buttermilk.SegmentProto.Builder, com.cryptoregistry.protos.Buttermilk.SegmentProtoOrBuilder> segmentsBuilder_;
 
       /**
-       * <code>repeated .SegmentProto segments = 1;</code>
-       *
-       * <pre>
-       * large messages should be broken up into roughly equal length segments for parallel processing
-       * </pre>
+       * <code>repeated .SegmentProto segments = 6;</code>
        */
       public java.util.List<com.cryptoregistry.protos.Buttermilk.SegmentProto> getSegmentsList() {
         if (segmentsBuilder_ == null) {
@@ -3162,11 +3055,7 @@ public final class Buttermilk {
         }
       }
       /**
-       * <code>repeated .SegmentProto segments = 1;</code>
-       *
-       * <pre>
-       * large messages should be broken up into roughly equal length segments for parallel processing
-       * </pre>
+       * <code>repeated .SegmentProto segments = 6;</code>
        */
       public int getSegmentsCount() {
         if (segmentsBuilder_ == null) {
@@ -3176,11 +3065,7 @@ public final class Buttermilk {
         }
       }
       /**
-       * <code>repeated .SegmentProto segments = 1;</code>
-       *
-       * <pre>
-       * large messages should be broken up into roughly equal length segments for parallel processing
-       * </pre>
+       * <code>repeated .SegmentProto segments = 6;</code>
        */
       public com.cryptoregistry.protos.Buttermilk.SegmentProto getSegments(int index) {
         if (segmentsBuilder_ == null) {
@@ -3190,11 +3075,7 @@ public final class Buttermilk {
         }
       }
       /**
-       * <code>repeated .SegmentProto segments = 1;</code>
-       *
-       * <pre>
-       * large messages should be broken up into roughly equal length segments for parallel processing
-       * </pre>
+       * <code>repeated .SegmentProto segments = 6;</code>
        */
       public Builder setSegments(
           int index, com.cryptoregistry.protos.Buttermilk.SegmentProto value) {
@@ -3211,11 +3092,7 @@ public final class Buttermilk {
         return this;
       }
       /**
-       * <code>repeated .SegmentProto segments = 1;</code>
-       *
-       * <pre>
-       * large messages should be broken up into roughly equal length segments for parallel processing
-       * </pre>
+       * <code>repeated .SegmentProto segments = 6;</code>
        */
       public Builder setSegments(
           int index, com.cryptoregistry.protos.Buttermilk.SegmentProto.Builder builderForValue) {
@@ -3229,11 +3106,7 @@ public final class Buttermilk {
         return this;
       }
       /**
-       * <code>repeated .SegmentProto segments = 1;</code>
-       *
-       * <pre>
-       * large messages should be broken up into roughly equal length segments for parallel processing
-       * </pre>
+       * <code>repeated .SegmentProto segments = 6;</code>
        */
       public Builder addSegments(com.cryptoregistry.protos.Buttermilk.SegmentProto value) {
         if (segmentsBuilder_ == null) {
@@ -3249,11 +3122,7 @@ public final class Buttermilk {
         return this;
       }
       /**
-       * <code>repeated .SegmentProto segments = 1;</code>
-       *
-       * <pre>
-       * large messages should be broken up into roughly equal length segments for parallel processing
-       * </pre>
+       * <code>repeated .SegmentProto segments = 6;</code>
        */
       public Builder addSegments(
           int index, com.cryptoregistry.protos.Buttermilk.SegmentProto value) {
@@ -3270,11 +3139,7 @@ public final class Buttermilk {
         return this;
       }
       /**
-       * <code>repeated .SegmentProto segments = 1;</code>
-       *
-       * <pre>
-       * large messages should be broken up into roughly equal length segments for parallel processing
-       * </pre>
+       * <code>repeated .SegmentProto segments = 6;</code>
        */
       public Builder addSegments(
           com.cryptoregistry.protos.Buttermilk.SegmentProto.Builder builderForValue) {
@@ -3288,11 +3153,7 @@ public final class Buttermilk {
         return this;
       }
       /**
-       * <code>repeated .SegmentProto segments = 1;</code>
-       *
-       * <pre>
-       * large messages should be broken up into roughly equal length segments for parallel processing
-       * </pre>
+       * <code>repeated .SegmentProto segments = 6;</code>
        */
       public Builder addSegments(
           int index, com.cryptoregistry.protos.Buttermilk.SegmentProto.Builder builderForValue) {
@@ -3306,11 +3167,7 @@ public final class Buttermilk {
         return this;
       }
       /**
-       * <code>repeated .SegmentProto segments = 1;</code>
-       *
-       * <pre>
-       * large messages should be broken up into roughly equal length segments for parallel processing
-       * </pre>
+       * <code>repeated .SegmentProto segments = 6;</code>
        */
       public Builder addAllSegments(
           java.lang.Iterable<? extends com.cryptoregistry.protos.Buttermilk.SegmentProto> values) {
@@ -3325,16 +3182,12 @@ public final class Buttermilk {
         return this;
       }
       /**
-       * <code>repeated .SegmentProto segments = 1;</code>
-       *
-       * <pre>
-       * large messages should be broken up into roughly equal length segments for parallel processing
-       * </pre>
+       * <code>repeated .SegmentProto segments = 6;</code>
        */
       public Builder clearSegments() {
         if (segmentsBuilder_ == null) {
           segments_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000008);
           onChanged();
         } else {
           segmentsBuilder_.clear();
@@ -3342,11 +3195,7 @@ public final class Buttermilk {
         return this;
       }
       /**
-       * <code>repeated .SegmentProto segments = 1;</code>
-       *
-       * <pre>
-       * large messages should be broken up into roughly equal length segments for parallel processing
-       * </pre>
+       * <code>repeated .SegmentProto segments = 6;</code>
        */
       public Builder removeSegments(int index) {
         if (segmentsBuilder_ == null) {
@@ -3359,22 +3208,14 @@ public final class Buttermilk {
         return this;
       }
       /**
-       * <code>repeated .SegmentProto segments = 1;</code>
-       *
-       * <pre>
-       * large messages should be broken up into roughly equal length segments for parallel processing
-       * </pre>
+       * <code>repeated .SegmentProto segments = 6;</code>
        */
       public com.cryptoregistry.protos.Buttermilk.SegmentProto.Builder getSegmentsBuilder(
           int index) {
         return getSegmentsFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .SegmentProto segments = 1;</code>
-       *
-       * <pre>
-       * large messages should be broken up into roughly equal length segments for parallel processing
-       * </pre>
+       * <code>repeated .SegmentProto segments = 6;</code>
        */
       public com.cryptoregistry.protos.Buttermilk.SegmentProtoOrBuilder getSegmentsOrBuilder(
           int index) {
@@ -3384,11 +3225,7 @@ public final class Buttermilk {
         }
       }
       /**
-       * <code>repeated .SegmentProto segments = 1;</code>
-       *
-       * <pre>
-       * large messages should be broken up into roughly equal length segments for parallel processing
-       * </pre>
+       * <code>repeated .SegmentProto segments = 6;</code>
        */
       public java.util.List<? extends com.cryptoregistry.protos.Buttermilk.SegmentProtoOrBuilder> 
            getSegmentsOrBuilderList() {
@@ -3399,22 +3236,14 @@ public final class Buttermilk {
         }
       }
       /**
-       * <code>repeated .SegmentProto segments = 1;</code>
-       *
-       * <pre>
-       * large messages should be broken up into roughly equal length segments for parallel processing
-       * </pre>
+       * <code>repeated .SegmentProto segments = 6;</code>
        */
       public com.cryptoregistry.protos.Buttermilk.SegmentProto.Builder addSegmentsBuilder() {
         return getSegmentsFieldBuilder().addBuilder(
             com.cryptoregistry.protos.Buttermilk.SegmentProto.getDefaultInstance());
       }
       /**
-       * <code>repeated .SegmentProto segments = 1;</code>
-       *
-       * <pre>
-       * large messages should be broken up into roughly equal length segments for parallel processing
-       * </pre>
+       * <code>repeated .SegmentProto segments = 6;</code>
        */
       public com.cryptoregistry.protos.Buttermilk.SegmentProto.Builder addSegmentsBuilder(
           int index) {
@@ -3422,11 +3251,7 @@ public final class Buttermilk {
             index, com.cryptoregistry.protos.Buttermilk.SegmentProto.getDefaultInstance());
       }
       /**
-       * <code>repeated .SegmentProto segments = 1;</code>
-       *
-       * <pre>
-       * large messages should be broken up into roughly equal length segments for parallel processing
-       * </pre>
+       * <code>repeated .SegmentProto segments = 6;</code>
        */
       public java.util.List<com.cryptoregistry.protos.Buttermilk.SegmentProto.Builder> 
            getSegmentsBuilderList() {
@@ -3439,7 +3264,7 @@ public final class Buttermilk {
           segmentsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               com.cryptoregistry.protos.Buttermilk.SegmentProto, com.cryptoregistry.protos.Buttermilk.SegmentProto.Builder, com.cryptoregistry.protos.Buttermilk.SegmentProtoOrBuilder>(
                   segments_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000008) == 0x00000008),
                   getParentForChildren(),
                   isClean());
           segments_ = null;
@@ -3463,22 +3288,30 @@ public final class Buttermilk {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required int32 index = 1;</code>
-     */
-    boolean hasIndex();
-    /**
-     * <code>required int32 index = 1;</code>
-     */
-    int getIndex();
-
-    /**
-     * <code>required bytes data = 2;</code>
+     * <code>required bytes data = 1;</code>
      */
     boolean hasData();
     /**
-     * <code>required bytes data = 2;</code>
+     * <code>required bytes data = 1;</code>
      */
     com.google.protobuf.ByteString getData();
+
+    /**
+     * <code>optional bytes iv = 2;</code>
+     *
+     * <pre>
+     * can be used when a single Segment is being sent
+     * </pre>
+     */
+    boolean hasIv();
+    /**
+     * <code>optional bytes iv = 2;</code>
+     *
+     * <pre>
+     * can be used when a single Segment is being sent
+     * </pre>
+     */
+    com.google.protobuf.ByteString getIv();
   }
   /**
    * Protobuf type {@code SegmentProto}
@@ -3532,14 +3365,14 @@ public final class Buttermilk {
               }
               break;
             }
-            case 8: {
+            case 10: {
               bitField0_ |= 0x00000001;
-              index_ = input.readInt32();
+              data_ = input.readBytes();
               break;
             }
             case 18: {
               bitField0_ |= 0x00000002;
-              data_ = input.readBytes();
+              iv_ = input.readBytes();
               break;
             }
           }
@@ -3582,39 +3415,47 @@ public final class Buttermilk {
     }
 
     private int bitField0_;
-    public static final int INDEX_FIELD_NUMBER = 1;
-    private int index_;
+    public static final int DATA_FIELD_NUMBER = 1;
+    private com.google.protobuf.ByteString data_;
     /**
-     * <code>required int32 index = 1;</code>
+     * <code>required bytes data = 1;</code>
      */
-    public boolean hasIndex() {
+    public boolean hasData() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int32 index = 1;</code>
-     */
-    public int getIndex() {
-      return index_;
-    }
-
-    public static final int DATA_FIELD_NUMBER = 2;
-    private com.google.protobuf.ByteString data_;
-    /**
-     * <code>required bytes data = 2;</code>
-     */
-    public boolean hasData() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required bytes data = 2;</code>
+     * <code>required bytes data = 1;</code>
      */
     public com.google.protobuf.ByteString getData() {
       return data_;
     }
 
+    public static final int IV_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString iv_;
+    /**
+     * <code>optional bytes iv = 2;</code>
+     *
+     * <pre>
+     * can be used when a single Segment is being sent
+     * </pre>
+     */
+    public boolean hasIv() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional bytes iv = 2;</code>
+     *
+     * <pre>
+     * can be used when a single Segment is being sent
+     * </pre>
+     */
+    public com.google.protobuf.ByteString getIv() {
+      return iv_;
+    }
+
     private void initFields() {
-      index_ = 0;
       data_ = com.google.protobuf.ByteString.EMPTY;
+      iv_ = com.google.protobuf.ByteString.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3622,10 +3463,6 @@ public final class Buttermilk {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (!hasIndex()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       if (!hasData()) {
         memoizedIsInitialized = 0;
         return false;
@@ -3638,10 +3475,10 @@ public final class Buttermilk {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, index_);
+        output.writeBytes(1, data_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, data_);
+        output.writeBytes(2, iv_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -3654,11 +3491,11 @@ public final class Buttermilk {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, index_);
+          .computeBytesSize(1, data_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, data_);
+          .computeBytesSize(2, iv_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3777,9 +3614,9 @@ public final class Buttermilk {
 
       public Builder clear() {
         super.clear();
-        index_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
         data_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        iv_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
@@ -3812,11 +3649,11 @@ public final class Buttermilk {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.index_ = index_;
+        result.data_ = data_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.data_ = data_;
+        result.iv_ = iv_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3833,21 +3670,17 @@ public final class Buttermilk {
 
       public Builder mergeFrom(com.cryptoregistry.protos.Buttermilk.SegmentProto other) {
         if (other == com.cryptoregistry.protos.Buttermilk.SegmentProto.getDefaultInstance()) return this;
-        if (other.hasIndex()) {
-          setIndex(other.getIndex());
-        }
         if (other.hasData()) {
           setData(other.getData());
+        }
+        if (other.hasIv()) {
+          setIv(other.getIv());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasIndex()) {
-          
-          return false;
-        }
         if (!hasData()) {
           
           return false;
@@ -3874,69 +3707,88 @@ public final class Buttermilk {
       }
       private int bitField0_;
 
-      private int index_ ;
+      private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required int32 index = 1;</code>
+       * <code>required bytes data = 1;</code>
        */
-      public boolean hasIndex() {
+      public boolean hasData() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int32 index = 1;</code>
-       */
-      public int getIndex() {
-        return index_;
-      }
-      /**
-       * <code>required int32 index = 1;</code>
-       */
-      public Builder setIndex(int value) {
-        bitField0_ |= 0x00000001;
-        index_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 index = 1;</code>
-       */
-      public Builder clearIndex() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        index_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <code>required bytes data = 2;</code>
-       */
-      public boolean hasData() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required bytes data = 2;</code>
+       * <code>required bytes data = 1;</code>
        */
       public com.google.protobuf.ByteString getData() {
         return data_;
       }
       /**
-       * <code>required bytes data = 2;</code>
+       * <code>required bytes data = 1;</code>
        */
       public Builder setData(com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000001;
         data_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required bytes data = 2;</code>
+       * <code>required bytes data = 1;</code>
        */
       public Builder clearData() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         data_ = getDefaultInstance().getData();
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString iv_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes iv = 2;</code>
+       *
+       * <pre>
+       * can be used when a single Segment is being sent
+       * </pre>
+       */
+      public boolean hasIv() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional bytes iv = 2;</code>
+       *
+       * <pre>
+       * can be used when a single Segment is being sent
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getIv() {
+        return iv_;
+      }
+      /**
+       * <code>optional bytes iv = 2;</code>
+       *
+       * <pre>
+       * can be used when a single Segment is being sent
+       * </pre>
+       */
+      public Builder setIv(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        iv_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes iv = 2;</code>
+       *
+       * <pre>
+       * can be used when a single Segment is being sent
+       * </pre>
+       */
+      public Builder clearIv() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        iv_ = getDefaultInstance().getIv();
         onChanged();
         return this;
       }
@@ -15294,11 +15146,6 @@ public final class Buttermilk {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_HelloAckProto_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_ClientReadyProto_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_ClientReadyProto_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ServerReadyProto_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -15395,56 +15242,58 @@ public final class Buttermilk {
       "\n\020buttermilk.proto\"\203\001\n\nHelloProto\022.\n\017c2_" +
       "key_contents\030\001 \001(\0132\023.C2KeyContentsProtoH" +
       "\000\022.\n\017ec_key_contents\030\002 \001(\0132\023.ECKeyConten" +
-      "tsProtoH\000B\025\n\023client_key_contents\"\247\001\n\rHel" +
+      "tsProtoH\000B\025\n\023client_key_contents\"\226\001\n\rHel" +
       "loAckProto\022.\n\017c2_key_contents\030\001 \001(\0132\023.C2" +
       "KeyContentsProtoH\000\022.\n\017ec_key_contents\030\002 " +
       "\001(\0132\023.ECKeyContentsProtoH\000\022\016\n\006rand32\030\003 \002" +
-      "(\014\022\017\n\007randInt\030\004 \002(\005B\025\n\023server_key_conten" +
-      "ts\",\n\020ClientReadyProto\022\030\n\020validation_byt" +
-      "es\030\001 \002(\014\"!\n\020ServerReadyProto\022\r\n\005ready\030\001 ",
-      "\002(\010\"5\n\022SecureMessageProto\022\037\n\010segments\030\001 " +
-      "\003(\0132\r.SegmentProto\"+\n\014SegmentProto\022\r\n\005in" +
-      "dex\030\001 \002(\005\022\014\n\004data\030\002 \002(\014\"(\n\nEntryProto\022\013\n" +
-      "\003key\030\001 \002(\t\022\r\n\005value\030\002 \002(\t\"(\n\010MapProto\022\034\n" +
-      "\007entries\030\001 \003(\0132\013.EntryProto\"5\n\rNamedMapP" +
-      "roto\022\014\n\004uuid\030\001 \002(\t\022\026\n\003map\030\002 \002(\0132\t.MapPro" +
-      "to\"\031\n\tListProto\022\014\n\004list\030\001 \003(\t\"7\n\016NamedLi" +
-      "stProto\022\014\n\004uuid\030\001 \002(\t\022\027\n\003map\030\002 \002(\0132\n.Lis" +
-      "tProto\"1\n\022CryptoContactProto\022\033\n\003map\030\001 \002(" +
-      "\0132\016.NamedMapProto\"\360\001\n\026SignatureMetadataP",
-      "roto\022\016\n\006handle\030\001 \002(\t\022\022\n\ncreated_on\030\002 \002(\004" +
-      "\022@\n\023signature_algorithm\030\003 \002(\0162#.Signatur" +
-      "eMetadataProto.SigAlgProto\022\030\n\020digest_alg" +
-      "orithm\030\004 \002(\t\022\023\n\013signed_with\030\005 \002(\t\022\021\n\tsig" +
-      "ned_by\030\006 \002(\t\".\n\013SigAlgProto\022\007\n\003RSA\020\000\022\t\n\005" +
-      "ECDSA\020\001\022\013\n\007ECKCDSA\020\002\"n\n\016SignatureProto\022%" +
-      "\n\004meta\030\001 \002(\0132\027.SignatureMetadataProto\022\n\n" +
-      "\002b0\030\002 \002(\014\022\n\n\002b1\030\003 \001(\014\022\035\n\tdata_refs\030\004 \002(\013" +
-      "2\n.ListProto\"\217\002\n\020KeyMetadataProto\022\016\n\006han" +
-      "dle\030\001 \002(\t\022\022\n\ncreated_on\030\002 \002(\004\022D\n\rencodin",
-      "g_hint\030\003 \002(\0162#.KeyMetadataProto.Encoding" +
-      "HintProto:\010RAWBYTES\022 \n\030key_generation_al" +
-      "gorithm\030\004 \002(\t\"o\n\021EncodingHintProto\022\016\n\nNO" +
-      "ENCODING\020\000\022\014\n\010RAWBYTES\020\001\022\t\n\005BASE2\020\002\022\n\n\006B" +
-      "ASE10\020\003\022\n\n\006BASE16\020\004\022\n\n\006BASE64\020\005\022\r\n\tBASE6" +
-      "4URL\020\006\"\205\001\n\022C2KeyContentsProto\022\037\n\004meta\030\001 " +
-      "\002(\0132\021.KeyMetadataProto\022\022\n\npublic_key\030\002 \002" +
-      "(\014\022\033\n\023signing_private_key\030\003 \001(\014\022\035\n\025agree" +
-      "ment_private_key\030\004 \001(\014\"\220\001\n\024CurveDefiniti" +
-      "onProto\0221\n\005field\030\001 \002(\0162\".CurveDefinition",
-      "Proto.ECFieldProto\022\014\n\004uuid\030\002 \002(\t\022\026\n\003map\030" +
-      "\003 \002(\0132\t.MapProto\"\037\n\014ECFieldProto\022\006\n\002FP\020\000" +
-      "\022\007\n\003F2M\020\001\"\220\001\n\022ECKeyContentsProto\022\037\n\004meta" +
-      "\030\001 \002(\0132\021.KeyMetadataProto\022\t\n\001Q\030\002 \002(\t\022\022\n\n" +
-      "curve_name\030\003 \001(\t\022/\n\020curve_definition\030\004 \001" +
-      "(\0132\025.CurveDefinitionProto\022\t\n\001d\030\005 \001(\014\"\266\001\n" +
-      "\023RSAKeyContentsProto\022\037\n\004meta\030\001 \002(\0132\021.Key" +
-      "MetadataProto\022\017\n\007Modulus\030\002 \002(\014\022\027\n\017public" +
-      "_exponent\030\003 \002(\014\022\030\n\020private_exponent\030\004 \001(" +
-      "\014\022\t\n\001p\030\005 \001(\014\022\t\n\001q\030\006 \001(\014\022\n\n\002dP\030\007 \001(\014\022\n\n\002d",
-      "Q\030\010 \001(\014\022\014\n\004qInv\030\t \001(\014\"\026\n\024NTRUKeyContents" +
-      "ProtoB$\n\031com.cryptoregistry.protos\200\001\000\210\001\000" +
-      "\220\001\000"
+      "(\014B\025\n\023server_key_contents\"!\n\020ServerReady" +
+      "Proto\022\r\n\005ready\030\001 \002(\010\"\310\001\n\022SecureMessagePr" +
+      "oto\0226\n\ninput_type\030\003 \001(\0162\".SecureMessageP",
+      "roto.InputTypeProto\022\017\n\007charset\030\004 \001(\t\022\n\n\002" +
+      "iv\030\005 \002(\014\022\037\n\010segments\030\006 \003(\0132\r.SegmentProt" +
+      "o\"<\n\016InputTypeProto\022\n\n\006STRING\020\000\022\016\n\nBYTE_" +
+      "ARRAY\020\001\022\016\n\nCHAR_ARRAY\020\002\"(\n\014SegmentProto\022" +
+      "\014\n\004data\030\001 \002(\014\022\n\n\002iv\030\002 \001(\014\"(\n\nEntryProto\022" +
+      "\013\n\003key\030\001 \002(\t\022\r\n\005value\030\002 \002(\t\"(\n\010MapProto\022" +
+      "\034\n\007entries\030\001 \003(\0132\013.EntryProto\"5\n\rNamedMa" +
+      "pProto\022\014\n\004uuid\030\001 \002(\t\022\026\n\003map\030\002 \002(\0132\t.MapP" +
+      "roto\"\031\n\tListProto\022\014\n\004list\030\001 \003(\t\"7\n\016Named" +
+      "ListProto\022\014\n\004uuid\030\001 \002(\t\022\027\n\003map\030\002 \002(\0132\n.L",
+      "istProto\"1\n\022CryptoContactProto\022\033\n\003map\030\001 " +
+      "\002(\0132\016.NamedMapProto\"\360\001\n\026SignatureMetadat" +
+      "aProto\022\016\n\006handle\030\001 \002(\t\022\022\n\ncreated_on\030\002 \002" +
+      "(\004\022@\n\023signature_algorithm\030\003 \002(\0162#.Signat" +
+      "ureMetadataProto.SigAlgProto\022\030\n\020digest_a" +
+      "lgorithm\030\004 \002(\t\022\023\n\013signed_with\030\005 \002(\t\022\021\n\ts" +
+      "igned_by\030\006 \002(\t\".\n\013SigAlgProto\022\007\n\003RSA\020\000\022\t" +
+      "\n\005ECDSA\020\001\022\013\n\007ECKCDSA\020\002\"n\n\016SignatureProto" +
+      "\022%\n\004meta\030\001 \002(\0132\027.SignatureMetadataProto\022" +
+      "\n\n\002b0\030\002 \002(\014\022\n\n\002b1\030\003 \001(\014\022\035\n\tdata_refs\030\004 \002",
+      "(\0132\n.ListProto\"\217\002\n\020KeyMetadataProto\022\016\n\006h" +
+      "andle\030\001 \002(\t\022\022\n\ncreated_on\030\002 \002(\004\022D\n\rencod" +
+      "ing_hint\030\003 \002(\0162#.KeyMetadataProto.Encodi" +
+      "ngHintProto:\010RAWBYTES\022 \n\030key_generation_" +
+      "algorithm\030\004 \002(\t\"o\n\021EncodingHintProto\022\016\n\n" +
+      "NOENCODING\020\000\022\014\n\010RAWBYTES\020\001\022\t\n\005BASE2\020\002\022\n\n" +
+      "\006BASE10\020\003\022\n\n\006BASE16\020\004\022\n\n\006BASE64\020\005\022\r\n\tBAS" +
+      "E64URL\020\006\"\205\001\n\022C2KeyContentsProto\022\037\n\004meta\030" +
+      "\001 \002(\0132\021.KeyMetadataProto\022\022\n\npublic_key\030\002" +
+      " \002(\014\022\033\n\023signing_private_key\030\003 \001(\014\022\035\n\025agr",
+      "eement_private_key\030\004 \001(\014\"\220\001\n\024CurveDefini" +
+      "tionProto\0221\n\005field\030\001 \002(\0162\".CurveDefiniti" +
+      "onProto.ECFieldProto\022\014\n\004uuid\030\002 \002(\t\022\026\n\003ma" +
+      "p\030\003 \002(\0132\t.MapProto\"\037\n\014ECFieldProto\022\006\n\002FP" +
+      "\020\000\022\007\n\003F2M\020\001\"\220\001\n\022ECKeyContentsProto\022\037\n\004me" +
+      "ta\030\001 \002(\0132\021.KeyMetadataProto\022\t\n\001Q\030\002 \002(\t\022\022" +
+      "\n\ncurve_name\030\003 \001(\t\022/\n\020curve_definition\030\004" +
+      " \001(\0132\025.CurveDefinitionProto\022\t\n\001d\030\005 \001(\014\"\266" +
+      "\001\n\023RSAKeyContentsProto\022\037\n\004meta\030\001 \002(\0132\021.K" +
+      "eyMetadataProto\022\017\n\007Modulus\030\002 \002(\014\022\027\n\017publ",
+      "ic_exponent\030\003 \002(\014\022\030\n\020private_exponent\030\004 " +
+      "\001(\014\022\t\n\001p\030\005 \001(\014\022\t\n\001q\030\006 \001(\014\022\n\n\002dP\030\007 \001(\014\022\n\n" +
+      "\002dQ\030\010 \001(\014\022\014\n\004qInv\030\t \001(\014\"\026\n\024NTRUKeyConten" +
+      "tsProtoB$\n\031com.cryptoregistry.protos\200\001\000\210" +
+      "\001\000\220\001\000"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -15469,111 +15318,105 @@ public final class Buttermilk {
     internal_static_HelloAckProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_HelloAckProto_descriptor,
-        new java.lang.String[] { "C2KeyContents", "EcKeyContents", "Rand32", "RandInt", "ServerKeyContents", });
-    internal_static_ClientReadyProto_descriptor =
-      getDescriptor().getMessageTypes().get(2);
-    internal_static_ClientReadyProto_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_ClientReadyProto_descriptor,
-        new java.lang.String[] { "ValidationBytes", });
+        new java.lang.String[] { "C2KeyContents", "EcKeyContents", "Rand32", "ServerKeyContents", });
     internal_static_ServerReadyProto_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(2);
     internal_static_ServerReadyProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ServerReadyProto_descriptor,
         new java.lang.String[] { "Ready", });
     internal_static_SecureMessageProto_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_SecureMessageProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_SecureMessageProto_descriptor,
-        new java.lang.String[] { "Segments", });
+        new java.lang.String[] { "InputType", "Charset", "Iv", "Segments", });
     internal_static_SegmentProto_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_SegmentProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_SegmentProto_descriptor,
-        new java.lang.String[] { "Index", "Data", });
+        new java.lang.String[] { "Data", "Iv", });
     internal_static_EntryProto_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_EntryProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_EntryProto_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_MapProto_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_MapProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_MapProto_descriptor,
         new java.lang.String[] { "Entries", });
     internal_static_NamedMapProto_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_NamedMapProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_NamedMapProto_descriptor,
         new java.lang.String[] { "Uuid", "Map", });
     internal_static_ListProto_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_ListProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ListProto_descriptor,
         new java.lang.String[] { "List", });
     internal_static_NamedListProto_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_NamedListProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_NamedListProto_descriptor,
         new java.lang.String[] { "Uuid", "Map", });
     internal_static_CryptoContactProto_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_CryptoContactProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_CryptoContactProto_descriptor,
         new java.lang.String[] { "Map", });
     internal_static_SignatureMetadataProto_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_SignatureMetadataProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_SignatureMetadataProto_descriptor,
         new java.lang.String[] { "Handle", "CreatedOn", "SignatureAlgorithm", "DigestAlgorithm", "SignedWith", "SignedBy", });
     internal_static_SignatureProto_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_SignatureProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_SignatureProto_descriptor,
         new java.lang.String[] { "Meta", "B0", "B1", "DataRefs", });
     internal_static_KeyMetadataProto_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_KeyMetadataProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_KeyMetadataProto_descriptor,
         new java.lang.String[] { "Handle", "CreatedOn", "EncodingHint", "KeyGenerationAlgorithm", });
     internal_static_C2KeyContentsProto_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_C2KeyContentsProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_C2KeyContentsProto_descriptor,
         new java.lang.String[] { "Meta", "PublicKey", "SigningPrivateKey", "AgreementPrivateKey", });
     internal_static_CurveDefinitionProto_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_CurveDefinitionProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_CurveDefinitionProto_descriptor,
         new java.lang.String[] { "Field", "Uuid", "Map", });
     internal_static_ECKeyContentsProto_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_ECKeyContentsProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ECKeyContentsProto_descriptor,
         new java.lang.String[] { "Meta", "Q", "CurveName", "CurveDefinition", "D", });
     internal_static_RSAKeyContentsProto_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_RSAKeyContentsProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_RSAKeyContentsProto_descriptor,
         new java.lang.String[] { "Meta", "Modulus", "PublicExponent", "PrivateExponent", "P", "Q", "DP", "DQ", "QInv", });
     internal_static_NTRUKeyContentsProto_descriptor =
-      getDescriptor().getMessageTypes().get(19);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_NTRUKeyContentsProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_NTRUKeyContentsProto_descriptor,
