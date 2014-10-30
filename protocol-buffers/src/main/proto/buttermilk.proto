@@ -40,9 +40,9 @@ message SecureMessageProto {
 	   	BYTE_ARRAY = 1;
 	   	CHAR_ARRAY = 2;
 	}
-  optional InputTypeProto input_type = 3;
+  required InputTypeProto input_type = 3;
   optional string charset = 4;
-  required bytes iv = 5;
+  required bytes iv = 5; // if set, applies to all segments in this message
   repeated SegmentProto segments = 6;
   
 }

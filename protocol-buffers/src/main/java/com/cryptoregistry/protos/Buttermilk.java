@@ -2169,11 +2169,11 @@ public final class Buttermilk {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional .SecureMessageProto.InputTypeProto input_type = 3;</code>
+     * <code>required .SecureMessageProto.InputTypeProto input_type = 3;</code>
      */
     boolean hasInputType();
     /**
-     * <code>optional .SecureMessageProto.InputTypeProto input_type = 3;</code>
+     * <code>required .SecureMessageProto.InputTypeProto input_type = 3;</code>
      */
     com.cryptoregistry.protos.Buttermilk.SecureMessageProto.InputTypeProto getInputType();
 
@@ -2193,10 +2193,18 @@ public final class Buttermilk {
 
     /**
      * <code>required bytes iv = 5;</code>
+     *
+     * <pre>
+     * if set, applies to all segments in this message
+     * </pre>
      */
     boolean hasIv();
     /**
      * <code>required bytes iv = 5;</code>
+     *
+     * <pre>
+     * if set, applies to all segments in this message
+     * </pre>
      */
     com.google.protobuf.ByteString getIv();
 
@@ -2447,13 +2455,13 @@ public final class Buttermilk {
     public static final int INPUT_TYPE_FIELD_NUMBER = 3;
     private com.cryptoregistry.protos.Buttermilk.SecureMessageProto.InputTypeProto inputType_;
     /**
-     * <code>optional .SecureMessageProto.InputTypeProto input_type = 3;</code>
+     * <code>required .SecureMessageProto.InputTypeProto input_type = 3;</code>
      */
     public boolean hasInputType() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional .SecureMessageProto.InputTypeProto input_type = 3;</code>
+     * <code>required .SecureMessageProto.InputTypeProto input_type = 3;</code>
      */
     public com.cryptoregistry.protos.Buttermilk.SecureMessageProto.InputTypeProto getInputType() {
       return inputType_;
@@ -2505,12 +2513,20 @@ public final class Buttermilk {
     private com.google.protobuf.ByteString iv_;
     /**
      * <code>required bytes iv = 5;</code>
+     *
+     * <pre>
+     * if set, applies to all segments in this message
+     * </pre>
      */
     public boolean hasIv() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>required bytes iv = 5;</code>
+     *
+     * <pre>
+     * if set, applies to all segments in this message
+     * </pre>
      */
     public com.google.protobuf.ByteString getIv() {
       return iv_;
@@ -2563,6 +2579,10 @@ public final class Buttermilk {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
+      if (!hasInputType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       if (!hasIv()) {
         memoizedIsInitialized = 0;
         return false;
@@ -2854,6 +2874,10 @@ public final class Buttermilk {
       }
 
       public final boolean isInitialized() {
+        if (!hasInputType()) {
+          
+          return false;
+        }
         if (!hasIv()) {
           
           return false;
@@ -2888,19 +2912,19 @@ public final class Buttermilk {
 
       private com.cryptoregistry.protos.Buttermilk.SecureMessageProto.InputTypeProto inputType_ = com.cryptoregistry.protos.Buttermilk.SecureMessageProto.InputTypeProto.STRING;
       /**
-       * <code>optional .SecureMessageProto.InputTypeProto input_type = 3;</code>
+       * <code>required .SecureMessageProto.InputTypeProto input_type = 3;</code>
        */
       public boolean hasInputType() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional .SecureMessageProto.InputTypeProto input_type = 3;</code>
+       * <code>required .SecureMessageProto.InputTypeProto input_type = 3;</code>
        */
       public com.cryptoregistry.protos.Buttermilk.SecureMessageProto.InputTypeProto getInputType() {
         return inputType_;
       }
       /**
-       * <code>optional .SecureMessageProto.InputTypeProto input_type = 3;</code>
+       * <code>required .SecureMessageProto.InputTypeProto input_type = 3;</code>
        */
       public Builder setInputType(com.cryptoregistry.protos.Buttermilk.SecureMessageProto.InputTypeProto value) {
         if (value == null) {
@@ -2912,7 +2936,7 @@ public final class Buttermilk {
         return this;
       }
       /**
-       * <code>optional .SecureMessageProto.InputTypeProto input_type = 3;</code>
+       * <code>required .SecureMessageProto.InputTypeProto input_type = 3;</code>
        */
       public Builder clearInputType() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -3000,18 +3024,30 @@ public final class Buttermilk {
       private com.google.protobuf.ByteString iv_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>required bytes iv = 5;</code>
+       *
+       * <pre>
+       * if set, applies to all segments in this message
+       * </pre>
        */
       public boolean hasIv() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>required bytes iv = 5;</code>
+       *
+       * <pre>
+       * if set, applies to all segments in this message
+       * </pre>
        */
       public com.google.protobuf.ByteString getIv() {
         return iv_;
       }
       /**
        * <code>required bytes iv = 5;</code>
+       *
+       * <pre>
+       * if set, applies to all segments in this message
+       * </pre>
        */
       public Builder setIv(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -3024,6 +3060,10 @@ public final class Buttermilk {
       }
       /**
        * <code>required bytes iv = 5;</code>
+       *
+       * <pre>
+       * if set, applies to all segments in this message
+       * </pre>
        */
       public Builder clearIv() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -15248,7 +15288,7 @@ public final class Buttermilk {
       "\001(\0132\023.ECKeyContentsProtoH\000\022\016\n\006rand32\030\003 \002" +
       "(\014B\025\n\023server_key_contents\"!\n\020ServerReady" +
       "Proto\022\r\n\005ready\030\001 \002(\010\"\310\001\n\022SecureMessagePr" +
-      "oto\0226\n\ninput_type\030\003 \001(\0162\".SecureMessageP",
+      "oto\0226\n\ninput_type\030\003 \002(\0162\".SecureMessageP",
       "roto.InputTypeProto\022\017\n\007charset\030\004 \001(\t\022\n\n\002" +
       "iv\030\005 \002(\014\022\037\n\010segments\030\006 \003(\0132\r.SegmentProt" +
       "o\"<\n\016InputTypeProto\022\n\n\006STRING\020\000\022\016\n\nBYTE_" +
