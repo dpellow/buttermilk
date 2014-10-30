@@ -1,3 +1,8 @@
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2014 David R. Smith All Rights Reserved.
+ *
+ */
 package com.cryptoregistry.btls;
 
 import java.io.IOException;
@@ -10,6 +15,12 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
 
+/**
+ * A secure socket using contemporary techniques
+ * 
+ * @author Dave
+ *
+ */
 public class BTLSServerSocket extends ServerSocket {
 
 	Lock lock = new ReentrantLock();
