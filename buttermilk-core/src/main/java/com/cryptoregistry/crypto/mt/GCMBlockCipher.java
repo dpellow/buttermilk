@@ -20,7 +20,9 @@ import x.org.bouncycastle.crypto.util.Pack;
 import x.org.bouncycastle.util.Arrays;
 
 /**
- * Implements the Galois/Counter mode (GCM) detailed in NIST Special Publication 800-38D. This is straight from BC.
+ * Implements the Galois/Counter mode (GCM) detailed in NIST Special Publication 800-38D. This is straight from BC, 
+ * just copied in for convenience.
+ * 
  */
 public class GCMBlockCipher {
 	

@@ -1,13 +1,8 @@
 package com.cryptoregistry.crypto.mt;
 
 import java.security.SecureRandom;
-import java.util.List;
-import java.util.concurrent.Future;
-
 import junit.framework.Assert;
-
 import org.junit.Test;
-
 
 public class AESTest {
 	
@@ -29,28 +24,140 @@ public class AESTest {
 	@Test
 	public void test3() {
 		String s = "abcdefghijklmnopqrstuvwxyz";
-		LargeMessage msg = new LargeMessage(s);
+		SecureMessage msg = new SecureMessage(s);
 		Assert.assertEquals(9, msg.count());
 	}
 	
 	
 	@Test
-	public void test2() {
+	public void testSmallerMessage() {
 		
 		SecureRandom rand = new SecureRandom();
 		byte [] key = new byte[32];
-		byte [] exampleData = new byte[1048576*8*10]; // 1 megabyte * 8 * 10 = 80MB
+		byte [] exampleData = new byte[1024]; // 1kb 
 		rand.nextBytes(key);
 		rand.nextBytes(exampleData);
 		
 		init_t();
-		t("start MT");
-		LargeMessage msg = new LargeMessage(exampleData);
-		LargeMessageService service = new LargeMessageService(key,msg);
+		t("start MT = 1KB message");
+		SecureMessage msg = new SecureMessage(exampleData);
+		SecureMessageService service = new SecureMessageService(key,msg);
 		service.encrypt();
 		t("encrypt complete");
 		msg.rotate();
-		service = new LargeMessageService(key,msg);
+		service = new SecureMessageService(key,msg);
+		service.decrypt();
+		t("decrypt complete");
+		Assert.assertTrue(test_equal(exampleData,msg.byteResult()));
+		
+		// now try as a single thread
+		
+		init_t();
+		t("start ST");
+		
+		byte [] iv = new byte[16];
+		rand.nextBytes(iv);
+		Segment seg0 = new Segment(exampleData);
+		Encryptor enc = new Encryptor(key,iv,seg0);
+		try {
+			enc.call();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		t("encrypt complete");
+		
+		seg0.rotate();
+		
+		Decryptor de = new Decryptor(key,iv,seg0);
+		try {
+			de.call();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		t("encrypt complete");
+		
+		Assert.assertTrue(test_equal(exampleData,seg0.getOutput()));
+		
+	}
+	
+	
+	@Test
+	public void testMediumMessage() {
+		
+		SecureRandom rand = new SecureRandom();
+		byte [] key = new byte[32];
+		byte [] exampleData = new byte[1048576]; // 1 megabyte 
+		rand.nextBytes(key);
+		rand.nextBytes(exampleData);
+		
+		init_t();
+		t("start MT - 1MB message");
+		SecureMessage msg = new SecureMessage(exampleData);
+		SecureMessageService service = new SecureMessageService(key,msg);
+		service.encrypt();
+		t("encrypt complete");
+		msg.rotate();
+		service = new SecureMessageService(key,msg);
+		service.decrypt();
+		t("decrypt complete");
+		Assert.assertTrue(test_equal(exampleData,msg.byteResult()));
+		
+		// now try as a single thread
+		
+		init_t();
+		t("start ST");
+		
+		byte [] iv = new byte[16];
+		rand.nextBytes(iv);
+		Segment seg0 = new Segment(exampleData);
+		Encryptor enc = new Encryptor(key,iv,seg0);
+		try {
+			enc.call();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		t("encrypt complete");
+		
+		seg0.rotate();
+		
+		Decryptor de = new Decryptor(key,iv,seg0);
+		try {
+			de.call();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		t("encrypt complete");
+		
+		Assert.assertTrue(test_equal(exampleData,seg0.getOutput()));
+		
+	}
+	
+	
+	@Test
+	public void testLargerMessage() {
+		
+		SecureRandom rand = new SecureRandom();
+		byte [] key = new byte[32];
+		byte [] exampleData = new byte[1048576*100]; // 1 megabyte * 100 = 100MB
+		rand.nextBytes(key);
+		rand.nextBytes(exampleData);
+		
+		init_t();
+		t("start MT - 100MB message");
+		SecureMessage msg = new SecureMessage(exampleData);
+		SecureMessageService service = new SecureMessageService(key,msg);
+		service.encrypt();
+		t("encrypt complete");
+		msg.rotate();
+		service = new SecureMessageService(key,msg);
 		service.decrypt();
 		t("decrypt complete");
 		Assert.assertTrue(test_equal(exampleData,msg.byteResult()));

@@ -1,15 +1,15 @@
 package com.cryptoregistry.crypto.mt;
 
-public class LargeMessageService extends AESService {
+public class SecureMessageService extends AESService {
 
-	LargeMessage msg;
+	SecureMessage msg;
 	
-	public LargeMessageService(byte[] key, LargeMessage message) {
+	public SecureMessageService(byte[] key, SecureMessage message) {
 		super(key, message.getHeader().iv);
 		msg = message;
 	}
 
-	public LargeMessageService(int poolSize, byte[] key, LargeMessage message) {
+	public SecureMessageService(int poolSize, byte[] key, SecureMessage message) {
 		super(poolSize, key, message.getHeader().iv);
 		msg = message;
 	}

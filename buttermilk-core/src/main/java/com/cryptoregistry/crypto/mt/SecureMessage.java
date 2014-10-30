@@ -10,43 +10,57 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * The concept is to break up a larger message into roughly equal pieces and encrypt these pieces separately on different
- * threads. They are then sent over the socket and reconstructed into a whole (decrypted, etc) on the other side. 
- * 
- * The definition of "Large" is actually rather precise - a "Large" message is one we can process faster with 
- * multiple threads than we can with one thread. The exact size of such a message is machine dependent and best
- * determined by experimentation.
+ * The concept is to break up a larger raw message into roughly equal pieces and encrypt these pieces separately 
+ * on different threads. This allows us to take better advantage of contemporary multi-core processors.
  * 
  * @author Dave
+ * 
+ * @see SecureMessageService
  *
  */
-public class LargeMessage {
+public class SecureMessage {
 	
-	private final int CORE_COUNT = Runtime.getRuntime().availableProcessors(); // not static so we can adjust cores dynamically, e.g. with VMWare
+	private final int CORE_COUNT = Runtime.getRuntime().availableProcessors(); // not static so we can adjust cores dynamically, e.g. when using VMWare or similar platform 
 
 	private static final SecureRandom rand = new SecureRandom();
 	
-	final LargeMessageHeader header;
+	final SecureMessageHeader header;
 	final List<Segment> segments;
 	
 	// assume UTF-8
-	public LargeMessage(String str) {
+	public SecureMessage(String str) {
 		segments = new ArrayList<Segment>();
 		createSegments(CORE_COUNT,str.getBytes(StandardCharsets.UTF_8));
 		byte [] ivBytes = new byte[16];
 		rand.nextBytes(ivBytes);
-		header = new LargeMessageHeader(InputType.STRING,StandardCharsets.UTF_8,ivBytes);
+		header = new SecureMessageHeader(InputType.STRING,StandardCharsets.UTF_8,ivBytes);
 	}
 	
-	public LargeMessage(String str, Charset charset) {
+	public SecureMessage(String str, Charset charset) {
 		segments = new ArrayList<Segment>();
 		createSegments(CORE_COUNT,str.getBytes(charset));
 		byte [] ivBytes = new byte[16];
 		rand.nextBytes(ivBytes);
-		header = new LargeMessageHeader(InputType.STRING,charset,ivBytes);
+		header = new SecureMessageHeader(InputType.STRING,charset,ivBytes);
 	}
 	
-	public LargeMessage(char [] input) {
+	/**
+	 * This constructor exists mainly to allow for single-threaded processing for small messages. Just
+	 * set the threads value to 1. 
+	 * @param threads
+	 * @param str
+	 * @param charset
+	 */
+	public SecureMessage(int threads, String str, Charset charset) {
+		if(threads < 1 || threads > 256) throw new RuntimeException("Huh?");
+		segments = new ArrayList<Segment>();
+		createSegments(threads,str.getBytes(charset));
+		byte [] ivBytes = new byte[16];
+		rand.nextBytes(ivBytes);
+		header = new SecureMessageHeader(InputType.STRING,charset,ivBytes);
+	}
+	
+	public SecureMessage(char [] input) {
 		segments = new ArrayList<Segment>();
 		CharBuffer charBuffer = CharBuffer.wrap(input);
 		ByteBuffer byteBuffer = Charset.forName("UTF-8").encode(charBuffer);
@@ -54,18 +68,27 @@ public class LargeMessage {
 		createSegments(CORE_COUNT,bytes);
 		byte [] ivBytes = new byte[16];
 		rand.nextBytes(ivBytes);
-		header = new LargeMessageHeader(InputType.CHAR_ARRAY,null,ivBytes);
+		header = new SecureMessageHeader(InputType.CHAR_ARRAY,null,ivBytes);
 	}
 	
-	public LargeMessage(byte [] input) {
+	public SecureMessage(byte [] input) {
 		segments = new ArrayList<Segment>();
 		createSegments(CORE_COUNT,input);
 		byte [] ivBytes = new byte[16];
 		rand.nextBytes(ivBytes);
-		header = new LargeMessageHeader(InputType.BYTE_ARRAY,null,ivBytes);
+		header = new SecureMessageHeader(InputType.BYTE_ARRAY,null,ivBytes);
 	}
 	
-	public LargeMessage(LargeMessageHeader header, List<Segment> segments) {
+	public SecureMessage(int threads, byte [] input) {
+		if(threads < 1 || threads > 256) throw new RuntimeException("Huh?");
+		segments = new ArrayList<Segment>();
+		createSegments(threads,input);
+		byte [] ivBytes = new byte[16];
+		rand.nextBytes(ivBytes);
+		header = new SecureMessageHeader(InputType.BYTE_ARRAY,null,ivBytes);
+	}
+	
+	public SecureMessage(SecureMessageHeader header, List<Segment> segments) {
 		this.segments = segments;
 		this.header = header;
 	}
@@ -74,7 +97,7 @@ public class LargeMessage {
 		return segments.size();
 	}
 	
-	enum InputType {
+	public enum InputType {
 		STRING,CHAR_ARRAY,BYTE_ARRAY;
 	}
 	
@@ -107,7 +130,7 @@ public class LargeMessage {
 		return segments;
 	}
 
-	public LargeMessageHeader getHeader() {
+	public SecureMessageHeader getHeader() {
 		return header;
 	}
 	
@@ -123,6 +146,16 @@ public class LargeMessage {
 			size+=s.getOutput().length;
 		}
 		return size;
+	}
+	
+	public Object result() {
+		if(header.type == InputType.STRING){
+			return stringResult();
+		}else if(header.type == InputType.BYTE_ARRAY){
+			return this.byteResult();
+		}
+		// TODO char array
+		return null;
 	}
 	
 	/**
