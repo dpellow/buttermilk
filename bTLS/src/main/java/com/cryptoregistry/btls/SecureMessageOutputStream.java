@@ -6,16 +6,16 @@
 package com.cryptoregistry.btls;
 
 import java.io.FilterOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
+import org.apache.log4j.Logger;
+
 import com.cryptoregistry.crypto.mt.SecureMessage;
 import com.cryptoregistry.crypto.mt.SecureMessageService;
 import com.cryptoregistry.passwords.SensitiveBytes;
-import com.cryptoregistry.proto.builder.SecureMessageProtoBuilder;
-import com.cryptoregistry.protos.Buttermilk.SecureMessageProto;
+import com.cryptoregistry.proto.frame.SecureMessageOutputFrame;
 
 /**
  * Secure and write messages to the stream. 
@@ -24,6 +24,8 @@ import com.cryptoregistry.protos.Buttermilk.SecureMessageProto;
  *
  */
 public class SecureMessageOutputStream extends FilterOutputStream {
+	
+	private static final Logger log = Logger.getLogger("com.cryptography.btls.SecureMessageOutputStream");
 	
 	// symmetric key
 	SensitiveBytes key;
@@ -48,21 +50,14 @@ public class SecureMessageOutputStream extends FilterOutputStream {
 			// break into multiple segments
 			sm = new SecureMessage(input,charset);
 		}else{
-			//constrain to one segment, which means one thread
+			//for small stuff, constrain to one segment, which means one thread
 			sm = new SecureMessage(1,input,charset);
 		}
 		
 		SecureMessageService service = new SecureMessageService(key.getData(),sm);
 		service.encrypt();
-		SecureMessageProtoBuilder builder = new SecureMessageProtoBuilder(sm);
-		SecureMessageProto proto = builder.build();
-		try {
-			proto.writeTo(out);
-			out.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
+		SecureMessageOutputFrame frame = new SecureMessageOutputFrame(sm);
+		frame.writeFrame(out);
 	}
 	
 	public void submit(byte [] input){
@@ -78,14 +73,8 @@ public class SecureMessageOutputStream extends FilterOutputStream {
 		
 		SecureMessageService service = new SecureMessageService(key.getData(),sm);
 		service.encrypt();
-		SecureMessageProtoBuilder builder = new SecureMessageProtoBuilder(sm);
-		SecureMessageProto proto = builder.build();
-		try {
-			proto.writeTo(out);
-			out.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		SecureMessageOutputFrame frame = new SecureMessageOutputFrame(sm);
+		frame.writeFrame(out);
 	}
 
 	public int getThreshhold() {
@@ -95,6 +84,23 @@ public class SecureMessageOutputStream extends FilterOutputStream {
 	public void setThreshhold(int threshhold) {
 		if(threshhold < 0) return;
 		this.threshhold = threshhold;
+	}
+	
+	@Override
+	public void write(int b){
+		throw new UnsupportedOperationException("Not a supported method");
+	}
+	
+	@Override
+	public void write(byte [] b){
+		submit(b);
+	}
+	
+	@Override
+	public void write(byte[]b, int off, int len){
+		byte [] holder = new byte[len-off];
+		System.arraycopy(b, 0, holder, 0, len-off);
+		submit(holder);
 	}
 
 }

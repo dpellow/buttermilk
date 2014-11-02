@@ -9,13 +9,16 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.apache.log4j.Logger;
+
 import com.cryptoregistry.crypto.mt.SecureMessage;
 import com.cryptoregistry.crypto.mt.SecureMessageService;
 import com.cryptoregistry.passwords.SensitiveBytes;
-import com.cryptoregistry.proto.reader.SecureMessageProtoReader;
-import com.cryptoregistry.protos.Buttermilk.SecureMessageProto;
+import com.cryptoregistry.proto.frame.InputFrameReader;
 
 public class SecureMessageInputStream extends FilterInputStream {
+
+	private static final Logger log = Logger.getLogger("com.cryptography.btls.SecureMessageInputStream");
 	
 	// symmetric key
 	SensitiveBytes key;
@@ -25,14 +28,25 @@ public class SecureMessageInputStream extends FilterInputStream {
 		this.key = key;
 	}
 
-	// will return a String, char array or byte array based on the encapsulated input hint
-	public Object readSecureMessage() throws IOException {
-			SecureMessageProto proto = SecureMessageProto.parseFrom(in);
-			SecureMessageProtoReader reader = new SecureMessageProtoReader(proto);
-			SecureMessage msg = reader.read();
-			SecureMessageService service = new SecureMessageService(key.getData(),msg);
-			service.decrypt();
-			return msg.result();
+	public byte[] readSecureMessage() throws IOException {
+		log.trace("reading secure message");
+		InputFrameReader reader = new InputFrameReader();
+		SecureMessage sm = reader.readSecureMessage(in);
+		//sm.rotate();
+		SecureMessageService srv = new SecureMessageService(key.getData(), sm);
+		srv.decrypt();
+		return sm.byteResult();
 	}
+
+	public String readSecureMessageAsUTF8String() throws IOException {
+		InputFrameReader reader = new InputFrameReader();
+		SecureMessage sm = reader.readSecureMessage(in);
+		//sm.rotate();
+		SecureMessageService srv = new SecureMessageService(key.getData(), sm);
+		srv.decrypt();
+		return sm.stringResult();
+	}
+	
+	
 
 }

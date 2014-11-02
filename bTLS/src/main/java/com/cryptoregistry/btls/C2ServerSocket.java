@@ -13,6 +13,8 @@ import java.security.SecureRandom;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.apache.log4j.Logger;
+
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
 
 /**
@@ -21,41 +23,44 @@ import com.cryptoregistry.c2.key.Curve25519KeyContents;
  * @author Dave
  *
  */
-public class BTLSServerSocket extends ServerSocket {
+public class C2ServerSocket extends ServerSocket {
 
+	private static final Logger log = Logger.getLogger("com.cryptography.btls.C2ServerSocket");
+	
 	Lock lock = new ReentrantLock();
 	Curve25519KeyContents serverKey;
 	
 	SecureRandom rand = new SecureRandom();
 
-	public BTLSServerSocket() throws IOException {
+	public C2ServerSocket(Curve25519KeyContents serverKey) throws IOException {
 		super();
-		serverKey = Configuration.CONFIG.serverKey();
+		this.serverKey=serverKey;
 	}
 
-	public BTLSServerSocket(int port) throws IOException {
+	public C2ServerSocket(Curve25519KeyContents serverKey, int port) throws IOException {
 		super(port);
-		serverKey = Configuration.CONFIG.serverKey();
+		this.serverKey=serverKey;
 	}
 
-	public BTLSServerSocket(int arg0, int arg1) throws IOException {
+	public C2ServerSocket(Curve25519KeyContents serverKey, int arg0, int arg1) throws IOException {
 		super(arg0, arg1);
-		serverKey = Configuration.CONFIG.serverKey();
+		this.serverKey=serverKey;
 	}
 
-	public BTLSServerSocket(int arg0, int arg1, InetAddress arg2)
+	public C2ServerSocket(Curve25519KeyContents serverKey, int arg0, int arg1, InetAddress arg2)
 			throws IOException {
 		super(arg0, arg1, arg2);
-		serverKey = Configuration.CONFIG.serverKey();
+		this.serverKey=serverKey;
 	}
 
 	/**
-	 * Performs the server-side handshake prior to returning - blocks
+	 * Performs the server-side handshake prior to returning a C2Socket
 	 */
 	public Socket accept() throws IOException {
+		log.trace("entering accept");
 		byte [] randBytes = new byte[32];
 		rand.nextBytes(randBytes);
-		BTLSSocket s = new BTLSSocket(serverKey, randBytes);
+		C2Socket s = new C2Socket(serverKey, randBytes);
 		implAccept(s);
 		s.serversHandshake();
 		return s;
