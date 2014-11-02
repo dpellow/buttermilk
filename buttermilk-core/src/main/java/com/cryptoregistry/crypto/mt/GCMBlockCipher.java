@@ -5,6 +5,11 @@
  */
 package com.cryptoregistry.crypto.mt;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+import com.cryptoregistry.util.StopWatch;
+
 import x.org.bouncycastle.crypto.BlockCipher;
 import x.org.bouncycastle.crypto.DataLengthException;
 import x.org.bouncycastle.crypto.InvalidCipherTextException;
@@ -26,6 +31,10 @@ import x.org.bouncycastle.util.Arrays;
  */
 public class GCMBlockCipher {
 	
+	
+	static Lock lock = new ReentrantLock();
+	
+	public static final String gcm_stopwatch = "com.cryptoregistry.crypto.mt.GCMBlockCipher.init";
 	private static final int BLOCK_SIZE = 16;
 
 	final BlockCipher cipher;
@@ -66,12 +75,20 @@ public class GCMBlockCipher {
 	}
 	
 	public static GCMBlockCipher aesgcm(boolean forEncryption, ParametersWithIV param){
-		return new GCMBlockCipher(
+		lock.lock();
+		try {
+		StopWatch.INSTANCE.start(gcm_stopwatch);
+		GCMBlockCipher cipher = new GCMBlockCipher(
 				new AESFastEngine(), 
 				new Tables8kGCMMultiplier(), 
 				new Tables1kGCMExponentiator(), 
 				forEncryption, 
 				param);
+		StopWatch.INSTANCE.stop(gcm_stopwatch);
+		return cipher;
+		}finally{
+			lock.unlock();
+		}
 	}
 
 

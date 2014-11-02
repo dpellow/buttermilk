@@ -1,8 +1,15 @@
 package com.cryptoregistry.crypto.mt;
 
 import java.security.SecureRandom;
+
 import junit.framework.Assert;
+
 import org.junit.Test;
+
+import x.org.bouncycastle.crypto.params.KeyParameter;
+import x.org.bouncycastle.crypto.params.ParametersWithIV;
+
+import com.cryptoregistry.util.StopWatch;
 
 public class AESTest {
 	
@@ -342,6 +349,99 @@ public class AESTest {
 			}
 		}
 		return true;
+	}
+	
+	@Test
+	public void testrun0() {
+		
+		StopWatch.INSTANCE.on();
+		
+		SecureRandom rand = new SecureRandom();
+		byte [] key = new byte[32];
+		byte [] iv = new byte[16];
+		byte [] exampleData = new byte[1024]; // 1kb 
+		rand.nextBytes(key);
+		rand.nextBytes(iv);
+		rand.nextBytes(exampleData);
+		
+		
+		ParametersWithIV param = new ParametersWithIV(new KeyParameter(key, 0, key.length), iv, 0, iv.length);
+		GCMBlockCipher gcm = GCMBlockCipher.aesgcm(true, param);
+		StopWatch.INSTANCE.print(GCMBlockCipher.gcm_stopwatch);
+		StopWatch.INSTANCE.find(GCMBlockCipher.gcm_stopwatch).clear();
+		
+		for(int i = 0; i<10;i++){
+			SecureMessage msg = new SecureMessage(exampleData);
+			SecureMessageService service = new SecureMessageService(key,msg);
+			service.encrypt();
+			msg.rotate();
+			service = new SecureMessageService(key,msg);
+			service.decrypt();
+			Assert.assertTrue(test_equal(exampleData,msg.byteResult()));
+		}
+		
+		StopWatch.INSTANCE.printAll();
+		
+		exampleData = new byte[1024*10]; // 100kb 
+		rand.nextBytes(exampleData);
+		
+		for(int i = 0; i<10;i++){
+			SecureMessage msg = new SecureMessage(exampleData);
+			SecureMessageService service = new SecureMessageService(key,msg);
+			service.encrypt();
+			msg.rotate();
+			service = new SecureMessageService(key,msg);
+			service.decrypt();
+			Assert.assertTrue(test_equal(exampleData,msg.byteResult()));
+		}
+		
+		StopWatch.INSTANCE.printAll();
+		
+		exampleData = new byte[1024*100]; // 1MB 
+		rand.nextBytes(exampleData);
+		
+		for(int i = 0; i<10;i++){
+			SecureMessage msg = new SecureMessage(exampleData);
+			SecureMessageService service = new SecureMessageService(key,msg);
+			service.encrypt();
+			msg.rotate();
+			service = new SecureMessageService(key,msg);
+			service.decrypt();
+			Assert.assertTrue(test_equal(exampleData,msg.byteResult()));
+		}
+		
+		StopWatch.INSTANCE.printAll();
+		
+		exampleData = new byte[1024*1000]; // 10MB 
+		rand.nextBytes(exampleData);
+		
+		for(int i = 0; i<10;i++){
+			SecureMessage msg = new SecureMessage(exampleData);
+			SecureMessageService service = new SecureMessageService(key,msg);
+			service.encrypt();
+			msg.rotate();
+			service = new SecureMessageService(key,msg);
+			service.decrypt();
+			Assert.assertTrue(test_equal(exampleData,msg.byteResult()));
+		}
+		
+		StopWatch.INSTANCE.printAll();
+		
+		exampleData = new byte[1024*10000]; // 100MB 
+		rand.nextBytes(exampleData);
+		
+		for(int i = 0; i<10;i++){
+			SecureMessage msg = new SecureMessage(exampleData);
+			SecureMessageService service = new SecureMessageService(key,msg);
+			service.encrypt();
+			msg.rotate();
+			service = new SecureMessageService(key,msg);
+			service.decrypt();
+			Assert.assertTrue(test_equal(exampleData,msg.byteResult()));
+		}
+		
+		StopWatch.INSTANCE.printAll();
+		
 	}
 
 }

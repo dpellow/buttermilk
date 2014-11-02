@@ -58,9 +58,7 @@ public class C2ServerSocket extends ServerSocket {
 	 */
 	public Socket accept() throws IOException {
 		log.trace("entering accept");
-		byte [] randBytes = new byte[32];
-		rand.nextBytes(randBytes);
-		C2Socket s = new C2Socket(serverKey, randBytes);
+		C2Socket s = new C2Socket(serverKey);
 		implAccept(s);
 		s.serversHandshake();
 		return s;

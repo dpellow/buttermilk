@@ -116,6 +116,11 @@ public class Microbenchmark {
 		String format = "----------------------\n%s\nMin: %dms\nMax: %dms\nAvg: %.2fms\n----------------------";
 		return String.format(format, name, min(), max(), avg());
 	}
+	
+	public String tabular() {
+		String format = "%s\tMin: %dms\tMax: %dms\tAvg: %.2fms";
+		return String.format(format, name, min(), max(), avg());
+	}
 
 	public int getMaxDepth() {
 		return maxDepth;

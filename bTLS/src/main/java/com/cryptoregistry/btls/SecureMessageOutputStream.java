@@ -49,9 +49,11 @@ public class SecureMessageOutputStream extends FilterOutputStream {
 		if(bytes.length>threshhold){
 			// break into multiple segments
 			sm = new SecureMessage(input,charset);
+			log.trace("using multiple segments: "+sm.count());
 		}else{
 			//for small stuff, constrain to one segment, which means one thread
 			sm = new SecureMessage(1,input,charset);
+			log.trace("using one segment: "+sm.count());
 		}
 		
 		SecureMessageService service = new SecureMessageService(key.getData(),sm);

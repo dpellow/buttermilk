@@ -3,7 +3,9 @@ option cc_generic_services = false;
 option java_generic_services = false;
 option py_generic_services = false;
 
-message SecureBytesProto {
+
+message SecureMessageProto {
+  required int32 code = 1;
   required bytes iv = 1;
   repeated BytesProto segments = 2;
 }
@@ -12,29 +14,36 @@ message BytesProto {
 	required bytes data = 1;
 }
 
+// message code 1 = raw bytes
+
+// message code 2
+message MapProto {
+	repeated EntryProto entries = 1;
+}
+
 message EntryProto {
 	required string key = 1;
 	required string value = 2;
 }
 
-message MapProto {
-	repeated EntryProto entries = 1;
-}
-
+// message code 3
 message NamedMapProto {
 	required string uuid = 1;
 	required MapProto map = 2;
 }
 
+// message code 4
 message ListProto {
   repeated string list = 1;
 }
 
+// message code 5
 message NamedListProto {
   required string uuid = 1;
   required ListProto map = 2;
 }
 
+//message code 6
 message CryptoContactProto {
   required NamedMapProto map = 1;
 }
@@ -54,7 +63,7 @@ message SignatureMetadataProto {
   required string signed_by = 6; // uuid from signer registration
 }
 
-// one size fits all
+// message code 7
 message SignatureProto {
 	required SignatureMetadataProto meta = 1;
 	required bytes b0 = 2;
@@ -79,6 +88,7 @@ message KeyMetadataProto {
 	required string key_generation_algorithm = 4;
 }
 
+// message code 7
 message C2KeyContentsProto {
 	required KeyMetadataProto meta = 1;
 	required bytes public_key = 2;
@@ -86,6 +96,7 @@ message C2KeyContentsProto {
 	optional bytes agreement_private_key = 4;
 }
 
+// message code 8
 message C2KeyForPublicationProto {
 	required KeyMetadataProto meta = 1;
 	required bytes public_key = 2;
@@ -103,6 +114,7 @@ message CurveDefinitionProto {
 	required MapProto map = 3;
 }
 
+// message code 9
 message ECKeyContentsProto {
 	required KeyMetadataProto meta = 1;
 	required string Q = 2; // BouncyCastle ECPoint in following format: [base16x comma base16y]
@@ -113,6 +125,7 @@ message ECKeyContentsProto {
 	optional bytes d = 5;
 }
 
+// message code 10
 message RSAKeyContentsProto {
 	required KeyMetadataProto meta = 1;
     required bytes Modulus = 2;
@@ -125,9 +138,11 @@ message RSAKeyContentsProto {
     optional bytes qInv = 9;
 }
 
+// message code 11
 message NTRUKeyContentsProto {
 	
 }
 
 
+// message codes 0-1000 reserved for cryptoregistry.com
 

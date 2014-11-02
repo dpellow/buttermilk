@@ -47,20 +47,13 @@ public class C2Socket extends Socket {
 	SecureMessageOutputStream out;
 	SecureMessageInputStream in;
 	
-	byte[] randBytes; // validation bytes sent by server and encrypted by client as a validation
-	
 	SecureRandom rand = new SecureRandom(); // needed to generate iv values
-	
-	//package-protected constructor, do not call directly
-	C2Socket(Curve25519KeyContents serverKey) throws IOException {
-		super();
-	}
+
 	
 	//package-protected constructor, used only by server
-	C2Socket(Curve25519KeyContents serverKey, byte[] bytes) throws IOException {
+	C2Socket(Curve25519KeyContents serverKey) throws IOException {
 		super();
 		this.serverKey=serverKey;
-		this.randBytes=bytes;
 	}
 
 	/**

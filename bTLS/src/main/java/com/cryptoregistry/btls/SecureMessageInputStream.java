@@ -32,7 +32,7 @@ public class SecureMessageInputStream extends FilterInputStream {
 		log.trace("reading secure message");
 		InputFrameReader reader = new InputFrameReader();
 		SecureMessage sm = reader.readSecureMessage(in);
-		//sm.rotate();
+		
 		SecureMessageService srv = new SecureMessageService(key.getData(), sm);
 		srv.decrypt();
 		return sm.byteResult();
@@ -41,12 +41,9 @@ public class SecureMessageInputStream extends FilterInputStream {
 	public String readSecureMessageAsUTF8String() throws IOException {
 		InputFrameReader reader = new InputFrameReader();
 		SecureMessage sm = reader.readSecureMessage(in);
-		//sm.rotate();
+		
 		SecureMessageService srv = new SecureMessageService(key.getData(), sm);
 		srv.decrypt();
 		return sm.stringResult();
 	}
-	
-	
-
 }
