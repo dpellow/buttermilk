@@ -6,18 +6,18 @@
 package com.cryptoregistry.proto.reader;
 
 import com.cryptoregistry.crypto.mt.Segment;
-import com.cryptoregistry.protos.Buttermilk.SegmentProto;
+import com.cryptoregistry.protos.Buttermilk.BytesProto;
 
 public class SegmentProtoReader {
 
-	final SegmentProto proto;
+	final BytesProto proto;
 
-	public SegmentProtoReader(SegmentProto proto) {
+	public SegmentProtoReader(BytesProto proto) {
 		super();
 		this.proto = proto;
 	}
 
 	public Segment read() {
-		return new Segment(proto.getData().toByteArray(), proto.getIv().toByteArray());
+		return new Segment(proto.getData().toByteArray());
 	}
 }

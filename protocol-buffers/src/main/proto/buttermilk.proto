@@ -3,53 +3,13 @@ option cc_generic_services = false;
 option java_generic_services = false;
 option py_generic_services = false;
 
-// client send hello with her key
-message HelloProto {
-	oneof client_key_contents {
-		C2KeyContentsProto c2_key_contents = 1;
-		ECKeyContentsProto ec_key_contents = 2; 
-	}
-}	
-
-// server sends key and a random string of 32 bytes 
-message HelloAckProto {
-	oneof server_key_contents { 
-		C2KeyContentsProto c2_key_contents = 1;
-		ECKeyContentsProto ec_key_contents = 2; 
-	} 
-	required bytes rand32 = 3;
-}	
-
-// client computes shared secret, than encrypts the random string and sends it back as a segment. 
-
-// we'll just use a SegmentProto
-
-//message ClientReadyProto {
-//	required SegmentProto check = 1;
-//}
-
-message ServerReadyProto {
-	required bool ready = 1; // true if check decrypts, else bail
+message SecureBytesProto {
+  required bytes iv = 1;
+  repeated BytesProto segments = 2;
 }
 
-// at this point secure communications can commence by passing SecureMessageProtos
-
-message SecureMessageProto {
-	enum InputTypeProto { // hint on form to unpack on other side
-		STRING = 0;
-	   	BYTE_ARRAY = 1;
-	   	CHAR_ARRAY = 2;
-	}
-  required InputTypeProto input_type = 3;
-  optional string charset = 4;
-  required bytes iv = 5; // if set, applies to all segments in this message
-  repeated SegmentProto segments = 6;
-  
-}
-
-message SegmentProto {
+message BytesProto {
 	required bytes data = 1;
-	optional bytes iv = 2;	// can be used when a single Segment is being sent
 }
 
 message EntryProto {
@@ -124,6 +84,11 @@ message C2KeyContentsProto {
 	required bytes public_key = 2;
 	optional bytes signing_private_key = 3;
 	optional bytes agreement_private_key = 4;
+}
+
+message C2KeyForPublicationProto {
+	required KeyMetadataProto meta = 1;
+	required bytes public_key = 2;
 }
 
 message CurveDefinitionProto {

@@ -11,9 +11,9 @@ import java.nio.charset.StandardCharsets;
  */
 public class SecureHandler implements Runnable {
 
-	BTLSSocket socket;
+	C2Socket socket;
 	
-	public SecureHandler(BTLSSocket socket) {
+	public SecureHandler(C2Socket socket) {
 		this.socket = socket;
 	}
 

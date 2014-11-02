@@ -5,35 +5,32 @@
  */
 package com.cryptoregistry.proto.reader;
 
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.cryptoregistry.crypto.mt.SecureMessage;
 import com.cryptoregistry.crypto.mt.SecureMessageHeader;
 import com.cryptoregistry.crypto.mt.Segment;
-import com.cryptoregistry.proto.compat.InputTypeAdapter;
-import com.cryptoregistry.protos.Buttermilk.SecureMessageProto;
-import com.cryptoregistry.protos.Buttermilk.SegmentProto;
+import com.cryptoregistry.protos.Buttermilk.BytesProto;
+import com.cryptoregistry.protos.Buttermilk.SecureBytesProto;
 
 public class SecureMessageProtoReader {
 
-	final SecureMessageProto proto;
+	final SecureBytesProto proto;
 
-	public SecureMessageProtoReader(SecureMessageProto proto) {
+	public SecureMessageProtoReader(SecureBytesProto proto) {
 		super();
 		this.proto = proto;
 	}
 
 	public SecureMessage read() {
 		SecureMessageHeader header = new SecureMessageHeader(
-				InputTypeAdapter.getInputTypefor(proto.getInputType()),
-				Charset.forName(proto.getCharset()),
 				proto.getIv().toByteArray());
 		
+		System.err.println("segments:"+proto.getSegmentsCount());
 		List<Segment> segs = new ArrayList<Segment>();
-		for(SegmentProto sp: proto.getSegmentsList()) {
-			segs.add(new Segment(sp.getData().toByteArray(),sp.getIv().toByteArray()));
+		for(BytesProto sp: proto.getSegmentsList()) {
+			segs.add(new Segment(sp.getData().toByteArray()));
 		}
 		return new SecureMessage(header,segs);
 	}

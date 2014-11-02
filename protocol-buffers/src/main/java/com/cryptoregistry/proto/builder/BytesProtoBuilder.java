@@ -6,7 +6,7 @@
 package com.cryptoregistry.proto.builder;
 
 import com.cryptoregistry.crypto.mt.Segment;
-import com.cryptoregistry.protos.Buttermilk.SegmentProto;
+import com.cryptoregistry.protos.Buttermilk.BytesProto;
 import com.google.protobuf.ByteString;
 
 /**
@@ -15,28 +15,22 @@ import com.google.protobuf.ByteString;
  * @author Dave
  *
  */
-public class SegmentProtoBuilder {
+public class BytesProtoBuilder {
 
 	final byte [] data;
-	final byte [] iv;
 	
-	public SegmentProtoBuilder(Segment segment) {
+	public BytesProtoBuilder(Segment segment) {
 		this.data = segment.getOutput();
-		this.iv = segment.getIv();
 	}
 	
-	public SegmentProtoBuilder(byte[]data,byte[]iv) {
+	public BytesProtoBuilder(byte[]data) {
 		this.data = data;
-		this.iv = iv;
 	}
 	
-	public SegmentProto build() {
+	public BytesProto build() {
 		
-		SegmentProto.Builder builder = SegmentProto.newBuilder();
+		BytesProto.Builder builder = BytesProto.newBuilder();
 		builder.setData(ByteString.copyFrom(data));
-		if(iv != null) {
-			builder.setIv(ByteString.copyFrom(iv));
-		}
 		
 		return builder.build();
 	}

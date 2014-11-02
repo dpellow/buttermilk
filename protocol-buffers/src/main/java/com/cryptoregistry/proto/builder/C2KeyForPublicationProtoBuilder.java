@@ -7,6 +7,7 @@ package com.cryptoregistry.proto.builder;
 
 import com.cryptoregistry.c2.key.Curve25519KeyForPublication;
 import com.cryptoregistry.protos.Buttermilk.C2KeyContentsProto;
+import com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto;
 import com.cryptoregistry.protos.Buttermilk.KeyMetadataProto;
 import com.google.protobuf.ByteString;
 
@@ -24,12 +25,12 @@ public class C2KeyForPublicationProtoBuilder {
 		this.keyContents = keyContents;
 	}
 	
-	public C2KeyContentsProto build() {
+	public C2KeyForPublicationProto build() {
 		
 		KeyMetadataProtoBuilder metaBuilder = new KeyMetadataProtoBuilder(keyContents.metadata);
 		KeyMetadataProto metaProto = metaBuilder.build();
 		
-		C2KeyContentsProto c2Proto = C2KeyContentsProto.newBuilder()
+		C2KeyForPublicationProto c2Proto = C2KeyForPublicationProto.newBuilder()
 				.setMeta(metaProto)
 				.setPublicKey(ByteString.copyFrom(keyContents.publicKey.getBytes()))
 				.build();
