@@ -25,6 +25,7 @@ public class Decryptor extends AESGCM_MT implements Callable<Segment> {
 	@Override
 	public Segment call() throws Exception {
 		segment.setOutput(super.decrypt(segment.getInput()));
+		segment.freeInput();
 		return segment;
 	}
 

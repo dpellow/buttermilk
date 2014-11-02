@@ -11,6 +11,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import x.org.bouncycastle.crypto.digests.SHA256Digest;
 
+import com.cryptoregistry.CryptoKey;
+import com.cryptoregistry.KeyGenerationAlgorithm;
 import com.cryptoregistry.c2.key.AgreementPrivateKey;
 import com.cryptoregistry.c2.key.C2KeyMetadata;
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
@@ -58,6 +60,19 @@ public class CryptoFactory {
 		} catch (NoSuchAlgorithmException e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	/**
+	 * Apply a runtime cast to a key known only by its metadata
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public Curve25519KeyForPublication narrow(CryptoKey key) {
+		if(key.getMetadata().getKeyAlgorithm() == KeyGenerationAlgorithm.Curve25519) {
+				return (Curve25519KeyForPublication) key;
+		}
+		else return null;
 	}
 	
 	public Curve25519KeyContents generateKeys(){

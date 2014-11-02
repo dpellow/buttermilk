@@ -33,7 +33,7 @@ public class SecureMessage {
 		createSegments(CORE_COUNT,str.getBytes(StandardCharsets.UTF_8));
 		byte [] ivBytes = new byte[16];
 		rand.nextBytes(ivBytes);
-		header = new SecureMessageHeader(InputType.STRING,StandardCharsets.UTF_8,ivBytes);
+		header = new SecureMessageHeader(ivBytes);
 	}
 	
 	public SecureMessage(String str, Charset charset) {
@@ -41,7 +41,7 @@ public class SecureMessage {
 		createSegments(CORE_COUNT,str.getBytes(charset));
 		byte [] ivBytes = new byte[16];
 		rand.nextBytes(ivBytes);
-		header = new SecureMessageHeader(InputType.STRING,charset,ivBytes);
+		header = new SecureMessageHeader(ivBytes);
 	}
 	
 	/**
@@ -57,7 +57,7 @@ public class SecureMessage {
 		createSegments(threads,str.getBytes(charset));
 		byte [] ivBytes = new byte[16];
 		rand.nextBytes(ivBytes);
-		header = new SecureMessageHeader(InputType.STRING,charset,ivBytes);
+		header = new SecureMessageHeader(ivBytes);
 	}
 	
 	public SecureMessage(char [] input) {
@@ -68,7 +68,7 @@ public class SecureMessage {
 		createSegments(CORE_COUNT,bytes);
 		byte [] ivBytes = new byte[16];
 		rand.nextBytes(ivBytes);
-		header = new SecureMessageHeader(InputType.CHAR_ARRAY,null,ivBytes);
+		header = new SecureMessageHeader(ivBytes);
 	}
 	
 	public SecureMessage(byte [] input) {
@@ -76,7 +76,7 @@ public class SecureMessage {
 		createSegments(CORE_COUNT,input);
 		byte [] ivBytes = new byte[16];
 		rand.nextBytes(ivBytes);
-		header = new SecureMessageHeader(InputType.BYTE_ARRAY,null,ivBytes);
+		header = new SecureMessageHeader(ivBytes);
 	}
 	
 	public SecureMessage(int threads, byte [] input) {
@@ -85,7 +85,7 @@ public class SecureMessage {
 		createSegments(threads,input);
 		byte [] ivBytes = new byte[16];
 		rand.nextBytes(ivBytes);
-		header = new SecureMessageHeader(InputType.BYTE_ARRAY,null,ivBytes);
+		header = new SecureMessageHeader(ivBytes);
 	}
 	
 	public SecureMessage(SecureMessageHeader header, List<Segment> segments) {
@@ -97,10 +97,6 @@ public class SecureMessage {
 		return segments.size();
 	}
 	
-	public enum InputType {
-		STRING,CHAR_ARRAY,BYTE_ARRAY;
-	}
-	
 	/**
 	 * Create a list of Segments from a byte array
 	 * 
@@ -108,7 +104,7 @@ public class SecureMessage {
 	 * @param totalBytes
 	 * @return
 	 */
-	private void createSegments(int count, byte[]totalBytes){
+	protected void createSegments(int count, byte[]totalBytes){
 		int bufSize = totalBytes.length/count;
 		int remainder = totalBytes.length - (bufSize *count);
 		
@@ -148,36 +144,33 @@ public class SecureMessage {
 		return size;
 	}
 	
-	public Object result() {
-		if(header.type == InputType.STRING){
-			return stringResult();
-		}else if(header.type == InputType.BYTE_ARRAY){
-			return this.byteResult();
+	public int totalSizeInput() {
+		int size = 0;
+		for(Segment s: segments){
+			size+=s.getInput().length;
 		}
-		// TODO char array
-		return null;
+		return size;
 	}
 	
+
 	/**
-	 * Build the segments into a String based on the info in the LargeMessageHeader
+	 * Create a UTF-8 String from the result bytes
 	 * @return
 	 */
 	public String stringResult() {
-		if(this.header.type != InputType.STRING) throw new RuntimeException("Input was a String");
-		
 		StringBuilder builder = new StringBuilder();
 		for(Segment s: this.segments){
-			builder.append(new String(s.getOutput(),this.header.charset));
+			builder.append(new String(s.getOutput(),StandardCharsets.UTF_8));
 		}
 		return builder.toString();
 	}
 	
 	/**
-	 * Build the segments into a byte array based on the info in the LargeMessageHeader
+	 * Build the result bytes parts into a complete byte array
 	 * @return
 	 */
 	public byte [] byteResult() {
-		if(this.header.type != InputType.BYTE_ARRAY) throw new RuntimeException("Input was a byte array");
+	
 		byte [] sz = new byte[this.totalSizeOutput()];
 		int c = 0;
 		for(Segment s: this.segments){

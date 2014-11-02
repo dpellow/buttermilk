@@ -86,7 +86,7 @@ public class AESTest {
 	
 	
 	@Test
-	public void testMediumMessage() {
+	public void test1MbMessage() {
 		
 		SecureRandom rand = new SecureRandom();
 		byte [] key = new byte[32];
@@ -134,7 +134,61 @@ public class AESTest {
 			e.printStackTrace();
 		}
 		
+		t("decrypt complete");
+		
+		Assert.assertTrue(test_equal(exampleData,seg0.getOutput()));
+	}
+	
+	@Test
+	public void test10MbMessage() {
+		
+		SecureRandom rand = new SecureRandom();
+		byte [] key = new byte[32];
+		byte [] exampleData = new byte[1048576*10]; // 1 megabyte * 10 
+		rand.nextBytes(key);
+		rand.nextBytes(exampleData);
+		
+		init_t();
+		t("start MT - 10MB message");
+		SecureMessage msg = new SecureMessage(exampleData);
+		SecureMessageService service = new SecureMessageService(key,msg);
+		service.encrypt();
 		t("encrypt complete");
+		msg.rotate();
+		service = new SecureMessageService(key,msg);
+		service.decrypt();
+		t("decrypt complete");
+		Assert.assertTrue(test_equal(exampleData,msg.byteResult()));
+		
+		// now try as a single thread
+		
+		init_t();
+		t("start ST");
+		
+		byte [] iv = new byte[16];
+		rand.nextBytes(iv);
+		Segment seg0 = new Segment(exampleData);
+		Encryptor enc = new Encryptor(key,iv,seg0);
+		try {
+			enc.call();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		t("encrypt complete");
+		
+		seg0.rotate();
+		
+		Decryptor de = new Decryptor(key,iv,seg0);
+		try {
+			de.call();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		t("decrypt complete");
 		
 		Assert.assertTrue(test_equal(exampleData,seg0.getOutput()));
 		

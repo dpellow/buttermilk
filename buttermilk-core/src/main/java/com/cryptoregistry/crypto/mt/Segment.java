@@ -16,17 +16,10 @@ public class Segment {
 	
 	private byte [] input; // data to operate on
 	private byte[] output; // result of the operations
-	private byte [] iv; //optional
 	
 	public Segment(byte[] input) {
 		super();
 		this.input = input;
-	}
-	
-	public Segment(byte[] input, byte [] iv) {
-		super();
-		this.input = input;
-		this.iv = iv;
 	}
 
 	public byte[] getInput() {
@@ -46,16 +39,16 @@ public class Segment {
 	}
 	
 	/**
-	 * package protected - Move the output into the input for processing
+	 * package protected - Move the output into the input for processing - used for testing only
 	 */
 	void rotate() {
 		input = null;
 		input = output;
 		output = null;
 	}
-
-	public byte[] getIv() {
-		return iv;
+	
+	public void freeInput(){
+		input = null;
 	}
 	
 }
