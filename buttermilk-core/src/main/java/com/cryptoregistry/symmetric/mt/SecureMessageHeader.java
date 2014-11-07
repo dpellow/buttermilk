@@ -1,4 +1,4 @@
-package com.cryptoregistry.crypto.mt;
+package com.cryptoregistry.symmetric.mt;
 
 public class SecureMessageHeader {
 

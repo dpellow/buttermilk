@@ -1,4 +1,4 @@
-package com.cryptoregistry.crypto.mt;
+package com.cryptoregistry.symmetric.mt;
 
 import java.security.SecureRandom;
 
@@ -9,6 +9,13 @@ import org.junit.Test;
 import x.org.bouncycastle.crypto.params.KeyParameter;
 import x.org.bouncycastle.crypto.params.ParametersWithIV;
 
+import com.cryptoregistry.symmetric.mt.AESGCM_MT;
+import com.cryptoregistry.symmetric.mt.Decryptor;
+import com.cryptoregistry.symmetric.mt.Encryptor;
+import com.cryptoregistry.symmetric.mt.GCMBlockCipher;
+import com.cryptoregistry.symmetric.mt.SecureMessage;
+import com.cryptoregistry.symmetric.mt.SecureMessageService;
+import com.cryptoregistry.symmetric.mt.Segment;
 import com.cryptoregistry.util.StopWatch;
 
 public class AESTest {

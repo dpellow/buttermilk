@@ -1,4 +1,4 @@
-package com.cryptoregistry.crypto.mt;
+package com.cryptoregistry.symmetric.mt;
 
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;

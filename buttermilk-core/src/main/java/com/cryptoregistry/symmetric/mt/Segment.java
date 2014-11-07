@@ -3,7 +3,7 @@
  *  Copyright 2011-2014 David R. Smith All Rights Reserved.
  *
  */
-package com.cryptoregistry.crypto.mt;
+package com.cryptoregistry.symmetric.mt;
 
 /**
  * Segments are units of data to process (encrypt, decrypt, etc) along with the result of the processing

@@ -3,7 +3,7 @@
  *  Copyright 2011-2014 David R. Smith All Rights Reserved.
  *
  */
-package com.cryptoregistry.crypto.mt;
+package com.cryptoregistry.symmetric.mt;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
