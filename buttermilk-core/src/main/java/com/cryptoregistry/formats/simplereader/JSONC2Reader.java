@@ -3,7 +3,7 @@
  *  Copyright 2011-2014 David R. Smith All Rights Reserved.
  *
  */
-package com.cryptoregistry.formats.sr;
+package com.cryptoregistry.formats.simplereader;
 
 import java.io.File;
 import java.io.Reader;

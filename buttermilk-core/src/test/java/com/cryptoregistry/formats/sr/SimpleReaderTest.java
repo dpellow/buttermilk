@@ -11,6 +11,7 @@ import com.cryptoregistry.c2.CryptoFactory;
 import com.cryptoregistry.c2.key.C2KeyMetadata;
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
 import com.cryptoregistry.formats.JSONFormatter;
+import com.cryptoregistry.formats.simplereader.JSONC2Reader;
 import com.cryptoregistry.passwords.NewPassword;
 
 public class SimpleReaderTest {
