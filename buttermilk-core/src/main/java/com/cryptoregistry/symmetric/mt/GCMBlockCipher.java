@@ -29,7 +29,7 @@ import x.org.bouncycastle.util.Arrays;
  * just copied in for convenience.
  * 
  */
-public class GCMBlockCipher {
+class GCMBlockCipher {
 	
 	
 	static Lock lock = new ReentrantLock();

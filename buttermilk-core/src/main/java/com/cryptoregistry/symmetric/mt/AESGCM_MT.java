@@ -12,7 +12,7 @@ package com.cryptoregistry.symmetric.mt;
 import x.org.bouncycastle.crypto.params.KeyParameter;
 import x.org.bouncycastle.crypto.params.ParametersWithIV;
 
-public class AESGCM_MT {
+class AESGCM_MT {
 
 	private final byte [] key;
 	private final byte [] iv;

@@ -39,7 +39,7 @@ public class Segment {
 	}
 	
 	/**
-	 * package protected - Move the output into the input for processing - used for testing only
+	 * package protected - Move the output into the input for encrypt/decrypt processing - used for QA testing only
 	 */
 	void rotate() {
 		input = null;
@@ -47,7 +47,10 @@ public class Segment {
 		output = null;
 	}
 	
-	public void freeInput(){
+	/**
+	 * package protected = used to free the input as soon as feasible
+	 */
+	void freeInput(){
 		input = null;
 	}
 	
