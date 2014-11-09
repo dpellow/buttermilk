@@ -13,6 +13,9 @@ import java.util.List;
  * The concept is to break up a larger raw message into roughly equal pieces and encrypt these pieces separately 
  * on different threads. This allows us to take better advantage of contemporary multi-core processors.
  * 
+ * Effective max message size limit is about 100Mb. The limitation is basically one of memory, not cores.
+ * A message smaller than about 5Mb can be processed faster with a single thread. 
+ * 
  * @author Dave
  * 
  * @see SecureMessageService
@@ -47,6 +50,7 @@ public class SecureMessage {
 	/**
 	 * This constructor exists mainly to allow for single-threaded processing for small messages. Just
 	 * set the threads value to 1. 
+	 * 
 	 * @param threads
 	 * @param str
 	 * @param charset

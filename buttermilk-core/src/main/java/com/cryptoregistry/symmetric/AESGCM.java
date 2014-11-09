@@ -10,6 +10,13 @@ import x.org.bouncycastle.crypto.modes.GCMBlockCipher;
 import x.org.bouncycastle.crypto.params.KeyParameter;
 import x.org.bouncycastle.crypto.params.ParametersWithIV;
 
+/**
+ * You should always use ephemeral keys and iv with this class. Do not use the direct result
+ * of an ECDH key agreement algorithm with GCM as it is a counter mode.
+ * 
+ * @author Dave
+ *
+ */
 public class AESGCM {
 
 	private final byte [] key;

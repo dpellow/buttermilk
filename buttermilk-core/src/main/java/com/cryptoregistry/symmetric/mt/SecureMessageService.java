@@ -2,6 +2,12 @@ package com.cryptoregistry.symmetric.mt;
 
 import com.cryptoregistry.util.StopWatch;
 
+/**
+ * Use only ephemeral key and iv here - never reuse them.
+ * 
+ * @author Dave
+ *
+ */
 public class SecureMessageService extends AESService {
 	
 	public static final String enc_stopwatch = "com.cryptoregistry.crypto.mt.SecureMessageService.encrypt";
@@ -14,6 +20,14 @@ public class SecureMessageService extends AESService {
 		msg = message;
 	}
 
+	/**
+	 * To prevent a message from being split up, set pool size to 1. This is recommended for messages
+	 * below 1-5Mb in size (depending on hardware). 
+	 * 
+	 * @param poolSize
+	 * @param key
+	 * @param message
+	 */
 	public SecureMessageService(int poolSize, byte[] key, SecureMessage message) {
 		super(poolSize, key, message.getHeader().iv);
 		msg = message;

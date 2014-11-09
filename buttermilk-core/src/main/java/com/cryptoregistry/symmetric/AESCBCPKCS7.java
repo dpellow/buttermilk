@@ -12,6 +12,12 @@ import x.org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher;
 import x.org.bouncycastle.crypto.params.KeyParameter;
 import x.org.bouncycastle.crypto.params.ParametersWithIV;
 
+/**
+ * Standard block cipher encryption using AES CBC and PKCS7 for padding. 
+ * 
+ * @author Dave
+ *
+ */
 public class AESCBCPKCS7 {
 
 	private final byte [] key;
