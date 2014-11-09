@@ -7,6 +7,12 @@ import org.apache.log4j.Logger;
 
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
 
+/**
+ * A simple test server, just print out anything sent to us
+ * 
+ * @author Dave
+ *
+ */
 public class ServerTest {
 	
 	private static final Logger log = Logger.getLogger("com.cryptography.btls.ServerTest");
@@ -30,7 +36,8 @@ public class ServerTest {
 			while(true){
 				// blocks until a connection is made.
 				SecureSocket socket = (SecureSocket) ss.accept();
-				Thread t = new Thread(new SecureHandler(socket));
+				// the PrintHandler prints one message and then exits by closing the socket
+				Thread t = new Thread(new PrintHandler(socket));
 				t.start();
 			}
 			

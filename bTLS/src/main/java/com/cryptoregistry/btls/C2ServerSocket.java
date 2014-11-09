@@ -9,9 +9,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.security.SecureRandom;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.log4j.Logger;
 
@@ -39,14 +36,14 @@ public class C2ServerSocket extends ServerSocket {
 		this.serverKey=serverKey;
 	}
 
-	public C2ServerSocket(Curve25519KeyContents serverKey, int arg0, int arg1) throws IOException {
-		super(arg0, arg1);
+	public C2ServerSocket(Curve25519KeyContents serverKey, int port, int backlog) throws IOException {
+		super(port, backlog);
 		this.serverKey=serverKey;
 	}
 
-	public C2ServerSocket(Curve25519KeyContents serverKey, int arg0, int arg1, InetAddress arg2)
+	public C2ServerSocket(Curve25519KeyContents serverKey, int port, int backlog, InetAddress bindAddress)
 			throws IOException {
-		super(arg0, arg1, arg2);
+		super(port, backlog, bindAddress);
 		this.serverKey=serverKey;
 	}
 

@@ -80,7 +80,15 @@ public class C2Handshake implements Handshake {
 		InputStream input;
 		OutputStream output;
 
-
+		/**
+		 * The handshake requires a private key, the input and output streams of the raw socket, and
+		 * an indication if we are functioning as a server-side or client-side socket.
+		 * 
+		 * @param isServer
+		 * @param key
+		 * @param input
+		 * @param output
+		 */
 	public C2Handshake(boolean isServer, Curve25519KeyContents key, InputStream input, OutputStream output) {
 		if(key == null) throw new RuntimeException("Key required, cannnot be null");
 		if(isServer) {

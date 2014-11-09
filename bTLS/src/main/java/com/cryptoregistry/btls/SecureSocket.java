@@ -26,10 +26,10 @@ import org.apache.log4j.Logger;
  */
 public class SecureSocket extends Socket {
 	
-	private static final Logger log = Logger.getLogger("com.cryptography.btls.C2Socket");
+	private static final Logger log = Logger.getLogger("com.cryptography.btls.SecureSocket");
 	
-	CipherOutputStream cout;
-	CipherInputStream cin;
+	protected CipherOutputStream cout;
+	protected CipherInputStream cin;
 
 	//package-protected constructor, used only by server socket
 	SecureSocket() throws IOException {
@@ -61,7 +61,7 @@ public class SecureSocket extends Socket {
 	}
 	
 	/**
-	 * Package protected, set by handshake completion
+	 * Package protected, set by handshake on completion
 	 * 
 	 * @param cin
 	 * @param cout

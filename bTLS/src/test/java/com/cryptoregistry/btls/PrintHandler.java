@@ -6,16 +6,17 @@ import java.io.InputStream;
 import com.cryptoregistry.proto.frame.InputFrameReader;
 
 /**
- * Demo client - listen for a message on the server side, print it
+ * Demo client - listen for a message on the server side, print it, and exit. The communication is
+ * transparently encrypted over the socket.
  * 
  * @author Dave
  *
  */
-public class SecureHandler implements Runnable {
+public class PrintHandler implements Runnable {
 
 	SecureSocket socket;
 	
-	public SecureHandler(SecureSocket socket) {
+	public PrintHandler(SecureSocket socket) {
 		this.socket = socket;
 	}
 
