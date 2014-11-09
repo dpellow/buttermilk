@@ -4,9 +4,15 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Base class just provides some reusable utility methods for the subclasses
+ * 
+ * @author Dave
+ *
+ */
 public class InputFrameBase {
 	
-	// could reuse a byte buffer here, but let's not pre-optimize
+	// could possibly make use of a byte buffer here, but let's not pre-optimize
 
 	public InputFrameBase() {
 	}

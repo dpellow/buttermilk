@@ -1,7 +1,9 @@
 package com.cryptoregistry.btls;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.io.InputStream;
+
+import com.cryptoregistry.proto.frame.InputFrameReader;
 
 /**
  * Demo client - listen for a message on the server side, print it
@@ -11,9 +13,9 @@ import java.nio.charset.StandardCharsets;
  */
 public class SecureHandler implements Runnable {
 
-	C2Socket socket;
+	SecureSocket socket;
 	
-	public SecureHandler(C2Socket socket) {
+	public SecureHandler(SecureSocket socket) {
 		this.socket = socket;
 	}
 
@@ -21,24 +23,19 @@ public class SecureHandler implements Runnable {
 	public void run() {
 		
 		try {
-			SecureMessageInputStream in = (SecureMessageInputStream) socket.getInputStream();
-			Object obj = in.readSecureMessage();
-			if(obj instanceof String){
-				System.out.println(obj);
-			}else{
-				String s = new String((byte[])obj,StandardCharsets.UTF_8);
-				System.out.println(s);
-			}
+			InputStream input = socket.getInputStream();
+			InputFrameReader reader = new InputFrameReader();
+			System.err.println(reader.readStringProto(input));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally{
 			try {
-				socket.close();
+				if(!socket.isClosed()) {
+					socket.close();
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		
 	}
-
 }

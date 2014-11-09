@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
-import com.cryptoregistry.formats.sr.JSONC2Reader;
+import com.cryptoregistry.formats.simplereader.JSONC2Reader;
 import com.cryptoregistry.passwords.NewPassword;
 
 import asia.redact.bracket.properties.Properties;

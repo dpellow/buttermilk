@@ -3,6 +3,12 @@ package com.cryptoregistry.proto.frame;
 import java.io.IOException;
 import java.io.OutputStream;
 
+/**
+ * Useful utility methods 
+ * 
+ * @author Dave
+ *
+ */
 public class OutputFrameBase {
 
 	public final void writeInt(OutputStream out, int v) throws IOException {

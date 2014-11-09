@@ -35,5 +35,6 @@ public class C2KeyForPublicationOutputFrame implements OutputFrame {
         out.write((v >>> 16) & 0xFF);
         out.write((v >>>  8) & 0xFF);
         out.write((v >>>  0) & 0xFF);
+        out.flush();
     }
 }

@@ -5,8 +5,8 @@
  */
 package com.cryptoregistry.proto.reader;
 
-import com.cryptoregistry.crypto.mt.Segment;
 import com.cryptoregistry.protos.Buttermilk.BytesProto;
+import com.cryptoregistry.symmetric.mt.Segment;
 
 public class SegmentProtoReader {
 

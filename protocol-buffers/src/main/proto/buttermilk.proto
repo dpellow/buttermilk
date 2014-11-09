@@ -3,47 +3,50 @@ option cc_generic_services = false;
 option java_generic_services = false;
 option py_generic_services = false;
 
-
-message SecureMessageProto {
-  required int32 code = 1;
-  required bytes iv = 1;
-  repeated BytesProto segments = 2;
-}
-
+//message code 1
 message BytesProto {
 	required bytes data = 1;
 }
 
-// message code 1 = raw bytes
+//message code 2
+message StringProto {
+	required string data = 1;
+}
 
-// message code 2
+// message code 3
 message MapProto {
 	repeated EntryProto entries = 1;
 }
 
+// message code 4
 message EntryProto {
 	required string key = 1;
 	required string value = 2;
 }
 
-// message code 3
+// message code 5
 message NamedMapProto {
 	required string uuid = 1;
 	required MapProto map = 2;
 }
 
-// message code 4
+// message code 6
 message ListProto {
   repeated string list = 1;
 }
 
-// message code 5
+// message code 7
+message ByteListProto {
+  repeated bytes list = 1;
+}
+
+// message code 8
 message NamedListProto {
   required string uuid = 1;
   required ListProto map = 2;
 }
 
-//message code 6
+//message code 9
 message CryptoContactProto {
   required NamedMapProto map = 1;
 }
@@ -63,7 +66,7 @@ message SignatureMetadataProto {
   required string signed_by = 6; // uuid from signer registration
 }
 
-// message code 7
+// message code 10
 message SignatureProto {
 	required SignatureMetadataProto meta = 1;
 	required bytes b0 = 2;
@@ -88,7 +91,7 @@ message KeyMetadataProto {
 	required string key_generation_algorithm = 4;
 }
 
-// message code 7
+// message code 11
 message C2KeyContentsProto {
 	required KeyMetadataProto meta = 1;
 	required bytes public_key = 2;
@@ -96,7 +99,7 @@ message C2KeyContentsProto {
 	optional bytes agreement_private_key = 4;
 }
 
-// message code 8
+// message code 12
 message C2KeyForPublicationProto {
 	required KeyMetadataProto meta = 1;
 	required bytes public_key = 2;
@@ -114,18 +117,33 @@ message CurveDefinitionProto {
 	required MapProto map = 3;
 }
 
-// message code 9
+// message code 13
 message ECKeyContentsProto {
 	required KeyMetadataProto meta = 1;
 	required string Q = 2; // BouncyCastle ECPoint in following format: [base16x comma base16y]
 	
-	optional string curve_name = 3;                     // one of these is required
-	optional CurveDefinitionProto curve_definition = 4;
+	// curve_name is a standard cryptoregistry curve name string
+	oneof curve {
+		string curve_name = 3;                     // one of these is required to be defined
+		CurveDefinitionProto curve_definition = 4;
+	}
 	
-	optional bytes d = 5;
+	optional bytes d = 5; // the private key bytes
 }
 
-// message code 10
+// message code 14
+message ECKeyForPublicationProto {
+	required KeyMetadataProto meta = 1;
+	required string Q = 2; // BouncyCastle ECPoint in following format: [base16x comma base16y]
+	oneof curve {
+		string curve_name = 3;                     // one of these is required to be defined
+		CurveDefinitionProto curve_definition = 4;
+	}
+	
+	// private key removed
+}
+
+// message code 15
 message RSAKeyContentsProto {
 	required KeyMetadataProto meta = 1;
     required bytes Modulus = 2;
@@ -138,10 +156,25 @@ message RSAKeyContentsProto {
     optional bytes qInv = 9;
 }
 
-// message code 11
+// message code 16
+message RSAKeyForPublicationProto {
+	required KeyMetadataProto meta = 1;
+    required bytes Modulus = 2;
+    required bytes public_exponent = 3;
+}
+
+// message code 17
 message NTRUKeyContentsProto {
 	
 }
+
+// message code 18
+message NTRUKeyForPublicationProto {
+	
+}
+
+
+
 
 
 // message codes 0-1000 reserved for cryptoregistry.com

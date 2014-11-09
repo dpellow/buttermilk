@@ -5,8 +5,9 @@
  */
 package com.cryptoregistry.proto.builder;
 
-import com.cryptoregistry.crypto.mt.Segment;
+import com.cryptoregistry.passwords.SensitiveBytes;
 import com.cryptoregistry.protos.Buttermilk.BytesProto;
+import com.cryptoregistry.symmetric.mt.Segment;
 import com.google.protobuf.ByteString;
 
 /**
@@ -21,6 +22,10 @@ public class BytesProtoBuilder {
 	
 	public BytesProtoBuilder(Segment segment) {
 		this.data = segment.getOutput();
+	}
+	
+	public BytesProtoBuilder(SensitiveBytes sb) {
+		this.data = sb.getData();
 	}
 	
 	public BytesProtoBuilder(byte[]data) {

@@ -65,7 +65,7 @@ set "CLASSPATH=%CLASSPATH%;target\test-classes
 echo %CLASSPATH%
 
 set MAINCLASS=com.cryptoregistry.btls.ServerTest
-set "JAVA_OPTS="
+set "JAVA_OPTS=-Xmx1024m"
 
 %_RUNJAVA% %JAVA_OPTS% -classpath "%CLASSPATH%" %MAINCLASS% %*
 

@@ -40,6 +40,7 @@ public class BTLSSocketTest {
 	class HelloClient implements Runnable {
 		
 		OutputStream out;
+		InputStream in;
 		Curve25519KeyContents clientKey;
 		
 		HelloClient(Curve25519KeyContents contents, OutputStream out){

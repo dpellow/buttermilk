@@ -29,7 +29,7 @@ public class ServerTest {
 			log.info("Created server socket. Going into loop...");
 			while(true){
 				// blocks until a connection is made.
-				C2Socket socket = (C2Socket) ss.accept();
+				SecureSocket socket = (SecureSocket) ss.accept();
 				Thread t = new Thread(new SecureHandler(socket));
 				t.start();
 			}
@@ -40,7 +40,9 @@ public class ServerTest {
 			if(ss != null){
 				log.info("Closing server socket, cleaning up.");
 				try {
-					ss.close();
+					if(!ss.isClosed()){
+						ss.close();
+					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

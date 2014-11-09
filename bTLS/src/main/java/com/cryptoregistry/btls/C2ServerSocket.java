@@ -26,11 +26,8 @@ import com.cryptoregistry.c2.key.Curve25519KeyContents;
 public class C2ServerSocket extends ServerSocket {
 
 	private static final Logger log = Logger.getLogger("com.cryptography.btls.C2ServerSocket");
-	
-	Lock lock = new ReentrantLock();
+
 	Curve25519KeyContents serverKey;
-	
-	SecureRandom rand = new SecureRandom();
 
 	public C2ServerSocket(Curve25519KeyContents serverKey) throws IOException {
 		super();
@@ -58,9 +55,17 @@ public class C2ServerSocket extends ServerSocket {
 	 */
 	public Socket accept() throws IOException {
 		log.trace("entering accept");
-		C2Socket s = new C2Socket(serverKey);
+		
+		SecureSocket s = new SecureSocket();
 		implAccept(s);
-		s.serversHandshake();
+		C2Handshake handshake = new C2Handshake(true, serverKey, s.getRawInputStream(),s.getRawOutputStream());
+		if(!handshake.serversHandshake()){
+			// failed, throw exception
+			throw new IOException("Handshake failed: "+s.toString());
+		}else{
+			// handshake also knows how to set up the Cipher stream decorators we will use
+			s.setStreams(handshake);
+		}
 		return s;
 	}
 
