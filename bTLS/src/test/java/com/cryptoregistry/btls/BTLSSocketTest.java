@@ -12,8 +12,8 @@ import org.junit.Test;
 
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
 import com.cryptoregistry.c2.key.Curve25519KeyForPublication;
-import com.cryptoregistry.proto.frame.C2KeyForPublicationOutputFrame;
 import com.cryptoregistry.proto.frame.InputFrameReader;
+import com.cryptoregistry.proto.frame.btls.C2KeyForPublicationOutputFrame;
 
 public class BTLSSocketTest {
 
@@ -70,7 +70,7 @@ public class BTLSSocketTest {
 		@Override
 		public void run() {
 			InputFrameReader reader = new InputFrameReader();
-			clientKey = reader.readC2KeyContents(in);
+			clientKey = reader.readC2KeyForPublication(in);
 			System.err.println(clientKey.getDistinguishedHandle());
 		}
 	}		

@@ -23,8 +23,8 @@ import com.cryptoregistry.c2.key.Curve25519KeyForPublication;
 import com.cryptoregistry.c2.key.SecretKey;
 import com.cryptoregistry.passwords.SensitiveBytes;
 import com.cryptoregistry.proto.frame.BytesOutputFrame;
-import com.cryptoregistry.proto.frame.C2KeyForPublicationOutputFrame;
 import com.cryptoregistry.proto.frame.InputFrameReader;
+import com.cryptoregistry.proto.frame.btls.C2KeyForPublicationOutputFrame;
 import com.cryptoregistry.symmetric.AESCBCPKCS7;
 
 /**
@@ -36,9 +36,9 @@ Protocol:
 	 	
 	 1b) Server receives public key, performs ECDH and builds an encryption key, [k, iv] where iv is 16 random bytes 
 	 
-	 	A) receive with InputFrameReader.readC2KeyContents()
-	 	B) perform ecdh to create agreement key [k], sha-256 on result gets [k's]
-	 	C) generate 256 random bytes, encrypt those with [k's] and iv to make our secret key [z]
+	 	A) receive client key with InputFrameReader.readC2KeyContents()
+	 	B) perform ECDH to create agreement key [k], sha-256 on result gets [k's]
+	 	C) generate 256 random bytes, encrypt those with [k's] and iv using AES to protect our secret key [z]
 	 
 	 2a) Server respond with her own public key and encrypted ephemeral key
 	 
@@ -50,10 +50,11 @@ Protocol:
 	 2a) Client receives public key from server and the iv, performs ECDH and builds encryption key [k's], decrypts z with it.
 	 
 	 	A) receive with InputFrameReader.readC2KeyContents()
-	 	A) receive encrypted key with InputFrameReader.readByteProto()
-	 	A) receive raw iv with InputFrameReader.readByteProto()
-		B) perform ecdh to create agreement key [k], sha-256 on result gets [k's]
-		C) decrypt to get our ephemeral secret key [z]
+	 	B) receive encrypted key with InputFrameReader.readByteProto()
+	 	C) receive raw iv with InputFrameReader.readByteProto()
+		D) perform ECDH to create agreement key [k], sha-256 on result gets [k's]
+		E) decrypt to get our ephemeral secret key [z]
+		F) get iv
 	 
 	 
 	 3) communications now begin over the streams using [z, iv]. 
@@ -119,7 +120,7 @@ public class C2Handshake implements Handshake {
 				
 				// 1.1 collect the server public key
 				InputFrameReader reader = new InputFrameReader();
-				serverKey = reader.readC2KeyContents(input);
+				serverKey = reader.readC2KeyForPublication(input);
 				log.trace("collected server public key portion");
 				
 				// 1.2 collect the encrypted bytes of the secret key
@@ -154,7 +155,7 @@ public class C2Handshake implements Handshake {
 				
 				// 1.0 get client's public key
 				InputFrameReader reader = new InputFrameReader();
-				clientKey = reader.readC2KeyContents(input);
+				clientKey = reader.readC2KeyForPublication(input);
 				log.trace("got client public key portion");
 				
 				// 1.1 send our server public key portion

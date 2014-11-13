@@ -1,18 +1,33 @@
-package com.cryptoregistry.proto.frame;
+package com.cryptoregistry.proto.frame.btls;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
 import com.cryptoregistry.c2.key.Curve25519KeyForPublication;
 import com.cryptoregistry.proto.builder.C2KeyForPublicationProtoBuilder;
+import com.cryptoregistry.proto.frame.OutputFrame;
+import com.cryptoregistry.proto.frame.OutputFrameBase;
 import com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto;
 
-public class C2KeyForPublicationOutputFrame implements OutputFrame {
+/**
+ * Used with the Handshake contentType. 
+ * 
+ * @author Dave
+ *
+ */
+public class C2KeyForPublicationOutputFrame extends OutputFrameBase implements OutputFrame {
 
+	final byte contentType;
 	final Curve25519KeyForPublication keyContents;
 	
 	public C2KeyForPublicationOutputFrame(Curve25519KeyForPublication keyContents) {
+		this.keyContents = keyContents;
+		contentType = (byte)22; // handshake
+	}
+	
+	public C2KeyForPublicationOutputFrame(byte contentType, Curve25519KeyForPublication keyContents) {
 		this.keyContents = keyContents; 
+		this.contentType = contentType;
 	}
 
 	@Override
@@ -22,6 +37,7 @@ public class C2KeyForPublicationOutputFrame implements OutputFrame {
 		byte [] bytes = proto.toByteArray();
 		int size = bytes.length;
 		try {
+			writeByte(stream, size);
 			writeInt(stream,size);
 			stream.write(bytes);
 			stream.flush();
@@ -30,11 +46,4 @@ public class C2KeyForPublicationOutputFrame implements OutputFrame {
 		}
 	}
 	
-	public final void writeInt(OutputStream out, int v) throws IOException {
-        out.write((v >>> 24) & 0xFF);
-        out.write((v >>> 16) & 0xFF);
-        out.write((v >>>  8) & 0xFF);
-        out.write((v >>>  0) & 0xFF);
-        out.flush();
-    }
 }

@@ -16,10 +16,9 @@ import x.org.bouncycastle.crypto.io.*;
 
 import org.apache.log4j.Logger;
 
-
 /**
  * 
- * A secure socket using contemporary techniques.
+ * A secure socket using contemporary techniques. This uses standard java blocking I/O
  * 
  * @author Dave
  *

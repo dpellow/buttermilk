@@ -11,7 +11,7 @@ import java.io.InputStream;
  *
  */
 public class InputFrameBase {
-	
+
 	// could possibly make use of a byte buffer here, but let's not pre-optimize
 
 	public InputFrameBase() {
@@ -29,8 +29,13 @@ public class InputFrameBase {
 			n += count;
 		}
 	}
+	
+	public final byte readByte(InputStream in)throws IOException {
+		int ch1 = in.read();
+		return (byte) ch1;
+	}
 
-	public final int readInt(InputStream in) throws IOException {
+	public final int readInt32(InputStream in) throws IOException {
 		int ch1 = in.read();
 		int ch2 = in.read();
 		int ch3 = in.read();

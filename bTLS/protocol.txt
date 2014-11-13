@@ -1,0 +1,42 @@
+
+bTLS uses frames, which are analogs to TLS records. A frame has 
+
+a) a 1 byte control code (analog to a TLS content type)
+
+	21 - Alert
+	22 - Handshake
+	23 - Application
+	24 - Heartbeat
+	25 - Normal Close
+	
+There is no protocol version sent in the frames.
+
+b) a 4 byte length field.
+	 
+   The length does not include the initial control byte or these 4 bytes. This field might be 
+   better called the "remaining length"
+   
+
+c) a message from the above 4 categories
+
+Alert
+
+	1) a one byte code
+		3 - Info
+		5 - Error
+	2) Informational message - String in UTF-8 encoding
+	
+
+Handshake - basically an ECDH that encrypts an ephemeral key. 
+
+	1) Client Public Key
+	2) Server Public Key, Server encrypted 256 bytes (to use as asymmetric key), iv or nonce as required
+    
+
+Application
+
+	1) encrypted data
+	
+   
+   
+ 
