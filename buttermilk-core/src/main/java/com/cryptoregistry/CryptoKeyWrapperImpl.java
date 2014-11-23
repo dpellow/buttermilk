@@ -14,6 +14,7 @@ import com.cryptoregistry.formats.ECKeyFormatReader;
 import com.cryptoregistry.formats.KeyFormat;
 import com.cryptoregistry.formats.NTRUKeyFormatReader;
 import com.cryptoregistry.formats.RSAKeyFormatReader;
+import com.cryptoregistry.formats.SymmetricKeyFormatReader;
 import com.cryptoregistry.passwords.Password;
 import com.cryptoregistry.pbe.ArmoredPBEResult;
 import com.cryptoregistry.pbe.ArmoredPBKDF2Result;
@@ -123,6 +124,11 @@ public class CryptoKeyWrapperImpl implements CryptoKeyWrapper {
 				
 				KeyGenerationAlgorithm alg = KeyGenerationAlgorithm.valueOf(keyAlgorithm);
 				switch(alg){
+					case Symmetric: {
+						SymmetricKeyFormatReader reader = new SymmetricKeyFormatReader(map);
+						wrapped = reader.read();
+						break;
+					}
 					case Curve25519: {
 						C2KeyFormatReader reader = new C2KeyFormatReader(map);
 						wrapped = reader.read();
