@@ -12,7 +12,12 @@ package com.cryptoregistry;
  *
  */
 public enum KeyGenerationAlgorithm {
-	Curve25519('C'),EC('E'),RSA('R'),DSA('D'), NTRU('N');
+	Symmetric('S'), 
+	Curve25519('C'), 
+	EC('E'), 
+	RSA('R'), 
+	DSA('D'), 
+	NTRU('N');
 	
 	public final char code;
 

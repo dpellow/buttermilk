@@ -23,6 +23,7 @@ import com.cryptoregistry.ec.ECKeyForPublication;
 import com.cryptoregistry.ntru.NTRUKeyForPublication;
 import com.cryptoregistry.rsa.RSAKeyForPublication;
 import com.cryptoregistry.signature.CryptoSignature;
+import com.cryptoregistry.symmetric.SymmetricKeyContents;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 
@@ -224,6 +225,12 @@ public class JSONFormatter {
 					final CryptoKeyMetadata meta = key.getMetadata();
 					final KeyGenerationAlgorithm alg = meta.getKeyAlgorithm();
 					switch(alg){
+						case Symmetric: {
+							SymmetricKeyContents contents = (SymmetricKeyContents)key;
+							SymmetricKeyFormatter formatter = new SymmetricKeyFormatter(contents);
+							formatter.formatKeys(g, writer);
+							break;
+						}
 						case Curve25519: {
 							Curve25519KeyForPublication contents = (Curve25519KeyForPublication)key;
 							C2KeyFormatter formatter = new C2KeyFormatter(contents);
