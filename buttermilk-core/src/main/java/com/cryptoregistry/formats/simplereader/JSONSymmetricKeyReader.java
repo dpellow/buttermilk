@@ -11,8 +11,6 @@ import java.util.Map;
 
 import com.cryptoregistry.CryptoKeyWrapper;
 import com.cryptoregistry.CryptoKeyWrapperImpl;
-import com.cryptoregistry.c2.key.*;
-import com.cryptoregistry.formats.C2KeyFormatReader;
 import com.cryptoregistry.formats.SymmetricKeyFormatReader;
 import com.cryptoregistry.passwords.Password;
 import com.cryptoregistry.pbe.ArmoredPBEResult;
