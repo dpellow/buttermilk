@@ -3,6 +3,12 @@ option cc_generic_services = false;
 option java_generic_services = false;
 option py_generic_services = false;
 
+// message code 99
+message HelloProto {
+	required string registration_handle = 1;  // the remote sender's identifier
+	required string key_handle = 2; // the remote sender's key identifier
+}
+
 //message code 1
 message BytesProto {
 	required bytes data = 1;
@@ -89,6 +95,11 @@ message KeyMetadataProto {
 	}
 	required EncodingHintProto encoding_hint = 3 [default = RAWBYTES];
 	required string key_generation_algorithm = 4;
+}
+
+message SymmetricKeyContentsProto {
+	required KeyMetadataProto meta = 1;
+	required bytes key = 2;
 }
 
 // message code 11

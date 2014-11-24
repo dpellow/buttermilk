@@ -37,7 +37,7 @@ public class C2KeyForPublicationOutputFrame extends OutputFrameBase implements O
 		byte [] bytes = proto.toByteArray();
 		int size = bytes.length;
 		try {
-			writeByte(stream, size);
+			writeByte(stream, contentType);
 			writeInt(stream,size);
 			stream.write(bytes);
 			stream.flush();

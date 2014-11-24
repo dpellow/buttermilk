@@ -4,13 +4,12 @@ import java.io.File;
 
 import asia.redact.bracket.properties.Properties;
 
-import com.cryptoregistry.client.security.SecurityManagerInterface;
+import com.cryptoregistry.client.security.KeyManager;
 import com.cryptoregistry.passwords.SensitiveBytes;
 import com.sleepycat.je.DatabaseException;
 
 /**
- * Create a datastore for key data. The store will be encrypted using two factor security. to
- * prepare for this you will need a thumb drive (flash drive) and run the twofactor.sh script
+ * Create a datastore for key data. The store will be encrypted using a key loaded by keyManager.
  * 
  * @author Dave
  * 
@@ -20,15 +19,15 @@ public class DataStore {
 	protected ButtermilkDatabase db;
 	protected ButtermilkViews views;
 	protected Properties props;
-	protected SecurityManagerInterface securityManagerInterface;
+	protected KeyManager keyManager;
 	protected String regHandle;
 	
 	
-	public DataStore(Properties props, SecurityManagerInterface securityManagerInterface) {
+	public DataStore(Properties props, KeyManager keyManager) {
 		this.props = props;
-		this.securityManagerInterface = securityManagerInterface;
+		this.keyManager = keyManager;
 		
-		SensitiveBytes cachedKey = securityManagerInterface.loadKey(securityManagerInterface.getPassword());
+		SensitiveBytes cachedKey = keyManager.loadKey(keyManager.getPassword());
 		
 		if(!props.containsKey("buttermilk.datastore.home")){
 			throw new RuntimeException("Please define buttermilk.datastore.home in your properties");
@@ -71,8 +70,8 @@ public class DataStore {
 		return props;
 	}
 
-	public SecurityManagerInterface getSecurityManager() {
-		return securityManagerInterface;
+	public KeyManager getSecurityManager() {
+		return keyManager;
 	}
 	
 }

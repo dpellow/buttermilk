@@ -9,14 +9,17 @@ import com.cryptoregistry.protos.Buttermilk.BytesProto;
 
 public class BytesOutputFrame extends OutputFrameBase implements OutputFrame {
 
+	final byte contentType; // code for this message type
 	final byte[] data;
 	
-	public BytesOutputFrame(SensitiveBytes sm) {
+	public BytesOutputFrame(SensitiveBytes sm, final byte contentType) {
 		this.data = sm.getData();
+		this.contentType = contentType;
 	}
 	
-	public BytesOutputFrame(byte[] sm) {
+	public BytesOutputFrame(byte[] sm, final byte contentType) {
 		this.data = sm;
+		this.contentType = contentType;
 	}
 
 	@Override
@@ -26,6 +29,7 @@ public class BytesOutputFrame extends OutputFrameBase implements OutputFrame {
 		byte [] bytes = proto.toByteArray();
 		int sz = bytes.length;
 		try {
+			this.writeByte(out, contentType);
 			this.writeInt(out, sz);
 			out.write(bytes);
 			out.flush();

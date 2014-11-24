@@ -25,7 +25,7 @@ public class AlertOutputFrame extends OutputFrameBase implements OutputFrame {
 		byte [] bytes = proto.toByteArray();
 		int sz = bytes.length;
 		try {
-			this.writeByte(out, sz);
+			this.writeByte(out, contentType);
 			this.writeInt(out, sz);
 			out.write(bytes);
 			out.flush();

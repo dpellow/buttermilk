@@ -6,7 +6,6 @@
 package com.cryptoregistry.proto.builder;
 
 import com.cryptoregistry.c2.key.Curve25519KeyForPublication;
-import com.cryptoregistry.protos.Buttermilk.C2KeyContentsProto;
 import com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto;
 import com.cryptoregistry.protos.Buttermilk.KeyMetadataProto;
 import com.google.protobuf.ByteString;

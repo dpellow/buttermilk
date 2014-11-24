@@ -17,7 +17,7 @@ import com.cryptoregistry.protos.Buttermilk.NamedListProto;
 import com.cryptoregistry.protos.Buttermilk.NamedMapProto;
 import com.cryptoregistry.protos.Buttermilk.RSAKeyContentsProto;
 import com.cryptoregistry.protos.Buttermilk.SignatureProto;
-import com.cryptoregistry.symmetric.AESGCM;
+import com.cryptoregistry.symmetric.AESCBCPKCS7;
 import com.google.protobuf.InvalidProtocolBufferException;
 
 public class StorageUtil {
@@ -30,8 +30,8 @@ public class StorageUtil {
 		try {
 
 			String protoName = data.getProtoClass();
-			AESGCM gcm = new AESGCM(cachedKey.getData(), data.getIv());
-			byte[] bytes = gcm.decrypt(data.getData());
+			AESCBCPKCS7 aes = new AESCBCPKCS7(cachedKey.getData(), data.getIv());
+			byte[] bytes = aes.decrypt(data.getData());
 			switch (protoName) {
 			
 			case "C2KeyContentsProto": {

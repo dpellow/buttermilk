@@ -8,10 +8,12 @@ import com.cryptoregistry.protos.Buttermilk.StringProto;
 
 public class StringOutputFrame extends OutputFrameBase implements OutputFrame {
 
+	final byte contentType;
 	final String data;
 	
-	public StringOutputFrame(String sm) {
+	public StringOutputFrame(String sm, final byte contentType) {
 		this.data = sm;
+		this.contentType = contentType;
 	}
 
 	@Override
@@ -21,6 +23,7 @@ public class StringOutputFrame extends OutputFrameBase implements OutputFrame {
 		byte [] bytes = proto.toByteArray();
 		int sz = bytes.length;
 		try {
+			this.writeByte(out,contentType);
 			this.writeInt(out, sz);
 			out.write(bytes);
 			out.flush();

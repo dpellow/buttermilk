@@ -22,11 +22,11 @@ public class ServerTest {
 	public static void main(String[] args) {
 	
 		log.info("Starting server on port "+port);
-		C2ServerSocket ss = null;
+		SecureServerSocket ss = null;
 		Curve25519KeyContents serverKey = Configuration.CONFIG.serverKey();
 		log.info("ServerKey:"+serverKey.getDistinguishedHandle());
 		try {
-			ss = new C2ServerSocket(
+			ss = new SecureServerSocket(
 					serverKey, 
 					port, 
 					50, 

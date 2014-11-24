@@ -27,7 +27,8 @@ Alert
 	2) Informational message - String in UTF-8 encoding
 	
 
-Handshake - basically an ECDH that encrypts an ephemeral key. 
+Handshake - basically an ECDH that generates a shared secret key, which then
+encrypts an ephemeral key used for the security. 
 
 	1) Client Public Key
 	2) Server Public Key, Server encrypted 256 bytes (to use as asymmetric key), iv or nonce as required

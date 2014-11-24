@@ -40,8 +40,8 @@ public class EncryptedKeyOutputFrame extends OutputFrameBase implements OutputFr
 		byte [] bytes = proto.toByteArray();
 		int sz = bytes.length;
 		try {
-			this.writeByte(out, contentType);
-			this.writeInt(out, sz);
+			this.writeByte(out, contentType); // message type
+			this.writeInt(out, sz); // length of remaining message after this int 
 			out.write(bytes);
 			out.flush();
 		} catch (IOException e) {
