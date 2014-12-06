@@ -17,7 +17,7 @@ import com.cryptoregistry.passwords.SensitiveBytes;
 
 
 /**
- * ButtermilkDatabase defines the storage containers, indices and foreign keys for the database.
+ * ButtermilkDatabase defines the storage containers, indices and foreign keys for the secure database.
  *
  * @author Dave Smith
  */

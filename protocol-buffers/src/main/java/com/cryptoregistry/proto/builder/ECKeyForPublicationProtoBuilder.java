@@ -10,7 +10,7 @@ import com.cryptoregistry.ec.ECKeyForPublication;
 import com.cryptoregistry.formats.EncodingHint;
 import com.cryptoregistry.formats.FormatUtil;
 import com.cryptoregistry.protos.Buttermilk.CurveDefinitionProto;
-import com.cryptoregistry.protos.Buttermilk.ECKeyContentsProto;
+import com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto;
 import com.cryptoregistry.protos.Buttermilk.KeyMetadataProto;
 
 /**
@@ -32,11 +32,11 @@ public class ECKeyForPublicationProtoBuilder {
 	 * 
 	 * @return
 	 */
-	public ECKeyContentsProto build() {
+	public ECKeyForPublicationProto build() {
 		
 		KeyMetadataProtoBuilder metaBuilder = new KeyMetadataProtoBuilder(keyContents.metadata);
 		KeyMetadataProto metaProto = metaBuilder.build();
-		ECKeyContentsProto.Builder ecProtoBuilder = ECKeyContentsProto.newBuilder();
+		ECKeyForPublicationProto.Builder ecProtoBuilder = ECKeyForPublicationProto.newBuilder();
 		
 		ecProtoBuilder.setMeta(metaProto);
 		

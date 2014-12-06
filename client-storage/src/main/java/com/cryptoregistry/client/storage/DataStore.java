@@ -9,7 +9,7 @@ import com.cryptoregistry.passwords.SensitiveBytes;
 import com.sleepycat.je.DatabaseException;
 
 /**
- * Create a datastore for key data. The store will be encrypted using a key loaded by keyManager.
+ * Create a datastore for key data. The store will be encrypted using a key loaded by the keyManager.
  * 
  * @author Dave
  * 

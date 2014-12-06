@@ -1,0 +1,41 @@
+bTLS 1.0 protocol description
+
+Step 1 - Request - Client sends Hello 
+
+HelloOutputFrame
+	contentType = Handshake::CLIENT_HELLO
+	regHandle from client
+	keyHandle for desired client public key
+	
+If server does not have client key matching handles, and cannot retrieve online, send Alert HandshakeCode::SEND_KEY
+Client sends Key using output frame based on the type of key
+
+Server does whatever required validation as per policy on the server side on the client key.
+
+If client key fails validation, send Alert HandshakeCode::FAILED_VALIDATION
+	then send Alert HandshakeCode::FAILED_HANDSHAKE
+	then close connection
+	
+If client key succeeds validation, server sends 
+
+HelloOutputFrame
+	contentType = Handshake::SERVER_HELLO
+	regHandle from server
+	keyHandle for desired server public key - the algorithm must match the client alg.
+
+If client does not have server key matching the handles provided, 
+and cannot download, send Alert HandshakeCode::SEND_KEY
+
+Server can be configured to not send key, in which case it will send a Handshake::CANNOT_SEND_KEY
+Client may continue by trying a different key (perhaps a different alg) in that situation
+
+Client does whatever required validation as per policy on the client side on the server key.
+
+If fails validation, send Alert HandshakeCode::FAILED_VALIDATION
+	then send Alert HandshakeCode::FAILED_HANDSHAKE
+	
+If both validations succeed, both sides create 256 bit secret key. If this succeeds, send CLIENT_READY or SERVER_READY.
+
+
+
+

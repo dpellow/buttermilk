@@ -15,8 +15,7 @@ import org.apache.log4j.Logger;
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
 
 /**
- * A secure socket using contemporary techniques. The server side must support all keys supported
- * in buttermilk
+ * A secure socket using contemporary techniques.
  * 
  * @author Dave
  *

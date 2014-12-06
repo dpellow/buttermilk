@@ -30,11 +30,12 @@ import com.cryptoregistry.protos.Buttermilk.C2KeyContentsProto;
 import com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto;
 import com.cryptoregistry.protos.Buttermilk.CryptoContactProto;
 import com.cryptoregistry.protos.Buttermilk.ECKeyContentsProto;
+import com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto;
 import com.cryptoregistry.protos.Buttermilk.RSAKeyContentsProto;
 import com.cryptoregistry.rsa.RSAKeyContents;
 import com.cryptoregistry.rsa.RSAKeyForPublication;
 import com.cryptoregistry.signature.CryptoSignature;
-import com.cryptoregistry.symmetric.AESGCM;
+import com.cryptoregistry.symmetric.AESCBCPKCS7;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
 import com.sleepycat.bind.EntryBinding;
@@ -128,7 +129,7 @@ public class ButtermilkViews {
 		}
 	}
 	
-	public void put(String regHandle,ECKeyForPublication key){
+	public void put(String regHandle, ECKeyForPublication key){
 		Metadata metadata = new Metadata();
 		metadata.setKey(true);
 		metadata.setRegistrationHandle(regHandle);
@@ -142,7 +143,7 @@ public class ButtermilkViews {
 		}else{
 			metadata.setForPublication(true);
 			ECKeyForPublicationProtoBuilder builder = new ECKeyForPublicationProtoBuilder(key);
-			ECKeyContentsProto proto = builder.build();
+			ECKeyForPublicationProto proto = builder.build();
 			putSecure(key.getMetadata().getHandle(),metadata,proto);
 		}
 	}
@@ -186,7 +187,7 @@ public class ButtermilkViews {
 		Handle key = new Handle(handle);
 		byte [] iv = new byte [16];
 		rand.nextBytes(iv);
-		AESGCM gcm = new AESGCM(cachedKey.getData(),iv);
+		AESCBCPKCS7 gcm = new AESCBCPKCS7(cachedKey.getData(),iv);
 		byte [] encrypted = gcm.encrypt(input);
 		String simpleName = proto.getClass().getSimpleName();
 		SecureData value = new SecureData(encrypted, iv, simpleName);
