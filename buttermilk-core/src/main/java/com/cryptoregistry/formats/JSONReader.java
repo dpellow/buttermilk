@@ -57,6 +57,8 @@ import com.cryptoregistry.signature.ECDSASignature;
 import com.cryptoregistry.signature.RSACryptoSignature;
 import com.cryptoregistry.signature.RSASignature;
 import com.cryptoregistry.signature.SignatureMetadata;
+import com.cryptoregistry.symmetric.SymmetricKeyContents;
+import com.cryptoregistry.symmetric.SymmetricKeyMetadata;
 import com.cryptoregistry.util.ArmoredCompressedString;
 import com.cryptoregistry.util.ArmoredString;
 import com.cryptoregistry.util.ArrayUtil;
@@ -152,6 +154,7 @@ public class JSONReader {
 						CryptoKeyMetadata meta = null;
 						KeyGenerationAlgorithm k = KeyGenerationAlgorithm.valueOf(keyAlgorithm);
 						switch(k){
+							
 							case Curve25519: {
 								meta = new C2KeyMetadata(handle,createdOn,format);
 								ArmoredString P = new ArmoredString(String.valueOf(keyData.get("P")));
@@ -212,6 +215,9 @@ public class JSONReader {
 								// TODO
 								break;
 							}
+							case Symmetric:{
+								throw new RuntimeException("Key has no public form: "+keyAlgorithm);
+							}
 							default : throw new RuntimeException("Unknown alg: "+keyAlgorithm);
 						}
 						
@@ -235,6 +241,12 @@ public class JSONReader {
 						CryptoKeyMetadata meta = null;
 						KeyGenerationAlgorithm k = KeyGenerationAlgorithm.valueOf(keyAlgorithm);
 						switch(k){
+							case Symmetric:{
+								meta = new SymmetricKeyMetadata(handle,createdOn,format);
+								ArmoredString s = new ArmoredString(String.valueOf(keyData.get("s")));
+								SymmetricKeyContents contents = new SymmetricKeyContents((SymmetricKeyMetadata)meta,s.decodeToBytes());
+								list.add(new CryptoKeyWrapperImpl(contents));
+							}
 							case Curve25519: {
 								meta = new C2KeyMetadata(handle,createdOn,format);
 								ArmoredString P = new ArmoredString(String.valueOf(keyData.get("P")));
