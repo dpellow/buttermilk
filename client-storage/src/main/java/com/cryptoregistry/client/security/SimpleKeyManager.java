@@ -17,10 +17,8 @@ import com.cryptoregistry.passwords.SensitiveBytes;
 import com.cryptoregistry.symmetric.SymmetricKeyContents;
 
 /**
- * Loads a Symmetric Key from file.
- * 
  * Looks for configuration based on a "BUTTERMILK_HOME" environment variable. This should
- * be set to a folder with buttermilk.properties and buttermilk.password files
+ * be set to a folder with buttermilk.properties and a symmetric key
  * 
  * 
  * @author Dave
@@ -29,24 +27,25 @@ import com.cryptoregistry.symmetric.SymmetricKeyContents;
 public class SimpleKeyManager implements KeyManager {
 
 	Properties props;
-	String path_s;
+	String buttermilkHome;
+	String path_s; // path to key
 	
-	public SimpleKeyManager(Properties props) {
-		this.props = props;
+	public SimpleKeyManager() {
 		init();
-		path_s = props.get("p.home") + File.separatorChar + props.get("key.filename");
 	}
 	
 	private void init(){
-		String path = System.getenv("BUTTERMILK_HOME");
-		if(path == null) throw new RuntimeException("Path is null, set BUTTERMILK_HOME in your env");
-		File f = new File(path);
+		buttermilkHome = System.getenv("BUTTERMILK_HOME");
+		if(buttermilkHome == null) throw new RuntimeException("Path is null, set BUTTERMILK_HOME in your env variables");
+		File f = new File(buttermilkHome);
 		
-		// suck in any file in this folder assuming it contains properties
+		// suck in any file with .properties in this folder and combine them
 		
+		props =  Properties.Factory.getInstance();
 		if(f.exists() && f.isDirectory()){
 			File [] files = f.listFiles();
 			for(int i = 0;i<files.length;i++){
+				if(!files[i].getPath().endsWith(".properties")) continue;
 				if(files[i].isFile()){
 					Properties p = null;
 					try {
@@ -59,6 +58,8 @@ public class SimpleKeyManager implements KeyManager {
 		}else{
 			throw new RuntimeException("BUTTERMILK_HOME does not exist");
 		}
+		
+		path_s = buttermilkHome + File.separatorChar + props.get("key.filename");
 	}
 
 	@Override
@@ -111,5 +112,20 @@ public class SimpleKeyManager implements KeyManager {
 
 		return true;
 	}
+
+	@Override
+	public String getDatastoreFolder() {
+		if(!props.containsKey("buttermilk.datastore.home")){
+			throw new RuntimeException("Please define buttermilk.datastore.home in your properties");
+		}
+		return props.resolve("buttermilk.datastore.home");
+	}
+
+	@Override
+	public String toString() {
+		return "SimpleKeyManager [buttermilkHome=" + buttermilkHome + "]";
+	}
+	
+	
 
 }

@@ -5,8 +5,9 @@ import com.cryptoregistry.passwords.SensitiveBytes;
 
 public interface KeyManager {
 
-	public abstract SensitiveBytes loadKey(Password password);
-	public abstract Password getPassword();
+	public SensitiveBytes loadKey(Password password);
+	public Password getPassword();
 	public boolean keysExist();
+	public String getDatastoreFolder();
 
 }
