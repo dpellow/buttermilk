@@ -28,6 +28,10 @@ public class SymmetricKeyMetadata implements CryptoKeyMetadata {
 		return new SymmetricKeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat(password));
 	}
 	
+	public static SymmetricKeyMetadata createUnsecure() {
+		return new SymmetricKeyMetadata(UUID.randomUUID().toString(), new Date(), new KeyFormat());
+	}
+	
 	public static SymmetricKeyMetadata createSecureScrypt(char[]password) {
 		return new SymmetricKeyMetadata(UUID.randomUUID().toString(), new Date(),
 				new KeyFormat(EncodingHint.Base64url,

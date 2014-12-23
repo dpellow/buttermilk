@@ -41,6 +41,10 @@ public class C2KeyMetadata implements CryptoKeyMetadata {
 		return new C2KeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat());
 	}
 	
+	public static C2KeyMetadata createUnsecured(String handle) {
+		return new C2KeyMetadata(handle, new Date(),new KeyFormat());
+	}
+	
 	public static C2KeyMetadata createForPublication() {
 		return new C2KeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat(Mode.FOR_PUBLICATION));
 	}

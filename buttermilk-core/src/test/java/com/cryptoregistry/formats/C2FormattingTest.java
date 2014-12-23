@@ -10,7 +10,9 @@ import com.cryptoregistry.CryptoContact;
 import com.cryptoregistry.MapData;
 import com.cryptoregistry.ListData;
 import com.cryptoregistry.c2.CryptoFactory;
+import com.cryptoregistry.c2.key.C2KeyMetadata;
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
+import com.cryptoregistry.c2.key.Curve25519KeyForPublication;
 import com.cryptoregistry.signature.CryptoSignature;
 import com.cryptoregistry.signature.builder.C2KeyContentsIterator;
 import com.cryptoregistry.signature.builder.C2SignatureBuilder;
@@ -93,6 +95,24 @@ public class C2FormattingTest {
 		
 		System.err.println(output);
 		
+	}
+	
+	@Test
+	public void test1(){
+		char [] password = "password1".toCharArray();
+		C2KeyMetadata meta = C2KeyMetadata.createUnsecured("TEST"); // key handle will be set to the token "TEST"
+		Curve25519KeyContents keys0 = CryptoFactory.INSTANCE.generateKeys(meta);
+		JSONFormatter format = new JSONFormatter("Chinese Knees");
+	    format.add(keys0); // formats an unsecured key
+	    format.add(keys0.clone(new KeyFormat(password))); // formats a secured clone of the key with a Base64url encoding hint, which is right for Curve25519
+	    format.add(keys0.cloneForPublication()); // makes a clone ready for publication
+		StringWriter writer = new StringWriter();
+		format.format(writer);
+		String out = writer.toString();
+		Assert.assertTrue(out.indexOf("TEST-U")>0);
+		Assert.assertTrue(out.indexOf("TEST-S")>0);
+		Assert.assertTrue(out.indexOf("TEST-P")>0);
+		System.err.println(out);
 	}
 
 }

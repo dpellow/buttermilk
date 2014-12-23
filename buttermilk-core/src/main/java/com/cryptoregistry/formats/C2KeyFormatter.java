@@ -108,9 +108,9 @@ class C2KeyFormatter {
 		g.writeStringField("CreatedOn", TimeUtil.format(c2Keys.metadata.createdOn));
 		g.writeStringField("Encoding", EncodingHint.Base64url.toString());
 		g.writeStringField("P", c2Keys.publicKey.getBase64UrlEncoding());
+		
 		g.writeStringField("s", ((Curve25519KeyContents)c2Keys).signingPrivateKey.getBase64UrlEncoding());
-		g.writeStringField("k",
-				((Curve25519KeyContents)c2Keys).agreementPrivateKey.getBase64UrlEncoding());
+		g.writeStringField("k", ((Curve25519KeyContents)c2Keys).agreementPrivateKey.getBase64UrlEncoding());
 		g.writeEndObject();
 	}
 

@@ -58,6 +58,13 @@ public class Curve25519KeyContents extends Curve25519KeyForPublication implement
 			return c;
 	}
 	
+	public Curve25519KeyForPublication cloneForPublication() {
+		C2KeyMetadata meta =  metadata.cloneForPublication();
+		PublicKey pubKey = (PublicKey) publicKey.clone();
+		Curve25519KeyForPublication  c = new Curve25519KeyForPublication (meta, pubKey);
+		return c;
+	}
+	
 	public Curve25519KeyContents clone(KeyFormat format) {
 		C2KeyMetadata meta = new C2KeyMetadata(this.getHandle(),new Date(this.getCreatedOn().getTime()),format);
 		PublicKey pubKey = (PublicKey) super.publicKey.clone();
