@@ -93,6 +93,12 @@ public class ECKeyContents extends ECKeyForPublication implements Signer {
 		}
 	}
 	
+	public ECKeyForPublication cloneForPublication(){
+		ECKeyMetadata meta = metadata.cloneForPublication();
+		if(usesNamedCurve()) return new ECKeyForPublication(meta,Q,curveName);
+		else return new ECKeyForPublication(meta,Q,customCurveDefinition);
+	}
+	
 	public ECKeyContents clone(KeyFormat format){
 		ECKeyMetadata meta = new ECKeyMetadata(this.getHandle(),new Date(this.getCreatedOn().getTime()),format);
 		if(usesNamedCurve()) {

@@ -45,6 +45,10 @@ public class ECKeyMetadata implements CryptoKeyMetadata {
 		return new ECKeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat());
 	}
 	
+	public static ECKeyMetadata createUnsecured() {
+		return createDefault();
+	}
+	
 	public static ECKeyMetadata createForPublication() {
 		return new ECKeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat(Mode.FOR_PUBLICATION));
 	}

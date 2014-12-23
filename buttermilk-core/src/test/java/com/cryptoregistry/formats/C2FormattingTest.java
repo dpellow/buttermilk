@@ -12,7 +12,6 @@ import com.cryptoregistry.ListData;
 import com.cryptoregistry.c2.CryptoFactory;
 import com.cryptoregistry.c2.key.C2KeyMetadata;
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
-import com.cryptoregistry.c2.key.Curve25519KeyForPublication;
 import com.cryptoregistry.signature.CryptoSignature;
 import com.cryptoregistry.signature.builder.C2KeyContentsIterator;
 import com.cryptoregistry.signature.builder.C2SignatureBuilder;
@@ -112,7 +111,9 @@ public class C2FormattingTest {
 		Assert.assertTrue(out.indexOf("TEST-U")>0);
 		Assert.assertTrue(out.indexOf("TEST-S")>0);
 		Assert.assertTrue(out.indexOf("TEST-P")>0);
-		System.err.println(out);
+		//System.err.println(out);
 	}
+	
+	
 
 }

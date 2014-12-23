@@ -94,5 +94,23 @@ public class ECDSAFormattingTest {
 		System.err.println(output);
 		
 	}
+	
+	@Test
+	public void test1(){
+		char [] password = "password1".toCharArray();
+		ECKeyContents keys0 = CryptoFactory.INSTANCE.generateKeys("P-256");
+		String handle = keys0.getMetadata().getHandle();
+		JSONFormatter format = new JSONFormatter("Chinese Knees");
+	    format.add(keys0); // formats an unsecured key
+	    format.add(keys0.clone(new KeyFormat(password))); // formats a secured clone of the key with a Base64url encoding hint, which is right for Curve25519
+	    format.add(keys0.cloneForPublication()); // makes a clone ready for publication
+		StringWriter writer = new StringWriter();
+		format.format(writer);
+		String out = writer.toString();
+		Assert.assertTrue(out.indexOf(handle+"-U")>0);
+		Assert.assertTrue(out.indexOf(handle+"-S")>0);
+		Assert.assertTrue(out.indexOf(handle+"-P")>0);
+		//System.err.println(out);
+	}
 
 }
