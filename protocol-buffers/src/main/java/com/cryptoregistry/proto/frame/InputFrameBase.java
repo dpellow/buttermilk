@@ -34,6 +34,14 @@ public class InputFrameBase {
 		int ch1 = in.read();
 		return (byte) ch1;
 	}
+	
+	public final int readShort16(InputStream in) throws IOException {
+		int ch1 = in.read();
+		int ch2 = in.read();
+		if ((ch1 | ch2) < 0)
+			throw new EOFException();
+		return ((ch1 << 8) + (ch2 << 0));
+	}
 
 	public final int readInt32(InputStream in) throws IOException {
 		int ch1 = in.read();

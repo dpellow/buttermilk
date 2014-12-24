@@ -16,6 +16,11 @@ message StringProto {
 	required string data = 1;
 }
 
+message AuthenticatedStringProto {
+	required string data = 1;
+	required bytes hmac = 2;
+}
+
 message MapProto {
 	repeated EntryProto entries = 1;
 }

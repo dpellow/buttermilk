@@ -7,7 +7,9 @@ import com.cryptoregistry.passwords.SensitiveBytes;
 import com.sleepycat.je.DatabaseException;
 
 /**
- * Create a datastore for key data. The store will be encrypted using a key loaded by the keyManager.
+ * Create a BDB-style data store for key data. The store contents will be encrypted using a key loaded by 
+ * the keyManager. This type of store is best suited to a server or other single-access, high performance
+ * use-case
  * 
  * @author Dave
  * 
@@ -22,11 +24,11 @@ public class DataStore {
 	/**
 	 * Pass in a key manager. The SimpleKeyManager relies on BUTTERMILK_HOME to be set
 	 * 
-	 * key manager will need to scan that home ofr properties file(s) containing:
+	 * key manager will need to scan that home for properties file(s) containing at a minimum:
 	 * 
 	 * key.filename=symmetric-key.json
 	 * buttermilk.datastore.home=C:/path/to/buttermilk-home/db
-	 * password=<Obfuscated password for key>
+	 * password=<obfuscated password for the symmetric key>
 	 * 
 	 * To create a Symmetric Key, use the script in the bin folder of the buttermilk-core distro:
 	 * 
@@ -98,5 +100,6 @@ public class DataStore {
 	public KeyManager getSecurityManager() {
 		return keyManager;
 	}
+	
 	
 }

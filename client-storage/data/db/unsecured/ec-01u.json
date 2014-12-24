@@ -1,0 +1,14 @@
+{
+  "Version" : "Buttermilk Key Materials 1.0",
+  "RegHandle" : "Chinese Knees",
+  "Keys" : {
+    "de4ca270-c93a-40f6-9ef6-8ed92f43bb4d-U" : {
+      "KeyAlgorithm" : "EC",
+      "CreatedOn" : "2014-12-23T08:15:04+0000",
+      "Encoding" : "Base64url",
+      "Q" : "AN0L1eE5v_xdX--bEPHIEMGW191utKEgCcsLSX3kar4-,APLk-zxcwjzTGzuT8L7Lsk5Wz3YhuhekurUew67thT9M",
+      "D" : "AJEBt3Co5EOhJtN_HpmrFAILS9D4HvxH1IyOEndW0uLo",
+      "CurveName" : "P256"
+    }
+  }
+}

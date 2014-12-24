@@ -1,0 +1,13 @@
+{
+  "Version" : "Buttermilk Key Materials 1.0",
+  "RegHandle" : "Chinese Knees",
+  "Keys" : {
+    "9f05a806-060f-4679-a259-25046d919b10-S" : {
+      "KeyData.Type" : "Curve25519",
+      "KeyData.PBEAlgorithm" : "PBKDF2",
+      "KeyData.EncryptedData" : "hDzLBH-O7fl-0v9VjxXInHYWHbJs6djOvscPeQkSFavk4a9qKB5IczySFvXDIJfQXv7sz9Ds032wD1gvdQCFt2-y023GdLO87AGD5ZAc-6PJjaKhJQz6Jy3gFJ3s2A-r_gCoVf5XT7qWyR9b-GAdHkPTAmsDNGEqNX315BRCQ3jjvbtMs85IiTEAUZWinaS0ZXsCp472WK1rxH1iOnUnxR5JPTkNohnb6Cq_9pkRzZeAzHQY64o_QYo-lWCK57-QMEKS747KtD1Mz6FCUoQh3ZNKYAihTj2bwvJ9hV1Tq2QdwLpWMacnvKArbUKa_xQ8ow4E1QYyzjFqmHsRSqemE5gDZ7fuayKSS0upG6RUOVFzqfmEEEBBUdyhTsKiFnGRY5zImdse-LZy5eXfy556PBxuw1oh1UKDyVI3qxTVx1lxscXzMxLQSvYZfwRAYFYiDrrpQdRTbEiNMTExTQ2ktQ==",
+      "KeyData.PBESalt" : "dHFgm3WeUk_olyHVhZecDy9JAZNJJDh0slwY3YIgH6s=",
+      "KeyData.Iterations" : "10000"
+    }
+  }
+}

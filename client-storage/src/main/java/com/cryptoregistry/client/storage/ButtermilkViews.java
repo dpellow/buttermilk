@@ -187,8 +187,8 @@ public class ButtermilkViews {
 		Handle key = new Handle(handle);
 		byte [] iv = new byte [16];
 		rand.nextBytes(iv);
-		AESCBCPKCS7 gcm = new AESCBCPKCS7(cachedKey.getData(),iv);
-		byte [] encrypted = gcm.encrypt(input);
+		AESCBCPKCS7 aes = new AESCBCPKCS7(cachedKey.getData(),iv);
+		byte [] encrypted = aes.encrypt(input);
 		String simpleName = proto.getClass().getSimpleName();
 		SecureData value = new SecureData(encrypted, iv, simpleName);
 		this.getSecureMap().put(key, value);

@@ -18,6 +18,12 @@ public class OutputFrameBase {
         out.write((v >>>  0) & 0xFF);
     }
 	
+	public final void writeShort(OutputStream out, int v) throws IOException {
+		short s = (short) v;
+        out.write((s >>>  8) & 0xFF);
+        out.write((s >>>  0) & 0xFF);
+    }
+	
 	public final void writeByte(OutputStream out, int v) throws IOException {
         out.write(v & 0xFF);
     }
