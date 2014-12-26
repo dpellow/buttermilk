@@ -73,7 +73,7 @@ public class MapData {
 
 	@Override
 	public String toString() {
-		return "LocalData [uuid=" + uuid + ", data=" + data + "]";
+		return "MapData [uuid=" + uuid + ", data=" + data + "]";
 	}
 	
 	

@@ -35,6 +35,18 @@ import com.fasterxml.jackson.core.JsonGenerator;
  * 
  * Version
  * Registration Handle
+ * Assertions
+ *   uuid
+ *     IdentityPoints=100
+ *     AssertedBy=registrant
+ *     Details=URL
+ *     "AssertedOn" : "2014-06-22T03:14:50+0000",
+      "SignedWith" : "CR1.RSA.SHA-256",
+      "s" : "fr_YnzycCZbrlTDbtdjjkqpzSrh7Mjdvmmd1WvBeQnZ980g2e2SSaE7NqzAmcnRVTrGBWb4CIpJpAmEW8PSmIDxBmY7H8-3k5xXvhpW4TpaWK529rrBZ6HGNHndokmwmbVG8Z2etir4UITYMNgpMjbI8l5TDoIe_gpL5vWrYnKLn5Dl2Nuhw7UtyCe1VwCFKcKkmtMzloNnoa9HffxCneYBOGMlyK734VulT--kRV3yjwLinBhrtMfbiwDdCkC-UGmQO-TpPCAbBLPc4sIA7vZEEo-M-zcszWSFDMBXy0YHJ8hghQdZajv-m58-F18e0-wnNLAjAYvEtnsgFHJUANA==",
+      "DataRefs" : [ "uuid:IdentityPoints", ".AssertedBy", ".AssertedOn"]
+   
+ *     
+ *     
  * Data
  *  \
  *  local
