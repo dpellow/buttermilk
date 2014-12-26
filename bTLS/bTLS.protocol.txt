@@ -1,0 +1,115 @@
+bTLS 1.0 protocol description
+
+Handshake - 
+
+Step 1 - Request - Client sends Hello 
+
+HelloOutputFrame
+    contentType = BTLSProtocol.HANDSHAKE 
+	subcode = Handshake::CLIENT_HELLO
+	short with size
+	HelloProtoBuilder output:
+		regHandle from client
+		keyHandle for desired client public key
+	
+If server does not have client key matching handles, and cannot retrieve online, send Alert HandshakeCode::SEND_KEY
+
+Client sends Key using PublishedKeyOutputFrame(key) and HandshakeCode::SENDING_KEY
+PublishedKeyOutputFrame
+  contentType = BTLSProtocol.HANDSHAKE
+  subcode = HandshakeCode.SENDING_KEY
+  short with remaining size
+  PublishedKeyProtoBuilder output:
+  	selected published key contents
+
+Server does whatever required validation as per policy on the server side on the client key.
+
+If client key fails validation, send Alert HandshakeCode::FAILED_VALIDATION
+	then send Alert HandshakeCode::FAILED_HANDSHAKE
+	then close connection
+	
+If client key succeeds validation, server send Alert HandshakeCode::SUCCESSFUL_VALIDATION. Server
+will probably add the key to its cache of known keys at this point
+
+Now server sends 
+
+HelloOutputFrame
+	contentType = BTLSProtocol.HANDSHAKE 
+	subcode = HandshakeCode::SERVER_HELLO
+	regHandle from server registration
+	keyHandle for desired server public key - the algorithm must match the client alg.
+
+If client does not have server key matching the handles provided, 
+and cannot download, send Alert HandshakeCode::SEND_KEY
+
+Server can be configured to not send key, in which case it will send a Handshake::CANNOT_SEND_KEY
+Client may continue by trying a different key (perhaps a different algorithm) in that situation
+
+otherwise 
+
+Server sends Key using PublishedKeyOutputFrame(key) and HandshakeCode::SENDING_KEY
+PublishedKeyOutputFrame
+  contentType = BTLSProtocol.HANDSHAKE
+  subcode = HandshakeCode.SENDING_KEY
+  short with remaining size
+  PublishedKeyProtoBuilder output:
+  	selected published key contents
+
+Client does whatever required validation as per policy on the client side on the server key.
+
+If fails validation, send Alert HandshakeCode::FAILED_VALIDATION
+	then send Alert HandshakeCode::FAILED_HANDSHAKE
+	
+otherwise, 
+
+If server key succeeds validation, client send Alert HandshakeCode::SUCCESSFUL_VALIDATION. Client
+will probably add the key to its cache of known keys at this point
+	
+when server gets SUCCESSFUL_VALIDATION from client, then Server build and send
+
+SessionDetailsFrame
+  contentType = BTLSProtocol.HANDSHAKE
+  subcode = HandshakeCode.SESSION_DETAILS
+  short with remaining size
+  SessionDetailsProtoBuilder output:
+    Session ID
+  	encrypted key
+  	symmetric protocol selection details
+
+Once client has successfully decrypted the frame both sides now have a session ID and a 256 bit secret key. 
+If this succeeds on client, send CLIENT_READY.
+
+send server ready.
+
+Communications then begin using Application message content types.
+
+
+
+-----------------------------
+
+SecureSocket is going to encapsulate the process of writing frames. The chief abstraction of the
+socket is that it is a set of streams we can read or write to without concern of the underlying
+protocol going about its business.
+
+SecureSocket should take a symmetric key (an unsecured one) as an argument, or a secure one with
+a password. Beyond the host, port, etc., nothing else should be required
+
+
+
+
+
+
+
+ 
+
+
+ 
+
+
+
+
+
+
+
+
+

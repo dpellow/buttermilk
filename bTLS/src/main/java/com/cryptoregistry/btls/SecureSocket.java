@@ -12,9 +12,10 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import x.org.bouncycastle.crypto.io.*;
-
 import org.apache.log4j.Logger;
+
+import com.cryptoregistry.btls.io.FrameInputStream;
+import com.cryptoregistry.btls.io.FrameOutputStream;
 
 /**
  * 
@@ -27,12 +28,14 @@ public class SecureSocket extends Socket {
 	
 	private static final Logger log = Logger.getLogger("com.cryptography.btls.SecureSocket");
 	
-	protected CipherOutputStream cout;
-	protected CipherInputStream cin;
+	protected FrameOutputStream fout;
+	protected FrameInputStream fin;
 
 	//package-protected constructor, used only by server socket
 	SecureSocket() throws IOException {
 		super();
+		fin = new FrameInputStream(super.getInputStream());
+		fout = new FrameOutputStream(super.getOutputStream());
 	}
 
 	/**
@@ -44,6 +47,8 @@ public class SecureSocket extends Socket {
 	 */
 	public SecureSocket(InetAddress address, int port) throws IOException {
 		super(address, port);
+		fin = new FrameInputStream(super.getInputStream());
+		fout = new FrameOutputStream(super.getOutputStream());
 	}
 
 	/**
@@ -54,68 +59,26 @@ public class SecureSocket extends Socket {
 	 * @throws UnknownHostException
 	 * @throws IOException
 	 */
-	public SecureSocket(String host, int port) throws UnknownHostException,
-			IOException {
+	public SecureSocket(String host, int port) throws UnknownHostException, IOException {
 		super(host, port);
+		fin = new FrameInputStream(super.getInputStream());
+		fout = new FrameOutputStream(super.getOutputStream());
 	}
 	
-	/**
-	 * Package protected, set by handshake on completion
-	 * 
-	 * @param cin
-	 * @param cout
-	 */
-	void setStreams(Handshake handshake) {
-		this.cin = handshake.decorateInputStream();
-		this.cout = handshake.decorateOutputStream();
-	}
 	
 	@Override
 	public OutputStream getOutputStream() throws IOException {
-		return cout;
+		return fout;
 	}
 	
 	@Override
 	public InputStream getInputStream() throws IOException {
-		return cin;
+		return fin;
 	}
 	
-	/**
-	 * Package protected, called only within Server socket
-	 * 
-	 * @return
-	 * @throws IOException
-	 */
-	InputStream getRawInputStream() throws IOException {
-		return super.getInputStream();
-	}
-	
-	/**
-	 * Package protected, called only within Server socket
-	 * 
-	 * @return
-	 * @throws IOException
-	 */
-	
-	OutputStream getRawOutputStream() throws IOException {
-		return super.getOutputStream();
-	}
-	
-	/**
-	 * Required to call to complete the cipher text
-	 * 
-	 */
 	public synchronized void close() throws IOException {
 		if(!this.isClosed()){
-			// forces a doFinal() and flush in the cipher engine
-			cout.close();
-			
-			// allow a little time for the socket to do final process before closing
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			fout.close();
 			//now close the socket
 			log.info("closing "+this);
 			super.close();

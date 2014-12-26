@@ -12,8 +12,6 @@ import java.net.Socket;
 
 import org.apache.log4j.Logger;
 
-import com.cryptoregistry.c2.key.Curve25519KeyContents;
-
 /**
  * A secure socket using contemporary techniques.
  * 
@@ -22,29 +20,23 @@ import com.cryptoregistry.c2.key.Curve25519KeyContents;
  */
 public class SecureServerSocket extends ServerSocket {
 
-	private static final Logger log = Logger.getLogger("com.cryptography.btls.C2ServerSocket");
+	private static final Logger log = Logger.getLogger("com.cryptography.btls.SecureServerSocket");
 
-	Curve25519KeyContents serverKey;
-
-	public SecureServerSocket(Curve25519KeyContents serverKey) throws IOException {
+	public SecureServerSocket() throws IOException {
 		super();
-		this.serverKey=serverKey;
 	}
 
-	public SecureServerSocket(Curve25519KeyContents serverKey, int port) throws IOException {
+	public SecureServerSocket(int port) throws IOException {
 		super(port);
-		this.serverKey=serverKey;
 	}
 
-	public SecureServerSocket(Curve25519KeyContents serverKey, int port, int backlog) throws IOException {
+	public SecureServerSocket(int port, int backlog) throws IOException {
 		super(port, backlog);
-		this.serverKey=serverKey;
 	}
 
-	public SecureServerSocket(Curve25519KeyContents serverKey, int port, int backlog, InetAddress bindAddress)
+	public SecureServerSocket(int port, int backlog, InetAddress bindAddress)
 			throws IOException {
 		super(port, backlog, bindAddress);
-		this.serverKey=serverKey;
 	}
 
 	/**
@@ -55,14 +47,9 @@ public class SecureServerSocket extends ServerSocket {
 		
 		SecureSocket s = new SecureSocket();
 		implAccept(s);
-		C2Handshake handshake = new C2Handshake(true, serverKey, s.getRawInputStream(),s.getRawOutputStream());
-		if(!handshake.serversHandshake()){
-			// failed, throw exception
-			throw new IOException("Handshake failed: "+s.toString());
-		}else{
-			// handshake also knows how to set up the Cipher stream decorators we will use
-			s.setStreams(handshake);
-		}
+	
+		// do handshake
+	
 		return s;
 	}
 
