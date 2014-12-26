@@ -753,6 +753,2254 @@ public final class Buttermilk {
     // @@protoc_insertion_point(class_scope:HelloProto)
   }
 
+  public interface PublishedKeyProtoOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:PublishedKeyProto)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>optional .C2KeyForPublicationProto c2 = 1;</code>
+     */
+    boolean hasC2();
+    /**
+     * <code>optional .C2KeyForPublicationProto c2 = 1;</code>
+     */
+    com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto getC2();
+    /**
+     * <code>optional .C2KeyForPublicationProto c2 = 1;</code>
+     */
+    com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProtoOrBuilder getC2OrBuilder();
+
+    /**
+     * <code>optional .ECKeyForPublicationProto ec = 2;</code>
+     */
+    boolean hasEc();
+    /**
+     * <code>optional .ECKeyForPublicationProto ec = 2;</code>
+     */
+    com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto getEc();
+    /**
+     * <code>optional .ECKeyForPublicationProto ec = 2;</code>
+     */
+    com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProtoOrBuilder getEcOrBuilder();
+
+    /**
+     * <code>optional .RSAKeyForPublicationProto rsa = 3;</code>
+     */
+    boolean hasRsa();
+    /**
+     * <code>optional .RSAKeyForPublicationProto rsa = 3;</code>
+     */
+    com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto getRsa();
+    /**
+     * <code>optional .RSAKeyForPublicationProto rsa = 3;</code>
+     */
+    com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProtoOrBuilder getRsaOrBuilder();
+
+    /**
+     * <code>optional .NTRUKeyForPublicationProto ntru = 4;</code>
+     */
+    boolean hasNtru();
+    /**
+     * <code>optional .NTRUKeyForPublicationProto ntru = 4;</code>
+     */
+    com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto getNtru();
+    /**
+     * <code>optional .NTRUKeyForPublicationProto ntru = 4;</code>
+     */
+    com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProtoOrBuilder getNtruOrBuilder();
+  }
+  /**
+   * Protobuf type {@code PublishedKeyProto}
+   */
+  public static final class PublishedKeyProto extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:PublishedKeyProto)
+      PublishedKeyProtoOrBuilder {
+    // Use PublishedKeyProto.newBuilder() to construct.
+    private PublishedKeyProto(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private PublishedKeyProto(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final PublishedKeyProto defaultInstance;
+    public static PublishedKeyProto getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public PublishedKeyProto getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private PublishedKeyProto(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto.Builder subBuilder = null;
+              if (keyCase_ == 1) {
+                subBuilder = ((com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto) key_).toBuilder();
+              }
+              key_ = input.readMessage(com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto) key_);
+                key_ = subBuilder.buildPartial();
+              }
+              keyCase_ = 1;
+              break;
+            }
+            case 18: {
+              com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto.Builder subBuilder = null;
+              if (keyCase_ == 2) {
+                subBuilder = ((com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto) key_).toBuilder();
+              }
+              key_ = input.readMessage(com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto) key_);
+                key_ = subBuilder.buildPartial();
+              }
+              keyCase_ = 2;
+              break;
+            }
+            case 26: {
+              com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto.Builder subBuilder = null;
+              if (keyCase_ == 3) {
+                subBuilder = ((com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto) key_).toBuilder();
+              }
+              key_ = input.readMessage(com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto) key_);
+                key_ = subBuilder.buildPartial();
+              }
+              keyCase_ = 3;
+              break;
+            }
+            case 34: {
+              com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto.Builder subBuilder = null;
+              if (keyCase_ == 4) {
+                subBuilder = ((com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto) key_).toBuilder();
+              }
+              key_ = input.readMessage(com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto) key_);
+                key_ = subBuilder.buildPartial();
+              }
+              keyCase_ = 4;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.cryptoregistry.protos.Buttermilk.internal_static_PublishedKeyProto_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.cryptoregistry.protos.Buttermilk.internal_static_PublishedKeyProto_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.cryptoregistry.protos.Buttermilk.PublishedKeyProto.class, com.cryptoregistry.protos.Buttermilk.PublishedKeyProto.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<PublishedKeyProto> PARSER =
+        new com.google.protobuf.AbstractParser<PublishedKeyProto>() {
+      public PublishedKeyProto parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new PublishedKeyProto(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<PublishedKeyProto> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    private int keyCase_ = 0;
+    private java.lang.Object key_;
+    public enum KeyCase
+        implements com.google.protobuf.Internal.EnumLite {
+      C2(1),
+      EC(2),
+      RSA(3),
+      NTRU(4),
+      KEY_NOT_SET(0);
+      private int value = 0;
+      private KeyCase(int value) {
+        this.value = value;
+      }
+      public static KeyCase valueOf(int value) {
+        switch (value) {
+          case 1: return C2;
+          case 2: return EC;
+          case 3: return RSA;
+          case 4: return NTRU;
+          case 0: return KEY_NOT_SET;
+          default: throw new java.lang.IllegalArgumentException(
+            "Value is undefined for this oneof enum.");
+        }
+      }
+      public int getNumber() {
+        return this.value;
+      }
+    };
+
+    public KeyCase
+    getKeyCase() {
+      return KeyCase.valueOf(
+          keyCase_);
+    }
+
+    public static final int C2_FIELD_NUMBER = 1;
+    /**
+     * <code>optional .C2KeyForPublicationProto c2 = 1;</code>
+     */
+    public boolean hasC2() {
+      return keyCase_ == 1;
+    }
+    /**
+     * <code>optional .C2KeyForPublicationProto c2 = 1;</code>
+     */
+    public com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto getC2() {
+      if (keyCase_ == 1) {
+         return (com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto) key_;
+      }
+      return com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto.getDefaultInstance();
+    }
+    /**
+     * <code>optional .C2KeyForPublicationProto c2 = 1;</code>
+     */
+    public com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProtoOrBuilder getC2OrBuilder() {
+      if (keyCase_ == 1) {
+         return (com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto) key_;
+      }
+      return com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto.getDefaultInstance();
+    }
+
+    public static final int EC_FIELD_NUMBER = 2;
+    /**
+     * <code>optional .ECKeyForPublicationProto ec = 2;</code>
+     */
+    public boolean hasEc() {
+      return keyCase_ == 2;
+    }
+    /**
+     * <code>optional .ECKeyForPublicationProto ec = 2;</code>
+     */
+    public com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto getEc() {
+      if (keyCase_ == 2) {
+         return (com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto) key_;
+      }
+      return com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto.getDefaultInstance();
+    }
+    /**
+     * <code>optional .ECKeyForPublicationProto ec = 2;</code>
+     */
+    public com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProtoOrBuilder getEcOrBuilder() {
+      if (keyCase_ == 2) {
+         return (com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto) key_;
+      }
+      return com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto.getDefaultInstance();
+    }
+
+    public static final int RSA_FIELD_NUMBER = 3;
+    /**
+     * <code>optional .RSAKeyForPublicationProto rsa = 3;</code>
+     */
+    public boolean hasRsa() {
+      return keyCase_ == 3;
+    }
+    /**
+     * <code>optional .RSAKeyForPublicationProto rsa = 3;</code>
+     */
+    public com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto getRsa() {
+      if (keyCase_ == 3) {
+         return (com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto) key_;
+      }
+      return com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto.getDefaultInstance();
+    }
+    /**
+     * <code>optional .RSAKeyForPublicationProto rsa = 3;</code>
+     */
+    public com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProtoOrBuilder getRsaOrBuilder() {
+      if (keyCase_ == 3) {
+         return (com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto) key_;
+      }
+      return com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto.getDefaultInstance();
+    }
+
+    public static final int NTRU_FIELD_NUMBER = 4;
+    /**
+     * <code>optional .NTRUKeyForPublicationProto ntru = 4;</code>
+     */
+    public boolean hasNtru() {
+      return keyCase_ == 4;
+    }
+    /**
+     * <code>optional .NTRUKeyForPublicationProto ntru = 4;</code>
+     */
+    public com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto getNtru() {
+      if (keyCase_ == 4) {
+         return (com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto) key_;
+      }
+      return com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto.getDefaultInstance();
+    }
+    /**
+     * <code>optional .NTRUKeyForPublicationProto ntru = 4;</code>
+     */
+    public com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProtoOrBuilder getNtruOrBuilder() {
+      if (keyCase_ == 4) {
+         return (com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto) key_;
+      }
+      return com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto.getDefaultInstance();
+    }
+
+    private void initFields() {
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (hasC2()) {
+        if (!getC2().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasEc()) {
+        if (!getEc().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasRsa()) {
+        if (!getRsa().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasNtru()) {
+        if (!getNtru().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (keyCase_ == 1) {
+        output.writeMessage(1, (com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto) key_);
+      }
+      if (keyCase_ == 2) {
+        output.writeMessage(2, (com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto) key_);
+      }
+      if (keyCase_ == 3) {
+        output.writeMessage(3, (com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto) key_);
+      }
+      if (keyCase_ == 4) {
+        output.writeMessage(4, (com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto) key_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (keyCase_ == 1) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, (com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto) key_);
+      }
+      if (keyCase_ == 2) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, (com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto) key_);
+      }
+      if (keyCase_ == 3) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, (com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto) key_);
+      }
+      if (keyCase_ == 4) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, (com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto) key_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.cryptoregistry.protos.Buttermilk.PublishedKeyProto parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.PublishedKeyProto parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.PublishedKeyProto parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.PublishedKeyProto parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.PublishedKeyProto parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.PublishedKeyProto parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.PublishedKeyProto parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.PublishedKeyProto parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.PublishedKeyProto parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.PublishedKeyProto parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.cryptoregistry.protos.Buttermilk.PublishedKeyProto prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code PublishedKeyProto}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:PublishedKeyProto)
+        com.cryptoregistry.protos.Buttermilk.PublishedKeyProtoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.cryptoregistry.protos.Buttermilk.internal_static_PublishedKeyProto_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.cryptoregistry.protos.Buttermilk.internal_static_PublishedKeyProto_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.cryptoregistry.protos.Buttermilk.PublishedKeyProto.class, com.cryptoregistry.protos.Buttermilk.PublishedKeyProto.Builder.class);
+      }
+
+      // Construct using com.cryptoregistry.protos.Buttermilk.PublishedKeyProto.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        keyCase_ = 0;
+        key_ = null;
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.cryptoregistry.protos.Buttermilk.internal_static_PublishedKeyProto_descriptor;
+      }
+
+      public com.cryptoregistry.protos.Buttermilk.PublishedKeyProto getDefaultInstanceForType() {
+        return com.cryptoregistry.protos.Buttermilk.PublishedKeyProto.getDefaultInstance();
+      }
+
+      public com.cryptoregistry.protos.Buttermilk.PublishedKeyProto build() {
+        com.cryptoregistry.protos.Buttermilk.PublishedKeyProto result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.cryptoregistry.protos.Buttermilk.PublishedKeyProto buildPartial() {
+        com.cryptoregistry.protos.Buttermilk.PublishedKeyProto result = new com.cryptoregistry.protos.Buttermilk.PublishedKeyProto(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (keyCase_ == 1) {
+          if (c2Builder_ == null) {
+            result.key_ = key_;
+          } else {
+            result.key_ = c2Builder_.build();
+          }
+        }
+        if (keyCase_ == 2) {
+          if (ecBuilder_ == null) {
+            result.key_ = key_;
+          } else {
+            result.key_ = ecBuilder_.build();
+          }
+        }
+        if (keyCase_ == 3) {
+          if (rsaBuilder_ == null) {
+            result.key_ = key_;
+          } else {
+            result.key_ = rsaBuilder_.build();
+          }
+        }
+        if (keyCase_ == 4) {
+          if (ntruBuilder_ == null) {
+            result.key_ = key_;
+          } else {
+            result.key_ = ntruBuilder_.build();
+          }
+        }
+        result.bitField0_ = to_bitField0_;
+        result.keyCase_ = keyCase_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.cryptoregistry.protos.Buttermilk.PublishedKeyProto) {
+          return mergeFrom((com.cryptoregistry.protos.Buttermilk.PublishedKeyProto)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.cryptoregistry.protos.Buttermilk.PublishedKeyProto other) {
+        if (other == com.cryptoregistry.protos.Buttermilk.PublishedKeyProto.getDefaultInstance()) return this;
+        switch (other.getKeyCase()) {
+          case C2: {
+            mergeC2(other.getC2());
+            break;
+          }
+          case EC: {
+            mergeEc(other.getEc());
+            break;
+          }
+          case RSA: {
+            mergeRsa(other.getRsa());
+            break;
+          }
+          case NTRU: {
+            mergeNtru(other.getNtru());
+            break;
+          }
+          case KEY_NOT_SET: {
+            break;
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (hasC2()) {
+          if (!getC2().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasEc()) {
+          if (!getEc().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasRsa()) {
+          if (!getRsa().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasNtru()) {
+          if (!getNtru().isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.cryptoregistry.protos.Buttermilk.PublishedKeyProto parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.cryptoregistry.protos.Buttermilk.PublishedKeyProto) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int keyCase_ = 0;
+      private java.lang.Object key_;
+      public KeyCase
+          getKeyCase() {
+        return KeyCase.valueOf(
+            keyCase_);
+      }
+
+      public Builder clearKey() {
+        keyCase_ = 0;
+        key_ = null;
+        onChanged();
+        return this;
+      }
+
+      private int bitField0_;
+
+      private com.google.protobuf.SingleFieldBuilder<
+          com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto, com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto.Builder, com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProtoOrBuilder> c2Builder_;
+      /**
+       * <code>optional .C2KeyForPublicationProto c2 = 1;</code>
+       */
+      public boolean hasC2() {
+        return keyCase_ == 1;
+      }
+      /**
+       * <code>optional .C2KeyForPublicationProto c2 = 1;</code>
+       */
+      public com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto getC2() {
+        if (c2Builder_ == null) {
+          if (keyCase_ == 1) {
+            return (com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto) key_;
+          }
+          return com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto.getDefaultInstance();
+        } else {
+          if (keyCase_ == 1) {
+            return c2Builder_.getMessage();
+          }
+          return com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .C2KeyForPublicationProto c2 = 1;</code>
+       */
+      public Builder setC2(com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto value) {
+        if (c2Builder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          key_ = value;
+          onChanged();
+        } else {
+          c2Builder_.setMessage(value);
+        }
+        keyCase_ = 1;
+        return this;
+      }
+      /**
+       * <code>optional .C2KeyForPublicationProto c2 = 1;</code>
+       */
+      public Builder setC2(
+          com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto.Builder builderForValue) {
+        if (c2Builder_ == null) {
+          key_ = builderForValue.build();
+          onChanged();
+        } else {
+          c2Builder_.setMessage(builderForValue.build());
+        }
+        keyCase_ = 1;
+        return this;
+      }
+      /**
+       * <code>optional .C2KeyForPublicationProto c2 = 1;</code>
+       */
+      public Builder mergeC2(com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto value) {
+        if (c2Builder_ == null) {
+          if (keyCase_ == 1 &&
+              key_ != com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto.getDefaultInstance()) {
+            key_ = com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto.newBuilder((com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto) key_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            key_ = value;
+          }
+          onChanged();
+        } else {
+          if (keyCase_ == 1) {
+            c2Builder_.mergeFrom(value);
+          }
+          c2Builder_.setMessage(value);
+        }
+        keyCase_ = 1;
+        return this;
+      }
+      /**
+       * <code>optional .C2KeyForPublicationProto c2 = 1;</code>
+       */
+      public Builder clearC2() {
+        if (c2Builder_ == null) {
+          if (keyCase_ == 1) {
+            keyCase_ = 0;
+            key_ = null;
+            onChanged();
+          }
+        } else {
+          if (keyCase_ == 1) {
+            keyCase_ = 0;
+            key_ = null;
+          }
+          c2Builder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .C2KeyForPublicationProto c2 = 1;</code>
+       */
+      public com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto.Builder getC2Builder() {
+        return getC2FieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .C2KeyForPublicationProto c2 = 1;</code>
+       */
+      public com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProtoOrBuilder getC2OrBuilder() {
+        if ((keyCase_ == 1) && (c2Builder_ != null)) {
+          return c2Builder_.getMessageOrBuilder();
+        } else {
+          if (keyCase_ == 1) {
+            return (com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto) key_;
+          }
+          return com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .C2KeyForPublicationProto c2 = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto, com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto.Builder, com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProtoOrBuilder> 
+          getC2FieldBuilder() {
+        if (c2Builder_ == null) {
+          if (!(keyCase_ == 1)) {
+            key_ = com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto.getDefaultInstance();
+          }
+          c2Builder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto, com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto.Builder, com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProtoOrBuilder>(
+                  (com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto) key_,
+                  getParentForChildren(),
+                  isClean());
+          key_ = null;
+        }
+        keyCase_ = 1;
+        return c2Builder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto, com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto.Builder, com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProtoOrBuilder> ecBuilder_;
+      /**
+       * <code>optional .ECKeyForPublicationProto ec = 2;</code>
+       */
+      public boolean hasEc() {
+        return keyCase_ == 2;
+      }
+      /**
+       * <code>optional .ECKeyForPublicationProto ec = 2;</code>
+       */
+      public com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto getEc() {
+        if (ecBuilder_ == null) {
+          if (keyCase_ == 2) {
+            return (com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto) key_;
+          }
+          return com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto.getDefaultInstance();
+        } else {
+          if (keyCase_ == 2) {
+            return ecBuilder_.getMessage();
+          }
+          return com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .ECKeyForPublicationProto ec = 2;</code>
+       */
+      public Builder setEc(com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto value) {
+        if (ecBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          key_ = value;
+          onChanged();
+        } else {
+          ecBuilder_.setMessage(value);
+        }
+        keyCase_ = 2;
+        return this;
+      }
+      /**
+       * <code>optional .ECKeyForPublicationProto ec = 2;</code>
+       */
+      public Builder setEc(
+          com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto.Builder builderForValue) {
+        if (ecBuilder_ == null) {
+          key_ = builderForValue.build();
+          onChanged();
+        } else {
+          ecBuilder_.setMessage(builderForValue.build());
+        }
+        keyCase_ = 2;
+        return this;
+      }
+      /**
+       * <code>optional .ECKeyForPublicationProto ec = 2;</code>
+       */
+      public Builder mergeEc(com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto value) {
+        if (ecBuilder_ == null) {
+          if (keyCase_ == 2 &&
+              key_ != com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto.getDefaultInstance()) {
+            key_ = com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto.newBuilder((com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto) key_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            key_ = value;
+          }
+          onChanged();
+        } else {
+          if (keyCase_ == 2) {
+            ecBuilder_.mergeFrom(value);
+          }
+          ecBuilder_.setMessage(value);
+        }
+        keyCase_ = 2;
+        return this;
+      }
+      /**
+       * <code>optional .ECKeyForPublicationProto ec = 2;</code>
+       */
+      public Builder clearEc() {
+        if (ecBuilder_ == null) {
+          if (keyCase_ == 2) {
+            keyCase_ = 0;
+            key_ = null;
+            onChanged();
+          }
+        } else {
+          if (keyCase_ == 2) {
+            keyCase_ = 0;
+            key_ = null;
+          }
+          ecBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .ECKeyForPublicationProto ec = 2;</code>
+       */
+      public com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto.Builder getEcBuilder() {
+        return getEcFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .ECKeyForPublicationProto ec = 2;</code>
+       */
+      public com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProtoOrBuilder getEcOrBuilder() {
+        if ((keyCase_ == 2) && (ecBuilder_ != null)) {
+          return ecBuilder_.getMessageOrBuilder();
+        } else {
+          if (keyCase_ == 2) {
+            return (com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto) key_;
+          }
+          return com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .ECKeyForPublicationProto ec = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto, com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto.Builder, com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProtoOrBuilder> 
+          getEcFieldBuilder() {
+        if (ecBuilder_ == null) {
+          if (!(keyCase_ == 2)) {
+            key_ = com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto.getDefaultInstance();
+          }
+          ecBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto, com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto.Builder, com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProtoOrBuilder>(
+                  (com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto) key_,
+                  getParentForChildren(),
+                  isClean());
+          key_ = null;
+        }
+        keyCase_ = 2;
+        return ecBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto, com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto.Builder, com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProtoOrBuilder> rsaBuilder_;
+      /**
+       * <code>optional .RSAKeyForPublicationProto rsa = 3;</code>
+       */
+      public boolean hasRsa() {
+        return keyCase_ == 3;
+      }
+      /**
+       * <code>optional .RSAKeyForPublicationProto rsa = 3;</code>
+       */
+      public com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto getRsa() {
+        if (rsaBuilder_ == null) {
+          if (keyCase_ == 3) {
+            return (com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto) key_;
+          }
+          return com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto.getDefaultInstance();
+        } else {
+          if (keyCase_ == 3) {
+            return rsaBuilder_.getMessage();
+          }
+          return com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .RSAKeyForPublicationProto rsa = 3;</code>
+       */
+      public Builder setRsa(com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto value) {
+        if (rsaBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          key_ = value;
+          onChanged();
+        } else {
+          rsaBuilder_.setMessage(value);
+        }
+        keyCase_ = 3;
+        return this;
+      }
+      /**
+       * <code>optional .RSAKeyForPublicationProto rsa = 3;</code>
+       */
+      public Builder setRsa(
+          com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto.Builder builderForValue) {
+        if (rsaBuilder_ == null) {
+          key_ = builderForValue.build();
+          onChanged();
+        } else {
+          rsaBuilder_.setMessage(builderForValue.build());
+        }
+        keyCase_ = 3;
+        return this;
+      }
+      /**
+       * <code>optional .RSAKeyForPublicationProto rsa = 3;</code>
+       */
+      public Builder mergeRsa(com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto value) {
+        if (rsaBuilder_ == null) {
+          if (keyCase_ == 3 &&
+              key_ != com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto.getDefaultInstance()) {
+            key_ = com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto.newBuilder((com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto) key_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            key_ = value;
+          }
+          onChanged();
+        } else {
+          if (keyCase_ == 3) {
+            rsaBuilder_.mergeFrom(value);
+          }
+          rsaBuilder_.setMessage(value);
+        }
+        keyCase_ = 3;
+        return this;
+      }
+      /**
+       * <code>optional .RSAKeyForPublicationProto rsa = 3;</code>
+       */
+      public Builder clearRsa() {
+        if (rsaBuilder_ == null) {
+          if (keyCase_ == 3) {
+            keyCase_ = 0;
+            key_ = null;
+            onChanged();
+          }
+        } else {
+          if (keyCase_ == 3) {
+            keyCase_ = 0;
+            key_ = null;
+          }
+          rsaBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .RSAKeyForPublicationProto rsa = 3;</code>
+       */
+      public com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto.Builder getRsaBuilder() {
+        return getRsaFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .RSAKeyForPublicationProto rsa = 3;</code>
+       */
+      public com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProtoOrBuilder getRsaOrBuilder() {
+        if ((keyCase_ == 3) && (rsaBuilder_ != null)) {
+          return rsaBuilder_.getMessageOrBuilder();
+        } else {
+          if (keyCase_ == 3) {
+            return (com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto) key_;
+          }
+          return com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .RSAKeyForPublicationProto rsa = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto, com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto.Builder, com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProtoOrBuilder> 
+          getRsaFieldBuilder() {
+        if (rsaBuilder_ == null) {
+          if (!(keyCase_ == 3)) {
+            key_ = com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto.getDefaultInstance();
+          }
+          rsaBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto, com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto.Builder, com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProtoOrBuilder>(
+                  (com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto) key_,
+                  getParentForChildren(),
+                  isClean());
+          key_ = null;
+        }
+        keyCase_ = 3;
+        return rsaBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto, com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto.Builder, com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProtoOrBuilder> ntruBuilder_;
+      /**
+       * <code>optional .NTRUKeyForPublicationProto ntru = 4;</code>
+       */
+      public boolean hasNtru() {
+        return keyCase_ == 4;
+      }
+      /**
+       * <code>optional .NTRUKeyForPublicationProto ntru = 4;</code>
+       */
+      public com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto getNtru() {
+        if (ntruBuilder_ == null) {
+          if (keyCase_ == 4) {
+            return (com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto) key_;
+          }
+          return com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto.getDefaultInstance();
+        } else {
+          if (keyCase_ == 4) {
+            return ntruBuilder_.getMessage();
+          }
+          return com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .NTRUKeyForPublicationProto ntru = 4;</code>
+       */
+      public Builder setNtru(com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto value) {
+        if (ntruBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          key_ = value;
+          onChanged();
+        } else {
+          ntruBuilder_.setMessage(value);
+        }
+        keyCase_ = 4;
+        return this;
+      }
+      /**
+       * <code>optional .NTRUKeyForPublicationProto ntru = 4;</code>
+       */
+      public Builder setNtru(
+          com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto.Builder builderForValue) {
+        if (ntruBuilder_ == null) {
+          key_ = builderForValue.build();
+          onChanged();
+        } else {
+          ntruBuilder_.setMessage(builderForValue.build());
+        }
+        keyCase_ = 4;
+        return this;
+      }
+      /**
+       * <code>optional .NTRUKeyForPublicationProto ntru = 4;</code>
+       */
+      public Builder mergeNtru(com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto value) {
+        if (ntruBuilder_ == null) {
+          if (keyCase_ == 4 &&
+              key_ != com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto.getDefaultInstance()) {
+            key_ = com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto.newBuilder((com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto) key_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            key_ = value;
+          }
+          onChanged();
+        } else {
+          if (keyCase_ == 4) {
+            ntruBuilder_.mergeFrom(value);
+          }
+          ntruBuilder_.setMessage(value);
+        }
+        keyCase_ = 4;
+        return this;
+      }
+      /**
+       * <code>optional .NTRUKeyForPublicationProto ntru = 4;</code>
+       */
+      public Builder clearNtru() {
+        if (ntruBuilder_ == null) {
+          if (keyCase_ == 4) {
+            keyCase_ = 0;
+            key_ = null;
+            onChanged();
+          }
+        } else {
+          if (keyCase_ == 4) {
+            keyCase_ = 0;
+            key_ = null;
+          }
+          ntruBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .NTRUKeyForPublicationProto ntru = 4;</code>
+       */
+      public com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto.Builder getNtruBuilder() {
+        return getNtruFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .NTRUKeyForPublicationProto ntru = 4;</code>
+       */
+      public com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProtoOrBuilder getNtruOrBuilder() {
+        if ((keyCase_ == 4) && (ntruBuilder_ != null)) {
+          return ntruBuilder_.getMessageOrBuilder();
+        } else {
+          if (keyCase_ == 4) {
+            return (com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto) key_;
+          }
+          return com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>optional .NTRUKeyForPublicationProto ntru = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto, com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto.Builder, com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProtoOrBuilder> 
+          getNtruFieldBuilder() {
+        if (ntruBuilder_ == null) {
+          if (!(keyCase_ == 4)) {
+            key_ = com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto.getDefaultInstance();
+          }
+          ntruBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto, com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto.Builder, com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProtoOrBuilder>(
+                  (com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto) key_,
+                  getParentForChildren(),
+                  isClean());
+          key_ = null;
+        }
+        keyCase_ = 4;
+        return ntruBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:PublishedKeyProto)
+    }
+
+    static {
+      defaultInstance = new PublishedKeyProto(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:PublishedKeyProto)
+  }
+
+  public interface SessionDetailsProtoOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:SessionDetailsProto)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required string session_id = 1;</code>
+     *
+     * <pre>
+     * uuid;
+     * </pre>
+     */
+    boolean hasSessionId();
+    /**
+     * <code>required string session_id = 1;</code>
+     *
+     * <pre>
+     * uuid;
+     * </pre>
+     */
+    java.lang.String getSessionId();
+    /**
+     * <code>required string session_id = 1;</code>
+     *
+     * <pre>
+     * uuid;
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getSessionIdBytes();
+
+    /**
+     * <code>required bytes session_key = 2;</code>
+     *
+     * <pre>
+     * 256 bits random key, encrypted; 
+     * </pre>
+     */
+    boolean hasSessionKey();
+    /**
+     * <code>required bytes session_key = 2;</code>
+     *
+     * <pre>
+     * 256 bits random key, encrypted; 
+     * </pre>
+     */
+    com.google.protobuf.ByteString getSessionKey();
+
+    /**
+     * <code>required string session_symmetric_alg = 3;</code>
+     *
+     * <pre>
+     * the symmetric algorithm to be used for the remainder of the session's encryption
+     * options are AES/GCM, AES/CBC/PKCS7
+     * for AES/GCM it is important to always use a different IV per frame. 
+     * </pre>
+     */
+    boolean hasSessionSymmetricAlg();
+    /**
+     * <code>required string session_symmetric_alg = 3;</code>
+     *
+     * <pre>
+     * the symmetric algorithm to be used for the remainder of the session's encryption
+     * options are AES/GCM, AES/CBC/PKCS7
+     * for AES/GCM it is important to always use a different IV per frame. 
+     * </pre>
+     */
+    java.lang.String getSessionSymmetricAlg();
+    /**
+     * <code>required string session_symmetric_alg = 3;</code>
+     *
+     * <pre>
+     * the symmetric algorithm to be used for the remainder of the session's encryption
+     * options are AES/GCM, AES/CBC/PKCS7
+     * for AES/GCM it is important to always use a different IV per frame. 
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getSessionSymmetricAlgBytes();
+
+    /**
+     * <code>optional bytes iv = 5;</code>
+     *
+     * <pre>
+     * possible IV for 2
+     * </pre>
+     */
+    boolean hasIv();
+    /**
+     * <code>optional bytes iv = 5;</code>
+     *
+     * <pre>
+     * possible IV for 2
+     * </pre>
+     */
+    com.google.protobuf.ByteString getIv();
+  }
+  /**
+   * Protobuf type {@code SessionDetailsProto}
+   */
+  public static final class SessionDetailsProto extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:SessionDetailsProto)
+      SessionDetailsProtoOrBuilder {
+    // Use SessionDetailsProto.newBuilder() to construct.
+    private SessionDetailsProto(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private SessionDetailsProto(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final SessionDetailsProto defaultInstance;
+    public static SessionDetailsProto getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public SessionDetailsProto getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SessionDetailsProto(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000001;
+              sessionId_ = bs;
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              sessionKey_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000004;
+              sessionSymmetricAlg_ = bs;
+              break;
+            }
+            case 42: {
+              bitField0_ |= 0x00000008;
+              iv_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.cryptoregistry.protos.Buttermilk.internal_static_SessionDetailsProto_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.cryptoregistry.protos.Buttermilk.internal_static_SessionDetailsProto_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.cryptoregistry.protos.Buttermilk.SessionDetailsProto.class, com.cryptoregistry.protos.Buttermilk.SessionDetailsProto.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<SessionDetailsProto> PARSER =
+        new com.google.protobuf.AbstractParser<SessionDetailsProto>() {
+      public SessionDetailsProto parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SessionDetailsProto(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SessionDetailsProto> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    public static final int SESSION_ID_FIELD_NUMBER = 1;
+    private java.lang.Object sessionId_;
+    /**
+     * <code>required string session_id = 1;</code>
+     *
+     * <pre>
+     * uuid;
+     * </pre>
+     */
+    public boolean hasSessionId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string session_id = 1;</code>
+     *
+     * <pre>
+     * uuid;
+     * </pre>
+     */
+    public java.lang.String getSessionId() {
+      java.lang.Object ref = sessionId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          sessionId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string session_id = 1;</code>
+     *
+     * <pre>
+     * uuid;
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getSessionIdBytes() {
+      java.lang.Object ref = sessionId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        sessionId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int SESSION_KEY_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString sessionKey_;
+    /**
+     * <code>required bytes session_key = 2;</code>
+     *
+     * <pre>
+     * 256 bits random key, encrypted; 
+     * </pre>
+     */
+    public boolean hasSessionKey() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required bytes session_key = 2;</code>
+     *
+     * <pre>
+     * 256 bits random key, encrypted; 
+     * </pre>
+     */
+    public com.google.protobuf.ByteString getSessionKey() {
+      return sessionKey_;
+    }
+
+    public static final int SESSION_SYMMETRIC_ALG_FIELD_NUMBER = 3;
+    private java.lang.Object sessionSymmetricAlg_;
+    /**
+     * <code>required string session_symmetric_alg = 3;</code>
+     *
+     * <pre>
+     * the symmetric algorithm to be used for the remainder of the session's encryption
+     * options are AES/GCM, AES/CBC/PKCS7
+     * for AES/GCM it is important to always use a different IV per frame. 
+     * </pre>
+     */
+    public boolean hasSessionSymmetricAlg() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required string session_symmetric_alg = 3;</code>
+     *
+     * <pre>
+     * the symmetric algorithm to be used for the remainder of the session's encryption
+     * options are AES/GCM, AES/CBC/PKCS7
+     * for AES/GCM it is important to always use a different IV per frame. 
+     * </pre>
+     */
+    public java.lang.String getSessionSymmetricAlg() {
+      java.lang.Object ref = sessionSymmetricAlg_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          sessionSymmetricAlg_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string session_symmetric_alg = 3;</code>
+     *
+     * <pre>
+     * the symmetric algorithm to be used for the remainder of the session's encryption
+     * options are AES/GCM, AES/CBC/PKCS7
+     * for AES/GCM it is important to always use a different IV per frame. 
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getSessionSymmetricAlgBytes() {
+      java.lang.Object ref = sessionSymmetricAlg_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        sessionSymmetricAlg_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int IV_FIELD_NUMBER = 5;
+    private com.google.protobuf.ByteString iv_;
+    /**
+     * <code>optional bytes iv = 5;</code>
+     *
+     * <pre>
+     * possible IV for 2
+     * </pre>
+     */
+    public boolean hasIv() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional bytes iv = 5;</code>
+     *
+     * <pre>
+     * possible IV for 2
+     * </pre>
+     */
+    public com.google.protobuf.ByteString getIv() {
+      return iv_;
+    }
+
+    private void initFields() {
+      sessionId_ = "";
+      sessionKey_ = com.google.protobuf.ByteString.EMPTY;
+      sessionSymmetricAlg_ = "";
+      iv_ = com.google.protobuf.ByteString.EMPTY;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasSessionId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasSessionKey()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasSessionSymmetricAlg()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getSessionIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, sessionKey_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getSessionSymmetricAlgBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(5, iv_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getSessionIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, sessionKey_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getSessionSymmetricAlgBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, iv_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.cryptoregistry.protos.Buttermilk.SessionDetailsProto parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.SessionDetailsProto parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.SessionDetailsProto parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.SessionDetailsProto parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.SessionDetailsProto parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.SessionDetailsProto parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.SessionDetailsProto parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.SessionDetailsProto parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.SessionDetailsProto parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.cryptoregistry.protos.Buttermilk.SessionDetailsProto parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.cryptoregistry.protos.Buttermilk.SessionDetailsProto prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code SessionDetailsProto}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:SessionDetailsProto)
+        com.cryptoregistry.protos.Buttermilk.SessionDetailsProtoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.cryptoregistry.protos.Buttermilk.internal_static_SessionDetailsProto_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.cryptoregistry.protos.Buttermilk.internal_static_SessionDetailsProto_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.cryptoregistry.protos.Buttermilk.SessionDetailsProto.class, com.cryptoregistry.protos.Buttermilk.SessionDetailsProto.Builder.class);
+      }
+
+      // Construct using com.cryptoregistry.protos.Buttermilk.SessionDetailsProto.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        sessionId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        sessionKey_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        sessionSymmetricAlg_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        iv_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.cryptoregistry.protos.Buttermilk.internal_static_SessionDetailsProto_descriptor;
+      }
+
+      public com.cryptoregistry.protos.Buttermilk.SessionDetailsProto getDefaultInstanceForType() {
+        return com.cryptoregistry.protos.Buttermilk.SessionDetailsProto.getDefaultInstance();
+      }
+
+      public com.cryptoregistry.protos.Buttermilk.SessionDetailsProto build() {
+        com.cryptoregistry.protos.Buttermilk.SessionDetailsProto result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.cryptoregistry.protos.Buttermilk.SessionDetailsProto buildPartial() {
+        com.cryptoregistry.protos.Buttermilk.SessionDetailsProto result = new com.cryptoregistry.protos.Buttermilk.SessionDetailsProto(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.sessionId_ = sessionId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.sessionKey_ = sessionKey_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.sessionSymmetricAlg_ = sessionSymmetricAlg_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.iv_ = iv_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.cryptoregistry.protos.Buttermilk.SessionDetailsProto) {
+          return mergeFrom((com.cryptoregistry.protos.Buttermilk.SessionDetailsProto)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.cryptoregistry.protos.Buttermilk.SessionDetailsProto other) {
+        if (other == com.cryptoregistry.protos.Buttermilk.SessionDetailsProto.getDefaultInstance()) return this;
+        if (other.hasSessionId()) {
+          bitField0_ |= 0x00000001;
+          sessionId_ = other.sessionId_;
+          onChanged();
+        }
+        if (other.hasSessionKey()) {
+          setSessionKey(other.getSessionKey());
+        }
+        if (other.hasSessionSymmetricAlg()) {
+          bitField0_ |= 0x00000004;
+          sessionSymmetricAlg_ = other.sessionSymmetricAlg_;
+          onChanged();
+        }
+        if (other.hasIv()) {
+          setIv(other.getIv());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasSessionId()) {
+          
+          return false;
+        }
+        if (!hasSessionKey()) {
+          
+          return false;
+        }
+        if (!hasSessionSymmetricAlg()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.cryptoregistry.protos.Buttermilk.SessionDetailsProto parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.cryptoregistry.protos.Buttermilk.SessionDetailsProto) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object sessionId_ = "";
+      /**
+       * <code>required string session_id = 1;</code>
+       *
+       * <pre>
+       * uuid;
+       * </pre>
+       */
+      public boolean hasSessionId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string session_id = 1;</code>
+       *
+       * <pre>
+       * uuid;
+       * </pre>
+       */
+      public java.lang.String getSessionId() {
+        java.lang.Object ref = sessionId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            sessionId_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string session_id = 1;</code>
+       *
+       * <pre>
+       * uuid;
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getSessionIdBytes() {
+        java.lang.Object ref = sessionId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          sessionId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string session_id = 1;</code>
+       *
+       * <pre>
+       * uuid;
+       * </pre>
+       */
+      public Builder setSessionId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        sessionId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string session_id = 1;</code>
+       *
+       * <pre>
+       * uuid;
+       * </pre>
+       */
+      public Builder clearSessionId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        sessionId_ = getDefaultInstance().getSessionId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string session_id = 1;</code>
+       *
+       * <pre>
+       * uuid;
+       * </pre>
+       */
+      public Builder setSessionIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        sessionId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString sessionKey_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>required bytes session_key = 2;</code>
+       *
+       * <pre>
+       * 256 bits random key, encrypted; 
+       * </pre>
+       */
+      public boolean hasSessionKey() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required bytes session_key = 2;</code>
+       *
+       * <pre>
+       * 256 bits random key, encrypted; 
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getSessionKey() {
+        return sessionKey_;
+      }
+      /**
+       * <code>required bytes session_key = 2;</code>
+       *
+       * <pre>
+       * 256 bits random key, encrypted; 
+       * </pre>
+       */
+      public Builder setSessionKey(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        sessionKey_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bytes session_key = 2;</code>
+       *
+       * <pre>
+       * 256 bits random key, encrypted; 
+       * </pre>
+       */
+      public Builder clearSessionKey() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        sessionKey_ = getDefaultInstance().getSessionKey();
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object sessionSymmetricAlg_ = "";
+      /**
+       * <code>required string session_symmetric_alg = 3;</code>
+       *
+       * <pre>
+       * the symmetric algorithm to be used for the remainder of the session's encryption
+       * options are AES/GCM, AES/CBC/PKCS7
+       * for AES/GCM it is important to always use a different IV per frame. 
+       * </pre>
+       */
+      public boolean hasSessionSymmetricAlg() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required string session_symmetric_alg = 3;</code>
+       *
+       * <pre>
+       * the symmetric algorithm to be used for the remainder of the session's encryption
+       * options are AES/GCM, AES/CBC/PKCS7
+       * for AES/GCM it is important to always use a different IV per frame. 
+       * </pre>
+       */
+      public java.lang.String getSessionSymmetricAlg() {
+        java.lang.Object ref = sessionSymmetricAlg_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            sessionSymmetricAlg_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string session_symmetric_alg = 3;</code>
+       *
+       * <pre>
+       * the symmetric algorithm to be used for the remainder of the session's encryption
+       * options are AES/GCM, AES/CBC/PKCS7
+       * for AES/GCM it is important to always use a different IV per frame. 
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getSessionSymmetricAlgBytes() {
+        java.lang.Object ref = sessionSymmetricAlg_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          sessionSymmetricAlg_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string session_symmetric_alg = 3;</code>
+       *
+       * <pre>
+       * the symmetric algorithm to be used for the remainder of the session's encryption
+       * options are AES/GCM, AES/CBC/PKCS7
+       * for AES/GCM it is important to always use a different IV per frame. 
+       * </pre>
+       */
+      public Builder setSessionSymmetricAlg(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        sessionSymmetricAlg_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string session_symmetric_alg = 3;</code>
+       *
+       * <pre>
+       * the symmetric algorithm to be used for the remainder of the session's encryption
+       * options are AES/GCM, AES/CBC/PKCS7
+       * for AES/GCM it is important to always use a different IV per frame. 
+       * </pre>
+       */
+      public Builder clearSessionSymmetricAlg() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        sessionSymmetricAlg_ = getDefaultInstance().getSessionSymmetricAlg();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string session_symmetric_alg = 3;</code>
+       *
+       * <pre>
+       * the symmetric algorithm to be used for the remainder of the session's encryption
+       * options are AES/GCM, AES/CBC/PKCS7
+       * for AES/GCM it is important to always use a different IV per frame. 
+       * </pre>
+       */
+      public Builder setSessionSymmetricAlgBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        sessionSymmetricAlg_ = value;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString iv_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes iv = 5;</code>
+       *
+       * <pre>
+       * possible IV for 2
+       * </pre>
+       */
+      public boolean hasIv() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional bytes iv = 5;</code>
+       *
+       * <pre>
+       * possible IV for 2
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getIv() {
+        return iv_;
+      }
+      /**
+       * <code>optional bytes iv = 5;</code>
+       *
+       * <pre>
+       * possible IV for 2
+       * </pre>
+       */
+      public Builder setIv(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        iv_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes iv = 5;</code>
+       *
+       * <pre>
+       * possible IV for 2
+       * </pre>
+       */
+      public Builder clearIv() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        iv_ = getDefaultInstance().getIv();
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:SessionDetailsProto)
+    }
+
+    static {
+      defaultInstance = new SessionDetailsProto(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:SessionDetailsProto)
+  }
+
   public interface BytesProtoOrBuilder extends
       // @@protoc_insertion_point(interface_extends:BytesProto)
       com.google.protobuf.MessageOrBuilder {
@@ -16976,6 +19224,19 @@ public final class Buttermilk {
   public interface NTRUKeyContentsProtoOrBuilder extends
       // @@protoc_insertion_point(interface_extends:NTRUKeyContentsProto)
       com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required .KeyMetadataProto meta = 1;</code>
+     */
+    boolean hasMeta();
+    /**
+     * <code>required .KeyMetadataProto meta = 1;</code>
+     */
+    com.cryptoregistry.protos.Buttermilk.KeyMetadataProto getMeta();
+    /**
+     * <code>required .KeyMetadataProto meta = 1;</code>
+     */
+    com.cryptoregistry.protos.Buttermilk.KeyMetadataProtoOrBuilder getMetaOrBuilder();
   }
   /**
    * Protobuf type {@code NTRUKeyContentsProto}
@@ -17011,6 +19272,7 @@ public final class Buttermilk {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -17026,6 +19288,19 @@ public final class Buttermilk {
                                      extensionRegistry, tag)) {
                 done = true;
               }
+              break;
+            }
+            case 10: {
+              com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000001) == 0x00000001)) {
+                subBuilder = meta_.toBuilder();
+              }
+              meta_ = input.readMessage(com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(meta_);
+                meta_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000001;
               break;
             }
           }
@@ -17067,7 +19342,30 @@ public final class Buttermilk {
       return PARSER;
     }
 
+    private int bitField0_;
+    public static final int META_FIELD_NUMBER = 1;
+    private com.cryptoregistry.protos.Buttermilk.KeyMetadataProto meta_;
+    /**
+     * <code>required .KeyMetadataProto meta = 1;</code>
+     */
+    public boolean hasMeta() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .KeyMetadataProto meta = 1;</code>
+     */
+    public com.cryptoregistry.protos.Buttermilk.KeyMetadataProto getMeta() {
+      return meta_;
+    }
+    /**
+     * <code>required .KeyMetadataProto meta = 1;</code>
+     */
+    public com.cryptoregistry.protos.Buttermilk.KeyMetadataProtoOrBuilder getMetaOrBuilder() {
+      return meta_;
+    }
+
     private void initFields() {
+      meta_ = com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -17075,6 +19373,14 @@ public final class Buttermilk {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
+      if (!hasMeta()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!getMeta().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -17082,6 +19388,9 @@ public final class Buttermilk {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeMessage(1, meta_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -17091,6 +19400,10 @@ public final class Buttermilk {
       if (size != -1) return size;
 
       size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, meta_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
       return size;
@@ -17200,6 +19513,7 @@ public final class Buttermilk {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getMetaFieldBuilder();
         }
       }
       private static Builder create() {
@@ -17208,6 +19522,12 @@ public final class Buttermilk {
 
       public Builder clear() {
         super.clear();
+        if (metaBuilder_ == null) {
+          meta_ = com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.getDefaultInstance();
+        } else {
+          metaBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
@@ -17234,6 +19554,17 @@ public final class Buttermilk {
 
       public com.cryptoregistry.protos.Buttermilk.NTRUKeyContentsProto buildPartial() {
         com.cryptoregistry.protos.Buttermilk.NTRUKeyContentsProto result = new com.cryptoregistry.protos.Buttermilk.NTRUKeyContentsProto(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        if (metaBuilder_ == null) {
+          result.meta_ = meta_;
+        } else {
+          result.meta_ = metaBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -17249,11 +19580,22 @@ public final class Buttermilk {
 
       public Builder mergeFrom(com.cryptoregistry.protos.Buttermilk.NTRUKeyContentsProto other) {
         if (other == com.cryptoregistry.protos.Buttermilk.NTRUKeyContentsProto.getDefaultInstance()) return this;
+        if (other.hasMeta()) {
+          mergeMeta(other.getMeta());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
+        if (!hasMeta()) {
+          
+          return false;
+        }
+        if (!getMeta().isInitialized()) {
+          
+          return false;
+        }
         return true;
       }
 
@@ -17274,6 +19616,123 @@ public final class Buttermilk {
         }
         return this;
       }
+      private int bitField0_;
+
+      private com.cryptoregistry.protos.Buttermilk.KeyMetadataProto meta_ = com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.cryptoregistry.protos.Buttermilk.KeyMetadataProto, com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.Builder, com.cryptoregistry.protos.Buttermilk.KeyMetadataProtoOrBuilder> metaBuilder_;
+      /**
+       * <code>required .KeyMetadataProto meta = 1;</code>
+       */
+      public boolean hasMeta() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .KeyMetadataProto meta = 1;</code>
+       */
+      public com.cryptoregistry.protos.Buttermilk.KeyMetadataProto getMeta() {
+        if (metaBuilder_ == null) {
+          return meta_;
+        } else {
+          return metaBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>required .KeyMetadataProto meta = 1;</code>
+       */
+      public Builder setMeta(com.cryptoregistry.protos.Buttermilk.KeyMetadataProto value) {
+        if (metaBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          meta_ = value;
+          onChanged();
+        } else {
+          metaBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>required .KeyMetadataProto meta = 1;</code>
+       */
+      public Builder setMeta(
+          com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.Builder builderForValue) {
+        if (metaBuilder_ == null) {
+          meta_ = builderForValue.build();
+          onChanged();
+        } else {
+          metaBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>required .KeyMetadataProto meta = 1;</code>
+       */
+      public Builder mergeMeta(com.cryptoregistry.protos.Buttermilk.KeyMetadataProto value) {
+        if (metaBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001) &&
+              meta_ != com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.getDefaultInstance()) {
+            meta_ =
+              com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.newBuilder(meta_).mergeFrom(value).buildPartial();
+          } else {
+            meta_ = value;
+          }
+          onChanged();
+        } else {
+          metaBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>required .KeyMetadataProto meta = 1;</code>
+       */
+      public Builder clearMeta() {
+        if (metaBuilder_ == null) {
+          meta_ = com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.getDefaultInstance();
+          onChanged();
+        } else {
+          metaBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+      /**
+       * <code>required .KeyMetadataProto meta = 1;</code>
+       */
+      public com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.Builder getMetaBuilder() {
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return getMetaFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>required .KeyMetadataProto meta = 1;</code>
+       */
+      public com.cryptoregistry.protos.Buttermilk.KeyMetadataProtoOrBuilder getMetaOrBuilder() {
+        if (metaBuilder_ != null) {
+          return metaBuilder_.getMessageOrBuilder();
+        } else {
+          return meta_;
+        }
+      }
+      /**
+       * <code>required .KeyMetadataProto meta = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.cryptoregistry.protos.Buttermilk.KeyMetadataProto, com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.Builder, com.cryptoregistry.protos.Buttermilk.KeyMetadataProtoOrBuilder> 
+          getMetaFieldBuilder() {
+        if (metaBuilder_ == null) {
+          metaBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.cryptoregistry.protos.Buttermilk.KeyMetadataProto, com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.Builder, com.cryptoregistry.protos.Buttermilk.KeyMetadataProtoOrBuilder>(
+                  getMeta(),
+                  getParentForChildren(),
+                  isClean());
+          meta_ = null;
+        }
+        return metaBuilder_;
+      }
 
       // @@protoc_insertion_point(builder_scope:NTRUKeyContentsProto)
     }
@@ -17289,6 +19748,19 @@ public final class Buttermilk {
   public interface NTRUKeyForPublicationProtoOrBuilder extends
       // @@protoc_insertion_point(interface_extends:NTRUKeyForPublicationProto)
       com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required .KeyMetadataProto meta = 1;</code>
+     */
+    boolean hasMeta();
+    /**
+     * <code>required .KeyMetadataProto meta = 1;</code>
+     */
+    com.cryptoregistry.protos.Buttermilk.KeyMetadataProto getMeta();
+    /**
+     * <code>required .KeyMetadataProto meta = 1;</code>
+     */
+    com.cryptoregistry.protos.Buttermilk.KeyMetadataProtoOrBuilder getMetaOrBuilder();
   }
   /**
    * Protobuf type {@code NTRUKeyForPublicationProto}
@@ -17324,6 +19796,7 @@ public final class Buttermilk {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -17339,6 +19812,19 @@ public final class Buttermilk {
                                      extensionRegistry, tag)) {
                 done = true;
               }
+              break;
+            }
+            case 10: {
+              com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000001) == 0x00000001)) {
+                subBuilder = meta_.toBuilder();
+              }
+              meta_ = input.readMessage(com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(meta_);
+                meta_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000001;
               break;
             }
           }
@@ -17380,7 +19866,30 @@ public final class Buttermilk {
       return PARSER;
     }
 
+    private int bitField0_;
+    public static final int META_FIELD_NUMBER = 1;
+    private com.cryptoregistry.protos.Buttermilk.KeyMetadataProto meta_;
+    /**
+     * <code>required .KeyMetadataProto meta = 1;</code>
+     */
+    public boolean hasMeta() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .KeyMetadataProto meta = 1;</code>
+     */
+    public com.cryptoregistry.protos.Buttermilk.KeyMetadataProto getMeta() {
+      return meta_;
+    }
+    /**
+     * <code>required .KeyMetadataProto meta = 1;</code>
+     */
+    public com.cryptoregistry.protos.Buttermilk.KeyMetadataProtoOrBuilder getMetaOrBuilder() {
+      return meta_;
+    }
+
     private void initFields() {
+      meta_ = com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -17388,6 +19897,14 @@ public final class Buttermilk {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
+      if (!hasMeta()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!getMeta().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -17395,6 +19912,9 @@ public final class Buttermilk {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeMessage(1, meta_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -17404,6 +19924,10 @@ public final class Buttermilk {
       if (size != -1) return size;
 
       size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, meta_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
       return size;
@@ -17513,6 +20037,7 @@ public final class Buttermilk {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getMetaFieldBuilder();
         }
       }
       private static Builder create() {
@@ -17521,6 +20046,12 @@ public final class Buttermilk {
 
       public Builder clear() {
         super.clear();
+        if (metaBuilder_ == null) {
+          meta_ = com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.getDefaultInstance();
+        } else {
+          metaBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
@@ -17547,6 +20078,17 @@ public final class Buttermilk {
 
       public com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto buildPartial() {
         com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto result = new com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        if (metaBuilder_ == null) {
+          result.meta_ = meta_;
+        } else {
+          result.meta_ = metaBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -17562,11 +20104,22 @@ public final class Buttermilk {
 
       public Builder mergeFrom(com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto other) {
         if (other == com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto.getDefaultInstance()) return this;
+        if (other.hasMeta()) {
+          mergeMeta(other.getMeta());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
+        if (!hasMeta()) {
+          
+          return false;
+        }
+        if (!getMeta().isInitialized()) {
+          
+          return false;
+        }
         return true;
       }
 
@@ -17587,6 +20140,123 @@ public final class Buttermilk {
         }
         return this;
       }
+      private int bitField0_;
+
+      private com.cryptoregistry.protos.Buttermilk.KeyMetadataProto meta_ = com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.cryptoregistry.protos.Buttermilk.KeyMetadataProto, com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.Builder, com.cryptoregistry.protos.Buttermilk.KeyMetadataProtoOrBuilder> metaBuilder_;
+      /**
+       * <code>required .KeyMetadataProto meta = 1;</code>
+       */
+      public boolean hasMeta() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .KeyMetadataProto meta = 1;</code>
+       */
+      public com.cryptoregistry.protos.Buttermilk.KeyMetadataProto getMeta() {
+        if (metaBuilder_ == null) {
+          return meta_;
+        } else {
+          return metaBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>required .KeyMetadataProto meta = 1;</code>
+       */
+      public Builder setMeta(com.cryptoregistry.protos.Buttermilk.KeyMetadataProto value) {
+        if (metaBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          meta_ = value;
+          onChanged();
+        } else {
+          metaBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>required .KeyMetadataProto meta = 1;</code>
+       */
+      public Builder setMeta(
+          com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.Builder builderForValue) {
+        if (metaBuilder_ == null) {
+          meta_ = builderForValue.build();
+          onChanged();
+        } else {
+          metaBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>required .KeyMetadataProto meta = 1;</code>
+       */
+      public Builder mergeMeta(com.cryptoregistry.protos.Buttermilk.KeyMetadataProto value) {
+        if (metaBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001) &&
+              meta_ != com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.getDefaultInstance()) {
+            meta_ =
+              com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.newBuilder(meta_).mergeFrom(value).buildPartial();
+          } else {
+            meta_ = value;
+          }
+          onChanged();
+        } else {
+          metaBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>required .KeyMetadataProto meta = 1;</code>
+       */
+      public Builder clearMeta() {
+        if (metaBuilder_ == null) {
+          meta_ = com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.getDefaultInstance();
+          onChanged();
+        } else {
+          metaBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+      /**
+       * <code>required .KeyMetadataProto meta = 1;</code>
+       */
+      public com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.Builder getMetaBuilder() {
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return getMetaFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>required .KeyMetadataProto meta = 1;</code>
+       */
+      public com.cryptoregistry.protos.Buttermilk.KeyMetadataProtoOrBuilder getMetaOrBuilder() {
+        if (metaBuilder_ != null) {
+          return metaBuilder_.getMessageOrBuilder();
+        } else {
+          return meta_;
+        }
+      }
+      /**
+       * <code>required .KeyMetadataProto meta = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.cryptoregistry.protos.Buttermilk.KeyMetadataProto, com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.Builder, com.cryptoregistry.protos.Buttermilk.KeyMetadataProtoOrBuilder> 
+          getMetaFieldBuilder() {
+        if (metaBuilder_ == null) {
+          metaBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.cryptoregistry.protos.Buttermilk.KeyMetadataProto, com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.Builder, com.cryptoregistry.protos.Buttermilk.KeyMetadataProtoOrBuilder>(
+                  getMeta(),
+                  getParentForChildren(),
+                  isClean());
+          meta_ = null;
+        }
+        return metaBuilder_;
+      }
 
       // @@protoc_insertion_point(builder_scope:NTRUKeyForPublicationProto)
     }
@@ -17604,6 +20274,16 @@ public final class Buttermilk {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_HelloProto_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_PublishedKeyProto_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_PublishedKeyProto_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_SessionDetailsProto_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_SessionDetailsProto_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_BytesProto_descriptor;
   private static
@@ -17730,61 +20410,70 @@ public final class Buttermilk {
     java.lang.String[] descriptorData = {
       "\n\020buttermilk.proto\"=\n\nHelloProto\022\033\n\023regi" +
       "stration_handle\030\001 \002(\t\022\022\n\nkey_handle\030\002 \002(" +
-      "\t\"\032\n\nBytesProto\022\014\n\004data\030\001 \002(\014\"\033\n\013StringP" +
-      "roto\022\014\n\004data\030\001 \002(\t\"6\n\030AuthenticatedStrin" +
-      "gProto\022\014\n\004data\030\001 \002(\t\022\014\n\004hmac\030\002 \002(\014\"(\n\010Ma" +
-      "pProto\022\034\n\007entries\030\001 \003(\0132\013.EntryProto\"(\n\n" +
-      "EntryProto\022\013\n\003key\030\001 \002(\t\022\r\n\005value\030\002 \002(\t\"5" +
-      "\n\rNamedMapProto\022\014\n\004uuid\030\001 \002(\t\022\026\n\003map\030\002 \002" +
-      "(\0132\t.MapProto\"\031\n\tListProto\022\014\n\004list\030\001 \003(\t" +
-      "\"\035\n\rByteListProto\022\014\n\004list\030\001 \003(\014\"7\n\016Named",
-      "ListProto\022\014\n\004uuid\030\001 \002(\t\022\027\n\003map\030\002 \002(\0132\n.L" +
-      "istProto\"1\n\022CryptoContactProto\022\033\n\003map\030\001 " +
-      "\002(\0132\016.NamedMapProto\"\360\001\n\026SignatureMetadat" +
-      "aProto\022\016\n\006handle\030\001 \002(\t\022\022\n\ncreated_on\030\002 \002" +
-      "(\004\022@\n\023signature_algorithm\030\003 \002(\0162#.Signat" +
-      "ureMetadataProto.SigAlgProto\022\030\n\020digest_a" +
-      "lgorithm\030\004 \002(\t\022\023\n\013signed_with\030\005 \002(\t\022\021\n\ts" +
-      "igned_by\030\006 \002(\t\".\n\013SigAlgProto\022\007\n\003RSA\020\000\022\t" +
-      "\n\005ECDSA\020\001\022\013\n\007ECKCDSA\020\002\"n\n\016SignatureProto" +
-      "\022%\n\004meta\030\001 \002(\0132\027.SignatureMetadataProto\022",
-      "\n\n\002b0\030\002 \002(\014\022\n\n\002b1\030\003 \001(\014\022\035\n\tdata_refs\030\004 \002" +
-      "(\0132\n.ListProto\"\217\002\n\020KeyMetadataProto\022\016\n\006h" +
-      "andle\030\001 \002(\t\022\022\n\ncreated_on\030\002 \002(\004\022D\n\rencod" +
-      "ing_hint\030\003 \002(\0162#.KeyMetadataProto.Encodi" +
-      "ngHintProto:\010RAWBYTES\022 \n\030key_generation_" +
-      "algorithm\030\004 \002(\t\"o\n\021EncodingHintProto\022\016\n\n" +
-      "NOENCODING\020\000\022\014\n\010RAWBYTES\020\001\022\t\n\005BASE2\020\002\022\n\n" +
-      "\006BASE10\020\003\022\n\n\006BASE16\020\004\022\n\n\006BASE64\020\005\022\r\n\tBAS" +
-      "E64URL\020\006\"I\n\031SymmetricKeyContentsProto\022\037\n" +
-      "\004meta\030\001 \002(\0132\021.KeyMetadataProto\022\013\n\003key\030\002 ",
-      "\002(\014\"\205\001\n\022C2KeyContentsProto\022\037\n\004meta\030\001 \002(\013" +
-      "2\021.KeyMetadataProto\022\022\n\npublic_key\030\002 \002(\014\022" +
-      "\033\n\023signing_private_key\030\003 \001(\014\022\035\n\025agreemen" +
-      "t_private_key\030\004 \001(\014\"O\n\030C2KeyForPublicati" +
-      "onProto\022\037\n\004meta\030\001 \002(\0132\021.KeyMetadataProto" +
-      "\022\022\n\npublic_key\030\002 \002(\014\"\220\001\n\024CurveDefinition" +
-      "Proto\0221\n\005field\030\001 \002(\0162\".CurveDefinitionPr" +
-      "oto.ECFieldProto\022\014\n\004uuid\030\002 \002(\t\022\026\n\003map\030\003 " +
-      "\002(\0132\t.MapProto\"\037\n\014ECFieldProto\022\006\n\002FP\020\000\022\007" +
-      "\n\003F2M\020\001\"\235\001\n\022ECKeyContentsProto\022\037\n\004meta\030\001",
-      " \002(\0132\021.KeyMetadataProto\022\t\n\001Q\030\002 \002(\t\022\024\n\ncu" +
-      "rve_name\030\003 \001(\tH\000\0221\n\020curve_definition\030\004 \001" +
-      "(\0132\025.CurveDefinitionProtoH\000\022\t\n\001d\030\005 \001(\014B\007" +
-      "\n\005curve\"\230\001\n\030ECKeyForPublicationProto\022\037\n\004" +
-      "meta\030\001 \002(\0132\021.KeyMetadataProto\022\t\n\001Q\030\002 \002(\t" +
-      "\022\024\n\ncurve_name\030\003 \001(\tH\000\0221\n\020curve_definiti" +
-      "on\030\004 \001(\0132\025.CurveDefinitionProtoH\000B\007\n\005cur" +
-      "ve\"\266\001\n\023RSAKeyContentsProto\022\037\n\004meta\030\001 \002(\013" +
-      "2\021.KeyMetadataProto\022\017\n\007Modulus\030\002 \002(\014\022\027\n\017" +
-      "public_exponent\030\003 \002(\014\022\030\n\020private_exponen",
-      "t\030\004 \001(\014\022\t\n\001p\030\005 \001(\014\022\t\n\001q\030\006 \001(\014\022\n\n\002dP\030\007 \001(" +
-      "\014\022\n\n\002dQ\030\010 \001(\014\022\014\n\004qInv\030\t \001(\014\"f\n\031RSAKeyFor" +
-      "PublicationProto\022\037\n\004meta\030\001 \002(\0132\021.KeyMeta" +
-      "dataProto\022\017\n\007Modulus\030\002 \002(\014\022\027\n\017public_exp" +
-      "onent\030\003 \002(\014\"\026\n\024NTRUKeyContentsProto\"\034\n\032N" +
-      "TRUKeyForPublicationProtoB$\n\031com.cryptor" +
-      "egistry.protos\200\001\000\210\001\000\220\001\000"
+      "\t\"\304\001\n\021PublishedKeyProto\022\'\n\002c2\030\001 \001(\0132\031.C2" +
+      "KeyForPublicationProtoH\000\022\'\n\002ec\030\002 \001(\0132\031.E" +
+      "CKeyForPublicationProtoH\000\022)\n\003rsa\030\003 \001(\0132\032" +
+      ".RSAKeyForPublicationProtoH\000\022+\n\004ntru\030\004 \001" +
+      "(\0132\033.NTRUKeyForPublicationProtoH\000B\005\n\003key" +
+      "\"i\n\023SessionDetailsProto\022\022\n\nsession_id\030\001 " +
+      "\002(\t\022\023\n\013session_key\030\002 \002(\014\022\035\n\025session_symm" +
+      "etric_alg\030\003 \002(\t\022\n\n\002iv\030\005 \001(\014\"\032\n\nBytesProt",
+      "o\022\014\n\004data\030\001 \002(\014\"\033\n\013StringProto\022\014\n\004data\030\001" +
+      " \002(\t\"6\n\030AuthenticatedStringProto\022\014\n\004data" +
+      "\030\001 \002(\t\022\014\n\004hmac\030\002 \002(\014\"(\n\010MapProto\022\034\n\007entr" +
+      "ies\030\001 \003(\0132\013.EntryProto\"(\n\nEntryProto\022\013\n\003" +
+      "key\030\001 \002(\t\022\r\n\005value\030\002 \002(\t\"5\n\rNamedMapProt" +
+      "o\022\014\n\004uuid\030\001 \002(\t\022\026\n\003map\030\002 \002(\0132\t.MapProto\"" +
+      "\031\n\tListProto\022\014\n\004list\030\001 \003(\t\"\035\n\rByteListPr" +
+      "oto\022\014\n\004list\030\001 \003(\014\"7\n\016NamedListProto\022\014\n\004u" +
+      "uid\030\001 \002(\t\022\027\n\003map\030\002 \002(\0132\n.ListProto\"1\n\022Cr" +
+      "yptoContactProto\022\033\n\003map\030\001 \002(\0132\016.NamedMap",
+      "Proto\"\360\001\n\026SignatureMetadataProto\022\016\n\006hand" +
+      "le\030\001 \002(\t\022\022\n\ncreated_on\030\002 \002(\004\022@\n\023signatur" +
+      "e_algorithm\030\003 \002(\0162#.SignatureMetadataPro" +
+      "to.SigAlgProto\022\030\n\020digest_algorithm\030\004 \002(\t" +
+      "\022\023\n\013signed_with\030\005 \002(\t\022\021\n\tsigned_by\030\006 \002(\t" +
+      "\".\n\013SigAlgProto\022\007\n\003RSA\020\000\022\t\n\005ECDSA\020\001\022\013\n\007E" +
+      "CKCDSA\020\002\"n\n\016SignatureProto\022%\n\004meta\030\001 \002(\013" +
+      "2\027.SignatureMetadataProto\022\n\n\002b0\030\002 \002(\014\022\n\n" +
+      "\002b1\030\003 \001(\014\022\035\n\tdata_refs\030\004 \002(\0132\n.ListProto" +
+      "\"\217\002\n\020KeyMetadataProto\022\016\n\006handle\030\001 \002(\t\022\022\n",
+      "\ncreated_on\030\002 \002(\004\022D\n\rencoding_hint\030\003 \002(\016" +
+      "2#.KeyMetadataProto.EncodingHintProto:\010R" +
+      "AWBYTES\022 \n\030key_generation_algorithm\030\004 \002(" +
+      "\t\"o\n\021EncodingHintProto\022\016\n\nNOENCODING\020\000\022\014" +
+      "\n\010RAWBYTES\020\001\022\t\n\005BASE2\020\002\022\n\n\006BASE10\020\003\022\n\n\006B" +
+      "ASE16\020\004\022\n\n\006BASE64\020\005\022\r\n\tBASE64URL\020\006\"I\n\031Sy" +
+      "mmetricKeyContentsProto\022\037\n\004meta\030\001 \002(\0132\021." +
+      "KeyMetadataProto\022\013\n\003key\030\002 \002(\014\"\205\001\n\022C2KeyC" +
+      "ontentsProto\022\037\n\004meta\030\001 \002(\0132\021.KeyMetadata" +
+      "Proto\022\022\n\npublic_key\030\002 \002(\014\022\033\n\023signing_pri",
+      "vate_key\030\003 \001(\014\022\035\n\025agreement_private_key\030" +
+      "\004 \001(\014\"O\n\030C2KeyForPublicationProto\022\037\n\004met" +
+      "a\030\001 \002(\0132\021.KeyMetadataProto\022\022\n\npublic_key" +
+      "\030\002 \002(\014\"\220\001\n\024CurveDefinitionProto\0221\n\005field" +
+      "\030\001 \002(\0162\".CurveDefinitionProto.ECFieldPro" +
+      "to\022\014\n\004uuid\030\002 \002(\t\022\026\n\003map\030\003 \002(\0132\t.MapProto" +
+      "\"\037\n\014ECFieldProto\022\006\n\002FP\020\000\022\007\n\003F2M\020\001\"\235\001\n\022EC" +
+      "KeyContentsProto\022\037\n\004meta\030\001 \002(\0132\021.KeyMeta" +
+      "dataProto\022\t\n\001Q\030\002 \002(\t\022\024\n\ncurve_name\030\003 \001(\t" +
+      "H\000\0221\n\020curve_definition\030\004 \001(\0132\025.CurveDefi",
+      "nitionProtoH\000\022\t\n\001d\030\005 \001(\014B\007\n\005curve\"\230\001\n\030EC" +
+      "KeyForPublicationProto\022\037\n\004meta\030\001 \002(\0132\021.K" +
+      "eyMetadataProto\022\t\n\001Q\030\002 \002(\t\022\024\n\ncurve_name" +
+      "\030\003 \001(\tH\000\0221\n\020curve_definition\030\004 \001(\0132\025.Cur" +
+      "veDefinitionProtoH\000B\007\n\005curve\"\266\001\n\023RSAKeyC" +
+      "ontentsProto\022\037\n\004meta\030\001 \002(\0132\021.KeyMetadata" +
+      "Proto\022\017\n\007Modulus\030\002 \002(\014\022\027\n\017public_exponen" +
+      "t\030\003 \002(\014\022\030\n\020private_exponent\030\004 \001(\014\022\t\n\001p\030\005" +
+      " \001(\014\022\t\n\001q\030\006 \001(\014\022\n\n\002dP\030\007 \001(\014\022\n\n\002dQ\030\010 \001(\014\022" +
+      "\014\n\004qInv\030\t \001(\014\"f\n\031RSAKeyForPublicationPro",
+      "to\022\037\n\004meta\030\001 \002(\0132\021.KeyMetadataProto\022\017\n\007M" +
+      "odulus\030\002 \002(\014\022\027\n\017public_exponent\030\003 \002(\014\"7\n" +
+      "\024NTRUKeyContentsProto\022\037\n\004meta\030\001 \002(\0132\021.Ke" +
+      "yMetadataProto\"=\n\032NTRUKeyForPublicationP" +
+      "roto\022\037\n\004meta\030\001 \002(\0132\021.KeyMetadataProtoB$\n" +
+      "\031com.cryptoregistry.protos\200\001\000\210\001\000\220\001\000"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -17804,144 +20493,156 @@ public final class Buttermilk {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_HelloProto_descriptor,
         new java.lang.String[] { "RegistrationHandle", "KeyHandle", });
-    internal_static_BytesProto_descriptor =
+    internal_static_PublishedKeyProto_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_PublishedKeyProto_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_PublishedKeyProto_descriptor,
+        new java.lang.String[] { "C2", "Ec", "Rsa", "Ntru", "Key", });
+    internal_static_SessionDetailsProto_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_SessionDetailsProto_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_SessionDetailsProto_descriptor,
+        new java.lang.String[] { "SessionId", "SessionKey", "SessionSymmetricAlg", "Iv", });
+    internal_static_BytesProto_descriptor =
+      getDescriptor().getMessageTypes().get(3);
     internal_static_BytesProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_BytesProto_descriptor,
         new java.lang.String[] { "Data", });
     internal_static_StringProto_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_StringProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_StringProto_descriptor,
         new java.lang.String[] { "Data", });
     internal_static_AuthenticatedStringProto_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_AuthenticatedStringProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_AuthenticatedStringProto_descriptor,
         new java.lang.String[] { "Data", "Hmac", });
     internal_static_MapProto_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_MapProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_MapProto_descriptor,
         new java.lang.String[] { "Entries", });
     internal_static_EntryProto_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_EntryProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_EntryProto_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_NamedMapProto_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_NamedMapProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_NamedMapProto_descriptor,
         new java.lang.String[] { "Uuid", "Map", });
     internal_static_ListProto_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_ListProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ListProto_descriptor,
         new java.lang.String[] { "List", });
     internal_static_ByteListProto_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_ByteListProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ByteListProto_descriptor,
         new java.lang.String[] { "List", });
     internal_static_NamedListProto_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_NamedListProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_NamedListProto_descriptor,
         new java.lang.String[] { "Uuid", "Map", });
     internal_static_CryptoContactProto_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_CryptoContactProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_CryptoContactProto_descriptor,
         new java.lang.String[] { "Map", });
     internal_static_SignatureMetadataProto_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_SignatureMetadataProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_SignatureMetadataProto_descriptor,
         new java.lang.String[] { "Handle", "CreatedOn", "SignatureAlgorithm", "DigestAlgorithm", "SignedWith", "SignedBy", });
     internal_static_SignatureProto_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_SignatureProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_SignatureProto_descriptor,
         new java.lang.String[] { "Meta", "B0", "B1", "DataRefs", });
     internal_static_KeyMetadataProto_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_KeyMetadataProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_KeyMetadataProto_descriptor,
         new java.lang.String[] { "Handle", "CreatedOn", "EncodingHint", "KeyGenerationAlgorithm", });
     internal_static_SymmetricKeyContentsProto_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_SymmetricKeyContentsProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_SymmetricKeyContentsProto_descriptor,
         new java.lang.String[] { "Meta", "Key", });
     internal_static_C2KeyContentsProto_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_C2KeyContentsProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_C2KeyContentsProto_descriptor,
         new java.lang.String[] { "Meta", "PublicKey", "SigningPrivateKey", "AgreementPrivateKey", });
     internal_static_C2KeyForPublicationProto_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_C2KeyForPublicationProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_C2KeyForPublicationProto_descriptor,
         new java.lang.String[] { "Meta", "PublicKey", });
     internal_static_CurveDefinitionProto_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(19);
     internal_static_CurveDefinitionProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_CurveDefinitionProto_descriptor,
         new java.lang.String[] { "Field", "Uuid", "Map", });
     internal_static_ECKeyContentsProto_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(20);
     internal_static_ECKeyContentsProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ECKeyContentsProto_descriptor,
         new java.lang.String[] { "Meta", "Q", "CurveName", "CurveDefinition", "D", "Curve", });
     internal_static_ECKeyForPublicationProto_descriptor =
-      getDescriptor().getMessageTypes().get(19);
+      getDescriptor().getMessageTypes().get(21);
     internal_static_ECKeyForPublicationProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ECKeyForPublicationProto_descriptor,
         new java.lang.String[] { "Meta", "Q", "CurveName", "CurveDefinition", "Curve", });
     internal_static_RSAKeyContentsProto_descriptor =
-      getDescriptor().getMessageTypes().get(20);
+      getDescriptor().getMessageTypes().get(22);
     internal_static_RSAKeyContentsProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_RSAKeyContentsProto_descriptor,
         new java.lang.String[] { "Meta", "Modulus", "PublicExponent", "PrivateExponent", "P", "Q", "DP", "DQ", "QInv", });
     internal_static_RSAKeyForPublicationProto_descriptor =
-      getDescriptor().getMessageTypes().get(21);
+      getDescriptor().getMessageTypes().get(23);
     internal_static_RSAKeyForPublicationProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_RSAKeyForPublicationProto_descriptor,
         new java.lang.String[] { "Meta", "Modulus", "PublicExponent", });
     internal_static_NTRUKeyContentsProto_descriptor =
-      getDescriptor().getMessageTypes().get(22);
+      getDescriptor().getMessageTypes().get(24);
     internal_static_NTRUKeyContentsProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_NTRUKeyContentsProto_descriptor,
-        new java.lang.String[] { });
+        new java.lang.String[] { "Meta", });
     internal_static_NTRUKeyForPublicationProto_descriptor =
-      getDescriptor().getMessageTypes().get(23);
+      getDescriptor().getMessageTypes().get(25);
     internal_static_NTRUKeyForPublicationProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_NTRUKeyForPublicationProto_descriptor,
-        new java.lang.String[] { });
+        new java.lang.String[] { "Meta", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

@@ -6,7 +6,7 @@
 package com.cryptoregistry.proto.builder;
 
 import com.cryptoregistry.protos.Buttermilk.KeyMetadataProto;
-import com.cryptoregistry.protos.Buttermilk.RSAKeyContentsProto;
+import com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto;
 import com.cryptoregistry.rsa.RSAKeyForPublication;
 import com.google.protobuf.ByteString;
 
@@ -27,12 +27,12 @@ public class RSAKeyForPublicationProtoBuilder {
 		this.keyContents = keyContents;
 	}
 	
-	public RSAKeyContentsProto build() {
+	public RSAKeyForPublicationProto build() {
 		
 		KeyMetadataProtoBuilder metaBuilder = new KeyMetadataProtoBuilder(keyContents.metadata);
 		KeyMetadataProto metaProto = metaBuilder.build();
 		
-		RSAKeyContentsProto rsaProto = RSAKeyContentsProto.newBuilder()
+		RSAKeyForPublicationProto rsaProto = RSAKeyForPublicationProto.newBuilder()
 				.setMeta(metaProto)
 				.setModulus(ByteString.copyFrom(keyContents.modulus.toByteArray()))
 				.setPublicExponent(ByteString.copyFrom(keyContents.publicExponent.toByteArray()))

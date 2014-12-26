@@ -8,6 +8,35 @@ message HelloProto {
 	required string key_handle = 2; // the remote sender's key identifier
 }
 
+message PublishedKeyProto {
+	oneof key {
+		C2KeyForPublicationProto c2 = 1;
+		ECKeyForPublicationProto ec = 2;
+		RSAKeyForPublicationProto rsa = 3;
+		NTRUKeyForPublicationProto ntru = 4;
+	}
+}
+
+message SessionDetailsProto {
+	required string session_id = 1; // uuid;
+	
+	// key encapsulation for ephemeral keys -
+	// we always use an ephemeral key for our messaging to get perfect forward secrecy
+	// regardless of the handshake semantics
+	
+	required bytes session_key = 2; // 256 bits random key, encrypted; 
+						   // for EC and Curve25519, encryption of the session_key is always done with AES/CBC/PKCS7 
+						   // for RSA, encryption is done with RSA/OAEPWITHSHA256ANDMGF1PADDING
+						   // for NTRU, encryption is done with NTRU/EES1087EP2 (our default for this alg)
+						   
+	required string session_symmetric_alg = 3;
+							// the symmetric algorithm to be used for the remainder of the session's encryption
+							// options are AES/GCM, AES/CBC/PKCS7
+							// for AES/GCM it is important to always use a different IV per frame. 
+							
+	optional bytes iv = 5; // possible IV for 2
+}
+
 message BytesProto {
 	required bytes data = 1;
 }
@@ -164,11 +193,11 @@ message RSAKeyForPublicationProto {
 }
 
 message NTRUKeyContentsProto {
-	
+	required KeyMetadataProto meta = 1;
 }
 
 message NTRUKeyForPublicationProto {
-	
+	required KeyMetadataProto meta = 1;
 }
 
 

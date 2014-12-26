@@ -3,11 +3,11 @@ package com.cryptoregistry.proto.frame.btls;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import com.cryptoregistry.c2.key.Curve25519KeyForPublication;
-import com.cryptoregistry.proto.builder.C2KeyForPublicationProtoBuilder;
+import com.cryptoregistry.CryptoKey;
+import com.cryptoregistry.proto.builder.PublishedKeyProtoBuilder;
 import com.cryptoregistry.proto.frame.OutputFrame;
 import com.cryptoregistry.proto.frame.OutputFrameBase;
-import com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto;
+import com.cryptoregistry.protos.Buttermilk.PublishedKeyProto;
 
 /**
  * Used with the Handshake contentType. 
@@ -15,13 +15,13 @@ import com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto;
  * @author Dave
  *
  */
-public class C2KeyForPublicationOutputFrame extends OutputFrameBase implements OutputFrame {
+public class PublishedKeyOutputFrame extends OutputFrameBase implements OutputFrame {
 
 	final byte contentType;
 	final int subcode;
-	final Curve25519KeyForPublication keyContents;
+	final CryptoKey keyContents;
 	
-	public C2KeyForPublicationOutputFrame(byte contentType, int subcode, Curve25519KeyForPublication keyContents) {
+	public PublishedKeyOutputFrame(byte contentType, int subcode, CryptoKey keyContents) {
 		this.keyContents = keyContents; 
 		this.contentType = contentType;
 		this.subcode = subcode;
@@ -29,8 +29,8 @@ public class C2KeyForPublicationOutputFrame extends OutputFrameBase implements O
 
 	@Override
 	public void writeFrame(OutputStream out) {
-		C2KeyForPublicationProtoBuilder builder = new C2KeyForPublicationProtoBuilder(keyContents);
-		C2KeyForPublicationProto proto = builder.build();
+		PublishedKeyProtoBuilder builder = new PublishedKeyProtoBuilder(keyContents);
+		PublishedKeyProto proto = builder.build();
 		byte [] bytes = proto.toByteArray();
 		int sz = bytes.length;
 		try {

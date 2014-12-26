@@ -32,7 +32,7 @@ public class AlertOutputFrame extends OutputFrameBase implements OutputFrame {
 		try {
 			this.writeByte(out, contentType);
 			this.writeShort(out, subcode);
-			this.writeShort(out, sz); // TODO length cannot exceed 32767
+			this.writeShort(out, sz); // TODO validate sz, length cannot exceed 32767
 			out.write(bytes);
 			out.flush();
 		} catch (IOException e) {

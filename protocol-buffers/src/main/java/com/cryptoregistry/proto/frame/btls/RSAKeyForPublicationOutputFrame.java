@@ -6,7 +6,7 @@ import java.io.OutputStream;
 import com.cryptoregistry.proto.builder.RSAKeyForPublicationProtoBuilder;
 import com.cryptoregistry.proto.frame.OutputFrame;
 import com.cryptoregistry.proto.frame.OutputFrameBase;
-import com.cryptoregistry.protos.Buttermilk.RSAKeyContentsProto;
+import com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto;
 import com.cryptoregistry.rsa.RSAKeyForPublication;
 
 /**
@@ -18,24 +18,27 @@ import com.cryptoregistry.rsa.RSAKeyForPublication;
 public class RSAKeyForPublicationOutputFrame extends OutputFrameBase implements OutputFrame {
 
 	final byte contentType;
+	final int subcode;
 	final RSAKeyForPublication keyContents;
 	
-	public RSAKeyForPublicationOutputFrame(byte contentType, RSAKeyForPublication keyContents) {
+	public RSAKeyForPublicationOutputFrame(byte contentType, int subcode, RSAKeyForPublication keyContents) {
 		this.keyContents = keyContents; 
 		this.contentType = contentType;
+		this.subcode = subcode;
 	}
 
 	@Override
-	public void writeFrame(OutputStream stream) {
+	public void writeFrame(OutputStream out) {
 		RSAKeyForPublicationProtoBuilder builder = new RSAKeyForPublicationProtoBuilder(keyContents);
-		RSAKeyContentsProto proto = builder.build();
+		RSAKeyForPublicationProto proto = builder.build();
 		byte [] bytes = proto.toByteArray();
-		int size = bytes.length;
+		int sz = bytes.length;
 		try {
-			writeByte(stream, contentType);
-			writeInt(stream,size);
-			stream.write(bytes);
-			stream.flush();
+			this.writeByte(out, contentType);
+			this.writeShort(out, subcode);
+			this.writeShort(out, sz); // TODO validate sz, length cannot exceed 32767
+			out.write(bytes);
+			out.flush();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

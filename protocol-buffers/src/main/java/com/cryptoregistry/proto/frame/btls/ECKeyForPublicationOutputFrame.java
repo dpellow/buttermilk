@@ -18,24 +18,27 @@ import com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto;
 public class ECKeyForPublicationOutputFrame extends OutputFrameBase implements OutputFrame {
 
 	final byte contentType;
+	final int subcode;
 	final ECKeyForPublication keyContents;
 	
-	public ECKeyForPublicationOutputFrame(byte contentType, ECKeyForPublication keyContents) {
+	public ECKeyForPublicationOutputFrame(byte contentType, int subcode, ECKeyForPublication keyContents) {
 		this.keyContents = keyContents; 
 		this.contentType = contentType;
+		this.subcode = subcode;
 	}
 
 	@Override
-	public void writeFrame(OutputStream stream) {
+	public void writeFrame(OutputStream out) {
 		ECKeyForPublicationProtoBuilder builder = new ECKeyForPublicationProtoBuilder(keyContents);
 		ECKeyForPublicationProto proto = builder.build();
 		byte [] bytes = proto.toByteArray();
-		int size = bytes.length;
+		int sz = bytes.length;
 		try {
-			writeByte(stream, contentType);
-			writeInt(stream,size);
-			stream.write(bytes);
-			stream.flush();
+			this.writeByte(out, contentType);
+			this.writeShort(out, subcode);
+			this.writeShort(out, sz); // TODO validate sz, length cannot exceed 32767
+			out.write(bytes);
+			out.flush();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
