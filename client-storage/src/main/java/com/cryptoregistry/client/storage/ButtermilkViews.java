@@ -32,6 +32,7 @@ import com.cryptoregistry.protos.Buttermilk.CryptoContactProto;
 import com.cryptoregistry.protos.Buttermilk.ECKeyContentsProto;
 import com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto;
 import com.cryptoregistry.protos.Buttermilk.RSAKeyContentsProto;
+import com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto;
 import com.cryptoregistry.rsa.RSAKeyContents;
 import com.cryptoregistry.rsa.RSAKeyForPublication;
 import com.cryptoregistry.signature.CryptoSignature;
@@ -124,7 +125,7 @@ public class ButtermilkViews {
 		}else{
 			metadata.setForPublication(true);
 			RSAKeyForPublicationProtoBuilder builder = new RSAKeyForPublicationProtoBuilder(key);
-			RSAKeyContentsProto proto = builder.build();
+			RSAKeyForPublicationProto proto = builder.build();
 			putSecure(key.getMetadata().getHandle(),metadata,proto);
 		}
 	}
