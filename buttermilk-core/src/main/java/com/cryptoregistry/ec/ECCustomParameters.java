@@ -17,16 +17,10 @@ import com.cryptoregistry.util.MapIterator;
 
 /**<pre>
  * 
- * Base class for custom parameters in EC
+ * Base class for custom parameters in EC. 
  * 
  * Buttermilk would like to provide a defined format for Elliptic Curve parameters so that
  * researchers can easily communicate new curves and use such parameters. 
- * 
- * The author believes it probably always best to use named curves for business or professional use,
- * due to the probability that custom created curves will go wrong, be inefficient, or otherwise fail.
- * 
- * That said, there is no simple format today to communicate curve parameters and we'd like to provide that
- * as a demonstration of the robustness of the buttermilk JSON format concept.
  * 
  * See http://www.secg.org/collateral/sec2_final.pdf for the basic definitions of how to encode
  * Elliptic Curve parameters. In brief, the prime field parameters are a sextuplet of the form:
@@ -95,20 +89,18 @@ public abstract class ECCustomParameters implements MapIterator, ECCustomCurve {
 	public final String uuid;
 	public final Map<String,String> parameters;
 	public final FIELD field;
-	public final Iterator<String> iter;
+	public Iterator<String> iter;
 	
 	protected ECCustomParameters(FIELD field) {
 		uuid = UUID.randomUUID().toString();
 		parameters = new LinkedHashMap<String,String>();
 		this.field = field;
-		iter = parameters.keySet().iterator();
 	}
 	
 	protected ECCustomParameters(FIELD field, String uuid) {
 		this.uuid = uuid;
 		parameters = new LinkedHashMap<String,String>();
 		this.field = field;
-		iter = parameters.keySet().iterator();
 	}
 	
 	/**
@@ -128,8 +120,14 @@ public abstract class ECCustomParameters implements MapIterator, ECCustomCurve {
 	@Override
 	public abstract ECDomainParameters getParameters();
 	
+	/**
+	 * iterator is lazy initialized in the first call to this method so it is current
+	 */
 	@Override
 	public boolean hasNext() {
+		if(iter == null) {
+			iter = parameters.keySet().iterator();
+		}
 		return iter.hasNext();
 	}
 	@Override

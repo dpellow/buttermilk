@@ -47,7 +47,7 @@ public class ECKeyFormatReader {
 				ECCustomParameters params = null;
 				
 				if(inner.containsKey("CurveName")) {
-					curveName = String.valueOf(inner.get("CurveName"));
+					curveName = (String) inner.get("CurveName");
 				} else {
 					// custom curve definition
 					// first get the parameters into a map we can pass into the constructor

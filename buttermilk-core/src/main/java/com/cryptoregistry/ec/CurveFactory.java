@@ -115,7 +115,7 @@ public class CurveFactory {
 				return CurveFactory.brainpoolP160r1.createParameters();
 			}
 			
-			// my own idea for a name but seems reasonable
+			// TODO my own idea for a name but seems reasonable - these curves don't work yet
 			
 			/*
 			case "DSTU4145.0": return dstu4145.params[0];
@@ -129,7 +129,7 @@ public class CurveFactory {
 			case "DSTU4145.8": return dstu4145.params[8];
 			case "DSTU4145.9": return dstu4145.params[9];
 			*/
-			// TODO add all the rest
+			// TODO add all the rest, the prime fields seem like the most secure, will add binary fields later
 			
 			default: throw new RuntimeException("unknown curve name: "+name);
 		}

@@ -11,6 +11,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +38,9 @@ import com.cryptoregistry.c2.key.Curve25519KeyContents;
 import com.cryptoregistry.c2.key.Curve25519KeyForPublication;
 import com.cryptoregistry.c2.key.PublicKey;
 import com.cryptoregistry.c2.key.SigningPrivateKey;
+import com.cryptoregistry.ec.ECCustomParameters;
+import com.cryptoregistry.ec.ECF2MCustomParameters;
+import com.cryptoregistry.ec.ECFPCustomParameters;
 import com.cryptoregistry.ec.ECKeyContents;
 import com.cryptoregistry.ec.ECKeyForPublication;
 import com.cryptoregistry.ec.ECKeyMetadata;
@@ -234,7 +238,7 @@ public class JSONReader {
 						Date createdOn = TimeUtil.getISO8601FormatDate((String) keyData.get("CreatedOn"));
 						EncodingHint encoding = EncodingHint.valueOf((String)keyData.get("Encoding"));
 						String keyAlgorithm = (String) keyData.get("KeyAlgorithm");
-						Mode mode = Mode.FOR_PUBLICATION;
+						Mode mode = Mode.UNSECURED;
 						KeyFormat format = new KeyFormat(encoding,mode);
 						
 						// define metadata for key
@@ -261,12 +265,39 @@ public class JSONReader {
 							}
 							case EC: {
 								meta = new ECKeyMetadata(handle,createdOn,format);
-								String curveName = String.valueOf(keyData.get("CurveName"));
-								String qIn = String.valueOf(keyData.get("Q"));
-								ECPoint q=FormatUtil.parseECPoint(curveName, encoding, qIn);
-								BigInteger d = FormatUtil.unwrap(encoding, String.valueOf(keyData.get("D")));
-								ECKeyContents p=new ECKeyContents((ECKeyMetadata)meta,q,curveName,d);
-								list.add(new CryptoKeyWrapperImpl(p));
+								String curveName = (String)keyData.get("CurveName");
+								ECCustomParameters params = null;
+								if(curveName != null){
+									String qIn = String.valueOf(keyData.get("Q"));
+									ECPoint q=FormatUtil.parseECPoint(curveName, encoding, qIn);
+									BigInteger d = FormatUtil.unwrap(encoding, String.valueOf(keyData.get("D")));
+									ECKeyContents p=new ECKeyContents((ECKeyMetadata)meta,q,curveName,d);
+									list.add(new CryptoKeyWrapperImpl(p));
+								}else{
+									
+									// support for custom curve definitions
+									Map<String,Object> def = (Map<String,Object>) keyData.get("Curve");
+									LinkedHashMap<String,String> map = new LinkedHashMap<String,String>();
+									Iterator<String> _iter = def.keySet().iterator();
+									while(_iter.hasNext()){
+										String key = _iter.next();
+										map.put(key, String.valueOf(def.get(key)));
+									}
+									
+									if(def.get("Field").equals("FP")){
+										params = new ECFPCustomParameters(null,map);
+									}else if(def.get("Field").equals("F2M")){
+										params = new ECF2MCustomParameters(null,map);
+									}
+									
+									EncodingHint enc = EncodingHint.valueOf(String.valueOf(keyData.get("Encoding")));
+									ECPoint q = FormatUtil.parseECPoint(params.getParameters().getCurve(), enc, String.valueOf(keyData.get("Q")));
+									BigInteger D = FormatUtil.unwrap(enc, String.valueOf(keyData.get("D")));
+									
+									ECKeyContents p=new ECKeyContents((ECKeyMetadata)meta,q,params,D);
+									list.add(new CryptoKeyWrapperImpl(p));
+									
+								}
 								break;
 							}
 							case NTRU: {

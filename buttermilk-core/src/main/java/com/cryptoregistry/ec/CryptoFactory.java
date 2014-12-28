@@ -60,6 +60,27 @@ public class CryptoFactory {
 	}
 	
 	/**
+	 * Custom Curve interface
+	 * 
+	 * @param domainParams
+	 * @return
+	 */
+	public ECKeyContents generateCustomKeys(ECCustomParameters domainParams) {
+		lock.lock();
+		try {
+			ECKeyPairGenerator gen = new ECKeyPairGenerator();
+			ECKeyGenerationParameters params = new ECKeyGenerationParameters(domainParams.getParameters(),rand);
+			gen.init(params);
+			AsymmetricCipherKeyPair pair = gen.generateKeyPair();
+			ECPrivateKeyParameters priv = (ECPrivateKeyParameters) pair.getPrivate();
+			ECPublicKeyParameters pub = (ECPublicKeyParameters) pair.getPublic();
+			return new ECKeyContents(pub.getQ(),domainParams,priv.getD());
+		} finally {
+			lock.unlock();
+		}
+	}
+	
+	/**
 	 * Use for Mode.SEALED key setup
 	 * @param password
 	 * @param curveName
