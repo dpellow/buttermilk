@@ -40,7 +40,7 @@ public class FrameOutputStream extends FilterOutputStream {
 	protected Lock lock = new ReentrantLock();
 
 	/**
-	 * Used for testing
+	 * Used for testing - pass in the asymmetric key and iv directly
 	 * 
 	 * @param out
 	 * @param key

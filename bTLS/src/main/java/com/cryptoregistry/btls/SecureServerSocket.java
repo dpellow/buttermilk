@@ -12,6 +12,8 @@ import java.net.Socket;
 
 import org.apache.log4j.Logger;
 
+import com.cryptoregistry.client.security.DataStore;
+
 /**
  * A secure socket using contemporary techniques.
  * 
@@ -21,6 +23,8 @@ import org.apache.log4j.Logger;
 public class SecureServerSocket extends ServerSocket {
 
 	private static final Logger log = Logger.getLogger("com.cryptography.btls.SecureServerSocket");
+	
+	protected DataStore ds; // our key cache
 
 	public SecureServerSocket() throws IOException {
 		super();
@@ -39,8 +43,12 @@ public class SecureServerSocket extends ServerSocket {
 		super(port, backlog, bindAddress);
 	}
 
+	public void setDs(DataStore ds) {
+		this.ds = ds;
+	}
+
 	/**
-	 * Performs the server-side handshake prior to returning a C2Socket
+	 * Performs the server-side handshake prior to returning a SecureSocket
 	 */
 	public Socket accept() throws IOException {
 		log.trace("entering accept");
@@ -49,6 +57,7 @@ public class SecureServerSocket extends ServerSocket {
 		implAccept(s);
 	
 		// do handshake
+		
 	
 		return s;
 	}

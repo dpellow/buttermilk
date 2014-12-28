@@ -10,6 +10,7 @@
    <packaging>jar</packaging>
   
   <dependencies>
+  
   	<dependency>
   	  <groupId>com.cryptoregistry</groupId>
    		 <artifactId>buttermilk-core</artifactId>
@@ -22,7 +23,7 @@
 			<version>2.5.0</version>
 	</dependency>
 	
-	  <dependency>
+	<dependency>
       <groupId>com.cryptoregistry</groupId>
       <artifactId>protocol-buffers</artifactId>
       <version>LATEST</version>
@@ -33,6 +34,13 @@
    	  <artifactId>bracket-properties</artifactId>
       <version>1.3.6</version>
   	</dependency>
+  	
+  	<dependency>
+  	  <groupId>com.cryptoregistry</groupId>
+   		 <artifactId>client-storage</artifactId>
+        <version>LATEST</version>
+  	</dependency>
+  	
 	<!--  
         <dependency>
             <groupId>com.jamonapi</groupId>

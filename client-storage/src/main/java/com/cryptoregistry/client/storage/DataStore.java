@@ -29,6 +29,7 @@ public class DataStore {
 	 * key.filename=symmetric-key.json
 	 * buttermilk.datastore.home=C:/path/to/buttermilk-home/db
 	 * password=<obfuscated password for the symmetric key>
+	 * registration.handle=<our default reg handle>
 	 * 
 	 * To create a Symmetric Key, use the script in the bin folder of the buttermilk-core distro:
 	 * 
