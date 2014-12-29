@@ -32,6 +32,15 @@ public class CryptoFactory {
 		return new NTRUKeyContents(NTRUNamedParameters.EES1087EP2,pub.h,priv.t,priv.fp);
 	}
 	
+	public NTRUKeyContents generateKeys(NTRUNamedParameters paramName) {
+		NTRUEncryptionKeyPairGenerator gen = new NTRUEncryptionKeyPairGenerator();
+		gen.init(NTRUEncryptionKeyGenerationParameters.EES1087EP2);
+		AsymmetricCipherKeyPair pair = gen.generateKeyPair();
+		NTRUEncryptionPublicKeyParameters pub  = (NTRUEncryptionPublicKeyParameters) pair.getPublic();
+		NTRUEncryptionPrivateKeyParameters priv =  (NTRUEncryptionPrivateKeyParameters) pair.getPrivate();
+		return new NTRUKeyContents(paramName,pub.h,priv.t,priv.fp);
+	}
+	
 	public NTRUKeyContents generateKeys(NTRUKeyMetadata metadata) {
 		NTRUEncryptionKeyPairGenerator gen = new NTRUEncryptionKeyPairGenerator();
 		gen.init(NTRUEncryptionKeyGenerationParameters.EES1087EP2);

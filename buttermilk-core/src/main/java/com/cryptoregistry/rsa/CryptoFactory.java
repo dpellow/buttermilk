@@ -82,16 +82,27 @@ public class CryptoFactory {
 		}
 	}
 	
+	public RSAKeyContents generateKeys(int strength) {
+		lock.lock();
+		try {
+			RSAKeyPairGenerator kpGen = new RSAKeyPairGenerator();
+			kpGen.init(new RSAKeyGenerationParameters(PUBLIC_EXPONENT, rand, strength, CERTAINTY));
+			return kpGen.generateKeys();
+		} finally {
+			lock.unlock();
+		}
+	}
+	
 	/**
-	 * Set everything yourself
+	 * Set most parameters yourself
 	 * 
-	 * @param management
+	 * @param metadata
 	 * @param publicExp
 	 * @param keyStrength
 	 * @param certainty
 	 * @return
 	 */
-	public RSAKeyContents generateKeys(RSAKeyMetadata management, int publicExp,int keyStrength,int certainty) {
+	public RSAKeyContents generateKeys(RSAKeyMetadata metadata, int publicExp, int keyStrength, int certainty) {
 		lock.lock();
 		try {
 			RSAKeyPairGenerator kpGen = new RSAKeyPairGenerator();

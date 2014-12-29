@@ -9,6 +9,8 @@ import com.cryptoregistry.passwords.NewPassword;
 import com.cryptoregistry.passwords.Password;
 import com.cryptoregistry.symmetric.CryptoFactory;
 import com.cryptoregistry.symmetric.SymmetricKeyContents;
+import com.cryptoregistry.util.CmdLineParser.Option;
+import com.cryptoregistry.util.CmdLineParser.OptionException;
 
 /**
  * Simple program to generate a Symmetric Key and write it to file
@@ -21,25 +23,39 @@ public class SymmetricKeyGen {
 	private char[] password;
 	private String regHandle;
 	
+	public SymmetricKeyGen() {
+		super();
+	}
+	
+	public SymmetricKeyGen(char[] password, String regHandle) {
+		super();
+		this.password = password;
+		this.regHandle = regHandle;
+	}
+
 	private void run() {
 		
-		final int keySize = 256;
+		final int keySize = 256; // bits
 		
 		String fileName ="symmetric-key.json";
 		Console console = System.console();
-		console.format("%s\n\n", "...Create Symmetric Key...");
-
-		collectRegHandle(console);
-		collectPassword(console);
+		if(console == null) {
+			// must rely on command-line input in this case
+			
+		}else{
+			console.format("%s\n\n", "...Create Symmetric Key...");
+			if(regHandle == null) collectRegHandle(console);
+			if(password == null) collectPassword(console);
+		}
 
 		Password p = new NewPassword(password);
-		SymmetricKeyContents keys0 = CryptoFactory.INSTANCE.generateKey(keySize, p);
+		SymmetricKeyContents keys0 = CryptoFactory.INSTANCE.generateKey(p, keySize);
 		JSONFormatter format = new JSONFormatter(regHandle);
 		format.add(keys0);
 		StringWriter writer = new StringWriter();
 		format.format(writer);
 		FileUtil.writeFile(fileName, writer.toString());
-		console.format("%s\n", "...Done...");
+		if(console != null) console.format("%s\n", "...Done...");
 		p.selfDestruct();
 		
 	}
@@ -67,7 +83,19 @@ public class SymmetricKeyGen {
 	}
 	
 	public static void main(String[] args) {
-		SymmetricKeyGen gen = new SymmetricKeyGen();
+		CmdLineParser parser = new CmdLineParser();
+		Option<String> regHandleOpt = parser.addStringOption('r', "regHandle");
+		Option<String> passwordOpt = parser.addStringOption('p', "password");
+		try {
+			parser.parse(args);
+		} catch (OptionException e) {
+			e.printStackTrace();
+		}
+		
+		String regHandle =  parser.getOptionValue(regHandleOpt,null);
+		String password =  parser.getOptionValue(passwordOpt,null);
+		
+		SymmetricKeyGen gen = new SymmetricKeyGen(password.toCharArray(),regHandle);
 		gen.run();
 	}
 }

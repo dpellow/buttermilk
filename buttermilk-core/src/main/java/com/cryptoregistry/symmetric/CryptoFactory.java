@@ -29,11 +29,11 @@ public class CryptoFactory {
 		}
 	}
 
-	public SymmetricKeyContents generateKey(int size, Password password) {
+	public SymmetricKeyContents generateKey(Password password, int size) {
 		lock.lock();
 		try {
 			if (size < 1) throw new RuntimeException("Size looks wrong.");
-			if (!(size == 128 || size == 192 || size == 256)) throw new RuntimeException("Size looks wrong.");
+			if (!(size == 128 || size == 192 || size == 256)) throw new RuntimeException("Size looks wrong, set to 128, 192, or 256 bits");
 			byte[] bytes = new byte[size/8];
 			rand.nextBytes(bytes);
 			return new SymmetricKeyContents(
@@ -57,7 +57,7 @@ public class CryptoFactory {
 		}
 	}
 	
-	public SymmetricKeyContents wrap(byte[]bytes, Password password) {
+	public SymmetricKeyContents wrap(Password password, byte[]bytes) {
 		lock.lock();
 		try {
 			return new SymmetricKeyContents(

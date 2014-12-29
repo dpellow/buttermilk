@@ -15,7 +15,7 @@ public class SymmetricKeyFormatTest {
 	@Test
 	public void test0() {
 		char[] p = {'p','a','s','s'};
-		SymmetricKeyContents s = CryptoFactory.INSTANCE.generateKey(256, new NewPassword(p));
+		SymmetricKeyContents s = CryptoFactory.INSTANCE.generateKey(new NewPassword(p),256);
 		JSONFormatter format = new JSONFormatter("Chinese Knees");
 		format.add(s);
 		StringWriter writer = new StringWriter();
