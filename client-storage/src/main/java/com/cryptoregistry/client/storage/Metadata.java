@@ -1,6 +1,8 @@
 package com.cryptoregistry.client.storage;
 
 import java.io.Serializable;
+import java.util.Iterator;
+import java.util.Map;
 
 public class Metadata implements Serializable {
 
@@ -19,6 +21,75 @@ public class Metadata implements Serializable {
 	
 	public Metadata() {
 		super();
+	}
+	
+	/**
+	 * Return true if and only if all the items in criteria match this meta data,
+	 * fast fail if any non-match found in the search set
+	 * 
+	 * @param criteria
+	 * @return
+	 */
+	public boolean match(Map<MetadataTokens,Object> criteria){
+		Iterator<MetadataTokens> iter = criteria.keySet().iterator();
+		while(iter.hasNext()){
+			MetadataTokens key = iter.next();
+			Object value = criteria.get(key);
+			switch(key){
+				case key:{	 
+					boolean val = (Boolean)value;
+					if(this.key != val) return false;
+					else continue;
+				}
+				case forPublication: {
+					boolean val = (Boolean)value;
+					if(this.forPublication != val) return false;
+					else continue;
+				}
+				case contact: {
+					boolean val = (Boolean)value;
+					if(this.contact != val) return false;
+					else continue;
+				}
+				case signature: {
+					boolean val = (Boolean)value;
+					if(this.signature != val) return false;
+					else continue;
+				}
+				case namedList: {
+					boolean val = (Boolean)value;
+					if(this.namedList != val) return false;
+					else continue;
+				}
+				case namedMap: {
+					boolean val = (Boolean)value;
+					if(this.namedMap != val) return false;
+					else continue;
+				}
+				case keyGenerationAlgorithm: {
+					String val = String.valueOf(value);
+					if(!this.keyGenerationAlgorithm.equals(val)) return false;
+					else continue;
+				}
+				case signatureAlgorithm:{
+					String val = String.valueOf(value);
+					if(!this.signatureAlgorithm.equals(val)) return false;
+					else continue;
+				}
+				case createdOn: {
+					String val = String.valueOf(value);
+					if(!String.valueOf(createdOn).equals(val)) return false;
+					else continue;
+				}
+				case registrationHandle: {
+					String val = String.valueOf(value);
+					if(!this.registrationHandle.equals(val)) return false;
+					else continue;
+				}
+			}
+			
+		}
+		return true;
 	}
 
 	public boolean isKey() {

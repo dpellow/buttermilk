@@ -6,15 +6,21 @@
 package com.cryptoregistry.client.storage;
 
 import java.security.SecureRandom;
+import java.util.Iterator;
+import java.util.Map;
 
 import com.cryptoregistry.CryptoContact;
+import com.cryptoregistry.CryptoKey;
+import com.cryptoregistry.KeyGenerationAlgorithm;
 import com.cryptoregistry.MapData;
 import com.cryptoregistry.ListData;
 import com.cryptoregistry.Signer;
 import com.cryptoregistry.c2.key.Curve25519KeyForPublication;
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
+import com.cryptoregistry.client.security.SuitableMatchFailedException;
 import com.cryptoregistry.ec.ECKeyForPublication;
 import com.cryptoregistry.ec.ECKeyContents;
+import com.cryptoregistry.ntru.NTRUKeyContents;
 import com.cryptoregistry.passwords.SensitiveBytes;
 import com.cryptoregistry.proto.builder.C2KeyContentsProtoBuilder;
 import com.cryptoregistry.proto.builder.C2KeyForPublicationProtoBuilder;
@@ -26,6 +32,7 @@ import com.cryptoregistry.proto.builder.NamedMapProtoBuilder;
 import com.cryptoregistry.proto.builder.RSAKeyContentsProtoBuilder;
 import com.cryptoregistry.proto.builder.RSAKeyForPublicationProtoBuilder;
 import com.cryptoregistry.proto.builder.SignatureProtoBuilder;
+import com.cryptoregistry.proto.builder.SymmetricKeyContentsProtoBuilder;
 import com.cryptoregistry.protos.Buttermilk.C2KeyContentsProto;
 import com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto;
 import com.cryptoregistry.protos.Buttermilk.CryptoContactProto;
@@ -33,10 +40,12 @@ import com.cryptoregistry.protos.Buttermilk.ECKeyContentsProto;
 import com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto;
 import com.cryptoregistry.protos.Buttermilk.RSAKeyContentsProto;
 import com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto;
+import com.cryptoregistry.protos.Buttermilk.SymmetricKeyContentsProto;
 import com.cryptoregistry.rsa.RSAKeyContents;
 import com.cryptoregistry.rsa.RSAKeyForPublication;
 import com.cryptoregistry.signature.CryptoSignature;
 import com.cryptoregistry.symmetric.AESCBCPKCS7;
+import com.cryptoregistry.symmetric.SymmetricKeyContents;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
 import com.sleepycat.bind.EntryBinding;
@@ -44,161 +53,244 @@ import com.sleepycat.bind.serial.ClassCatalog;
 import com.sleepycat.bind.serial.SerialBinding;
 import com.sleepycat.collections.StoredSortedMap;
 
-
 public class ButtermilkViews {
 
-	private final StoredSortedMap<Handle,SecureData> secureMap;
-	private final StoredSortedMap<Handle,Metadata> metadataMap;
+	private final StoredSortedMap<Handle, SecureData> secureMap;
+	private final StoredSortedMap<Handle, Metadata> metadataMap;
 	private final SecureRandom rand = new SecureRandom();
 	private final SensitiveBytes cachedKey;
-	
-    /**
-     * Create the data bindings and collection views.
-     */
-   
+
+	/**
+	 * Create the data bindings and collection views.
+	 */
+
 	public ButtermilkViews(ButtermilkDatabase db, SensitiveBytes cachedKey) {
 
 		this.cachedKey = cachedKey;
-        ClassCatalog catalog = db.getClassCatalog();
-        
-        EntryBinding<Handle> secureKeyBinding = new SerialBinding<Handle>(catalog,Handle.class);
-        EntryBinding<SecureData> secureDataBinding = new SerialBinding<SecureData>(catalog, SecureData.class);
-   
-        EntryBinding<Handle> metadataKeyBinding = new SerialBinding<Handle>(catalog,Handle.class);
-        EntryBinding<Metadata> metadataDataBinding = new SerialBinding<Metadata>(catalog, Metadata.class);
-   
-        
-        secureMap = new StoredSortedMap<Handle,SecureData>(
-				db.getSecureDatabase(),
-				secureKeyBinding, 
-				secureDataBinding, 
+		ClassCatalog catalog = db.getClassCatalog();
+
+		EntryBinding<Handle> secureKeyBinding = new SerialBinding<Handle>(
+				catalog, Handle.class);
+		EntryBinding<SecureData> secureDataBinding = new SerialBinding<SecureData>(
+				catalog, SecureData.class);
+
+		EntryBinding<Handle> metadataKeyBinding = new SerialBinding<Handle>(
+				catalog, Handle.class);
+		EntryBinding<Metadata> metadataDataBinding = new SerialBinding<Metadata>(
+				catalog, Metadata.class);
+
+		secureMap = new StoredSortedMap<Handle, SecureData>(
+				db.getSecureDatabase(), secureKeyBinding, secureDataBinding,
 				true);
-        
-        metadataMap = new StoredSortedMap<Handle,Metadata>(
-				db.getMetadataDatabase(),
-				metadataKeyBinding, 
-				metadataDataBinding, 
-				true);
-     
-    }
+
+		metadataMap = new StoredSortedMap<Handle, Metadata>(
+				db.getMetadataDatabase(), metadataKeyBinding,
+				metadataDataBinding, true);
+
+	}
 
 	public StoredSortedMap<Handle, SecureData> getSecureMap() {
 		return secureMap;
 	}
-	
+
 	public StoredSortedMap<Handle, Metadata> getMetadataMap() {
 		return metadataMap;
 	}
-	
-	void clearCachedKey(){
+
+	void clearCachedKey() {
 		cachedKey.selfDestruct();
 	}
+
+	public void put(String regHandle, CryptoKey key) {
+		KeyGenerationAlgorithm alg = key.getMetadata().getKeyAlgorithm();
+		switch (alg) {
+			case Symmetric: {
+				SymmetricKeyContents skc = (SymmetricKeyContents) key;
+				put(regHandle, skc);
+				break;
+			}
+			case Curve25519: {
+				Curve25519KeyContents skc = (Curve25519KeyContents) key;
+				put(regHandle, skc);
+				break;
+			}
+			case EC: {
+				ECKeyContents skc = (ECKeyContents) key;
+				put(regHandle, skc);
+				break;
+			}
+			case RSA: {
+				RSAKeyContents skc = (RSAKeyContents) key;
+				put(regHandle, skc);
+				break;
+			}
+			case NTRU: {
+				NTRUKeyContents skc = (NTRUKeyContents) key;
+				put(regHandle, skc);
+				break;
+			}
 	
-	public void put(String regHandle, Curve25519KeyForPublication key){
+			default:
+				throw new RuntimeException("Unknown KeyGenerationAlgorithm: " + alg);
+		}
+	}
+
+	public void put(String regHandle, SymmetricKeyContents key) {
 		Metadata metadata = new Metadata();
 		metadata.setKey(true);
 		metadata.setRegistrationHandle(regHandle);
-		metadata.setKeyGenerationAlgorithm(key.getMetadata().getKeyAlgorithm().toString());
+		metadata.setKeyGenerationAlgorithm(key.getMetadata().getKeyAlgorithm()
+				.toString());
 		metadata.setCreatedOn(key.getMetadata().getCreatedOn().getTime());
-		if(key instanceof Signer){
-			C2KeyContentsProtoBuilder builder = new C2KeyContentsProtoBuilder((Curve25519KeyContents)key);
+		SymmetricKeyContentsProtoBuilder builder = new SymmetricKeyContentsProtoBuilder(
+				key);
+		SymmetricKeyContentsProto proto = builder.build();
+		putSecure(key.getMetadata().getHandle(), metadata, proto);
+	}
+
+	public void put(String regHandle, Curve25519KeyForPublication key) {
+		Metadata metadata = new Metadata();
+		metadata.setKey(true);
+		metadata.setRegistrationHandle(regHandle);
+		metadata.setKeyGenerationAlgorithm(key.getMetadata().getKeyAlgorithm()
+				.toString());
+		metadata.setCreatedOn(key.getMetadata().getCreatedOn().getTime());
+		if (key instanceof Signer) {
+			C2KeyContentsProtoBuilder builder = new C2KeyContentsProtoBuilder(
+					(Curve25519KeyContents) key);
 			C2KeyContentsProto proto = builder.build();
-			putSecure(key.getMetadata().getHandle(),metadata,proto);
-		}else{
+			putSecure(key.getMetadata().getHandle(), metadata, proto);
+		} else {
 			metadata.setForPublication(true);
-			C2KeyForPublicationProtoBuilder builder = new C2KeyForPublicationProtoBuilder(key);
+			C2KeyForPublicationProtoBuilder builder = new C2KeyForPublicationProtoBuilder(
+					key);
 			C2KeyForPublicationProto proto = builder.build();
-			putSecure(key.getMetadata().getHandle(),metadata,proto);
+			putSecure(key.getMetadata().getHandle(), metadata, proto);
 		}
 	}
-	
-	public void put(String regHandle, RSAKeyForPublication key){
+
+	public void put(String regHandle, RSAKeyForPublication key) {
 		Metadata metadata = new Metadata();
 		metadata.setKey(true);
 		metadata.setRegistrationHandle(regHandle);
-		metadata.setKeyGenerationAlgorithm(key.getMetadata().getKeyAlgorithm().toString());
+		metadata.setKeyGenerationAlgorithm(key.getMetadata().getKeyAlgorithm()
+				.toString());
 		metadata.setCreatedOn(key.getMetadata().getCreatedOn().getTime());
-		if(key instanceof Signer){
-			RSAKeyContentsProtoBuilder builder = new RSAKeyContentsProtoBuilder((RSAKeyContents)key);
+		if (key instanceof Signer) {
+			RSAKeyContentsProtoBuilder builder = new RSAKeyContentsProtoBuilder(
+					(RSAKeyContents) key);
 			RSAKeyContentsProto proto = builder.build();
-			putSecure(key.getMetadata().getHandle(),metadata,proto);
-		}else{
+			putSecure(key.getMetadata().getHandle(), metadata, proto);
+		} else {
 			metadata.setForPublication(true);
-			RSAKeyForPublicationProtoBuilder builder = new RSAKeyForPublicationProtoBuilder(key);
+			RSAKeyForPublicationProtoBuilder builder = new RSAKeyForPublicationProtoBuilder(
+					key);
 			RSAKeyForPublicationProto proto = builder.build();
-			putSecure(key.getMetadata().getHandle(),metadata,proto);
+			putSecure(key.getMetadata().getHandle(), metadata, proto);
 		}
 	}
-	
-	public void put(String regHandle, ECKeyForPublication key){
+
+	public void put(String regHandle, ECKeyForPublication key) {
 		Metadata metadata = new Metadata();
 		metadata.setKey(true);
 		metadata.setRegistrationHandle(regHandle);
-		metadata.setKeyGenerationAlgorithm(key.getMetadata().getKeyAlgorithm().toString());
+		metadata.setKeyGenerationAlgorithm(key.getMetadata().getKeyAlgorithm()
+				.toString());
 		metadata.setCreatedOn(key.getMetadata().getCreatedOn().getTime());
-		
-		if(key instanceof Signer){
-			ECKeyContentsProtoBuilder builder = new ECKeyContentsProtoBuilder((ECKeyContents)key);
+
+		if (key instanceof Signer) {
+			ECKeyContentsProtoBuilder builder = new ECKeyContentsProtoBuilder(
+					(ECKeyContents) key);
 			ECKeyContentsProto proto = builder.build();
-			putSecure(key.getMetadata().getHandle(),metadata,proto);
-		}else{
+			putSecure(key.getMetadata().getHandle(), metadata, proto);
+		} else {
 			metadata.setForPublication(true);
-			ECKeyForPublicationProtoBuilder builder = new ECKeyForPublicationProtoBuilder(key);
+			ECKeyForPublicationProtoBuilder builder = new ECKeyForPublicationProtoBuilder(
+					key);
 			ECKeyForPublicationProto proto = builder.build();
-			putSecure(key.getMetadata().getHandle(),metadata,proto);
+			putSecure(key.getMetadata().getHandle(), metadata, proto);
 		}
 	}
-	
-	public void put(String regHandle, CryptoContact contact){
+
+	public void put(String regHandle, CryptoContact contact) {
 		Metadata metadata = new Metadata();
 		metadata.setRegistrationHandle(regHandle);
 		metadata.setContact(true);
 		ContactProtoBuilder builder = new ContactProtoBuilder(contact);
 		CryptoContactProto proto = builder.build();
-		putSecure(contact.getHandle(),metadata,proto);
+		putSecure(contact.getHandle(), metadata, proto);
 	}
-	
-	public void put(String regHandle, CryptoSignature signature){
+
+	public void put(String regHandle, CryptoSignature signature) {
 		Metadata metadata = new Metadata();
 		metadata.setRegistrationHandle(regHandle);
 		metadata.setSignatureAlgorithm(signature.getSigAlg().toString());
 		metadata.setCreatedOn(signature.metadata.createdOn.getTime());
 		SignatureProtoBuilder builder = new SignatureProtoBuilder(signature);
-		putSecure(signature.getHandle(),metadata,builder.build());
+		putSecure(signature.getHandle(), metadata, builder.build());
 	}
-	
-	public void put(String regHandle, MapData local){
+
+	public void put(String regHandle, MapData local) {
 		Metadata metadata = new Metadata();
 		metadata.setRegistrationHandle(regHandle);
 		metadata.setNamedMap(true);
-		NamedMapProtoBuilder builder = new NamedMapProtoBuilder(local.uuid,local.data);
-		putSecure(local.uuid,metadata,builder.build());
+		NamedMapProtoBuilder builder = new NamedMapProtoBuilder(local.uuid,
+				local.data);
+		putSecure(local.uuid, metadata, builder.build());
 	}
-	
-	public void put(String regHandle, ListData remote){
+
+	public void put(String regHandle, ListData remote) {
 		Metadata metadata = new Metadata();
 		metadata.setRegistrationHandle(regHandle);
 		metadata.setNamedList(true);
-		NamedListProtoBuilder builder = new NamedListProtoBuilder(remote.uuid,remote.urls);
-		putSecure(remote.uuid,metadata,builder.build());
+		NamedListProtoBuilder builder = new NamedListProtoBuilder(remote.uuid,
+				remote.urls);
+		putSecure(remote.uuid, metadata, builder.build());
 	}
 
-	protected void putSecure(String handle, Metadata meta, Message proto){
-		byte [] input = proto.toByteArray();
+	protected void putSecure(String handle, Metadata meta, Message proto) {
+		byte[] input = proto.toByteArray();
 		Handle key = new Handle(handle);
-		byte [] iv = new byte [16];
+		byte[] iv = new byte[16];
 		rand.nextBytes(iv);
-		AESCBCPKCS7 aes = new AESCBCPKCS7(cachedKey.getData(),iv);
-		byte [] encrypted = aes.encrypt(input);
+		AESCBCPKCS7 aes = new AESCBCPKCS7(cachedKey.getData(), iv);
+		byte[] encrypted = aes.encrypt(input);
 		String simpleName = proto.getClass().getSimpleName();
 		SecureData value = new SecureData(encrypted, iv, simpleName);
 		this.getSecureMap().put(key, value);
-		this.getMetadataMap().put(key,meta);
+		this.getMetadataMap().put(key, meta);
 	}
 
-	public Object getSecure(String handle) throws InvalidProtocolBufferException{
+	public Object getSecure(String handle)
+			throws InvalidProtocolBufferException {
 		SecureData data = this.getSecureMap().get(new Handle(handle));
 		return StorageUtil.getSecure(cachedKey, data);
 	}
 	
+	/**
+	 * Return the first matching object
+	 * 
+	 * @param searchCriteria
+	 * @return
+	 * @throws SuitableMatchFailedException 
+	 */
+	public Object getSecure(Map<MetadataTokens,Object> searchCriteria) throws SuitableMatchFailedException{
+		
+		Iterator<Handle> iter = this.getMetadataMap().keySet().iterator();
+		while(iter.hasNext()){
+			Handle h = iter.next();
+			Metadata meta = this.getMetadataMap().get(h);
+			if(meta.match(searchCriteria)){
+				SecureData data = this.getSecureMap().get(h);
+				try {
+					return StorageUtil.getSecure(cachedKey, data);
+				} catch (InvalidProtocolBufferException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		throw new SuitableMatchFailedException("No match found for "+searchCriteria);
+	}
+
 }

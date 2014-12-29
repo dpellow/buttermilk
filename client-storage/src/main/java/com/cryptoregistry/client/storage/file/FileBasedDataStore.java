@@ -21,7 +21,6 @@ import com.cryptoregistry.CryptoKey;
 import com.cryptoregistry.CryptoKeyMetadata;
 import com.cryptoregistry.CryptoKeyWrapper;
 import com.cryptoregistry.KeyMaterials;
-import com.cryptoregistry.Signer;
 import com.cryptoregistry.ec.*;
 import com.cryptoregistry.client.security.DataStore;
 import com.cryptoregistry.client.security.KeyManager;
@@ -30,7 +29,6 @@ import com.cryptoregistry.formats.JSONFormatter;
 import com.cryptoregistry.formats.JSONReader;
 
 /**
- * The idea is to have folders for secured, unsecured, and published keys and to use the canonical form. Simple.
  * 
  * @author Dave
  *
@@ -57,102 +55,11 @@ public class FileBasedDataStore implements DataStore {
 		publishedKeysFolder = new File(rootPath, "published");
 
 	}
-
-	public CryptoKey findSecuredKey(String regHandle, String keyHandle) {
-		lock.lock();
-		try {
-			List<String> files = new ArrayList<String>();
-			getFileNames(files, securedKeysFolder.toPath());
-			for (String p : files) {
-				if (present(p, regHandle, keyHandle)) {
-					File f = new File(p);
-					try (
-							FileInputStream fin = new FileInputStream(f);
-							InputStreamReader reader = new InputStreamReader(fin);
-					){
-						JSONReader jsonReader = new JSONReader(reader);
-						KeyMaterials km = jsonReader.parse();
-						for(CryptoKeyWrapper wrapper: km.keys()) {
-							if(wrapper.isSecure()) {
-								wrapper.unlock(keyManager.getPassword());
-								if(keyHandle.indexOf(wrapper.getMetadata().getHandle())==0){
-									return (CryptoKey) wrapper.getKeyContents();
-								}
-							}
-						}
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}finally{
-			lock.unlock();
-		}
-
-		return null;
-	}
 	
-	public CryptoKey findUnsecuredKey(String regHandle, String keyHandle) {
-		lock.lock();
-		try {
-			List<String> files = new ArrayList<String>();
-			getFileNames(files, unsecuredKeysFolder.toPath());
-			for (String p : files) {
-				if (present(p, regHandle, keyHandle)) {
-					File f = new File(p);
-					try (
-							FileInputStream fin = new FileInputStream(f);
-							InputStreamReader reader = new InputStreamReader(fin);
-					){
-						JSONReader jsonReader = new JSONReader(reader);
-						KeyMaterials km = jsonReader.parse();
-						for(CryptoKeyWrapper wrapper: km.keys()) {
-							if(keyHandle.indexOf(wrapper.getMetadata().getHandle())==0){
-								return (CryptoKey) wrapper.getKeyContents();
-							}
-						}
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}finally{
-			lock.unlock();
-		}
-
-		return null;
-
+	private void loadAll(){
+		
 	}
 
-	public CryptoKey findPublishedKey(String regHandle, String keyHandle) {
-		lock.lock();
-		try {
-			List<String> files = new ArrayList<String>();
-			getFileNames(files, publishedKeysFolder.toPath());
-			for (String p : files) {
-				if (present(p, regHandle, keyHandle)) {
-					File f = new File(p);
-					try (
-							FileInputStream fin = new FileInputStream(f);
-							InputStreamReader reader = new InputStreamReader(fin);
-					){
-						JSONReader jsonReader = new JSONReader(reader);
-						KeyMaterials km = jsonReader.parse();
-						for(CryptoKeyWrapper wrapper: km.keys()) {
-							if(keyHandle.indexOf(wrapper.getMetadata().getHandle())==0){
-								return (CryptoKey) wrapper.getKeyContents();
-							}
-						}
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}finally{
-			lock.unlock();
-		}
-		return null;
-	}
 
 	private List<String> getFileNames(List<String> fileNames, Path dir) {
 		lock.lock();
@@ -175,6 +82,13 @@ public class FileBasedDataStore implements DataStore {
 		return fileNames;
 	}
 
+	/**
+	 * match in the file for an arbitrary number of tokens
+	 * 
+	 * @param path
+	 * @param slist
+	 * @return
+	 */
 	private boolean present(String path, String... slist) {
 
 		boolean ok = false;
@@ -205,8 +119,6 @@ public class FileBasedDataStore implements DataStore {
 		return ok;
 	}
 	
-	
-	
 	public void savePublishedKey(String regHandle, CryptoKey key){
 		lock.lock();
 		try {
@@ -225,80 +137,8 @@ public class FileBasedDataStore implements DataStore {
 			lock.unlock();
 		}
 	}
-
-	/**
-	 * Return null if not found
-	 * 
-	 */
-	@Override
-	public CryptoKey findKey(String regHandle, String keyHandle) {
-		CryptoKey key = findSecuredKey(regHandle,keyHandle);
-		if(key == null){
-			key = findUnsecuredKey(regHandle,keyHandle);
-			if(key == null) {
-				key = findPublishedKey(regHandle,keyHandle);
-			}
-		}
-		return key;
-	}
-
-	@Override
-	public void saveKey(String regHandle, CryptoKey key) {
-		if(key instanceof Signer) {
-			// do nothing - this interface should not be used to save secured keys
-		}else{
-			this.savePublishedKey(regHandle, key);
-		}
-	}
 	
 
-	@Override
-	public CryptoKey preferredHandshakeKey(CryptoKey remoteKey, boolean generate)
-			throws SuitableMatchFailedException {
-		
-		CryptoKeyMetadata meta = remoteKey.getMetadata();
-		switch(meta.getKeyAlgorithm()) {
-			case Symmetric: {
-				// do nothing
-				break;
-			}
-			case Curve25519: {
-				
-				break;
-			}
-			case EC: {
-				ECKeyForPublication pk = (ECKeyForPublication)remoteKey;
-				
-				// iterate over all keys in the unsecured folder looking for an EC key to match the params
-				List<String> files = new ArrayList<String>();
-				getFileNames(files, securedKeysFolder.toPath());
-				for (String p : files) {
-				
-					if(pk.usesNamedCurve()){
-						if(present(p, pk.metadata.getKeyAlgorithm().toString(), pk.curveName)){
-							// looks like a match, load key and compare curve for equality as a final check
-						}
-					}else{
-						// for a custom curve there is some difficulty matching, so generate if allowed
-						if(generate){
-							return createAWorkingECKey(pk);
-						}else{
-							throw new SuitableMatchFailedException("custom curve mathcing doesn't work yet, and generate is false");
-						}
-					}
-				}
-				
-				break;
-			}
-			default: throw new RuntimeException("Unknown KeyGenerationAlgorithm: "+meta.getKeyAlgorithm());
-		}
-		
-		return null;
-	}
-
-	private ECKeyContents createAWorkingECKey(ECKeyForPublication contents){
-		
-		return null;
-	}
+	
 
 }

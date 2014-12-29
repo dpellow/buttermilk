@@ -66,6 +66,8 @@ public class DataStore {
 	public DataStore(KeyManager keyManager) {
 		this.keyManager = keyManager;
 		SensitiveBytes cachedKey = keyManager.loadKey(keyManager.getPassword());
+		// expecting a 256 bit key here
+		System.err.println("Key length in bits: "+cachedKey.length()*8);
 		initDb(keyManager.getDatastoreFolder(), cachedKey);
 	}
 
@@ -102,5 +104,11 @@ public class DataStore {
 		return keyManager;
 	}
 	
-	
+	/**
+	 * Used only in testing
+	 */
+	void cleanOut() {
+		this.getViews().getMetadataMap().clear();
+		this.getViews().getSecureMap().clear();
+	}
 }
