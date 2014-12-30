@@ -67,5 +67,14 @@ public class CryptoFactory {
 			lock.unlock();
 		}
 	}
+	
+	public SymmetricKeyContents wrap(SymmetricKeyMetadata meta, byte[]bytes) {
+		lock.lock();
+		try {
+			return new SymmetricKeyContents(meta, bytes);
+		} finally {
+			lock.unlock();
+		}
+	}
 
 }

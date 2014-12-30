@@ -64,7 +64,7 @@ public class NTRUKeyForPublication implements CryptoKey,Verifier {
 	}
 	
 	public ArmoredCompressedString wrappedH() {
-		return ArrayUtil.wrapIntArray(h.coeffs);
+		return ArrayUtil.wrapAndCompressIntArray(h.coeffs);
 	}
 
 	@Override

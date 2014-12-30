@@ -9,7 +9,7 @@ import x.org.bouncycastle.pqc.crypto.ntru.NTRUEncryptionKeyGenerationParameters;
 import x.org.bouncycastle.pqc.crypto.ntru.NTRUEncryptionParameters;
 
 /**
- * A little bit like NamedCurves in EC
+ * A little bit like NamedCurves in the EC package
  * 
  * @author Dave
  *

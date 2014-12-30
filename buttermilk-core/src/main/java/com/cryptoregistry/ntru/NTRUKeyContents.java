@@ -59,23 +59,23 @@ public class NTRUKeyContents extends NTRUKeyForPublication implements Signer{
 	}
 	
 	public ArmoredCompressedString wrappedFp() {
-		return ArrayUtil.wrapIntArray(fp.coeffs);
+		return ArrayUtil.wrapAndCompressIntArray(fp.coeffs);
 	}
 	
 	public Object wrappedT() {
 		if(t instanceof DenseTernaryPolynomial) {
 			DenseTernaryPolynomial poly = (DenseTernaryPolynomial) t;
-			return ArrayUtil.wrapIntArray(poly.coeffs);
+			return ArrayUtil.wrapAndCompressIntArray(poly.coeffs);
 		}else if(t instanceof SparseTernaryPolynomial) {
 			SparseTernaryPolynomial poly = (SparseTernaryPolynomial) t;
-			return ArrayUtil.wrapIntArray(poly.getCoeffs());
+			return ArrayUtil.wrapAndCompressIntArray(poly.getCoeffs());
 		}else if(t instanceof ProductFormPolynomial) {
 			ProductFormPolynomial poly = (ProductFormPolynomial) t;
 			SparseTernaryPolynomial []array = poly.getData();
 			ArmoredCompressedString [] wrapper = new ArmoredCompressedString[3];
-			wrapper[0] = ArrayUtil.wrapIntArray(array[0].getCoeffs());
-			wrapper[1] = ArrayUtil.wrapIntArray(array[1].getCoeffs());
-			wrapper[2] = ArrayUtil.wrapIntArray(array[2].getCoeffs());
+			wrapper[0] = ArrayUtil.wrapAndCompressIntArray(array[0].getCoeffs());
+			wrapper[1] = ArrayUtil.wrapAndCompressIntArray(array[1].getCoeffs());
+			wrapper[2] = ArrayUtil.wrapAndCompressIntArray(array[2].getCoeffs());
 			return wrapper;
 		}
 		
