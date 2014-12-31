@@ -70,6 +70,7 @@ public class DataStoreTest {
 			
 			criteria.put(MetadataTokens.keyGenerationAlgorithm, "RSA");
 			criteria.put(MetadataTokens.RSAKeySize, 2048);
+			criteria.remove(MetadataTokens.curveName);
 			try {
 				RSAKeyContents contents = (RSAKeyContents) ds.getViews().getSecure(criteria);
 				Assert.assertNotNull(contents);
