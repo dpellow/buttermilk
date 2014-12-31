@@ -39,6 +39,7 @@ public class RSAKeyFormatReader {
 						.valueOf(inner.get("CreatedOn")));
 				
 				EncodingHint enc = EncodingHint.valueOf(String.valueOf(inner.get("Encoding")));
+				int strength = Integer.parseInt(String.valueOf(inner.get("Strength")));
 				BigInteger Modulus = FormatUtil.unwrap(enc, String.valueOf(inner.get("Modulus")));
 				BigInteger publicExponent = FormatUtil.unwrap(enc, String.valueOf(inner.get("PublicExponent")));
 				BigInteger privateExponent = FormatUtil.unwrap(enc, String.valueOf(inner.get("PrivateExponent")));
@@ -53,6 +54,8 @@ public class RSAKeyFormatReader {
 						createdOn, 
 						new KeyFormat(enc, Mode.UNSECURED, null)
 				);
+				
+				meta.setStrength(strength);
 
 				return new RSAKeyContents(meta, Modulus,publicExponent,privateExponent,P,Q,dP,dQ,qInv);
 

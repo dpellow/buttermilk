@@ -21,14 +21,17 @@ public class RSAKeyMetadata implements CryptoKeyMetadata {
 	public final String handle;
 	public final Date createdOn;
 	public final KeyFormat format;
-
+	// these are set on creation of the key from the key generation params
+	public int strength; // requested strength on creation - e.g., 2048 bits
+	public int certainty; // the number of iterations of the Miller-Rabin primality test we passed in
+	
 	public RSAKeyMetadata(String handle, Date createdOn, KeyFormat format) {
 		super();
 		this.handle = handle;
 		this.createdOn = createdOn;
 		this.format = format;
 	}
-	
+
 	/**
 	 * Returns a default handle, createOn, and KeyFormat for base64Encode, Mode.OPEN
 	 * @return
@@ -83,15 +86,17 @@ public class RSAKeyMetadata implements CryptoKeyMetadata {
 	public KeyFormat getFormat() {
 		return format;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + certainty;
 		result = prime * result
 				+ ((createdOn == null) ? 0 : createdOn.hashCode());
 		result = prime * result + ((format == null) ? 0 : format.hashCode());
 		result = prime * result + ((handle == null) ? 0 : handle.hashCode());
+		result = prime * result + strength;
 		return result;
 	}
 
@@ -104,6 +109,8 @@ public class RSAKeyMetadata implements CryptoKeyMetadata {
 		if (getClass() != obj.getClass())
 			return false;
 		RSAKeyMetadata other = (RSAKeyMetadata) obj;
+		if (certainty != other.certainty)
+			return false;
 		if (createdOn == null) {
 			if (other.createdOn != null)
 				return false;
@@ -119,12 +126,32 @@ public class RSAKeyMetadata implements CryptoKeyMetadata {
 				return false;
 		} else if (!handle.equals(other.handle))
 			return false;
-		
+		if (strength != other.strength)
+			return false;
 		return true;
 	}
-	
+
 	public RSAKeyMetadata cloneForPublication() {
-		return new RSAKeyMetadata(handle, createdOn,new KeyFormat(Mode.FOR_PUBLICATION));
+		RSAKeyMetadata m = new RSAKeyMetadata(handle, createdOn,new KeyFormat(Mode.FOR_PUBLICATION));
+		m.setCertainty(this.certainty);
+		m.setStrength(this.strength);
+		return m;
+	}
+
+	public int getStrength() {
+		return strength;
+	}
+
+	public void setStrength(int strength) {
+		this.strength = strength;
+	}
+
+	public int getCertainty() {
+		return certainty;
+	}
+
+	public void setCertainty(int certainty) {
+		this.certainty = certainty;
 	}
 
 }

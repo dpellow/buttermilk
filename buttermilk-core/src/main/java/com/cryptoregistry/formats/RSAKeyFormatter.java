@@ -77,6 +77,7 @@ class RSAKeyFormatter {
 
 		g.writeObjectFieldStart(rsaKeys.getMetadata().getDistinguishedHandle());
 		g.writeStringField("KeyData.Type", "RSA");
+		g.writeStringField("KeyData.Strength", String.valueOf(rsaKeys.metadata.strength));
 		g.writeStringField("KeyData.PBEAlgorithm", pbeParams.getAlg()
 				.toString());
 		g.writeStringField("KeyData.EncryptedData", result.base64Enc);
@@ -109,6 +110,7 @@ class RSAKeyFormatter {
 		g.writeStringField("KeyAlgorithm", "RSA");
 		g.writeStringField("CreatedOn", TimeUtil.format(rsaKeys.metadata.createdOn));
 		g.writeStringField("Encoding", enc.toString());
+		g.writeStringField("Strength", String.valueOf(rsaKeys.metadata.strength));
 		g.writeStringField("Modulus", FormatUtil.wrap(enc, rsaKeys.modulus));
 		g.writeStringField("PublicExponent", FormatUtil.wrap(enc, rsaKeys.publicExponent));
 		g.writeStringField("PrivateExponent", FormatUtil.wrap(enc, ((RSAKeyContents)rsaKeys).privateExponent));
@@ -128,6 +130,7 @@ class RSAKeyFormatter {
 		g.writeStringField("KeyAlgorithm", "RSA");
 		g.writeStringField("CreatedOn", TimeUtil.format(rsaKeys.metadata.createdOn));
 		g.writeStringField("Encoding", enc.toString());
+		g.writeStringField("Strength", String.valueOf(rsaKeys.metadata.strength));
 		g.writeStringField("Modulus", FormatUtil.wrap(enc, rsaKeys.modulus));
 		g.writeStringField("PublicExponent", FormatUtil.wrap(enc, rsaKeys.publicExponent));
 		g.writeEndObject();
@@ -146,6 +149,7 @@ class RSAKeyFormatter {
 			g.writeStringField("KeyAlgorithm", "RSA");
 			g.writeStringField("CreatedOn", TimeUtil.format(rsaKeys.metadata.createdOn));
 			g.writeStringField("Encoding", enc.toString());
+			g.writeStringField("Strength", String.valueOf(rsaKeys.metadata.strength));
 			g.writeStringField("Modulus", FormatUtil.wrap(enc, rsaKeys.modulus));
 			g.writeStringField("PublicExponent", FormatUtil.wrap(enc, rsaKeys.publicExponent));
 			g.writeStringField("PrivateExponent", FormatUtil.wrap(enc, ((RSAKeyContents)rsaKeys).privateExponent));

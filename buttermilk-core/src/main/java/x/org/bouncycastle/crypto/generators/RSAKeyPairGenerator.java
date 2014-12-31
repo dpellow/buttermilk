@@ -22,7 +22,7 @@ public class RSAKeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
 	// optional, these are passed on to our wrapper, don't use both
 	
 	private char [] password;
-	private RSAKeyMetadata management;
+	private RSAKeyMetadata metadata;
 	
 	public RSAKeyPairGenerator() {
 		super();
@@ -35,7 +35,7 @@ public class RSAKeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
 	
 	public RSAKeyPairGenerator(RSAKeyMetadata management) {
 		super();
-		this.management = management;
+		this.metadata = management;
 	}
 
 	private RSAKeyGenerationParameters param;
@@ -257,11 +257,19 @@ public class RSAKeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
 		qInv = q.modInverse(p);
 		
 		if(password != null){
-			return new RSAKeyContents(password,n, e, d, p, q, dP, dQ, qInv);
-		}else if(management != null){
-			return new RSAKeyContents(management,n, e, d, p, q, dP, dQ, qInv);
+			RSAKeyContents c = new RSAKeyContents(password,n, e, d, p, q, dP, dQ, qInv);
+			c.metadata.certainty = param.getCertainty();
+			c.metadata.strength = param.getStrength();
+			return c;
+		}else if(metadata != null){
+			metadata.certainty = param.getCertainty();
+			metadata.strength = param.getStrength();
+			return new RSAKeyContents(metadata,n, e, d, p, q, dP, dQ, qInv);
 		}else{
-			return new RSAKeyContents(n, e, d, p, q, dP, dQ, qInv);
+			RSAKeyContents c = new RSAKeyContents(n, e, d, p, q, dP, dQ, qInv);
+			c.metadata.certainty = param.getCertainty();
+			c.metadata.strength = param.getStrength();
+			return c;
 		}
 	}
 }

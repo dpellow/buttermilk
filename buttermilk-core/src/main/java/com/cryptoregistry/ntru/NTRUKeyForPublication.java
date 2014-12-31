@@ -115,5 +115,12 @@ public class NTRUKeyForPublication implements CryptoKey,Verifier {
 	public CryptoKeyMetadata getMetadata() {
 		return metadata;
 	}
+	
+	public boolean hasNamedParam(){
+		if(this.parameterEnum!=null){
+			return true;
+		}
+		return false;
+	}
 
 }
