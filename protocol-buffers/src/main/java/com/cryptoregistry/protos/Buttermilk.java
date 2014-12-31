@@ -10979,6 +10979,32 @@ public final class Buttermilk {
      */
     com.google.protobuf.ByteString
         getKeyGenerationAlgorithmBytes();
+
+    /**
+     * <code>optional int32 strength = 5;</code>
+     *
+     * <pre>
+     * used with RSA only, these were input values when key was created
+     * </pre>
+     */
+    boolean hasStrength();
+    /**
+     * <code>optional int32 strength = 5;</code>
+     *
+     * <pre>
+     * used with RSA only, these were input values when key was created
+     * </pre>
+     */
+    int getStrength();
+
+    /**
+     * <code>optional int32 certainty = 6;</code>
+     */
+    boolean hasCertainty();
+    /**
+     * <code>optional int32 certainty = 6;</code>
+     */
+    int getCertainty();
   }
   /**
    * Protobuf type {@code KeyMetadataProto}
@@ -11058,6 +11084,16 @@ public final class Buttermilk {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000008;
               keyGenerationAlgorithm_ = bs;
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              strength_ = input.readInt32();
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000020;
+              certainty_ = input.readInt32();
               break;
             }
           }
@@ -11341,11 +11377,51 @@ public final class Buttermilk {
       }
     }
 
+    public static final int STRENGTH_FIELD_NUMBER = 5;
+    private int strength_;
+    /**
+     * <code>optional int32 strength = 5;</code>
+     *
+     * <pre>
+     * used with RSA only, these were input values when key was created
+     * </pre>
+     */
+    public boolean hasStrength() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional int32 strength = 5;</code>
+     *
+     * <pre>
+     * used with RSA only, these were input values when key was created
+     * </pre>
+     */
+    public int getStrength() {
+      return strength_;
+    }
+
+    public static final int CERTAINTY_FIELD_NUMBER = 6;
+    private int certainty_;
+    /**
+     * <code>optional int32 certainty = 6;</code>
+     */
+    public boolean hasCertainty() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional int32 certainty = 6;</code>
+     */
+    public int getCertainty() {
+      return certainty_;
+    }
+
     private void initFields() {
       handle_ = "";
       createdOn_ = 0L;
       encodingHint_ = com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.EncodingHintProto.RAWBYTES;
       keyGenerationAlgorithm_ = "";
+      strength_ = 0;
+      certainty_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -11388,6 +11464,12 @@ public final class Buttermilk {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeBytes(4, getKeyGenerationAlgorithmBytes());
       }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(5, strength_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt32(6, certainty_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -11412,6 +11494,14 @@ public final class Buttermilk {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(4, getKeyGenerationAlgorithmBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, strength_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, certainty_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -11538,6 +11628,10 @@ public final class Buttermilk {
         bitField0_ = (bitField0_ & ~0x00000004);
         keyGenerationAlgorithm_ = "";
         bitField0_ = (bitField0_ & ~0x00000008);
+        strength_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        certainty_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -11582,6 +11676,14 @@ public final class Buttermilk {
           to_bitField0_ |= 0x00000008;
         }
         result.keyGenerationAlgorithm_ = keyGenerationAlgorithm_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.strength_ = strength_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.certainty_ = certainty_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -11613,6 +11715,12 @@ public final class Buttermilk {
           bitField0_ |= 0x00000008;
           keyGenerationAlgorithm_ = other.keyGenerationAlgorithm_;
           onChanged();
+        }
+        if (other.hasStrength()) {
+          setStrength(other.getStrength());
+        }
+        if (other.hasCertainty()) {
+          setCertainty(other.getCertainty());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -11872,6 +11980,86 @@ public final class Buttermilk {
   }
   bitField0_ |= 0x00000008;
         keyGenerationAlgorithm_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int strength_ ;
+      /**
+       * <code>optional int32 strength = 5;</code>
+       *
+       * <pre>
+       * used with RSA only, these were input values when key was created
+       * </pre>
+       */
+      public boolean hasStrength() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional int32 strength = 5;</code>
+       *
+       * <pre>
+       * used with RSA only, these were input values when key was created
+       * </pre>
+       */
+      public int getStrength() {
+        return strength_;
+      }
+      /**
+       * <code>optional int32 strength = 5;</code>
+       *
+       * <pre>
+       * used with RSA only, these were input values when key was created
+       * </pre>
+       */
+      public Builder setStrength(int value) {
+        bitField0_ |= 0x00000010;
+        strength_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 strength = 5;</code>
+       *
+       * <pre>
+       * used with RSA only, these were input values when key was created
+       * </pre>
+       */
+      public Builder clearStrength() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        strength_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int certainty_ ;
+      /**
+       * <code>optional int32 certainty = 6;</code>
+       */
+      public boolean hasCertainty() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional int32 certainty = 6;</code>
+       */
+      public int getCertainty() {
+        return certainty_;
+      }
+      /**
+       * <code>optional int32 certainty = 6;</code>
+       */
+      public Builder setCertainty(int value) {
+        bitField0_ |= 0x00000020;
+        certainty_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 certainty = 6;</code>
+       */
+      public Builder clearCertainty() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        certainty_ = 0;
         onChanged();
         return this;
       }
@@ -19237,9 +19425,54 @@ public final class Buttermilk {
      * <code>required .KeyMetadataProto meta = 1;</code>
      */
     com.cryptoregistry.protos.Buttermilk.KeyMetadataProtoOrBuilder getMetaOrBuilder();
+
+    /**
+     * <code>required string param_name = 2;</code>
+     */
+    boolean hasParamName();
+    /**
+     * <code>required string param_name = 2;</code>
+     */
+    java.lang.String getParamName();
+    /**
+     * <code>required string param_name = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getParamNameBytes();
+
+    /**
+     * <code>required bytes h = 3;</code>
+     */
+    boolean hasH();
+    /**
+     * <code>required bytes h = 3;</code>
+     */
+    com.google.protobuf.ByteString getH();
+
+    /**
+     * <code>required bytes t = 4;</code>
+     */
+    boolean hasT();
+    /**
+     * <code>required bytes t = 4;</code>
+     */
+    com.google.protobuf.ByteString getT();
+
+    /**
+     * <code>required bytes fp = 5;</code>
+     */
+    boolean hasFp();
+    /**
+     * <code>required bytes fp = 5;</code>
+     */
+    com.google.protobuf.ByteString getFp();
   }
   /**
    * Protobuf type {@code NTRUKeyContentsProto}
+   *
+   * <pre>
+   * At the moment we're just implementing a named param strategy, see NTRUNamedParameters in buttermilk-core
+   * </pre>
    */
   public static final class NTRUKeyContentsProto extends
       com.google.protobuf.GeneratedMessage implements
@@ -19303,6 +19536,27 @@ public final class Buttermilk {
               bitField0_ |= 0x00000001;
               break;
             }
+            case 18: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000002;
+              paramName_ = bs;
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              h_ = input.readBytes();
+              break;
+            }
+            case 34: {
+              bitField0_ |= 0x00000008;
+              t_ = input.readBytes();
+              break;
+            }
+            case 42: {
+              bitField0_ |= 0x00000010;
+              fp_ = input.readBytes();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -19364,8 +19618,99 @@ public final class Buttermilk {
       return meta_;
     }
 
+    public static final int PARAM_NAME_FIELD_NUMBER = 2;
+    private java.lang.Object paramName_;
+    /**
+     * <code>required string param_name = 2;</code>
+     */
+    public boolean hasParamName() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string param_name = 2;</code>
+     */
+    public java.lang.String getParamName() {
+      java.lang.Object ref = paramName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          paramName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string param_name = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getParamNameBytes() {
+      java.lang.Object ref = paramName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        paramName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int H_FIELD_NUMBER = 3;
+    private com.google.protobuf.ByteString h_;
+    /**
+     * <code>required bytes h = 3;</code>
+     */
+    public boolean hasH() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required bytes h = 3;</code>
+     */
+    public com.google.protobuf.ByteString getH() {
+      return h_;
+    }
+
+    public static final int T_FIELD_NUMBER = 4;
+    private com.google.protobuf.ByteString t_;
+    /**
+     * <code>required bytes t = 4;</code>
+     */
+    public boolean hasT() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required bytes t = 4;</code>
+     */
+    public com.google.protobuf.ByteString getT() {
+      return t_;
+    }
+
+    public static final int FP_FIELD_NUMBER = 5;
+    private com.google.protobuf.ByteString fp_;
+    /**
+     * <code>required bytes fp = 5;</code>
+     */
+    public boolean hasFp() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required bytes fp = 5;</code>
+     */
+    public com.google.protobuf.ByteString getFp() {
+      return fp_;
+    }
+
     private void initFields() {
       meta_ = com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.getDefaultInstance();
+      paramName_ = "";
+      h_ = com.google.protobuf.ByteString.EMPTY;
+      t_ = com.google.protobuf.ByteString.EMPTY;
+      fp_ = com.google.protobuf.ByteString.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -19374,6 +19719,22 @@ public final class Buttermilk {
       if (isInitialized == 0) return false;
 
       if (!hasMeta()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasParamName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasH()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasT()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasFp()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -19391,6 +19752,18 @@ public final class Buttermilk {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeMessage(1, meta_);
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getParamNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, h_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(4, t_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(5, fp_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -19403,6 +19776,22 @@ public final class Buttermilk {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, meta_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getParamNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, h_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, t_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, fp_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -19484,6 +19873,10 @@ public final class Buttermilk {
     }
     /**
      * Protobuf type {@code NTRUKeyContentsProto}
+     *
+     * <pre>
+     * At the moment we're just implementing a named param strategy, see NTRUNamedParameters in buttermilk-core
+     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
@@ -19528,6 +19921,14 @@ public final class Buttermilk {
           metaBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000001);
+        paramName_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        h_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        t_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        fp_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -19564,6 +19965,22 @@ public final class Buttermilk {
         } else {
           result.meta_ = metaBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.paramName_ = paramName_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.h_ = h_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.t_ = t_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.fp_ = fp_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -19583,12 +20000,42 @@ public final class Buttermilk {
         if (other.hasMeta()) {
           mergeMeta(other.getMeta());
         }
+        if (other.hasParamName()) {
+          bitField0_ |= 0x00000002;
+          paramName_ = other.paramName_;
+          onChanged();
+        }
+        if (other.hasH()) {
+          setH(other.getH());
+        }
+        if (other.hasT()) {
+          setT(other.getT());
+        }
+        if (other.hasFp()) {
+          setFp(other.getFp());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
         if (!hasMeta()) {
+          
+          return false;
+        }
+        if (!hasParamName()) {
+          
+          return false;
+        }
+        if (!hasH()) {
+          
+          return false;
+        }
+        if (!hasT()) {
+          
+          return false;
+        }
+        if (!hasFp()) {
           
           return false;
         }
@@ -19734,6 +20181,187 @@ public final class Buttermilk {
         return metaBuilder_;
       }
 
+      private java.lang.Object paramName_ = "";
+      /**
+       * <code>required string param_name = 2;</code>
+       */
+      public boolean hasParamName() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string param_name = 2;</code>
+       */
+      public java.lang.String getParamName() {
+        java.lang.Object ref = paramName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            paramName_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string param_name = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getParamNameBytes() {
+        java.lang.Object ref = paramName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          paramName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string param_name = 2;</code>
+       */
+      public Builder setParamName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        paramName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string param_name = 2;</code>
+       */
+      public Builder clearParamName() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        paramName_ = getDefaultInstance().getParamName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string param_name = 2;</code>
+       */
+      public Builder setParamNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        paramName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString h_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>required bytes h = 3;</code>
+       */
+      public boolean hasH() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required bytes h = 3;</code>
+       */
+      public com.google.protobuf.ByteString getH() {
+        return h_;
+      }
+      /**
+       * <code>required bytes h = 3;</code>
+       */
+      public Builder setH(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        h_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bytes h = 3;</code>
+       */
+      public Builder clearH() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        h_ = getDefaultInstance().getH();
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString t_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>required bytes t = 4;</code>
+       */
+      public boolean hasT() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required bytes t = 4;</code>
+       */
+      public com.google.protobuf.ByteString getT() {
+        return t_;
+      }
+      /**
+       * <code>required bytes t = 4;</code>
+       */
+      public Builder setT(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        t_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bytes t = 4;</code>
+       */
+      public Builder clearT() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        t_ = getDefaultInstance().getT();
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString fp_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>required bytes fp = 5;</code>
+       */
+      public boolean hasFp() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required bytes fp = 5;</code>
+       */
+      public com.google.protobuf.ByteString getFp() {
+        return fp_;
+      }
+      /**
+       * <code>required bytes fp = 5;</code>
+       */
+      public Builder setFp(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        fp_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bytes fp = 5;</code>
+       */
+      public Builder clearFp() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        fp_ = getDefaultInstance().getFp();
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:NTRUKeyContentsProto)
     }
 
@@ -19761,6 +20389,29 @@ public final class Buttermilk {
      * <code>required .KeyMetadataProto meta = 1;</code>
      */
     com.cryptoregistry.protos.Buttermilk.KeyMetadataProtoOrBuilder getMetaOrBuilder();
+
+    /**
+     * <code>required string param_name = 2;</code>
+     */
+    boolean hasParamName();
+    /**
+     * <code>required string param_name = 2;</code>
+     */
+    java.lang.String getParamName();
+    /**
+     * <code>required string param_name = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getParamNameBytes();
+
+    /**
+     * <code>required bytes h = 3;</code>
+     */
+    boolean hasH();
+    /**
+     * <code>required bytes h = 3;</code>
+     */
+    com.google.protobuf.ByteString getH();
   }
   /**
    * Protobuf type {@code NTRUKeyForPublicationProto}
@@ -19827,6 +20478,17 @@ public final class Buttermilk {
               bitField0_ |= 0x00000001;
               break;
             }
+            case 18: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000002;
+              paramName_ = bs;
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              h_ = input.readBytes();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -19888,8 +20550,67 @@ public final class Buttermilk {
       return meta_;
     }
 
+    public static final int PARAM_NAME_FIELD_NUMBER = 2;
+    private java.lang.Object paramName_;
+    /**
+     * <code>required string param_name = 2;</code>
+     */
+    public boolean hasParamName() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string param_name = 2;</code>
+     */
+    public java.lang.String getParamName() {
+      java.lang.Object ref = paramName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          paramName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string param_name = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getParamNameBytes() {
+      java.lang.Object ref = paramName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        paramName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int H_FIELD_NUMBER = 3;
+    private com.google.protobuf.ByteString h_;
+    /**
+     * <code>required bytes h = 3;</code>
+     */
+    public boolean hasH() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required bytes h = 3;</code>
+     */
+    public com.google.protobuf.ByteString getH() {
+      return h_;
+    }
+
     private void initFields() {
       meta_ = com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.getDefaultInstance();
+      paramName_ = "";
+      h_ = com.google.protobuf.ByteString.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -19898,6 +20619,14 @@ public final class Buttermilk {
       if (isInitialized == 0) return false;
 
       if (!hasMeta()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasParamName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasH()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -19915,6 +20644,12 @@ public final class Buttermilk {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeMessage(1, meta_);
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getParamNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, h_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -19927,6 +20662,14 @@ public final class Buttermilk {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, meta_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getParamNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, h_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -20052,6 +20795,10 @@ public final class Buttermilk {
           metaBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000001);
+        paramName_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        h_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -20088,6 +20835,14 @@ public final class Buttermilk {
         } else {
           result.meta_ = metaBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.paramName_ = paramName_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.h_ = h_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -20107,12 +20862,28 @@ public final class Buttermilk {
         if (other.hasMeta()) {
           mergeMeta(other.getMeta());
         }
+        if (other.hasParamName()) {
+          bitField0_ |= 0x00000002;
+          paramName_ = other.paramName_;
+          onChanged();
+        }
+        if (other.hasH()) {
+          setH(other.getH());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
         if (!hasMeta()) {
+          
+          return false;
+        }
+        if (!hasParamName()) {
+          
+          return false;
+        }
+        if (!hasH()) {
           
           return false;
         }
@@ -20256,6 +21027,117 @@ public final class Buttermilk {
           meta_ = null;
         }
         return metaBuilder_;
+      }
+
+      private java.lang.Object paramName_ = "";
+      /**
+       * <code>required string param_name = 2;</code>
+       */
+      public boolean hasParamName() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string param_name = 2;</code>
+       */
+      public java.lang.String getParamName() {
+        java.lang.Object ref = paramName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            paramName_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string param_name = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getParamNameBytes() {
+        java.lang.Object ref = paramName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          paramName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string param_name = 2;</code>
+       */
+      public Builder setParamName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        paramName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string param_name = 2;</code>
+       */
+      public Builder clearParamName() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        paramName_ = getDefaultInstance().getParamName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string param_name = 2;</code>
+       */
+      public Builder setParamNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        paramName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString h_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>required bytes h = 3;</code>
+       */
+      public boolean hasH() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required bytes h = 3;</code>
+       */
+      public com.google.protobuf.ByteString getH() {
+        return h_;
+      }
+      /**
+       * <code>required bytes h = 3;</code>
+       */
+      public Builder setH(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        h_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bytes h = 3;</code>
+       */
+      public Builder clearH() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        h_ = getDefaultInstance().getH();
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:NTRUKeyForPublicationProto)
@@ -20437,43 +21319,46 @@ public final class Buttermilk {
       "CKCDSA\020\002\"n\n\016SignatureProto\022%\n\004meta\030\001 \002(\013" +
       "2\027.SignatureMetadataProto\022\n\n\002b0\030\002 \002(\014\022\n\n" +
       "\002b1\030\003 \001(\014\022\035\n\tdata_refs\030\004 \002(\0132\n.ListProto" +
-      "\"\217\002\n\020KeyMetadataProto\022\016\n\006handle\030\001 \002(\t\022\022\n",
+      "\"\264\002\n\020KeyMetadataProto\022\016\n\006handle\030\001 \002(\t\022\022\n",
       "\ncreated_on\030\002 \002(\004\022D\n\rencoding_hint\030\003 \002(\016" +
       "2#.KeyMetadataProto.EncodingHintProto:\010R" +
       "AWBYTES\022 \n\030key_generation_algorithm\030\004 \002(" +
-      "\t\"o\n\021EncodingHintProto\022\016\n\nNOENCODING\020\000\022\014" +
-      "\n\010RAWBYTES\020\001\022\t\n\005BASE2\020\002\022\n\n\006BASE10\020\003\022\n\n\006B" +
-      "ASE16\020\004\022\n\n\006BASE64\020\005\022\r\n\tBASE64URL\020\006\"I\n\031Sy" +
-      "mmetricKeyContentsProto\022\037\n\004meta\030\001 \002(\0132\021." +
-      "KeyMetadataProto\022\013\n\003key\030\002 \002(\014\"\205\001\n\022C2KeyC" +
-      "ontentsProto\022\037\n\004meta\030\001 \002(\0132\021.KeyMetadata" +
-      "Proto\022\022\n\npublic_key\030\002 \002(\014\022\033\n\023signing_pri",
-      "vate_key\030\003 \001(\014\022\035\n\025agreement_private_key\030" +
-      "\004 \001(\014\"O\n\030C2KeyForPublicationProto\022\037\n\004met" +
-      "a\030\001 \002(\0132\021.KeyMetadataProto\022\022\n\npublic_key" +
-      "\030\002 \002(\014\"\220\001\n\024CurveDefinitionProto\0221\n\005field" +
-      "\030\001 \002(\0162\".CurveDefinitionProto.ECFieldPro" +
-      "to\022\014\n\004uuid\030\002 \002(\t\022\026\n\003map\030\003 \002(\0132\t.MapProto" +
-      "\"\037\n\014ECFieldProto\022\006\n\002FP\020\000\022\007\n\003F2M\020\001\"\235\001\n\022EC" +
-      "KeyContentsProto\022\037\n\004meta\030\001 \002(\0132\021.KeyMeta" +
-      "dataProto\022\t\n\001Q\030\002 \002(\t\022\024\n\ncurve_name\030\003 \001(\t" +
-      "H\000\0221\n\020curve_definition\030\004 \001(\0132\025.CurveDefi",
-      "nitionProtoH\000\022\t\n\001d\030\005 \001(\014B\007\n\005curve\"\230\001\n\030EC" +
-      "KeyForPublicationProto\022\037\n\004meta\030\001 \002(\0132\021.K" +
-      "eyMetadataProto\022\t\n\001Q\030\002 \002(\t\022\024\n\ncurve_name" +
-      "\030\003 \001(\tH\000\0221\n\020curve_definition\030\004 \001(\0132\025.Cur" +
-      "veDefinitionProtoH\000B\007\n\005curve\"\266\001\n\023RSAKeyC" +
-      "ontentsProto\022\037\n\004meta\030\001 \002(\0132\021.KeyMetadata" +
-      "Proto\022\017\n\007Modulus\030\002 \002(\014\022\027\n\017public_exponen" +
-      "t\030\003 \002(\014\022\030\n\020private_exponent\030\004 \001(\014\022\t\n\001p\030\005" +
-      " \001(\014\022\t\n\001q\030\006 \001(\014\022\n\n\002dP\030\007 \001(\014\022\n\n\002dQ\030\010 \001(\014\022" +
-      "\014\n\004qInv\030\t \001(\014\"f\n\031RSAKeyForPublicationPro",
-      "to\022\037\n\004meta\030\001 \002(\0132\021.KeyMetadataProto\022\017\n\007M" +
-      "odulus\030\002 \002(\014\022\027\n\017public_exponent\030\003 \002(\014\"7\n" +
-      "\024NTRUKeyContentsProto\022\037\n\004meta\030\001 \002(\0132\021.Ke" +
-      "yMetadataProto\"=\n\032NTRUKeyForPublicationP" +
-      "roto\022\037\n\004meta\030\001 \002(\0132\021.KeyMetadataProtoB$\n" +
-      "\031com.cryptoregistry.protos\200\001\000\210\001\000\220\001\000"
+      "\t\022\020\n\010strength\030\005 \001(\005\022\021\n\tcertainty\030\006 \001(\005\"o" +
+      "\n\021EncodingHintProto\022\016\n\nNOENCODING\020\000\022\014\n\010R" +
+      "AWBYTES\020\001\022\t\n\005BASE2\020\002\022\n\n\006BASE10\020\003\022\n\n\006BASE" +
+      "16\020\004\022\n\n\006BASE64\020\005\022\r\n\tBASE64URL\020\006\"I\n\031Symme" +
+      "tricKeyContentsProto\022\037\n\004meta\030\001 \002(\0132\021.Key" +
+      "MetadataProto\022\013\n\003key\030\002 \002(\014\"\205\001\n\022C2KeyCont" +
+      "entsProto\022\037\n\004meta\030\001 \002(\0132\021.KeyMetadataPro",
+      "to\022\022\n\npublic_key\030\002 \002(\014\022\033\n\023signing_privat" +
+      "e_key\030\003 \001(\014\022\035\n\025agreement_private_key\030\004 \001" +
+      "(\014\"O\n\030C2KeyForPublicationProto\022\037\n\004meta\030\001" +
+      " \002(\0132\021.KeyMetadataProto\022\022\n\npublic_key\030\002 " +
+      "\002(\014\"\220\001\n\024CurveDefinitionProto\0221\n\005field\030\001 " +
+      "\002(\0162\".CurveDefinitionProto.ECFieldProto\022" +
+      "\014\n\004uuid\030\002 \002(\t\022\026\n\003map\030\003 \002(\0132\t.MapProto\"\037\n" +
+      "\014ECFieldProto\022\006\n\002FP\020\000\022\007\n\003F2M\020\001\"\235\001\n\022ECKey" +
+      "ContentsProto\022\037\n\004meta\030\001 \002(\0132\021.KeyMetadat" +
+      "aProto\022\t\n\001Q\030\002 \002(\t\022\024\n\ncurve_name\030\003 \001(\tH\000\022",
+      "1\n\020curve_definition\030\004 \001(\0132\025.CurveDefinit" +
+      "ionProtoH\000\022\t\n\001d\030\005 \001(\014B\007\n\005curve\"\230\001\n\030ECKey" +
+      "ForPublicationProto\022\037\n\004meta\030\001 \002(\0132\021.KeyM" +
+      "etadataProto\022\t\n\001Q\030\002 \002(\t\022\024\n\ncurve_name\030\003 " +
+      "\001(\tH\000\0221\n\020curve_definition\030\004 \001(\0132\025.CurveD" +
+      "efinitionProtoH\000B\007\n\005curve\"\266\001\n\023RSAKeyCont" +
+      "entsProto\022\037\n\004meta\030\001 \002(\0132\021.KeyMetadataPro" +
+      "to\022\017\n\007Modulus\030\002 \002(\014\022\027\n\017public_exponent\030\003" +
+      " \002(\014\022\030\n\020private_exponent\030\004 \001(\014\022\t\n\001p\030\005 \001(" +
+      "\014\022\t\n\001q\030\006 \001(\014\022\n\n\002dP\030\007 \001(\014\022\n\n\002dQ\030\010 \001(\014\022\014\n\004",
+      "qInv\030\t \001(\014\"f\n\031RSAKeyForPublicationProto\022" +
+      "\037\n\004meta\030\001 \002(\0132\021.KeyMetadataProto\022\017\n\007Modu" +
+      "lus\030\002 \002(\014\022\027\n\017public_exponent\030\003 \002(\014\"m\n\024NT" +
+      "RUKeyContentsProto\022\037\n\004meta\030\001 \002(\0132\021.KeyMe" +
+      "tadataProto\022\022\n\nparam_name\030\002 \002(\t\022\t\n\001h\030\003 \002" +
+      "(\014\022\t\n\001t\030\004 \002(\014\022\n\n\002fp\030\005 \002(\014\"\\\n\032NTRUKeyForP" +
+      "ublicationProto\022\037\n\004meta\030\001 \002(\0132\021.KeyMetad" +
+      "ataProto\022\022\n\nparam_name\030\002 \002(\t\022\t\n\001h\030\003 \002(\014B" +
+      "$\n\031com.cryptoregistry.protos\200\001\000\210\001\000\220\001\000"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -20582,7 +21467,7 @@ public final class Buttermilk {
     internal_static_KeyMetadataProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_KeyMetadataProto_descriptor,
-        new java.lang.String[] { "Handle", "CreatedOn", "EncodingHint", "KeyGenerationAlgorithm", });
+        new java.lang.String[] { "Handle", "CreatedOn", "EncodingHint", "KeyGenerationAlgorithm", "Strength", "Certainty", });
     internal_static_SymmetricKeyContentsProto_descriptor =
       getDescriptor().getMessageTypes().get(16);
     internal_static_SymmetricKeyContentsProto_fieldAccessorTable = new
@@ -20636,13 +21521,13 @@ public final class Buttermilk {
     internal_static_NTRUKeyContentsProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_NTRUKeyContentsProto_descriptor,
-        new java.lang.String[] { "Meta", });
+        new java.lang.String[] { "Meta", "ParamName", "H", "T", "Fp", });
     internal_static_NTRUKeyForPublicationProto_descriptor =
       getDescriptor().getMessageTypes().get(25);
     internal_static_NTRUKeyForPublicationProto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_NTRUKeyForPublicationProto_descriptor,
-        new java.lang.String[] { "Meta", });
+        new java.lang.String[] { "Meta", "ParamName", "H", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

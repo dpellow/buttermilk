@@ -118,6 +118,10 @@ message KeyMetadataProto {
 	}
 	required EncodingHintProto encoding_hint = 3 [default = RAWBYTES];
 	required string key_generation_algorithm = 4;
+	
+	// used with RSA only, these were input values when key was created
+	optional int32 strength = 5;
+	optional int32 certainty = 6;
 }
 
 message SymmetricKeyContentsProto {
@@ -192,12 +196,19 @@ message RSAKeyForPublicationProto {
     required bytes public_exponent = 3;
 }
 
+// At the moment we're just implementing a named param strategy, see NTRUNamedParameters in buttermilk-core
 message NTRUKeyContentsProto {
 	required KeyMetadataProto meta = 1;
+	required string param_name = 2;
+	required bytes h = 3;
+	required bytes t = 4;
+	required bytes fp = 5;
 }
 
 message NTRUKeyForPublicationProto {
 	required KeyMetadataProto meta = 1;
+	required string param_name = 2;
+	required bytes h = 3;
 }
 
 

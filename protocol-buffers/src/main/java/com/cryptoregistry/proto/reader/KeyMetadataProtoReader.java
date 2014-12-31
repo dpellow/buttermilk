@@ -18,6 +18,7 @@ import com.cryptoregistry.ntru.NTRUKeyMetadata;
 import com.cryptoregistry.proto.compat.EncodingAdapter;
 import com.cryptoregistry.protos.Buttermilk.KeyMetadataProto;
 import com.cryptoregistry.rsa.RSAKeyMetadata;
+import com.cryptoregistry.symmetric.SymmetricKeyMetadata;
 
 public class KeyMetadataProtoReader {
 
@@ -39,6 +40,10 @@ public class KeyMetadataProtoReader {
 		switch(kga){
 			case RSA: {
 				RSAKeyMetadata meta = new RSAKeyMetadata(uuid,createdOn,format);
+				int certainty = proto.getCertainty();
+				int strength = proto.getStrength();
+				meta.setCertainty(certainty);
+				meta.setStrength(strength);
 				return meta;
 			}
 			case Curve25519: {
@@ -52,6 +57,13 @@ public class KeyMetadataProtoReader {
 			case NTRU:{
 				NTRUKeyMetadata meta = new NTRUKeyMetadata(uuid,createdOn,format);
 				return meta;
+			}
+			case Symmetric:{
+				SymmetricKeyMetadata meta = new SymmetricKeyMetadata(uuid,createdOn,format);
+				return meta;
+			}
+			case DSA : {
+				// fall through
 			}
 			default: throw new RuntimeException("No such alg implemented: "+kga);
 		}

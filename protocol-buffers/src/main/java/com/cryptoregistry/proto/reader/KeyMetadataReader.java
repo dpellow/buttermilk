@@ -39,6 +39,10 @@ public class KeyMetadataReader {
 		switch(kga){
 			case RSA: {
 				RSAKeyMetadata meta = new RSAKeyMetadata(uuid,createdOn,format);
+				int certainty = proto.getCertainty();
+				int strength = proto.getStrength();
+				meta.setCertainty(certainty);
+				meta.setStrength(strength);
 				return meta;
 			}
 			case Curve25519: {
