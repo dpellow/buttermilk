@@ -4,6 +4,7 @@ public enum MetadataTokens {
 	
 	key, forPublication, contact, signature,
 	namedList, namedMap, keyGenerationAlgorithm,
-	signatureAlgorithm, createdOn, registrationHandle;
+	signatureAlgorithm, createdOn, registrationHandle,
+	curveName,NTRUParamName, RSAKeySize;
 	
 }

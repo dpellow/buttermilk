@@ -6,7 +6,10 @@
 package com.cryptoregistry.client.storage;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import com.cryptoregistry.CryptoContact;
@@ -21,12 +24,15 @@ import com.cryptoregistry.client.security.SuitableMatchFailedException;
 import com.cryptoregistry.ec.ECKeyForPublication;
 import com.cryptoregistry.ec.ECKeyContents;
 import com.cryptoregistry.ntru.NTRUKeyContents;
+import com.cryptoregistry.ntru.NTRUKeyForPublication;
 import com.cryptoregistry.passwords.SensitiveBytes;
 import com.cryptoregistry.proto.builder.C2KeyContentsProtoBuilder;
 import com.cryptoregistry.proto.builder.C2KeyForPublicationProtoBuilder;
 import com.cryptoregistry.proto.builder.ContactProtoBuilder;
 import com.cryptoregistry.proto.builder.ECKeyContentsProtoBuilder;
 import com.cryptoregistry.proto.builder.ECKeyForPublicationProtoBuilder;
+import com.cryptoregistry.proto.builder.NTRUKeyContentsProtoBuilder;
+import com.cryptoregistry.proto.builder.NTRUKeyForPublicationProtoBuilder;
 import com.cryptoregistry.proto.builder.NamedListProtoBuilder;
 import com.cryptoregistry.proto.builder.NamedMapProtoBuilder;
 import com.cryptoregistry.proto.builder.RSAKeyContentsProtoBuilder;
@@ -38,11 +44,14 @@ import com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto;
 import com.cryptoregistry.protos.Buttermilk.CryptoContactProto;
 import com.cryptoregistry.protos.Buttermilk.ECKeyContentsProto;
 import com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto;
+import com.cryptoregistry.protos.Buttermilk.NTRUKeyContentsProto;
+import com.cryptoregistry.protos.Buttermilk.NTRUKeyForPublicationProto;
 import com.cryptoregistry.protos.Buttermilk.RSAKeyContentsProto;
 import com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto;
 import com.cryptoregistry.protos.Buttermilk.SymmetricKeyContentsProto;
 import com.cryptoregistry.rsa.RSAKeyContents;
 import com.cryptoregistry.rsa.RSAKeyForPublication;
+import com.cryptoregistry.rsa.RSAKeyMetadata;
 import com.cryptoregistry.signature.CryptoSignature;
 import com.cryptoregistry.symmetric.AESCBCPKCS7;
 import com.cryptoregistry.symmetric.SymmetricKeyContents;
@@ -176,6 +185,8 @@ public class ButtermilkViews {
 		metadata.setKeyGenerationAlgorithm(key.getMetadata().getKeyAlgorithm()
 				.toString());
 		metadata.setCreatedOn(key.getMetadata().getCreatedOn().getTime());
+		metadata.setRSAKeySize(((RSAKeyMetadata)key.getMetadata()).strength);
+
 		if (key instanceof Signer) {
 			RSAKeyContentsProtoBuilder builder = new RSAKeyContentsProtoBuilder(
 					(RSAKeyContents) key);
@@ -197,6 +208,11 @@ public class ButtermilkViews {
 		metadata.setKeyGenerationAlgorithm(key.getMetadata().getKeyAlgorithm()
 				.toString());
 		metadata.setCreatedOn(key.getMetadata().getCreatedOn().getTime());
+		if(key.usesNamedCurve()){
+			metadata.setCurveName(key.curveName);
+		}else{
+			// TODO handle custom key
+		}
 
 		if (key instanceof Signer) {
 			ECKeyContentsProtoBuilder builder = new ECKeyContentsProtoBuilder(
@@ -211,6 +227,34 @@ public class ButtermilkViews {
 			putSecure(key.getMetadata().getHandle(), metadata, proto);
 		}
 	}
+	
+	public void put(String regHandle, NTRUKeyForPublication key) {
+		Metadata metadata = new Metadata();
+		metadata.setKey(true);
+		metadata.setRegistrationHandle(regHandle);
+		metadata.setKeyGenerationAlgorithm(key.getMetadata().getKeyAlgorithm()
+				.toString());
+		metadata.setCreatedOn(key.getMetadata().getCreatedOn().getTime());
+		if(key.hasNamedParam()){
+			metadata.setNTRUParamName(key.parameterEnum.toString());
+		}else{
+			// TODO handle custom key
+		}
+
+		if (key instanceof Signer) {
+			NTRUKeyContentsProtoBuilder builder = new NTRUKeyContentsProtoBuilder(
+					(NTRUKeyContents) key);
+			NTRUKeyContentsProto proto = builder.build();
+			putSecure(key.getMetadata().getHandle(), metadata, proto);
+		} else {
+			metadata.setForPublication(true);
+			NTRUKeyForPublicationProtoBuilder builder = new NTRUKeyForPublicationProtoBuilder(
+					key);
+			NTRUKeyForPublicationProto proto = builder.build();
+			putSecure(key.getMetadata().getHandle(), metadata, proto);
+		}
+	}
+
 
 	public void put(String regHandle, CryptoContact contact) {
 		Metadata metadata = new Metadata();
@@ -292,5 +336,101 @@ public class ButtermilkViews {
 		
 		throw new SuitableMatchFailedException("No match found for "+searchCriteria);
 	}
+	
+	public ECKeyContents getMostRecentECKey(String regHandle, String curveName) throws SuitableMatchFailedException {
+		Map<MetadataTokens,Object> criteria = new HashMap<MetadataTokens,Object>();
+		criteria.put(MetadataTokens.key, true);
+		criteria.put(MetadataTokens.forPublication, false);
+		criteria.put(MetadataTokens.keyGenerationAlgorithm, "EC");
+		criteria.put(MetadataTokens.curveName, curveName);
+		
+		List<Object> list = getMatchList(criteria);
+		if(list.size() == 0) throw new SuitableMatchFailedException();
+		if(list.size()==1) return (ECKeyContents) list.get(0);
+		
+		// more than one - find the date which is most recent
+		ECKeyContents item = (ECKeyContents) list.get(0);
+		Iterator<Object> iter = list.iterator();
+		while(iter.hasNext()){
+			ECKeyContents c = (ECKeyContents)iter.next();
+			if(c.metadata.createdOn.after(item.metadata.createdOn)){
+				item = c;
+			}
+		}
 
+		return item;
+	}
+	
+	public RSAKeyContents getMostRecentRSAKey(String regHandle, int size) throws SuitableMatchFailedException {
+		Map<MetadataTokens,Object> criteria = new HashMap<MetadataTokens,Object>();
+		criteria.put(MetadataTokens.key, true);
+		criteria.put(MetadataTokens.forPublication, false);
+		criteria.put(MetadataTokens.keyGenerationAlgorithm, "RSA");
+		criteria.put(MetadataTokens.RSAKeySize, size);
+		
+		List<Object> list = getMatchList(criteria);
+		if(list.size() == 0) throw new SuitableMatchFailedException();
+		if(list.size()==1) return (RSAKeyContents) list.get(0);
+		
+		// more than one - find the date which is most recent
+		RSAKeyContents item = (RSAKeyContents) list.get(0);
+		Iterator<Object> iter = list.iterator();
+		while(iter.hasNext()){
+			RSAKeyContents c = (RSAKeyContents)iter.next();
+			if(c.metadata.createdOn.after(item.metadata.createdOn)){
+				item = c;
+			}
+		}
+
+		return item;
+	}
+	
+	public Curve25519KeyContents getMostRecentC2Key(String regHandle) throws SuitableMatchFailedException {
+		Map<MetadataTokens,Object> criteria = new HashMap<MetadataTokens,Object>();
+		criteria.put(MetadataTokens.key, true);
+		criteria.put(MetadataTokens.forPublication, false);
+		criteria.put(MetadataTokens.keyGenerationAlgorithm, "Curve25519");
+		
+		List<Object> list = getMatchList(criteria);
+		if(list.size() == 0) throw new SuitableMatchFailedException();
+		if(list.size()==1) return (Curve25519KeyContents) list.get(0);
+		
+		// more than one - find the date which is most recent
+		Curve25519KeyContents item = (Curve25519KeyContents) list.get(0);
+		Iterator<Object> iter = list.iterator();
+		while(iter.hasNext()){
+			Curve25519KeyContents c = (Curve25519KeyContents)iter.next();
+			if(c.metadata.createdOn.after(item.metadata.createdOn)){
+				item = c;
+			}
+		}
+
+		return item;
+	}
+
+	/**
+	 * Return a (possibly empty) list of all matches
+	 * 
+	 * @param searchCriteria
+	 * @return
+	 */
+	public List<Object> getMatchList(Map<MetadataTokens,Object> searchCriteria){
+		
+		List<Object> results = new ArrayList<Object>();
+		Iterator<Handle> iter = this.getMetadataMap().keySet().iterator();
+		while(iter.hasNext()){
+			Handle h = iter.next();
+			Metadata meta = this.getMetadataMap().get(h);
+			if(meta.match(searchCriteria)){
+				SecureData data = this.getSecureMap().get(h);
+				try {
+					results.add(StorageUtil.getSecure(cachedKey, data));
+				} catch (InvalidProtocolBufferException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return results;
+	}
 }

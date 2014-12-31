@@ -18,6 +18,9 @@ public class Metadata implements Serializable {
 	private String signatureAlgorithm;
 	private long createdOn;
 	private String registrationHandle;
+	private String curveName;
+	private String NTRUParamName;
+	private int RSAKeySize;
 	
 	public Metadata() {
 		super();
@@ -84,6 +87,23 @@ public class Metadata implements Serializable {
 				case registrationHandle: {
 					String val = String.valueOf(value);
 					if(!this.registrationHandle.equals(val)) return false;
+					else continue;
+				}
+				case curveName: {
+					String val = String.valueOf(value);
+					if(curveName == null) return false;
+					if(!this.curveName.equals(val)) return false;
+					else continue;
+				}
+				case NTRUParamName: {
+					String val = String.valueOf(value);
+					if(NTRUParamName == null) return false;
+					if(!this.NTRUParamName.equals(val)) return false;
+					else continue;
+				}
+				case RSAKeySize: {
+					Integer i = (Integer)value;
+					if(this.RSAKeySize != i) return false;
 					else continue;
 				}
 			}
@@ -172,15 +192,112 @@ public class Metadata implements Serializable {
 		this.forPublication = forPublication;
 	}
 
+	public String getCurveName() {
+		return curveName;
+	}
+
+	public void setCurveName(String curveName) {
+		this.curveName = curveName;
+	}
+
+	public String getNTRUParamName() {
+		return NTRUParamName;
+	}
+
+	public void setNTRUParamName(String nTRUParamName) {
+		NTRUParamName = nTRUParamName;
+	}
+
+	public int getRSAKeySize() {
+		return RSAKeySize;
+	}
+
+	public void setRSAKeySize(int rSAKeySize) {
+		RSAKeySize = rSAKeySize;
+	}
+
 	@Override
-	public String toString() {
-		return "Metadata [key=" + key + ", forPublication=" + forPublication
-				+ ", contact=" + contact + ", signature=" + signature
-				+ ", namedList=" + namedList + ", namedMap=" + namedMap
-				+ ", keyGenerationAlgorithm=" + keyGenerationAlgorithm
-				+ ", signatureAlgorithm=" + signatureAlgorithm + ", createdOn="
-				+ createdOn + ", registrationHandle=" + registrationHandle
-				+ "]";
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((NTRUParamName == null) ? 0 : NTRUParamName.hashCode());
+		result = prime * result + RSAKeySize;
+		result = prime * result + (contact ? 1231 : 1237);
+		result = prime * result + (int) (createdOn ^ (createdOn >>> 32));
+		result = prime * result
+				+ ((curveName == null) ? 0 : curveName.hashCode());
+		result = prime * result + (forPublication ? 1231 : 1237);
+		result = prime * result + (key ? 1231 : 1237);
+		result = prime
+				* result
+				+ ((keyGenerationAlgorithm == null) ? 0
+						: keyGenerationAlgorithm.hashCode());
+		result = prime * result + (namedList ? 1231 : 1237);
+		result = prime * result + (namedMap ? 1231 : 1237);
+		result = prime
+				* result
+				+ ((registrationHandle == null) ? 0 : registrationHandle
+						.hashCode());
+		result = prime * result + (signature ? 1231 : 1237);
+		result = prime
+				* result
+				+ ((signatureAlgorithm == null) ? 0 : signatureAlgorithm
+						.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Metadata other = (Metadata) obj;
+		if (NTRUParamName == null) {
+			if (other.NTRUParamName != null)
+				return false;
+		} else if (!NTRUParamName.equals(other.NTRUParamName))
+			return false;
+		if (RSAKeySize != other.RSAKeySize)
+			return false;
+		if (contact != other.contact)
+			return false;
+		if (createdOn != other.createdOn)
+			return false;
+		if (curveName == null) {
+			if (other.curveName != null)
+				return false;
+		} else if (!curveName.equals(other.curveName))
+			return false;
+		if (forPublication != other.forPublication)
+			return false;
+		if (key != other.key)
+			return false;
+		if (keyGenerationAlgorithm == null) {
+			if (other.keyGenerationAlgorithm != null)
+				return false;
+		} else if (!keyGenerationAlgorithm.equals(other.keyGenerationAlgorithm))
+			return false;
+		if (namedList != other.namedList)
+			return false;
+		if (namedMap != other.namedMap)
+			return false;
+		if (registrationHandle == null) {
+			if (other.registrationHandle != null)
+				return false;
+		} else if (!registrationHandle.equals(other.registrationHandle))
+			return false;
+		if (signature != other.signature)
+			return false;
+		if (signatureAlgorithm == null) {
+			if (other.signatureAlgorithm != null)
+				return false;
+		} else if (!signatureAlgorithm.equals(other.signatureAlgorithm))
+			return false;
+		return true;
 	}
 
 }

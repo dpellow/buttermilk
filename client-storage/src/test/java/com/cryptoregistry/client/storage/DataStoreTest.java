@@ -31,10 +31,10 @@ public class DataStoreTest {
 		
 			ds.cleanOut();
 			
-			for(int i = 0; i<1; i++){
+			for(int i = 0; i<3; i++){
 				CryptoKey key = Buttermilk.INSTANCE.generateC2Keys();
 				ds.getViews().put(regHandle, key);
-				key = Buttermilk.INSTANCE.generateECKeys();
+				key = Buttermilk.INSTANCE.generateECKeys("P-256");
 				ds.getViews().put(regHandle, key);
 				key = Buttermilk.INSTANCE.generateRSAKeys();
 				ds.getViews().put(regHandle, key);
@@ -44,8 +44,8 @@ public class DataStoreTest {
 			//	ds.getViews().put(regHandle, key);
 			}
 			
-			Assert.assertEquals(ds.getViews().getSecureMap().size(),3);
-			Assert.assertEquals(ds.getViews().getMetadataMap().size(),3);
+			Assert.assertEquals(ds.getViews().getSecureMap().size(),9);
+			Assert.assertEquals(ds.getViews().getMetadataMap().size(),9);
 			
 			Map<MetadataTokens,Object> criteria = new HashMap<MetadataTokens,Object>();
 			criteria.put(MetadataTokens.key, true);
@@ -60,6 +60,7 @@ public class DataStoreTest {
 			
 			
 			criteria.put(MetadataTokens.keyGenerationAlgorithm, "EC");
+			criteria.put(MetadataTokens.curveName, "P-256");
 			try {
 				ECKeyContents contents = (ECKeyContents) ds.getViews().getSecure(criteria);
 				Assert.assertNotNull(contents);
@@ -68,12 +69,28 @@ public class DataStoreTest {
 			}
 			
 			criteria.put(MetadataTokens.keyGenerationAlgorithm, "RSA");
+			criteria.put(MetadataTokens.RSAKeySize, 2048);
 			try {
 				RSAKeyContents contents = (RSAKeyContents) ds.getViews().getSecure(criteria);
 				Assert.assertNotNull(contents);
 			} catch (SuitableMatchFailedException e) {
 				Assert.fail();
 			}
+			
+			try {
+				Curve25519KeyContents contents = ds.getViews().getMostRecentC2Key(regHandle);
+				Assert.assertNotNull(contents);
+			} catch (SuitableMatchFailedException e) {
+				e.printStackTrace();
+			}
+			
+			try {
+				ECKeyContents contents = ds.getViews().getMostRecentECKey(regHandle, "P-256");
+				Assert.assertNotNull(contents);
+			} catch (SuitableMatchFailedException e) {
+				e.printStackTrace();
+			}
+			
 			
 	
 		}finally{
