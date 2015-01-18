@@ -1,3 +1,8 @@
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2014 David R. Smith All Rights Reserved.
+ *
+ */
 package com.cryptoregistry.btls.io;
 
 import java.io.ByteArrayInputStream;
@@ -10,6 +15,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.cryptoregistry.btls.BTLSProtocol;
 import com.cryptoregistry.protos.Buttermilk.AuthenticatedStringProto;
 
 import x.org.bouncycastle.crypto.Digest;
@@ -23,7 +32,15 @@ import x.org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher;
 import x.org.bouncycastle.crypto.params.KeyParameter;
 import x.org.bouncycastle.crypto.params.ParametersWithIV;
 
+/**
+ * FrameInputStream is a FilterInputStream with frame-reading capability. 
+ * 
+ * @author Dave
+ *
+ */
 public class FrameInputStream extends FilterInputStream {
+	
+	static final Logger logger = LogManager.getLogger(FrameInputStream.class.getName());
 	
 	protected CipherInputStream cIn;
 	protected byte [] key;
@@ -34,14 +51,12 @@ public class FrameInputStream extends FilterInputStream {
 	
 	protected Set<AlertListener> alertListeners;
 	
-	// general use, key is acquired or constructed via handshake
 	public FrameInputStream(InputStream in) {
 		super(in);
 		digest = new SHA256Digest();
 		alertListeners = new HashSet<AlertListener>();
 	}
 
-	// for testing only
 	public FrameInputStream(InputStream in, byte [] key) {
 		this(in);
 		this.key = key;
@@ -56,16 +71,17 @@ public class FrameInputStream extends FilterInputStream {
 	
 	public int read(byte[] in) throws IOException {
 		if(cIn == null) readFrame();
-		int count = cIn.read(in);
-		if(count == -1){
-			int code = readFrame();
-			if(code == -1) return -1;
-			else {
-				return cIn.read(in);
+			int count = cIn.read(in);
+			if(count == -1){
+				int code = readFrame();
+				if(code == -1) return -1;
+				else {
+					return cIn.read(in);
+				}
+			}else{
+				return count;
 			}
-		}else{
-			return count;
-		}
+	
 	}
 
 	public int read(byte[] in, int offset, int length) throws IOException {
@@ -83,6 +99,8 @@ public class FrameInputStream extends FilterInputStream {
 	}
 	
 	public int readFrame(){
+		
+		logger.trace("Entering readFrame()");
 		
 		int code = -1;
 		
@@ -120,41 +138,50 @@ public class FrameInputStream extends FilterInputStream {
 				// application messages are encrypted and validated using an HMac
 				case BTLSProtocol.APPLICATION: {
 					
+					logger.trace("Entering read on application frame...");
+					
 					// first there is a Byte String with the IV size and contents
 					int IVSz = this.readShort16(in);
 					byte [] iv = new byte[IVSz];
 					this.readFully(in, iv, 0, IVSz);
+					logger.trace("read IV: "+Arrays.toString(iv));
 					
 					// second there is the encrypted contents, max length is Integer.MAX_VALUE, about 2.15Gb
 					int contentsSz = this.readInt32(in);
 					byte [] contents = new byte[contentsSz];
 					this.readFully(in, contents, 0, contentsSz);
 					ByteArrayInputStream bin = new ByteArrayInputStream(contents);
-					params = buildKey(key,iv);
+					logger.trace("read encrypted contents: "+Arrays.toString(iv));
 					
+					// use the iv from the message along with the key to initialize the message
+					params = buildKey(key,iv);
+					logger.trace("built key: "+params);
+					
+					// setup for the CipherInputStream
 					CBCBlockCipher blockCipher = new CBCBlockCipher(new AESFastEngine());
 					aesCipher = new PaddedBufferedBlockCipher(blockCipher, new PKCS7Padding());
 					aesCipher.init(false, params);
 					cIn = new CipherInputStream(bin,aesCipher);
+					logger.trace("decrypting input stream set up: "+cIn);
 					
-					// cIn can now be read using the read() methods
-					
-					// third there is an hmac size and hmac bytes
-					hmacParam = new KeyParameter(key,0,key.length);
+					// third there is an hmac size and hmac bytes - application blocks are validated
 					int macSz = this.readShort16(in);
+					if(macSz == 0) break;// bail if no hmac provided
+					hmacParam = new KeyParameter(key,0,key.length);
 					byte [] hmacBytes = new byte[macSz];
 					this.readFully(in, hmacBytes, 0, macSz);
-					if(!validateHMac(hmacParam, hmacBytes,contents)) {
+					logger.trace("read hmac: "+Arrays.toString(hmacBytes));
+					if(!validateHMac(hmacParam, hmacBytes, contents)) {
+						logger.trace("validation of hmac failed...");
 						throw new RuntimeException("Application Frame appears to have been tampered with...bailing out.");
+					}else{
+						logger.trace("validation of hmac successful!");
 					}
 					
 					break;
 					
-				}
-				case BTLSProtocol.HANDSHAKE: {
-				//	int handshakeCode = this.readShort16(in);
-				//	int length = this.readShort16(in);
-					break;
+					// cIn can now be read using the read() methods
+					
 				}
 				default: throw new RuntimeException("unknown code: "+code);
 			}

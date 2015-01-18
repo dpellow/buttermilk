@@ -6,8 +6,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import com.cryptoregistry.passwords.NewPassword;
-import com.cryptoregistry.passwords.Password;
+import com.cryptoregistry.btls.BTLSProtocol;
 import com.cryptoregistry.symmetric.CryptoFactory;
 import com.cryptoregistry.symmetric.SymmetricKeyContents;
 

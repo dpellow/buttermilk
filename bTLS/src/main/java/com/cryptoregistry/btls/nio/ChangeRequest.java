@@ -8,7 +8,7 @@ package com.cryptoregistry.btls.nio;
 import java.nio.channels.SocketChannel;
 
 /**
- * This is the Rox tutorial code by James Greenfield, updated a bit and secured with Curve25519.
+ * This is the Rox tutorial code by James Greenfield, updated a bit and secured with buttermilk
  * 
  * original source: http://rox-xmlrpc.sourceforge.net/niotut/#The code
  * 

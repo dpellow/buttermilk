@@ -22,6 +22,9 @@ public class Metadata implements Serializable {
 	private String NTRUParamName;
 	private int RSAKeySize;
 	
+	private boolean ignore; // you can mark a record as out of scope - if true, it will not be returned by queries
+	private boolean ephemeral; // intended to be an ephemeral key 
+	
 	public Metadata() {
 		super();
 	}
@@ -34,6 +37,9 @@ public class Metadata implements Serializable {
 	 * @return
 	 */
 	public boolean match(Map<MetadataTokens,Object> criteria){
+		
+		if(ignore) return false;
+		
 		Iterator<MetadataTokens> iter = criteria.keySet().iterator();
 		while(iter.hasNext()){
 			MetadataTokens key = iter.next();
@@ -216,6 +222,22 @@ public class Metadata implements Serializable {
 		RSAKeySize = rSAKeySize;
 	}
 
+	public boolean isIgnore() {
+		return ignore;
+	}
+
+	public void setIgnore(boolean ignore) {
+		this.ignore = ignore;
+	}
+
+	public boolean isEphemeral() {
+		return ephemeral;
+	}
+
+	public void setEphemeral(boolean ephemeral) {
+		this.ephemeral = ephemeral;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -227,7 +249,9 @@ public class Metadata implements Serializable {
 		result = prime * result + (int) (createdOn ^ (createdOn >>> 32));
 		result = prime * result
 				+ ((curveName == null) ? 0 : curveName.hashCode());
+		result = prime * result + (ephemeral ? 1231 : 1237);
 		result = prime * result + (forPublication ? 1231 : 1237);
+		result = prime * result + (ignore ? 1231 : 1237);
 		result = prime * result + (key ? 1231 : 1237);
 		result = prime
 				* result
@@ -272,7 +296,11 @@ public class Metadata implements Serializable {
 				return false;
 		} else if (!curveName.equals(other.curveName))
 			return false;
+		if (ephemeral != other.ephemeral)
+			return false;
 		if (forPublication != other.forPublication)
+			return false;
+		if (ignore != other.ignore)
 			return false;
 		if (key != other.key)
 			return false;
@@ -299,5 +327,11 @@ public class Metadata implements Serializable {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Metadata [key=" + key + "]";
+	}
+	
 
 }

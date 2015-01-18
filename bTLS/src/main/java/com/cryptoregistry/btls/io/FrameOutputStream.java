@@ -1,3 +1,8 @@
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2014 David R. Smith All Rights Reserved.
+ *
+ */
 package com.cryptoregistry.btls.io;
 
 import java.io.ByteArrayOutputStream;
@@ -5,6 +10,7 @@ import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.security.SecureRandom;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -19,11 +25,12 @@ import x.org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher;
 import x.org.bouncycastle.crypto.params.KeyParameter;
 import x.org.bouncycastle.crypto.params.ParametersWithIV;
 
+import com.cryptoregistry.btls.BTLSProtocol;
 import com.cryptoregistry.proto.frame.OutputFrame;
 import com.cryptoregistry.proto.frame.btls.AlertOutputFrame;
 
 /**
- * Write frames to the underlying stream.
+ * Write frames to the underlying stream using the normal write() methods
  * 
  * @author Dave
  *
@@ -32,15 +39,45 @@ public class FrameOutputStream extends FilterOutputStream {
 	
 	protected ByteArrayOutputStream buffer;
 	protected CipherOutputStream cOut;
+	protected byte [] key;
 	protected ParametersWithIV params;
 	protected KeyParameter macParam;
 	protected Digest digest;
-	PaddedBufferedBlockCipher aesCipher;
+	protected PaddedBufferedBlockCipher aesCipher;
+	protected SecureRandom rand = new SecureRandom();
 	
 	protected Lock lock = new ReentrantLock();
+	
+	// if true each frame will use a unique IV. This requires creating a cipher per frame
+	protected boolean IVPerFrame = false;
+	
+	/**
+	 * Generates a random IV. This IV is written into the application message frame
+	 * 
+	 * @param out
+	 * @param key
+	 */
+	public FrameOutputStream(OutputStream out, byte [] key) {
+		super(out);
+		lock.lock();
+		try {
+			buffer = new ByteArrayOutputStream();
+			digest = new SHA256Digest();
+			this.key = key;
+			// done here for testing purposes
+			params = buildKeyWithRandomIV(key);
+			macParam = buildKey(key);
+			CBCBlockCipher blockCipher = new CBCBlockCipher(new AESFastEngine());
+			aesCipher = new PaddedBufferedBlockCipher(blockCipher, new PKCS7Padding());
+			aesCipher.init(true, params);
+			cOut = new CipherOutputStream(buffer,aesCipher);
+		}finally {
+			lock.unlock();
+		}
+	}
 
 	/**
-	 * Used for testing - pass in the asymmetric key and iv directly
+	 * Used for testing - supply key and IV
 	 * 
 	 * @param out
 	 * @param key
@@ -77,6 +114,11 @@ public class FrameOutputStream extends FilterOutputStream {
 	}
 	
 	
+	/**
+	 * Direct write access for sending a custom frame - does not encrypt etc.
+	 * @param frame
+	 * @throws IOException
+	 */
 	public void writeOutputFrame(OutputFrame frame) throws IOException{
 		lock.lock();
 		try {
@@ -88,7 +130,7 @@ public class FrameOutputStream extends FilterOutputStream {
 	}
 	
 	/**
-	 * Alerts are not encrypted, but we authenticate with an HMac
+	 * Alerts are not encrypted, but we do authenticate them with an HMac
 	 * 
 	 * @param subcode
 	 * @param msg
@@ -123,16 +165,26 @@ public class FrameOutputStream extends FilterOutputStream {
 	}
 	
 	protected void writeShort(OutputStream out, int v) throws IOException {
-		short s = (short) v;
-        out.write((s >>>  8) & 0xFF);
-        out.write((s >>>  0) & 0xFF);
+		lock.lock();
+		try {
+			short s = (short) v;
+			out.write((s >>>  8) & 0xFF);
+			out.write((s >>>  0) & 0xFF);
+		}finally{
+			lock.unlock();
+		}
     }
 	
 	protected void writeInt(OutputStream out, int v) throws IOException {
-        out.write((v >>> 24) & 0xFF);
-        out.write((v >>> 16) & 0xFF);
-        out.write((v >>>  8) & 0xFF);
-        out.write((v >>>  0) & 0xFF);
+		lock.lock();
+		try {
+			out.write((v >>> 24) & 0xFF);
+			out.write((v >>> 16) & 0xFF);
+			out.write((v >>>  8) & 0xFF);
+			out.write((v >>>  0) & 0xFF);
+		}finally{
+			lock.unlock();
+		}
     }
 	
 	public void write(int in) throws IOException{
@@ -213,10 +265,21 @@ public class FrameOutputStream extends FilterOutputStream {
 			
 			// frame complete, reset and cleanup locally
 			
-			buffer = new ByteArrayOutputStream();
-			aesCipher.reset();
-			cOut = new CipherOutputStream(buffer,aesCipher);
-			digest.reset();
+			if(IVPerFrame){
+				// build a new cipher with a new random IV - more expensive than reset()
+				params = this.buildKeyWithRandomIV(key);
+				CBCBlockCipher blockCipher = new CBCBlockCipher(new AESFastEngine());
+				aesCipher = new PaddedBufferedBlockCipher(blockCipher, new PKCS7Padding());
+				aesCipher.init(true, params);
+				cOut = new CipherOutputStream(buffer,aesCipher);
+				digest.reset();
+			}else{
+				buffer = new ByteArrayOutputStream();
+				aesCipher.reset();
+				cOut = new CipherOutputStream(buffer,aesCipher);
+				digest.reset();
+			}
+			
 			
 		}finally{
 			lock.unlock();
@@ -224,7 +287,18 @@ public class FrameOutputStream extends FilterOutputStream {
 		
 	}
 	
-	private ParametersWithIV buildKeyWithIV(byte [] key, byte[] iv) {
+	private ParametersWithIV buildKeyWithRandomIV(byte [] key) {
+		byte [] iv = new byte[16];
+		rand.nextBytes(iv);
+		ParametersWithIV holder = new ParametersWithIV(
+				new KeyParameter(key, 0, key.length), 
+				iv, 
+				0, 
+				iv.length);
+		return holder;
+	}
+	
+	private ParametersWithIV buildKeyWithIV(byte [] key, byte [] iv) {
 		ParametersWithIV holder = new ParametersWithIV(
 				new KeyParameter(key, 0, key.length), 
 				iv, 
@@ -235,6 +309,10 @@ public class FrameOutputStream extends FilterOutputStream {
 	
 	private KeyParameter buildKey(byte [] key) {
 			return new KeyParameter(key, 0, key.length);	
+	}
+
+	public void setIVPerFrame(boolean iVPerFrame) {
+		IVPerFrame = iVPerFrame;
 	}
 
 }

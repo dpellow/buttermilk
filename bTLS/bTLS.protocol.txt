@@ -12,7 +12,10 @@ HelloOutputFrame
 		regHandle from client
 		keyHandle for desired client public key
 	
-If server does not have client key matching handles, and cannot retrieve online, send Alert HandshakeCode::SEND_KEY
+If server does not have client key matching handles, and cannot retrieve online, send HandshakeCode::SEND_KEY:
+
+byte contentType = Handshake
+short subcode = SEND_KEY
 
 Client sends Key using PublishedKeyOutputFrame(key) and HandshakeCode::SENDING_KEY
 PublishedKeyOutputFrame

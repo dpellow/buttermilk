@@ -10,9 +10,11 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import com.cryptoregistry.client.security.DataStore;
+import com.cryptoregistry.btls.handshake.HandshakeFailedException;
+import com.cryptoregistry.client.security.Datastore;
 
 /**
  * A secure socket using contemporary techniques.
@@ -22,28 +24,28 @@ import com.cryptoregistry.client.security.DataStore;
  */
 public class SecureServerSocket extends ServerSocket {
 
-	private static final Logger log = Logger.getLogger("com.cryptography.btls.SecureServerSocket");
+	static final Logger logger = LogManager.getLogger(SecureServerSocket.class.getName());
 	
-	protected DataStore ds; // our key cache
-
-	public SecureServerSocket() throws IOException {
+	protected Datastore ds; // our key cache
+	
+	public SecureServerSocket(Datastore ds) throws IOException {
 		super();
+		this.ds = ds;
 	}
 
-	public SecureServerSocket(int port) throws IOException {
+	public SecureServerSocket(Datastore ds, int port) throws IOException {
 		super(port);
+		this.ds = ds;
 	}
 
-	public SecureServerSocket(int port, int backlog) throws IOException {
+	public SecureServerSocket(Datastore ds, int port, int backlog) throws IOException {
 		super(port, backlog);
+		this.ds = ds;
 	}
 
-	public SecureServerSocket(int port, int backlog, InetAddress bindAddress)
+	public SecureServerSocket(Datastore ds, int port, int backlog, InetAddress bindAddress)
 			throws IOException {
 		super(port, backlog, bindAddress);
-	}
-
-	public void setDs(DataStore ds) {
 		this.ds = ds;
 	}
 
@@ -51,15 +53,18 @@ public class SecureServerSocket extends ServerSocket {
 	 * Performs the server-side handshake prior to returning a SecureSocket
 	 */
 	public Socket accept() throws IOException {
-		log.trace("entering accept");
+		if(ds == null) throw new RuntimeException("Datastore is null!");
+		logger.trace("entering accept");
 		
-		SecureSocket s = new SecureSocket();
+		Socket s = new Socket();
 		implAccept(s);
 	
-		// do handshake
-		
-	
-		return s;
+		ClientSocketSecureConnector connector = new ClientSocketSecureConnector(ds,s);
+		try {
+			return connector.connectServerSecure();
+		} catch (HandshakeFailedException e) {
+			throw new IOException(e);
+		}
 	}
 
 }

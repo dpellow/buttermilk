@@ -6,10 +6,7 @@
 package com.cryptoregistry.client.storage;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import com.cryptoregistry.CryptoContact;
@@ -20,6 +17,7 @@ import com.cryptoregistry.ListData;
 import com.cryptoregistry.Signer;
 import com.cryptoregistry.c2.key.Curve25519KeyForPublication;
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
+import com.cryptoregistry.client.security.DatastoreViews;
 import com.cryptoregistry.client.security.SuitableMatchFailedException;
 import com.cryptoregistry.ec.ECKeyForPublication;
 import com.cryptoregistry.ec.ECKeyContents;
@@ -62,7 +60,7 @@ import com.sleepycat.bind.serial.ClassCatalog;
 import com.sleepycat.bind.serial.SerialBinding;
 import com.sleepycat.collections.StoredSortedMap;
 
-public class ButtermilkViews {
+public class ButtermilkViews implements DatastoreViews {
 
 	private final StoredSortedMap<Handle, SecureData> secureMap;
 	private final StoredSortedMap<Handle, Metadata> metadataMap;
@@ -98,11 +96,19 @@ public class ButtermilkViews {
 
 	}
 
-	public StoredSortedMap<Handle, SecureData> getSecureMap() {
+	/* (non-Javadoc)
+	 * @see com.cryptoregistry.client.storage.DatastoreViews#getSecureMap()
+	 */
+	@Override
+	public Map<Handle, SecureData> getSecureMap() {
 		return secureMap;
 	}
 
-	public StoredSortedMap<Handle, Metadata> getMetadataMap() {
+	/* (non-Javadoc)
+	 * @see com.cryptoregistry.client.storage.DatastoreViews#getMetadataMap()
+	 */
+	@Override
+	public Map<Handle, Metadata> getMetadataMap() {
 		return metadataMap;
 	}
 
@@ -110,6 +116,11 @@ public class ButtermilkViews {
 		cachedKey.selfDestruct();
 	}
 
+	/**
+	 * This method looks like it puts the Reg handle as key, but that is not the case. The reg handle is
+	 * in essence a foreign key, the actual database primary key is the CryptoKey's handle. 
+	 */
+	@Override
 	public void put(String regHandle, CryptoKey key) {
 		KeyGenerationAlgorithm alg = key.getMetadata().getKeyAlgorithm();
 		switch (alg) {
@@ -144,7 +155,7 @@ public class ButtermilkViews {
 		}
 	}
 
-	public void put(String regHandle, SymmetricKeyContents key) {
+	private void put(String regHandle, SymmetricKeyContents key) {
 		Metadata metadata = new Metadata();
 		metadata.setKey(true);
 		metadata.setRegistrationHandle(regHandle);
@@ -157,7 +168,7 @@ public class ButtermilkViews {
 		putSecure(key.getMetadata().getHandle(), metadata, proto);
 	}
 
-	public void put(String regHandle, Curve25519KeyForPublication key) {
+	private void put(String regHandle, Curve25519KeyForPublication key) {
 		Metadata metadata = new Metadata();
 		metadata.setKey(true);
 		metadata.setRegistrationHandle(regHandle);
@@ -178,7 +189,7 @@ public class ButtermilkViews {
 		}
 	}
 
-	public void put(String regHandle, RSAKeyForPublication key) {
+	private void put(String regHandle, RSAKeyForPublication key) {
 		Metadata metadata = new Metadata();
 		metadata.setKey(true);
 		metadata.setRegistrationHandle(regHandle);
@@ -201,7 +212,7 @@ public class ButtermilkViews {
 		}
 	}
 
-	public void put(String regHandle, ECKeyForPublication key) {
+	private void put(String regHandle, ECKeyForPublication key) {
 		Metadata metadata = new Metadata();
 		metadata.setKey(true);
 		metadata.setRegistrationHandle(regHandle);
@@ -228,7 +239,7 @@ public class ButtermilkViews {
 		}
 	}
 	
-	public void put(String regHandle, NTRUKeyForPublication key) {
+	private void put(String regHandle, NTRUKeyForPublication key) {
 		Metadata metadata = new Metadata();
 		metadata.setKey(true);
 		metadata.setRegistrationHandle(regHandle);
@@ -256,6 +267,10 @@ public class ButtermilkViews {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see com.cryptoregistry.client.storage.DatastoreViews#put(java.lang.String, com.cryptoregistry.CryptoContact)
+	 */
+	@Override
 	public void put(String regHandle, CryptoContact contact) {
 		Metadata metadata = new Metadata();
 		metadata.setRegistrationHandle(regHandle);
@@ -265,6 +280,10 @@ public class ButtermilkViews {
 		putSecure(contact.getHandle(), metadata, proto);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.cryptoregistry.client.storage.DatastoreViews#put(java.lang.String, com.cryptoregistry.signature.CryptoSignature)
+	 */
+	@Override
 	public void put(String regHandle, CryptoSignature signature) {
 		Metadata metadata = new Metadata();
 		metadata.setRegistrationHandle(regHandle);
@@ -274,6 +293,10 @@ public class ButtermilkViews {
 		putSecure(signature.getHandle(), metadata, builder.build());
 	}
 
+	/* (non-Javadoc)
+	 * @see com.cryptoregistry.client.storage.DatastoreViews#put(java.lang.String, com.cryptoregistry.MapData)
+	 */
+	@Override
 	public void put(String regHandle, MapData local) {
 		Metadata metadata = new Metadata();
 		metadata.setRegistrationHandle(regHandle);
@@ -283,6 +306,10 @@ public class ButtermilkViews {
 		putSecure(local.uuid, metadata, builder.build());
 	}
 
+	/* (non-Javadoc)
+	 * @see com.cryptoregistry.client.storage.DatastoreViews#put(java.lang.String, com.cryptoregistry.ListData)
+	 */
+	@Override
 	public void put(String regHandle, ListData remote) {
 		Metadata metadata = new Metadata();
 		metadata.setRegistrationHandle(regHandle);
@@ -304,21 +331,12 @@ public class ButtermilkViews {
 		this.getSecureMap().put(key, value);
 		this.getMetadataMap().put(key, meta);
 	}
-
-	public Object getSecure(String handle)
-			throws InvalidProtocolBufferException {
-		SecureData data = this.getSecureMap().get(new Handle(handle));
-		return StorageUtil.getSecure(cachedKey, data);
+	
+	public void get(Criteria criteria) throws SuitableMatchFailedException {
+			get(criteria.map,criteria.result);
 	}
 	
-	/**
-	 * Return the first matching object
-	 * 
-	 * @param searchCriteria
-	 * @return
-	 * @throws SuitableMatchFailedException 
-	 */
-	public Object getSecure(Map<MetadataTokens,Object> searchCriteria) throws SuitableMatchFailedException{
+	private void get(Map<MetadataTokens,Object> searchCriteria, Result result) throws SuitableMatchFailedException{
 		
 		Iterator<Handle> iter = this.getMetadataMap().keySet().iterator();
 		while(iter.hasNext()){
@@ -327,7 +345,9 @@ public class ButtermilkViews {
 			if(meta.match(searchCriteria)){
 				SecureData data = this.getSecureMap().get(h);
 				try {
-					return StorageUtil.getSecure(cachedKey, data);
+					result.setResult(StorageUtil.getSecure(cachedKey, data));
+					result.setMetadata(meta);
+					return;
 				} catch (InvalidProtocolBufferException e) {
 					e.printStackTrace();
 				}
@@ -337,100 +357,19 @@ public class ButtermilkViews {
 		throw new SuitableMatchFailedException("No match found for "+searchCriteria);
 	}
 	
-	public ECKeyContents getMostRecentECKey(String regHandle, String curveName) throws SuitableMatchFailedException {
-		Map<MetadataTokens,Object> criteria = new HashMap<MetadataTokens,Object>();
-		criteria.put(MetadataTokens.key, true);
-		criteria.put(MetadataTokens.forPublication, false);
-		criteria.put(MetadataTokens.keyGenerationAlgorithm, "EC");
-		criteria.put(MetadataTokens.curveName, curveName);
+	public void get(String handle, Result result) throws SuitableMatchFailedException{
+		Metadata meta = this.getMetadataMap().get(new Handle(handle));
+		SecureData data = this.getSecureMap().get(new Handle(handle));
 		
-		List<Object> list = getMatchList(criteria);
-		if(list.size() == 0) throw new SuitableMatchFailedException();
-		if(list.size()==1) return (ECKeyContents) list.get(0);
+		if(meta == null || data == null) throw new SuitableMatchFailedException("No match found for "+handle);
 		
-		// more than one - find the date which is most recent
-		ECKeyContents item = (ECKeyContents) list.get(0);
-		Iterator<Object> iter = list.iterator();
-		while(iter.hasNext()){
-			ECKeyContents c = (ECKeyContents)iter.next();
-			if(c.metadata.createdOn.after(item.metadata.createdOn)){
-				item = c;
-			}
+		try {
+			result.setResult(StorageUtil.getSecure(cachedKey, data));
+		} catch (InvalidProtocolBufferException e) {
+			throw new RuntimeException("Problem decrypting "+handle);
 		}
-
-		return item;
+		result.setMetadata(meta);
+		return;
 	}
 	
-	public RSAKeyContents getMostRecentRSAKey(String regHandle, int size) throws SuitableMatchFailedException {
-		Map<MetadataTokens,Object> criteria = new HashMap<MetadataTokens,Object>();
-		criteria.put(MetadataTokens.key, true);
-		criteria.put(MetadataTokens.forPublication, false);
-		criteria.put(MetadataTokens.keyGenerationAlgorithm, "RSA");
-		criteria.put(MetadataTokens.RSAKeySize, size);
-		
-		List<Object> list = getMatchList(criteria);
-		if(list.size() == 0) throw new SuitableMatchFailedException();
-		if(list.size()==1) return (RSAKeyContents) list.get(0);
-		
-		// more than one - find the date which is most recent
-		RSAKeyContents item = (RSAKeyContents) list.get(0);
-		Iterator<Object> iter = list.iterator();
-		while(iter.hasNext()){
-			RSAKeyContents c = (RSAKeyContents)iter.next();
-			if(c.metadata.createdOn.after(item.metadata.createdOn)){
-				item = c;
-			}
-		}
-
-		return item;
-	}
-	
-	public Curve25519KeyContents getMostRecentC2Key(String regHandle) throws SuitableMatchFailedException {
-		Map<MetadataTokens,Object> criteria = new HashMap<MetadataTokens,Object>();
-		criteria.put(MetadataTokens.key, true);
-		criteria.put(MetadataTokens.forPublication, false);
-		criteria.put(MetadataTokens.keyGenerationAlgorithm, "Curve25519");
-		
-		List<Object> list = getMatchList(criteria);
-		if(list.size() == 0) throw new SuitableMatchFailedException();
-		if(list.size()==1) return (Curve25519KeyContents) list.get(0);
-		
-		// more than one - find the date which is most recent
-		Curve25519KeyContents item = (Curve25519KeyContents) list.get(0);
-		Iterator<Object> iter = list.iterator();
-		while(iter.hasNext()){
-			Curve25519KeyContents c = (Curve25519KeyContents)iter.next();
-			if(c.metadata.createdOn.after(item.metadata.createdOn)){
-				item = c;
-			}
-		}
-
-		return item;
-	}
-
-	/**
-	 * Return a (possibly empty) list of all matches
-	 * 
-	 * @param searchCriteria
-	 * @return
-	 */
-	public List<Object> getMatchList(Map<MetadataTokens,Object> searchCriteria){
-		
-		List<Object> results = new ArrayList<Object>();
-		Iterator<Handle> iter = this.getMetadataMap().keySet().iterator();
-		while(iter.hasNext()){
-			Handle h = iter.next();
-			Metadata meta = this.getMetadataMap().get(h);
-			if(meta.match(searchCriteria)){
-				SecureData data = this.getSecureMap().get(h);
-				try {
-					results.add(StorageUtil.getSecure(cachedKey, data));
-				} catch (InvalidProtocolBufferException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		return results;
-	}
 }

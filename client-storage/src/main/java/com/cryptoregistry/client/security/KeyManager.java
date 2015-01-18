@@ -5,6 +5,7 @@
  */
 package com.cryptoregistry.client.security;
 
+
 import com.cryptoregistry.passwords.Password;
 import com.cryptoregistry.passwords.SensitiveBytes;
 
@@ -38,5 +39,7 @@ public interface KeyManager {
 	 * @return
 	 */
 	public String getDatastoreFolder();
+	
+	//public Properties getProperties();
 
 }

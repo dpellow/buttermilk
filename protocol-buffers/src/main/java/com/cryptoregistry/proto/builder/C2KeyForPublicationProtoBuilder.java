@@ -11,7 +11,8 @@ import com.cryptoregistry.protos.Buttermilk.KeyMetadataProto;
 import com.google.protobuf.ByteString;
 
 /**
- * Make a proto buffer out of an C25519KeyForPublication instance. 
+ * Make a proto buffer out of an C25519KeyForPublication instance - 
+ * safe to use with contents, only sends public part
  * 
  * @author Dave
  *

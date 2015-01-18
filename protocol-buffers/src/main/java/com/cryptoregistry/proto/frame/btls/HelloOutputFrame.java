@@ -16,9 +16,9 @@ public class HelloOutputFrame extends OutputFrameBase implements OutputFrame {
 	final String regHandle; // assumed to be UTF-8
 	final String keyHandle; // assumed to be UTF-8
 
-	public HelloOutputFrame(byte contentType, int subcode, String regHandle, String keyHandle) {
+	public HelloOutputFrame(int contentType, int subcode, String regHandle, String keyHandle) {
 		super();
-		this.contentType = contentType;
+		this.contentType = (byte) contentType;
 		this.regHandle = regHandle;
 		this.keyHandle = keyHandle;
 		this.subcode = subcode; 

@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 
 import com.cryptoregistry.btls.io.FrameInputStream;
 import com.cryptoregistry.btls.io.FrameOutputStream;
-import com.cryptoregistry.client.security.DataStore;
+import com.cryptoregistry.client.security.Datastore;
 
 /**
  * 
@@ -31,7 +31,7 @@ public class SecureSocket extends Socket {
 	
 	protected FrameOutputStream fout;
 	protected FrameInputStream fin;
-	protected DataStore ds; // our key cache, must be set prior to use
+	protected Datastore ds; // our key cache, must be set prior to use
 
 	//package-protected constructor, used only by server socket
 	SecureSocket() throws IOException {
@@ -87,7 +87,7 @@ public class SecureSocket extends Socket {
 		}
 	}
 
-	public void setDs(DataStore ds) {
+	public void setDs(Datastore ds) {
 		this.ds = ds;
 	}
 

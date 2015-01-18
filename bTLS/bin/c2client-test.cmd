@@ -60,12 +60,15 @@ set "CLASSPATH=%CLASSPATH%;target\bTLS-1.0.0.jar"
 set "CLASSPATH=%CLASSPATH%;target\protobuf-java-2.5.0.jar"
 set "CLASSPATH=%CLASSPATH%;target\protocol-buffers-1.0.0.jar"
 set "CLASSPATH=%CLASSPATH%;target\bTLS-1.0.0.jar"
-set "CLASSPATH=%CLASSPATH%;target\log4j-1.2.16.jar"
+set "CLASSPATH=%CLASSPATH%;target\client-storage-1.0.0.jar"
+set "CLASSPATH=%CLASSPATH%;target\je-6.0.11.jar"
+set "CLASSPATH=%CLASSPATH%;target\log4j-api-2.1.jar"
+set "CLASSPATH=%CLASSPATH%;target\log4j-core-2.1.jar"
 set "CLASSPATH=%CLASSPATH%;target\test-classes
 
 rem echo %CLASSPATH%
 
-set MAINCLASS=com.cryptoregistry.btls.ClientTest
+set MAINCLASS=com.cryptoregistry.btls.client.EchoClient
 set "JAVA_OPTS="
 
 %_RUNJAVA% %JAVA_OPTS% -classpath "%CLASSPATH%" %MAINCLASS% %*

@@ -1,184 +1,181 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.cryptoregistry</groupId>
-    <artifactId>buttermilk</artifactId>
-    <version>1.0.0</version>
-  </parent>
-  <artifactId>bTLS</artifactId>
-  
-   <packaging>jar</packaging>
-  
-  <dependencies>
-  
-  	<dependency>
-  	  <groupId>com.cryptoregistry</groupId>
-   		 <artifactId>buttermilk-core</artifactId>
-        <version>1.0.0</version>
-  	</dependency>
-  	
-  	 <dependency>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.cryptoregistry</groupId>
+		<artifactId>buttermilk</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	<artifactId>bTLS</artifactId>
+
+	<packaging>jar</packaging>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>com.cryptoregistry</groupId>
+			<artifactId>buttermilk-core</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.google.protobuf</groupId>
 			<artifactId>protobuf-java</artifactId>
 			<version>2.5.0</version>
-	</dependency>
-	
-	<dependency>
-      <groupId>com.cryptoregistry</groupId>
-      <artifactId>protocol-buffers</artifactId>
-      <version>LATEST</version>
-    </dependency>
-	
-	<dependency>
-  	  <groupId>asia.redact.bracket.properties</groupId>
-   	  <artifactId>bracket-properties</artifactId>
-      <version>1.3.6</version>
-  	</dependency>
-  	
-  	<dependency>
-  	  <groupId>com.cryptoregistry</groupId>
-   		 <artifactId>client-storage</artifactId>
-        <version>LATEST</version>
-  	</dependency>
-  	
-	<!--  
-        <dependency>
-            <groupId>com.jamonapi</groupId>
-            <artifactId>jamon</artifactId>
-            <version>2.79</version>
-            <scope>test</scope>
-        </dependency>
-   -->
-   
-    <dependency>
-        <groupId>com.github.oxo42</groupId>
-        <artifactId>stateless4j</artifactId>
-        <version>2.5.0</version>
-    </dependency>
-    
-  </dependencies>
-  
-    <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
-        <configuration>
-          <verbose>true</verbose>
-          <fork>false</fork>
-          <source>1.7</source>
-          <target>1.7</target>
-        </configuration>
-      </plugin>
-      
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>2.9</version>
-        <executions>
-          <execution>
-            <id>copy-dependencies</id>
-            <phase>package</phase>
-            <goals>
-              <goal>copy-dependencies</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${project.build.directory}</outputDirectory>
-              <overWriteReleases>false</overWriteReleases>
-              <overWriteSnapshots>false</overWriteSnapshots>
-              <overWriteIfNewer>true</overWriteIfNewer>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      
-      
-     
-     <!--    
-       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <version>1.4</version>
-         
-        <executions>
-          <execution>
-            <id>sign-artifacts</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>sign</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    -->
-      
-       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.9</version>
-        <configuration>
-          <show>private</show>
-          <nohelp>true</nohelp>
-        </configuration>
-      </plugin>
-      
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-            <version>2.2.1</version>
-        <configuration>
-        	 <attach>true</attach>
-        </configuration>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
-	
-	  <url>http://code.google.com/p/buttermilk/</url>
-	   <licenses>
-    	<license>
-      		<name>The Apache Software License, Version 2.0</name>
-      		<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-     		<distribution>repo</distribution>
-   	    </license>
-       </licenses>
+		</dependency>
 
-	  <inceptionYear>2013</inceptionYear>
-	  <organization>
-	  	<name>David R. Smith</name>
-	  	<url>http://code.google.com/p/buttermilk/</url>
-	  </organization>
-	  <scm>
-    	<connection>scm:svn:http://buttermilk.googlecode.com/svn/trunk</connection>
-    	<developerConnection>scm:svn:https://buttermilk.googlecode.com/svn/trunk</developerConnection>
-    	<url>http://buttermilk.googlecode.com/svn/trunk</url>
-  	  </scm>
-	  <developers>
-	  	<developer>
-      		<id>1</id>
-      		<name>David R. Smith</name>
-     		 <email>davesmith.gbs@gmail.com</email>
-    	</developer>
-	  </developers>
-	  <issueManagement>
-	  	<url>http://code.google.com/p/buttermilk/issues/list</url>
-	  	<system>Google Code</system>
-	  </issueManagement>
-	  <ciManagement>
-	  	<system>None</system>
-	  </ciManagement>
-	
-	  <properties>
-   		 <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  	  </properties>
-  
+		<dependency>
+			<groupId>com.cryptoregistry</groupId>
+			<artifactId>protocol-buffers</artifactId>
+			<version>LATEST</version>
+		</dependency>
+
+		<dependency>
+			<groupId>asia.redact.bracket.properties</groupId>
+			<artifactId>bracket-properties</artifactId>
+			<version>1.3.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.cryptoregistry</groupId>
+			<artifactId>client-storage</artifactId>
+			<version>LATEST</version>
+		</dependency>
+		
+		 <dependency>
+    	  	<groupId>com.sleepycat</groupId>
+      		<artifactId>je</artifactId>
+      		<version>6.0.11</version>
+    	</dependency>
+
+		<dependency>
+			<groupId>com.github.oxo42</groupId>
+			<artifactId>stateless4j</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.1</version>
+		</dependency>
+
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<verbose>true</verbose>
+					<fork>false</fork>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.9</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>false</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
+
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-gpg-plugin</artifactId> 
+				<version>1.4</version> <executions> <execution> <id>sign-artifacts</id> <phase>verify</phase> 
+				<goals> <goal>sign</goal> </goals> </execution> </executions> </plugin> -->
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<show>private</show>
+					<nohelp>true</nohelp>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<configuration>
+					<attach>true</attach>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<url>http://code.google.com/p/buttermilk/</url>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<inceptionYear>2013</inceptionYear>
+	<organization>
+		<name>David R. Smith</name>
+		<url>http://code.google.com/p/buttermilk/</url>
+	</organization>
+	<scm>
+		<connection>scm:svn:http://buttermilk.googlecode.com/svn/trunk</connection>
+		<developerConnection>scm:svn:https://buttermilk.googlecode.com/svn/trunk</developerConnection>
+		<url>http://buttermilk.googlecode.com/svn/trunk</url>
+	</scm>
+	<developers>
+		<developer>
+			<id>1</id>
+			<name>David R. Smith</name>
+			<email>davesmith.gbs@gmail.com</email>
+		</developer>
+	</developers>
+	<issueManagement>
+		<url>http://code.google.com/p/buttermilk/issues/list</url>
+		<system>Google Code</system>
+	</issueManagement>
+	<ciManagement>
+		<system>None</system>
+	</ciManagement>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
 </project>

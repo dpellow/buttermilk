@@ -10,69 +10,94 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import com.cryptoregistry.btls.handshake.BasicHandshake;
+import com.cryptoregistry.btls.handshake.Handshake;
+import com.cryptoregistry.btls.handshake.HandshakeFailedException;
+import com.cryptoregistry.btls.handshake.HandshakeProtocol;
+import com.cryptoregistry.c2.CryptoFactory;
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
-import com.cryptoregistry.c2.key.Curve25519KeyForPublication;
-import com.cryptoregistry.proto.frame.InputFrameReader;
-import com.cryptoregistry.proto.frame.btls.C2KeyForPublicationOutputFrame;
+import com.cryptoregistry.client.security.Datastore;
+import com.cryptoregistry.client.storage.BDBDatastore;
+import com.cryptoregistry.client.storage.SimpleKeyManager;
 
 public class BTLSSocketTest {
-
+	
+	/**
+	 * Test the handshake module
+	 * @throws IOException
+	 */
 	@Test
-	public void test0() {
-
-		Curve25519KeyContents clientKey = Configuration.CONFIG.clientKey();
-
-		PipedOutputStream pout = new PipedOutputStream();
-		PipedInputStream pin = new PipedInputStream(16);
-		try {
-			pout.connect(pin);
-			new Thread(new HelloClient(clientKey, pout)).start();
-			new HelloServer(pin).run();
-			
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void test0() throws IOException {
 		
+		String clientDbPath = "C:/Users/Dave/workspace-cryptoregistry/buttermilk/client-storage/data";
+		String serverDbPath = "C:/Users/Dave/workspace-cryptoregistry/buttermilk/client-storage/data2";
+
+		PipedOutputStream clientOut = new PipedOutputStream();
+		PipedOutputStream serverOut = new PipedOutputStream();
+		PipedInputStream clientIn = new PipedInputStream(16);
+		PipedInputStream serverIn = new PipedInputStream(16);
+		// connect them
+		clientOut.connect(serverIn);
+		clientIn.connect(serverOut);
+	
+		new Thread(new Client0(HandshakeProtocol.H2, clientDbPath, clientIn, clientOut)).start();
+		Client0 client0 =	new Client0(serverDbPath, serverIn, serverOut);
+		client0.run();
+	
 		Assert.assertTrue(true);
 	}
 	
-	class HelloClient implements Runnable {
+	
+	class Client0 implements Runnable {
 		
-		OutputStream out;
-		InputStream in;
-		Curve25519KeyContents clientKey;
+		Handshake handshake;
+		Datastore ds = null;
 		
-		HelloClient(Curve25519KeyContents contents, OutputStream out){
-			this.clientKey = contents;
-			this.out=out;
+		// for server
+		public Client0(String path,  InputStream in, OutputStream out){
+			SimpleKeyManager km = new SimpleKeyManager(path);
+			ds = new BDBDatastore(km);
+			handshake = new BasicHandshake(ds);
+			handshake.setIn(in);
+			handshake.setOut(out);
+		}
+		
+		// for client
+		public Client0(HandshakeProtocol hp, String path, InputStream in, OutputStream out){
+			SimpleKeyManager km = new SimpleKeyManager(path);
+			ds = new BDBDatastore(km);
+			handshake = new BasicHandshake(hp, ds);
+			handshake.setIn(in);
+			handshake.setOut(out);
 		}
 
 		@Override
 		public void run() {
-			// 1.0 send our client public key
-				Curve25519KeyForPublication _public = ((Curve25519KeyContents)clientKey).forPublication();
-				C2KeyForPublicationOutputFrame frame = new C2KeyForPublicationOutputFrame(_public);
-				frame.writeFrame(out);
-				System.err.println("Wrote public portion of key");
+			
+			// clean the store from previous efforts
+			BDBDatastore ds = (BDBDatastore)  handshake.getDs();
+			ds.cleanOut();
+			
+			// create a key and store it
+			Curve25519KeyContents c1 = CryptoFactory.INSTANCE.generateKeys();
+			ds.getViews().put(ds.getDefaultRegHandle(), c1);
+			
+			try {
+				handshake.doHandshake();
+				System.err.println("Handshake "+handshake+" complete");
+				
+			} catch (HandshakeFailedException e) {
+				e.printStackTrace();
+			}	
 		}
 	}
 	
-	class HelloServer implements Runnable {
+	@Test
+	public void test1() throws IOException {
 		
-		InputStream in;
-		Curve25519KeyForPublication clientKey;
+		String clientDbPath = "C:/Users/Dave/workspace-cryptoregistry/buttermilk/client-storage/data";
 		
-		HelloServer(InputStream in){
-			this.in=in;
-		}
-
-		@Override
-		public void run() {
-			InputFrameReader reader = new InputFrameReader();
-			clientKey = reader.readC2KeyForPublication(in);
-			System.err.println(clientKey.getDistinguishedHandle());
-		}
-	}		
+		
+	}
 
 }

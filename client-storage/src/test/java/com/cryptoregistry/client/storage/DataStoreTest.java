@@ -1,18 +1,11 @@
 package com.cryptoregistry.client.storage;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.cryptoregistry.Buttermilk;
 import com.cryptoregistry.CryptoKey;
-import com.cryptoregistry.c2.key.Curve25519KeyContents;
-import com.cryptoregistry.client.security.SimpleKeyManager;
 import com.cryptoregistry.client.security.SuitableMatchFailedException;
-import com.cryptoregistry.ec.ECKeyContents;
-import com.cryptoregistry.rsa.RSAKeyContents;
 
 public class DataStoreTest {
 
@@ -24,7 +17,7 @@ public class DataStoreTest {
 		SimpleKeyManager keyManager = new SimpleKeyManager();
 		System.err.println(keyManager);
 		System.err.println(keyManager.keysExist());
-		DataStore ds = new DataStore(keyManager);
+		BDBDatastore ds = new BDBDatastore(keyManager);
 		if(ds != null) Assert.assertTrue(true);
 		
 		try {
@@ -47,56 +40,43 @@ public class DataStoreTest {
 			Assert.assertEquals(ds.getViews().getSecureMap().size(),9);
 			Assert.assertEquals(ds.getViews().getMetadataMap().size(),9);
 			
-			Map<MetadataTokens,Object> criteria = new HashMap<MetadataTokens,Object>();
-			criteria.put(MetadataTokens.key, true);
-			criteria.put(MetadataTokens.forPublication, false);
-			criteria.put(MetadataTokens.keyGenerationAlgorithm, "Curve25519");
+			Criteria criteria = Criteria.c2(regHandle);
 			try {
-				Curve25519KeyContents contents = (Curve25519KeyContents) ds.getViews().getSecure(criteria);
-				Assert.assertNotNull(contents);
+				ds.getViews().get(criteria);
+				Assert.assertNotNull(criteria);
+				Assert.assertNotNull(criteria.result);
+				Assert.assertEquals("Curve25519", criteria.result.getMetadata().getKeyGenerationAlgorithm());
 			} catch (SuitableMatchFailedException e) {
 				Assert.fail();
 			}
 			
 			
-			criteria.put(MetadataTokens.keyGenerationAlgorithm, "EC");
-			criteria.put(MetadataTokens.curveName, "P-256");
+			criteria = Criteria.ec(regHandle);
 			try {
-				ECKeyContents contents = (ECKeyContents) ds.getViews().getSecure(criteria);
-				Assert.assertNotNull(contents);
+				ds.getViews().get(criteria);
+				Assert.assertNotNull(criteria);
+				Assert.assertNotNull(criteria.result);
+				Assert.assertEquals("EC", criteria.result.getMetadata().getKeyGenerationAlgorithm());
+				Assert.assertEquals("P-256", criteria.result.getMetadata().getCurveName());
 			} catch (SuitableMatchFailedException e) {
 				Assert.fail();
 			}
 			
-			criteria.put(MetadataTokens.keyGenerationAlgorithm, "RSA");
-			criteria.put(MetadataTokens.RSAKeySize, 2048);
-			criteria.remove(MetadataTokens.curveName);
+			criteria = Criteria.rsa(regHandle);
 			try {
-				RSAKeyContents contents = (RSAKeyContents) ds.getViews().getSecure(criteria);
-				Assert.assertNotNull(contents);
+				ds.getViews().get(criteria);
+				Assert.assertNotNull(criteria);
+				Assert.assertNotNull(criteria.result);
+				Assert.assertEquals("RSA", criteria.result.getMetadata().getKeyGenerationAlgorithm());
+				Assert.assertEquals("2048", String.valueOf(criteria.result.getMetadata().getRSAKeySize()));
 			} catch (SuitableMatchFailedException e) {
 				Assert.fail();
 			}
-			
-			try {
-				Curve25519KeyContents contents = ds.getViews().getMostRecentC2Key(regHandle);
-				Assert.assertNotNull(contents);
-			} catch (SuitableMatchFailedException e) {
-				e.printStackTrace();
-			}
-			
-			try {
-				ECKeyContents contents = ds.getViews().getMostRecentECKey(regHandle, "P-256");
-				Assert.assertNotNull(contents);
-			} catch (SuitableMatchFailedException e) {
-				e.printStackTrace();
-			}
-			
 			
 	
 		}finally{
 			if(ds != null){
-				ds.closeDb();
+				ds.close();
 			}
 		}
 		

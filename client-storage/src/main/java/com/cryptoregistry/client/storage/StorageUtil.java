@@ -4,18 +4,24 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import com.cryptoregistry.passwords.SensitiveBytes;
 import com.cryptoregistry.proto.reader.C2KeyContentsProtoReader;
+import com.cryptoregistry.proto.reader.C2KeyForPublicationProtoReader;
 import com.cryptoregistry.proto.reader.CryptoContactProtoReader;
 import com.cryptoregistry.proto.reader.ECKeyContentsProtoReader;
+import com.cryptoregistry.proto.reader.ECKeyForPublicationProtoReader;
 import com.cryptoregistry.proto.reader.NamedListProtoReader;
 import com.cryptoregistry.proto.reader.NamedMapProtoReader;
 import com.cryptoregistry.proto.reader.RSAKeyContentsProtoReader;
+import com.cryptoregistry.proto.reader.RSAKeyForPublicationProtoReader;
 import com.cryptoregistry.proto.reader.SignatureProtoReader;
 import com.cryptoregistry.protos.Buttermilk.C2KeyContentsProto;
+import com.cryptoregistry.protos.Buttermilk.C2KeyForPublicationProto;
 import com.cryptoregistry.protos.Buttermilk.CryptoContactProto;
 import com.cryptoregistry.protos.Buttermilk.ECKeyContentsProto;
+import com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto;
 import com.cryptoregistry.protos.Buttermilk.NamedListProto;
 import com.cryptoregistry.protos.Buttermilk.NamedMapProto;
 import com.cryptoregistry.protos.Buttermilk.RSAKeyContentsProto;
+import com.cryptoregistry.protos.Buttermilk.RSAKeyForPublicationProto;
 import com.cryptoregistry.protos.Buttermilk.SignatureProto;
 import com.cryptoregistry.symmetric.AESCBCPKCS7;
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -39,6 +45,11 @@ public class StorageUtil {
 				C2KeyContentsProtoReader reader = new C2KeyContentsProtoReader(proto);
 				return reader.read();
 			}
+			case "C2KeyForPublicationProto": {
+				C2KeyForPublicationProto proto = C2KeyForPublicationProto.parseFrom(bytes);
+				C2KeyForPublicationProtoReader reader = new C2KeyForPublicationProtoReader(proto);
+				return reader.read();
+			}
 			case "CryptoContactProto": {
 				CryptoContactProto proto  = CryptoContactProto.parseFrom(bytes);
 				CryptoContactProtoReader reader = new CryptoContactProtoReader(proto);
@@ -47,6 +58,11 @@ public class StorageUtil {
 			case "ECKeyContentsProto": {
 				ECKeyContentsProto proto = ECKeyContentsProto.parseFrom(bytes);
 				ECKeyContentsProtoReader reader = new ECKeyContentsProtoReader(proto);
+				return reader.read();
+			}
+			case "ECKeyForPublicationProto": {
+				ECKeyForPublicationProto proto = ECKeyForPublicationProto.parseFrom(bytes);
+				ECKeyForPublicationProtoReader reader = new ECKeyForPublicationProtoReader(proto);
 				return reader.read();
 			}
 			case "NamedMapProto": {
@@ -59,14 +75,25 @@ public class StorageUtil {
 				NamedListProtoReader reader = new NamedListProtoReader(proto);
 				return reader.read();
 			}
+			// TODO
 			/**
 			case "NTRUKeyContentsProto": {
-				return NamedListProto.parseFrom(bytes);
+				return NTRUKeyContentsProto.parseFrom(bytes);
+			}
+			*/
+			/**
+			case "NTRUKeyForPublicationProto": {
+				return NTRUKeyForPublicationProto.parseFrom(bytes);
 			}
 			*/
 			case "RSAKeyContentsProto": {
 				RSAKeyContentsProto proto = RSAKeyContentsProto.parseFrom(bytes);
 				RSAKeyContentsProtoReader reader = new RSAKeyContentsProtoReader(proto);
+				return reader.read();
+			}
+			case "RSAKeyForPublicationProto": {
+				RSAKeyForPublicationProto proto = RSAKeyForPublicationProto.parseFrom(bytes);
+				RSAKeyForPublicationProtoReader reader = new RSAKeyForPublicationProtoReader(proto);
 				return reader.read();
 			}
 			case "SignatureProto": {

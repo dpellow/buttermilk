@@ -22,18 +22,20 @@ import com.cryptoregistry.CryptoKeyMetadata;
 import com.cryptoregistry.CryptoKeyWrapper;
 import com.cryptoregistry.KeyMaterials;
 import com.cryptoregistry.ec.*;
-import com.cryptoregistry.client.security.DataStore;
+import com.cryptoregistry.client.security.Datastore;
+import com.cryptoregistry.client.security.DatastoreViews;
 import com.cryptoregistry.client.security.KeyManager;
 import com.cryptoregistry.client.security.SuitableMatchFailedException;
 import com.cryptoregistry.formats.JSONFormatter;
 import com.cryptoregistry.formats.JSONReader;
+import com.sleepycat.je.DatabaseException;
 
 /**
  * 
  * @author Dave
  *
  */
-public class FileBasedDataStore implements DataStore {
+public class FileBasedDataStore implements Datastore {
 
 	final KeyManager keyManager;
 	final File securedKeysFolder;
@@ -136,6 +138,24 @@ public class FileBasedDataStore implements DataStore {
 		}finally{
 			lock.unlock();
 		}
+	}
+
+	@Override
+	public void close() throws DatabaseException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public DatastoreViews getViews() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getDefaultRegHandle() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 

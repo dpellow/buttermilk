@@ -21,9 +21,9 @@ public class C2KeyForPublicationOutputFrame extends OutputFrameBase implements O
 	final int subcode;
 	final Curve25519KeyForPublication keyContents;
 	
-	public C2KeyForPublicationOutputFrame(byte contentType, int subcode, Curve25519KeyForPublication keyContents) {
+	public C2KeyForPublicationOutputFrame(int contentType, int subcode, Curve25519KeyForPublication keyContents) {
 		this.keyContents = keyContents; 
-		this.contentType = contentType;
+		this.contentType = (byte) contentType;
 		this.subcode = subcode;
 	}
 

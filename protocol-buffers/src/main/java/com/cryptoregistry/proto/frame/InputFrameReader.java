@@ -13,6 +13,8 @@ import com.google.protobuf.ByteString;
 public class InputFrameReader extends InputFrameBase {
 
 	public InputFrameReader() {}
+	
+	
 
 	public Curve25519KeyForPublication readC2KeyForPublication(InputStream in){
 		try {
