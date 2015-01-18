@@ -80,7 +80,7 @@ public class BTLSSocketTest {
 			
 			// create a key and store it
 			Curve25519KeyContents c1 = CryptoFactory.INSTANCE.generateKeys();
-			ds.getViews().put(ds.getDefaultRegHandle(), c1);
+			ds.getViews().put(ds.getRegHandle(), c1);
 			
 			try {
 				handshake.doHandshake();
@@ -92,12 +92,5 @@ public class BTLSSocketTest {
 		}
 	}
 	
-	@Test
-	public void test1() throws IOException {
-		
-		String clientDbPath = "C:/Users/Dave/workspace-cryptoregistry/buttermilk/client-storage/data";
-		
-		
-	}
 
 }

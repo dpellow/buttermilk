@@ -121,7 +121,7 @@ public class BasicC2KeyExchangeModule extends BaseKeyExchangeModule {
 				HelloOutputFrame frame = new HelloOutputFrame(
 						BTLSProtocol.HANDSHAKE, 
 						BTLSProtocol.SERVER_HELLO,
-						handshake.getDs().getDefaultRegHandle(),
+						handshake.getDs().getRegHandle(),
 						localKey.getHandle());
 				frame.writeFrame(handshake.getOut());
 				logger.trace("Server sent SERVER_HELLO...");
@@ -160,7 +160,7 @@ public class BasicC2KeyExchangeModule extends BaseKeyExchangeModule {
 		}else{
 			// client mode
 			
-			String regHandle = handshake.getDs().getDefaultRegHandle();
+			String regHandle = handshake.getDs().getRegHandle();
 			
 			// 1.0 send the Hello Frame
 			HelloOutputFrame frame = new HelloOutputFrame(

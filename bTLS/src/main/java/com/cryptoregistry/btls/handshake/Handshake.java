@@ -170,7 +170,7 @@ public abstract class Handshake {
 	}
 
 	public String getDefaultRegHandle() {
-		return ds.getDefaultRegHandle();
+		return ds.getRegHandle();
 	}
 
 
