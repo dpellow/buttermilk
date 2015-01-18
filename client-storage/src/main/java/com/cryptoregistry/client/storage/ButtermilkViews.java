@@ -71,7 +71,7 @@ public class ButtermilkViews implements DatastoreViews {
 	 * Create the data bindings and collection views.
 	 */
 
-	public ButtermilkViews(ButtermilkDatabase db, SensitiveBytes cachedKey) {
+	public ButtermilkViews(ButtermilkBDBDatabase db, SensitiveBytes cachedKey) {
 
 		this.cachedKey = cachedKey;
 		ClassCatalog catalog = db.getClassCatalog();

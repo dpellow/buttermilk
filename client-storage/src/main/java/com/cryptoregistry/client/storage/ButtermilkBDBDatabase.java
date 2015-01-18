@@ -21,7 +21,7 @@ import com.cryptoregistry.passwords.SensitiveBytes;
  *
  * @author Dave Smith
  */
-public class ButtermilkDatabase {
+public class ButtermilkBDBDatabase {
 
     private static final String CLASS_CATALOG = "java_class_catalog";
     private static final String SecureStore = "secure_store";
@@ -42,7 +42,7 @@ public class ButtermilkDatabase {
     /**
      * Open all storage containers, indices, and catalogs.
      */
-    public ButtermilkDatabase(String homeDirectory, SensitiveBytes cachedKey)
+    public ButtermilkBDBDatabase(String homeDirectory, SensitiveBytes cachedKey)
         throws DatabaseException {
 
     	this.cachedKey = cachedKey;

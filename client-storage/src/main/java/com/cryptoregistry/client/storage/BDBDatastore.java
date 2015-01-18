@@ -18,8 +18,8 @@ import com.sleepycat.je.DatabaseException;
  */
 public class BDBDatastore implements Datastore {
 
-	protected ButtermilkDatabase db;
-	protected ButtermilkViews views;
+	protected ButtermilkBDBDatabase db;
+	protected DatastoreViews views;
 	protected KeyManager keyManager;
 	protected String regHandle;
 	
@@ -93,7 +93,7 @@ public class BDBDatastore implements Datastore {
 			dbPathFile.mkdirs();
 		}
 
-		db = new ButtermilkDatabase(dataHomeDir, cachedKey);
+		db = new ButtermilkBDBDatabase(dataHomeDir, cachedKey);
 		views = new ButtermilkViews(db, cachedKey);
 	}
 
@@ -103,23 +103,17 @@ public class BDBDatastore implements Datastore {
 	@Override
 	public void close() throws DatabaseException {
 		db.close();
-		views.clearCachedKey();
 	}
 
-	public ButtermilkDatabase getDb() {
+	public ButtermilkBDBDatabase getDb() {
 		return db;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.cryptoregistry.client.storage.Datastore#getViews()
-	 */
-	@Override
 	public DatastoreViews getViews() {
 		return views;
 	}
 
-	@Override
-	public String getDefaultRegHandle() {
+	public String getRegHandle() {
 		return regHandle;
 	}
 
@@ -134,5 +128,6 @@ public class BDBDatastore implements Datastore {
 		this.getViews().getMetadataMap().clear();
 		this.getViews().getSecureMap().clear();
 	}
+
 	
 }
