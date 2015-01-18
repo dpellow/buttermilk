@@ -1,3 +1,8 @@
+/*
+ *  This file is part of Buttermilk(TM) 
+ *  Copyright 2015 David R. Smith for cryptoregistry.com
+ *
+ */
 package com.cryptoregistry.client.storage;
 
 import java.util.concurrent.locks.ReentrantLock;
@@ -26,6 +31,12 @@ import com.cryptoregistry.protos.Buttermilk.SignatureProto;
 import com.cryptoregistry.symmetric.AESCBCPKCS7;
 import com.google.protobuf.InvalidProtocolBufferException;
 
+/**
+ * Helper class for dealing with encryption
+ * 
+ * @author Dave
+ *
+ */
 public class StorageUtil {
 
 	private static ReentrantLock lock0 = new ReentrantLock();

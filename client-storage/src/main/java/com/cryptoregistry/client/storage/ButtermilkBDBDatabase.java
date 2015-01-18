@@ -13,6 +13,7 @@ import com.sleepycat.je.DatabaseConfig;
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.je.Environment;
 import com.sleepycat.je.EnvironmentConfig;
+import com.cryptoregistry.client.security.BDBDatabaseBackend;
 import com.cryptoregistry.passwords.SensitiveBytes;
 
 
@@ -21,7 +22,7 @@ import com.cryptoregistry.passwords.SensitiveBytes;
  *
  * @author Dave Smith
  */
-public class ButtermilkBDBDatabase {
+public class ButtermilkBDBDatabase implements BDBDatabaseBackend {
 
     private static final String CLASS_CATALOG = "java_class_catalog";
     private static final String SecureStore = "secure_store";
@@ -107,10 +108,11 @@ public class ButtermilkBDBDatabase {
         return javaCatalog;
     }
     
-    /**
-     * Return the secure database
-     */
-    public final Database getSecureDatabase() {
+    /* (non-Javadoc)
+	 * @see com.cryptoregistry.client.storage.DatabaseBackend#getSecureDatabase()
+	 */
+    @Override
+	public final Database getSecureDatabase() {
         return secureDb;
     }
     
@@ -118,14 +120,19 @@ public class ButtermilkBDBDatabase {
   //      return keyGenAlgDb;
   //  }
 
-    public final Database getMetadataDatabase() {
+    /* (non-Javadoc)
+	 * @see com.cryptoregistry.client.storage.DatabaseBackend#getMetadataDatabase()
+	 */
+    @Override
+	public final Database getMetadataDatabase() {
         return metadataDb;
     }
 
-	/**
-     * Close all databases and the environment.
-     */
-    public void close() throws DatabaseException {
+	/* (non-Javadoc)
+	 * @see com.cryptoregistry.client.storage.DatabaseBackend#close()
+	 */
+    @Override
+	public void close() throws DatabaseException {
     	
     	// secondary
     //	this.keyGenAlgDb.close();

@@ -1,9 +1,20 @@
+/*
+ *  This file is part of Buttermilk(TM) 
+ *  Copyright 2013 David R. Smith for cryptoregistry.com
+ *
+ */
 package com.cryptoregistry.client.storage;
 
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * used for finding the encrypted version of same 
+ * 
+ * @author Dave
+ *
+ */
 public class Metadata implements Serializable {
 
 	private static final long serialVersionUID = 1L;

@@ -1,4 +1,10 @@
+/*
+ *  This file is part of Buttermilk(TM) 
+ *  Copyright 2015 David R. Smith for cryptoregistry.com
+ *
+ */
 package com.cryptoregistry.client.security;
+
 import java.util.Map;
 
 import com.cryptoregistry.CryptoContact;

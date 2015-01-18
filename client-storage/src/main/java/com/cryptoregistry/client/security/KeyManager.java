@@ -1,6 +1,6 @@
 /*
  *  This file is part of Buttermilk(TM) 
- *  Copyright 2014 David R. Smith for cryptoregistry.com
+ *  Copyright 2015 David R. Smith for cryptoregistry.com
  *
  */
 package com.cryptoregistry.client.security;

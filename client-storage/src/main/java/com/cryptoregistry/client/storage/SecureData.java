@@ -10,7 +10,6 @@ import java.util.Arrays;
 
 /**
  * The secure tuple has a byte array for the encrypted data and its own IV per record. 
- * Unique IVs allow more algorithms to be used for encryption. 
  *  
  * @author Dave
  *

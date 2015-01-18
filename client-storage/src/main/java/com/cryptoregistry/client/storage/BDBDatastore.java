@@ -2,6 +2,7 @@ package com.cryptoregistry.client.storage;
 
 import java.io.File;
 
+import com.cryptoregistry.client.security.BDBDatabaseBackend;
 import com.cryptoregistry.client.security.Datastore;
 import com.cryptoregistry.client.security.DatastoreViews;
 import com.cryptoregistry.client.security.KeyManager;
@@ -105,7 +106,7 @@ public class BDBDatastore implements Datastore {
 		db.close();
 	}
 
-	public ButtermilkBDBDatabase getDb() {
+	public BDBDatabaseBackend getDb() {
 		return db;
 	}
 

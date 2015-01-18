@@ -7,6 +7,12 @@ package com.cryptoregistry.client.storage;
 
 import java.io.Serializable;
 
+/**
+ * Key into the secure hash map
+ * 
+ * @author Dave
+ *
+ */
 public class SecureKey implements Serializable {
 
 	private static final long serialVersionUID = 1L;

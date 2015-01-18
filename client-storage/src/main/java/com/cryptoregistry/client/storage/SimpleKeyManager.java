@@ -23,13 +23,19 @@ import com.cryptoregistry.passwords.SensitiveBytes;
 import com.cryptoregistry.symmetric.SymmetricKeyContents;
 
 /**
+ *<p>KeyManager's deal with the task of unlocking the Datastore contents. This
+ *simple one just uses a key stored on the file system and an obfuscated
+ *password found in an associated properties file</p>
+ *
  * <p>
- * When initialized with the no-arg constructor it looks for configuration based on a "BUTTERMILK_HOME" environment variable. This should
+ * When initialized with the no-arg constructor it looks for configuration 
+ * based on a "BUTTERMILK_HOME" environment variable. This should
  * be set to a folder with buttermilk.properties and a symmetric key.
  * </p>
  * 
  * <p>
- * The alternative is to initialize the store location with a path passed in via the other constructor.
+ * The alternative is to initialize the store location with a path 
+ * passed in via the other constructor.
  * </p>
  * 
  * 
