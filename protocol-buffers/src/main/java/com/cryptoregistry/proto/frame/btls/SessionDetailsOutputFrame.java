@@ -9,7 +9,7 @@ import com.cryptoregistry.proto.frame.OutputFrameBase;
 import com.cryptoregistry.protos.Buttermilk.SessionDetailsProto;
 
 /**
- * Used with the Handshake contentType to send details about the session such as the session ID.
+ * Used with the Handshake contentType to send an encapsulated ephemeral key
  * 
  * @author Dave
  *
@@ -18,9 +18,9 @@ public class SessionDetailsOutputFrame extends OutputFrameBase implements Output
 
 	final byte contentType;
 	final int subcode;
-	final String sessionId;
-	final byte[] sessionKey;
-	final String sessionSymmetricAlg; // for future session encryptions
+	final String sessionId; // id associated with this key encapsulation
+	final byte[] sessionKey; // encrypted bytes
+	final String sessionSymmetricAlg; // what was used for the key encapsulation
 	final byte [] iv; // optional, depends on alg used for encrypting sessionKey
 
 	
