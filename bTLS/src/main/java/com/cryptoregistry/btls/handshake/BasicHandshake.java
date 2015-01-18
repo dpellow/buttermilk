@@ -12,8 +12,7 @@ import com.cryptoregistry.client.security.Datastore;
 
 public class BasicHandshake extends Handshake {
 
-	static final Logger logger = LogManager.getLogger(BasicHandshake.class
-			.getName());
+	static final Logger logger = LogManager.getLogger(BasicHandshake.class.getName());
 
 	private BasicHandshake() {
 		super();

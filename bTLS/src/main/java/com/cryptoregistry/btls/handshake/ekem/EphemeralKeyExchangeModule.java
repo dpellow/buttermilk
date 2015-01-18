@@ -16,5 +16,5 @@ import com.cryptoregistry.btls.handshake.kem.ExchangeFailedException;
  */
 public interface EphemeralKeyExchangeModule {
 
-	public void exchange() throws ExchangeFailedException;
+	public boolean exchange() throws ExchangeFailedException;
 }

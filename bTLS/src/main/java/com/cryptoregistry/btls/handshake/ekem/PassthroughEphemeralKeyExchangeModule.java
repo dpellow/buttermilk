@@ -7,15 +7,17 @@ package com.cryptoregistry.btls.handshake.ekem;
 
 import com.cryptoregistry.btls.handshake.kem.ExchangeFailedException;
 
-public class PassthroughEphemeralKeyExchangeModule implements EphemeralKeyExchangeModule {
+public class PassthroughEphemeralKeyExchangeModule extends BaseEKEM {
 
 	public PassthroughEphemeralKeyExchangeModule() {
+		super();
 	}
 
 	@Override
-	public void exchange() throws ExchangeFailedException {
-		// do nothing
-
+	public boolean exchange() throws ExchangeFailedException {
+		// always returns true
+		return true;
 	}
 
+	
 }

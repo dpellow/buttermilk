@@ -37,7 +37,7 @@ import com.google.protobuf.ByteString;
  * @author Dave
  *
  */
-public class BasicC2KeyExchangeModule extends BaseKeyExchangeModule {
+public class BasicC2KeyExchangeModule extends BaseKEM {
 	
 	static final Logger logger = LogManager.getLogger(BasicC2KeyExchangeModule.class.getName());
 
@@ -310,7 +310,7 @@ public class BasicC2KeyExchangeModule extends BaseKeyExchangeModule {
 	
 	/**
 	 * The bytes from the key agreement are run through a SHA256 digest and stored in a Symmetric Key container.
-	 * If resultKey is non-null, this method returns immediately
+	 * If resultKey is non-null, this method returns immediately so we don't overwrite a key
 	 * 
 	 */
 	protected void buildKey() {

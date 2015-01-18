@@ -13,7 +13,7 @@ import java.io.OutputStream;
 import com.cryptoregistry.btls.BTLSProtocol;
 import com.cryptoregistry.btls.handshake.ekem.EphemeralKeyExchangeModule;
 import com.cryptoregistry.btls.handshake.init.Autoloader;
-import com.cryptoregistry.btls.handshake.kem.BaseKeyExchangeModule;
+import com.cryptoregistry.btls.handshake.kem.BaseKEM;
 import com.cryptoregistry.client.security.Datastore;
 import com.cryptoregistry.symmetric.SymmetricKeyContents;
 import com.sleepycat.je.DatabaseException;
@@ -32,13 +32,14 @@ public abstract class Handshake {
 	protected OutputStream out;
 	protected Datastore ds; // location of our key cache
 	protected Autoloader autoloader;
-	protected BaseKeyExchangeModule kem; // asymmetric key exchanger encapsulation
-	protected KeyValidator validator; // key validation, for example checking signatures
-	protected EphemeralKeyExchangeModule ekem; // ephemeral key exchanger
+	protected BaseKEM kem; // asymmetric key exchanger module
+	protected KeyValidator validator; // key validation, for example for checking third party signatures
+	protected EphemeralKeyExchangeModule ekem; // ephemeral key exchanger, might be optional
 	
 	protected boolean server; // our role, true if server, else false for client
 	
-	protected SymmetricKeyContents secretKey;
+	protected SymmetricKeyContents sharedSecretKey; // may or may not be set
+	protected SymmetricKeyContents ephemeralSecretKey; // may or may not be set; if set, it is used
 	
 	public abstract void doHandshake() throws HandshakeFailedException;
 	
@@ -67,11 +68,11 @@ public abstract class Handshake {
 		this.ds = ds;
 	}
 
-	public BaseKeyExchangeModule getKem() {
+	public BaseKEM getKem() {
 		return kem;
 	}
 
-	public void setKem(BaseKeyExchangeModule kem) {
+	public void setKem(BaseKEM kem) {
 		this.kem = kem;
 	}
 

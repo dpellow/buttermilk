@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.cryptoregistry.btls.handshake.init.AutoloadEvent;
 import com.cryptoregistry.btls.handshake.init.AutoloadListener;
-import com.cryptoregistry.btls.handshake.kem.BaseKeyExchangeModule;
+import com.cryptoregistry.btls.handshake.kem.BaseKEM;
 import com.cryptoregistry.btls.handshake.kem.KeyExchangeEvent;
 import com.cryptoregistry.btls.handshake.kem.KeyExchangeListener;
 import com.cryptoregistry.btls.io.FrameInputStream;
@@ -313,7 +313,7 @@ class SecureSocketWrapper extends Socket implements KeyExchangeListener, Autoloa
 	@Override
 	public void autoloadCompleted(AutoloadEvent evt) {
 		logger.trace("autoload completed, setting key exchange listener dynamically");
-		BaseKeyExchangeModule mod = evt.getHandshake().getKem();
+		BaseKEM mod = evt.getHandshake().getKem();
 		mod.addKeyExchangeListener(this);
 	}
 

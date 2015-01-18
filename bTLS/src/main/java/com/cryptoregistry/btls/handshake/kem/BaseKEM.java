@@ -16,11 +16,11 @@ import com.cryptoregistry.btls.handshake.UnexpectedCodeException;
  * @author Dave
  *
  */
-public class BaseKeyExchangeModule implements KeyExchangeModule {
+public class BaseKEM implements KeyExchangeModule {
 	
 	protected Set<KeyExchangeListener> exchangeListeners;
 
-	public BaseKeyExchangeModule() {
+	public BaseKEM() {
 		exchangeListeners = new HashSet<KeyExchangeListener>();
 	}
 	
