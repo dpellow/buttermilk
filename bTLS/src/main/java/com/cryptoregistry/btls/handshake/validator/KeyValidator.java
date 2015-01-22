@@ -3,9 +3,9 @@
  *  Copyright 2011-2014 David R. Smith All Rights Reserved.
  *
  */
-package com.cryptoregistry.btls.handshake;
+package com.cryptoregistry.btls.handshake.validator;
 
-interface KeyValidator {
+public interface KeyValidator {
 
-	boolean validate();
+	void validate();
 }

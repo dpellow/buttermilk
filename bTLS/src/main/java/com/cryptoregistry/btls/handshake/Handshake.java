@@ -11,15 +11,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import com.cryptoregistry.btls.BTLSProtocol;
-import com.cryptoregistry.btls.handshake.ekem.EphemeralKeyExchangeModule;
 import com.cryptoregistry.btls.handshake.init.Autoloader;
 import com.cryptoregistry.btls.handshake.kem.BaseKEM;
+import com.cryptoregistry.btls.handshake.validator.KeyValidator;
 import com.cryptoregistry.client.security.Datastore;
 import com.cryptoregistry.symmetric.SymmetricKeyContents;
 import com.sleepycat.je.DatabaseException;
 
 /**
- * Classes that encapsulate handshake logic can extend this container
+ * Classes that encapsulate handshake logic should extend this container
  * 
  * @author Dave
  *
@@ -34,7 +34,6 @@ public abstract class Handshake {
 	protected Autoloader autoloader;
 	protected BaseKEM kem; // asymmetric key exchanger module
 	protected KeyValidator validator; // key validation, for example for checking third party signatures
-	protected EphemeralKeyExchangeModule ekem; // ephemeral key exchanger, might be optional
 	
 	protected boolean server; // our role, true if server, else false for client
 	
@@ -83,15 +82,6 @@ public abstract class Handshake {
 	public void setValidator(KeyValidator validator) {
 		this.validator = validator;
 	}
-
-	public EphemeralKeyExchangeModule getEkem() {
-		return ekem;
-	}
-
-	public void setEkem(EphemeralKeyExchangeModule ekem) {
-		this.ekem = ekem;
-	}
-
 
 	public boolean isServer() {
 		return server;
@@ -150,6 +140,8 @@ public abstract class Handshake {
     }
 	
 	/**
+	 * Called by client only.
+	 * 
 	 * byte 1 = 	"b" 
 	 * byte 2 = 	BTLSProtocol.HANDSHAKE
 	 * bytes 3-4 =  HandshakeProtocol (as a short)
@@ -174,21 +166,17 @@ public abstract class Handshake {
 		return ds.getRegHandle();
 	}
 
-
 	public HandshakeProtocol getHp() {
 		return hp;
 	}
-
 
 	public void setHp(HandshakeProtocol hp) {
 		this.hp = hp;
 	}
 
-
 	public Autoloader getAutoloader() {
 		return autoloader;
 	}
-
 
 	public void setAutoloader(Autoloader autoloader) {
 		this.autoloader = autoloader;

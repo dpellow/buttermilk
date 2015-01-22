@@ -3,20 +3,20 @@
  *  Copyright 2011-2014 David R. Smith All Rights Reserved.
  *
  */
-package com.cryptoregistry.btls.handshake;
+package com.cryptoregistry.btls.handshake.validator;
 
-public class PassthroughKeyValidator implements KeyValidator {
+public class PassthroughKeyValidator extends BaseKeyValidator {
 
 	public PassthroughKeyValidator() {
 	}
 
 	/**
-	 * Always returns true
+	 * Does nothing
 	 * 
 	 */
 	@Override
-	public boolean validate() {
-		return true;
+	public void validate() {
+		
 	}
 
 }

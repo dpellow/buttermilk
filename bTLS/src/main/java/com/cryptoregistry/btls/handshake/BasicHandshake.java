@@ -47,42 +47,37 @@ public class BasicHandshake extends Handshake {
 	@Override
 	public void doHandshake() throws HandshakeFailedException {
 
-		if (this.isServer()) {
-			try {
-
-				logger.trace("Entering Autoloader.load()");
-				autoloader.load();
-				logger.trace("Exiting Autoloader.load()");
-
-				logger.trace("Entering KEM.exchange()");
-				kem.exchange();
-				logger.trace("Exiting KEM.exchange()");
-
-				validator.validate();
-				ekem.exchange();
-			} catch (Exception e) {
-				throw new HandshakeFailedException(e);
-			}
-		} else {
+		if (!isServer()) {
 			try {
 
 				logger.trace("calling start protocol...");
 				startProtocol();
 
-				logger.trace("Entering Client Autoloader.load()");
-				autoloader.load();
-				logger.trace("Exiting Client Autoloader.load()");
-
-				logger.trace("Entering Client KEM.exchange()");
-				kem.exchange();
-				logger.trace("Exiting Client KEM.exchange()");
-
-				validator.validate();
-				ekem.exchange();
-
 			} catch (Exception e) {
 				throw new HandshakeFailedException(e);
 			}
 		}
+		
+		try {
+
+			logger.trace("Entering Autoloader.load()");
+			autoloader.load();
+			logger.trace("Exiting Autoloader.load()");
+
+			logger.trace("Entering KEM.exchange()");
+			kem.exchange();
+			logger.trace("Exiting KEM.exchange()");
+
+			logger.trace("Entering validator.validate()");
+			validator.validate();
+			logger.trace("Exiting validator.validate()");
+			
+			
+		} catch (Exception e) {
+			throw new HandshakeFailedException(e);
+		}
+		
+		
+		
 	}
 }
