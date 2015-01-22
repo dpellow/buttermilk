@@ -19,17 +19,17 @@ import com.cryptoregistry.client.security.Datastore;
 
 /**
  * Instead of extending Socket, bTLS uses the Decorator pattern on sockets to
- * wrap the default SocketImpl class with a wrapper. The wrapper delegates most
+ * wrap the default SocketImpl class. The wrapper delegates most
  * of Socket's methods and overrides a few to return FrameInputStream and
- * FrameOutputStreams for I/O and control close().
+ * FrameOutputStreams for I/O, and also to override close().
  * 
  * @author Dave
  *
  */
-public class ClientSocketSecureConnector {
+public class SecureClientSocketBuilder {
 
 	static final Logger logger = LogManager
-			.getLogger(ClientSocketSecureConnector.class.getName());
+			.getLogger(SecureClientSocketBuilder.class.getName());
 
 	final Socket socket;
 	final Datastore ds;
@@ -41,7 +41,7 @@ public class ClientSocketSecureConnector {
 	 * @param ds
 	 * @param client
 	 */
-	ClientSocketSecureConnector(Datastore ds, Socket client) {
+	SecureClientSocketBuilder(Datastore ds, Socket client) {
 		this.socket = client;
 		this.ds = ds;
 		this.protocol = null;
@@ -54,7 +54,7 @@ public class ClientSocketSecureConnector {
 	 * @param ds
 	 * @param client
 	 */
-	public ClientSocketSecureConnector(HandshakeProtocol protocol,
+	public SecureClientSocketBuilder(HandshakeProtocol protocol,
 			Datastore ds, Socket client) {
 		this.socket = client;
 		this.ds = ds;
@@ -67,7 +67,7 @@ public class ClientSocketSecureConnector {
 	 * @return
 	 * @throws HandshakeFailedException
 	 */
-	public Socket connectSecure() throws HandshakeFailedException, IOException {
+	public Socket buildSecure() throws HandshakeFailedException, IOException {
 
 		// wrapper listens for events in handshake subcomponents
 		SecureSocketWrapper wrapper = new SecureSocketWrapper(socket);
@@ -89,7 +89,7 @@ public class ClientSocketSecureConnector {
 	 * @return
 	 * @throws HandshakeFailedException
 	 */
-	Socket connectServerSecure() throws HandshakeFailedException, IOException {
+	Socket buildServerSecure() throws HandshakeFailedException, IOException {
 		// wrapper listens for events in handshake subcomponents
 		SecureSocketWrapper wrapper = new SecureSocketWrapper(socket);
 		BasicHandshake h = new BasicHandshake(ds);

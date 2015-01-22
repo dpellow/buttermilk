@@ -22,6 +22,8 @@ import com.cryptoregistry.btls.handshake.init.AutoloadListener;
 import com.cryptoregistry.btls.handshake.kem.BaseKEM;
 import com.cryptoregistry.btls.handshake.kem.KeyExchangeEvent;
 import com.cryptoregistry.btls.handshake.kem.KeyExchangeListener;
+import com.cryptoregistry.btls.handshake.validator.ValidationEvent;
+import com.cryptoregistry.btls.handshake.validator.ValidationListener;
 import com.cryptoregistry.btls.io.FrameInputStream;
 import com.cryptoregistry.btls.io.FrameOutputStream;
 import com.cryptoregistry.symmetric.SymmetricKeyContents;
@@ -33,7 +35,7 @@ import com.cryptoregistry.symmetric.SymmetricKeyContents;
  *
  */
 
-class SecureSocketWrapper extends Socket implements KeyExchangeListener, AutoloadListener {
+class SecureSocketWrapper extends Socket implements AutoloadListener, KeyExchangeListener, ValidationListener {
 
 	static final Logger logger = LogManager.getLogger(SecureSocketWrapper.class.getName());
 	
@@ -41,7 +43,8 @@ class SecureSocketWrapper extends Socket implements KeyExchangeListener, Autoloa
 	protected FrameOutputStream fout;
 	protected FrameInputStream fin;
 
-	protected SymmetricKeyContents contents;
+	protected SymmetricKeyContents secretKeyExchangeContents;
+	protected SymmetricKeyContents ephemeralKeyExchangeContents;
 	
 	
 	public SecureSocketWrapper(Socket client) {
@@ -293,15 +296,21 @@ class SecureSocketWrapper extends Socket implements KeyExchangeListener, Autoloa
 	 * 
 	 */
 	@Override
-	public void keyExchangeCompleted(KeyExchangeEvent evt) {
-		logger.trace("Key exchange completed, setting streams...");
-		contents = evt.getContents();
-		try {
-			fin = new FrameInputStream(client.getInputStream(), contents.getBytes());
-			fout = new FrameOutputStream(client.getOutputStream(), contents.getBytes());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void secretExchangeCompleted(KeyExchangeEvent evt) {
+		logger.trace("secret exchange completed...");
+		secretKeyExchangeContents = evt.getContents();
+		//try {
+		//	fin = new FrameInputStream(client.getInputStream(), contents.getBytes());
+		//	fout = new FrameOutputStream(client.getOutputStream(), contents.getBytes());
+		//} catch (IOException e) {
+		//	e.printStackTrace();
+		//}
+	}
+	
+	@Override
+	public void ephemeralExchangeCompleted(KeyExchangeEvent evt) {
+		logger.trace("ephemeral Key exchange completed...");
+		ephemeralKeyExchangeContents = evt.getContents();
 		
 	}
 
@@ -315,6 +324,31 @@ class SecureSocketWrapper extends Socket implements KeyExchangeListener, Autoloa
 		logger.trace("autoload completed, setting key exchange listener dynamically");
 		BaseKEM mod = evt.getHandshake().getKem();
 		mod.addKeyExchangeListener(this);
+	}
+
+	/**
+	 * Called when the validation module completes. Evt will have the success flag.
+	 * If successful, we'll set the streams or else throw an exception
+	 */
+	@Override
+	public void validationComplete(ValidationEvent evt) {
+		boolean success = evt.isSuccess();
+		SymmetricKeyContents contents = null;
+		if(success){
+			if(this.ephemeralKeyExchangeContents != null) {
+				contents = ephemeralKeyExchangeContents;
+			}else{
+				contents = secretKeyExchangeContents;
+			}
+		}
+		
+		try {
+			fin = new FrameInputStream(client.getInputStream(), contents.getBytes());
+			fout = new FrameOutputStream(client.getOutputStream(), contents.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }

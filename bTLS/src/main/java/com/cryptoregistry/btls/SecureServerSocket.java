@@ -59,9 +59,9 @@ public class SecureServerSocket extends ServerSocket {
 		Socket s = new Socket();
 		implAccept(s);
 	
-		ClientSocketSecureConnector connector = new ClientSocketSecureConnector(ds,s);
+		SecureClientSocketBuilder connector = new SecureClientSocketBuilder(ds,s);
 		try {
-			return connector.connectServerSecure();
+			return connector.buildServerSecure();
 		} catch (HandshakeFailedException e) {
 			throw new IOException(e);
 		}
