@@ -9,7 +9,7 @@ import java.net.Socket;
 
 import javax.swing.*;
 
-import com.cryptoregistry.btls.ClientSocketSecureConnector;
+import com.cryptoregistry.btls.SecureClientSocketBuilder;
 import com.cryptoregistry.btls.handshake.HandshakeFailedException;
 import com.cryptoregistry.client.security.Datastore;
 import com.cryptoregistry.client.storage.BDBDatastore;
@@ -162,11 +162,11 @@ public class EchoClientSwingGUI implements ActionListener {
 		try {
 
 			socket = null;
-			ClientSocketSecureConnector connector = new ClientSocketSecureConnector(
+			SecureClientSocketBuilder connector = new SecureClientSocketBuilder(
 					cDialog.getSelectedHp(), ds, new Socket(cDialog.getHost(),
 							cDialog.getPort()));
 
-			socket = connector.connectSecure();
+			socket = connector.buildSecure();
 			startListening(socket);
 		} catch (HandshakeFailedException | IOException e1) {
 			e1.printStackTrace();
