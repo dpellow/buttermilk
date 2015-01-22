@@ -13,9 +13,8 @@ import com.cryptoregistry.btls.BTLSProtocol;
 import com.cryptoregistry.btls.handshake.Handshake;
 import com.cryptoregistry.btls.handshake.HandshakeFailedException;
 import com.cryptoregistry.btls.handshake.HandshakeProtocol;
-import com.cryptoregistry.btls.handshake.PassthroughKeyValidator;
-import com.cryptoregistry.btls.handshake.ekem.PassthroughEphemeralKeyExchangeModule;
 import com.cryptoregistry.btls.handshake.kem.BasicC2KeyExchangeModule;
+import com.cryptoregistry.btls.handshake.validator.PassthroughKeyValidator;
 
 /**
  * When the handshake request comes in, load (initialize) the required sub-components to do that kind of handshake.
@@ -93,7 +92,6 @@ public class BasicAutoloader implements Autoloader {
 			}
 			case H2: { // C2 Ephemeral keys
 				handshake.setKem(new BasicC2KeyExchangeModule(handshake));
-				handshake.setEkem(new PassthroughEphemeralKeyExchangeModule());
 				handshake.setValidator(new PassthroughKeyValidator());
 				break;
 			}
