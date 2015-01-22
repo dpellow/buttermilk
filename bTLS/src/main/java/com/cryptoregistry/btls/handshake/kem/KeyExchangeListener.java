@@ -14,5 +14,7 @@ package com.cryptoregistry.btls.handshake.kem;
  */
 public interface KeyExchangeListener {
 
-	public void keyExchangeCompleted(KeyExchangeEvent evt);
+	public void secretExchangeCompleted(KeyExchangeEvent evt);
+	
+	public void ephemeralExchangeCompleted(KeyExchangeEvent evt);
 }

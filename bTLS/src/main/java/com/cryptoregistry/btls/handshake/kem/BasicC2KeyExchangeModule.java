@@ -319,7 +319,7 @@ public class BasicC2KeyExchangeModule extends BaseKEM {
 		SecretKey key = CryptoFactory.INSTANCE.keyAgreement(remoteKey.publicKey, localContents.agreementPrivateKey);
 		resultKey = new SymmetricKeyContents(SymmetricKeyMetadata.createUnsecure(), key.getSHA256Digest());
 		for(KeyExchangeListener l: exchangeListeners){
-			l.keyExchangeCompleted(new KeyExchangeEvent(this, resultKey));
+			l.secretExchangeCompleted(new KeyExchangeEvent(this, resultKey));
 		}
 	}
 
