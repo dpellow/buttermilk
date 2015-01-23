@@ -14,6 +14,7 @@ import com.cryptoregistry.btls.handshake.Handshake;
 import com.cryptoregistry.btls.handshake.HandshakeFailedException;
 import com.cryptoregistry.btls.handshake.HandshakeProtocol;
 import com.cryptoregistry.btls.handshake.kem.BasicC2KeyExchangeModule;
+import com.cryptoregistry.btls.handshake.validator.KeyValidator;
 import com.cryptoregistry.btls.handshake.validator.PassthroughKeyValidator;
 
 /**

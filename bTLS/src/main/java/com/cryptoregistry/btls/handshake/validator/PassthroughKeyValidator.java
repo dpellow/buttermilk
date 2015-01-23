@@ -11,12 +11,14 @@ public class PassthroughKeyValidator extends BaseKeyValidator {
 	}
 
 	/**
-	 * Does nothing
+	 * Does nothing but send true
 	 * 
 	 */
 	@Override
 	public void validate() {
-		
+		for(ValidationListener l: this.validationListeners) {
+			l.validationResult(new ValidationEvent(this)); // hard coded to true
+		}
 	}
 
 }
