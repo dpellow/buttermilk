@@ -123,7 +123,7 @@ public class BasicC2KeyExchangeModule extends BaseKEM {
 						BTLSProtocol.SERVER_HELLO,
 						handshake.getDs().getRegHandle(),
 						localKey.getHandle());
-				frame.writeFrame(handshake.getOut());
+				frame.writeFrame(handshake.getDout());
 				logger.trace("Server sent SERVER_HELLO...");
 				
 				// 1.4 client will either request the key to be sent or signal KEY_RESOLVED
@@ -140,7 +140,7 @@ public class BasicC2KeyExchangeModule extends BaseKEM {
 							BTLSProtocol.HANDSHAKE,
 							BTLSProtocol.SENDING_KEY,
 							localKey);
-					c2frame.writeFrame(handshake.getOut());
+					c2frame.writeFrame(handshake.getDout());
 					
 					logger.trace("Server sent published key to client..."+localKey.getMetadata().getHandle());
 					
@@ -168,7 +168,7 @@ public class BasicC2KeyExchangeModule extends BaseKEM {
 					BTLSProtocol.CLIENT_HELLO,
 					regHandle,
 					localKey.getHandle());
-			frame.writeFrame(handshake.getOut());
+			frame.writeFrame(handshake.getDout());
 			
 			logger.trace("Client sent HelloOutputFrame..."+regHandle+", "+localKey.getHandle());
 			
@@ -187,7 +187,7 @@ public class BasicC2KeyExchangeModule extends BaseKEM {
 							BTLSProtocol.HANDSHAKE,
 							BTLSProtocol.SENDING_KEY,
 							localKey);
-					c2frame.writeFrame(handshake.getOut());
+					c2frame.writeFrame(handshake.getDout());
 					logger.trace("Client key sent to server...");
 					
 					// server will now signal EXCHANGE SATISFIED

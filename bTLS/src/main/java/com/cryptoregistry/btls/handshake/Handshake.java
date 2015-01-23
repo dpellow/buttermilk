@@ -10,6 +10,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import x.org.bouncycastle.crypto.digests.SHA256Digest;
+import x.org.bouncycastle.crypto.io.DigestInputStream;
+import x.org.bouncycastle.crypto.io.DigestOutputStream;
+
 import com.cryptoregistry.btls.BTLSProtocol;
 import com.cryptoregistry.btls.handshake.init.Autoloader;
 import com.cryptoregistry.btls.handshake.kem.BaseKEM;
@@ -30,6 +34,10 @@ public abstract class Handshake {
 
 	protected InputStream in;
 	protected OutputStream out;
+	
+	protected DigestInputStream din;
+	protected DigestOutputStream dout;
+	
 	protected Datastore ds; // location of our key cache
 	protected Autoloader autoloader;
 	protected BaseKEM kem; // asymmetric key exchanger module
@@ -47,16 +55,20 @@ public abstract class Handshake {
 		return in;
 	}
 
+	// also initializes the DigestInputStream
 	public void setIn(InputStream in) {
 		this.in = in;
+		this.din = new DigestInputStream(in,new SHA256Digest());
 	}
 
 	public OutputStream getOut() {
 		return out;
 	}
 
+	// also initializes the DigestOutputStream
 	public void setOut(OutputStream out) {
 		this.out = out;
+		this.dout = new DigestOutputStream(out, new SHA256Digest());
 	}
 
 	public Datastore getDs() {
@@ -97,7 +109,7 @@ public abstract class Handshake {
 			throw new IndexOutOfBoundsException();
 		int n = 0;
 		while (n < len) {
-			int count = in.read(b, off + n, len - n);
+			int count = din.read(b, off + n, len - n);
 			if (count < 0)
 				throw new EOFException();
 			n += count;
@@ -105,38 +117,38 @@ public abstract class Handshake {
 	}
 	
 	public byte readByte()throws IOException {
-		int ch1 = in.read();
+		int ch1 = din.read();
 		return (byte) ch1;
 	}
 	
 	public int readShort16() throws IOException {
-		int ch1 = in.read();
-		int ch2 = in.read();
+		int ch1 = din.read();
+		int ch2 = din.read();
 		if ((ch1 | ch2) < 0)
 			throw new EOFException();
 		return ((ch1 << 8) + (ch2 << 0));
 	}
 
 	public int readInt32() throws IOException {
-		int ch1 = in.read();
-		int ch2 = in.read();
-		int ch3 = in.read();
-		int ch4 = in.read();
+		int ch1 = din.read();
+		int ch2 = din.read();
+		int ch3 = din.read();
+		int ch4 = din.read();
 		if ((ch1 | ch2 | ch3 | ch4) < 0)
 			throw new EOFException();
 		return ((ch1 << 24) + (ch2 << 16) + (ch3 << 8) + (ch4 << 0));
 	}
 	
 	public void writeByte(byte b) throws IOException {
-        out.write((b >>>  0) & 0xFF);
-        out.flush();
+        dout.write((b >>>  0) & 0xFF);
+        dout.flush();
     }
 	
 	public void writeShort(int v) throws IOException {
 		short s = (short) v;
-        out.write((s >>>  8) & 0xFF);
-        out.write((s >>>  0) & 0xFF);
-        out.flush();
+        dout.write((s >>>  8) & 0xFF);
+        dout.write((s >>>  0) & 0xFF);
+        dout.flush();
     }
 	
 	/**
@@ -180,6 +192,15 @@ public abstract class Handshake {
 
 	public void setAutoloader(Autoloader autoloader) {
 		this.autoloader = autoloader;
+	}
+
+
+	public DigestInputStream getDin() {
+		return din;
+	}
+
+	public DigestOutputStream getDout() {
+		return dout;
 	}
 
 }
