@@ -14,6 +14,7 @@ import com.cryptoregistry.btls.handshake.Handshake;
 import com.cryptoregistry.btls.handshake.HandshakeFailedException;
 import com.cryptoregistry.btls.handshake.HandshakeProtocol;
 import com.cryptoregistry.btls.handshake.kem.BasicC2KeyExchangeModule;
+import com.cryptoregistry.btls.handshake.validator.digest.Sha256DigestValidator;
 import com.cryptoregistry.btls.handshake.validator.key.PassthroughKeyValidator;
 
 /**
@@ -92,7 +93,8 @@ public class BasicAutoloader implements Autoloader {
 			}
 			case H2: { // C2 Ephemeral keys
 				handshake.setKem(new BasicC2KeyExchangeModule(handshake));
-				handshake.setValidator(new PassthroughKeyValidator());
+				handshake.setKeyValidator(new PassthroughKeyValidator());
+				handshake.setManInTheMiddleCheck(new Sha256DigestValidator(handshake));
 				break;
 			}
 			

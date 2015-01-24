@@ -69,7 +69,7 @@ public class BasicHandshake extends Handshake {
 			logger.trace("Exiting KEM.exchange()");
 
 			logger.trace("Entering validator.validate()");
-			validator.validate();
+			keyValidator.validate();
 			logger.trace("Exiting validator.validate()");
 			
 			

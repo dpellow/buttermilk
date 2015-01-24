@@ -17,13 +17,14 @@ import x.org.bouncycastle.crypto.io.DigestOutputStream;
 import com.cryptoregistry.btls.BTLSProtocol;
 import com.cryptoregistry.btls.handshake.init.Autoloader;
 import com.cryptoregistry.btls.handshake.kem.BaseKEM;
+import com.cryptoregistry.btls.handshake.validator.digest.DigestValidator;
 import com.cryptoregistry.btls.handshake.validator.key.KeyValidator;
 import com.cryptoregistry.client.security.Datastore;
 import com.cryptoregistry.symmetric.SymmetricKeyContents;
 import com.sleepycat.je.DatabaseException;
 
 /**
- * Classes that encapsulate handshake logic should extend this container
+ * Classes that encapsulate handshake logic should extend this container - normally they extend BasicHandshake
  * 
  * @author Dave
  *
@@ -41,7 +42,8 @@ public abstract class Handshake {
 	protected Datastore ds; // location of our key cache
 	protected Autoloader autoloader;
 	protected BaseKEM kem; // asymmetric key exchanger module
-	protected KeyValidator validator; // key validation, for example for checking third party signatures
+	protected KeyValidator keyValidator; // key validation, for example for checking third party signatures
+	protected DigestValidator manInTheMiddleCheck; // check the handshake is authentic
 	
 	protected boolean server; // our role, true if server, else false for client
 	
@@ -90,11 +92,11 @@ public abstract class Handshake {
 	}
 
 	public KeyValidator getValidator() {
-		return validator;
+		return keyValidator;
 	}
 
-	public void setValidator(KeyValidator validator) {
-		this.validator = validator;
+	public void setKeyValidator(KeyValidator validator) {
+		this.keyValidator = validator;
 	}
 
 	public boolean isServer() {
@@ -204,5 +206,12 @@ public abstract class Handshake {
 	public DigestOutputStream getDout() {
 		return dout;
 	}
+
+
+	public void setManInTheMiddleCheck(DigestValidator manInTheMiddleCheck) {
+		this.manInTheMiddleCheck = manInTheMiddleCheck;
+	}
+	
+	
 
 }
