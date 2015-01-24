@@ -43,6 +43,7 @@ public class Sha256DigestValidator extends BaseDigestValidator {
 			byte [] remoteDigest = readDigestFrame();
 			
 			// compare what I sent with what he says I sent
+			
 			boolean ok = Arrays.areEqual(inputDigest, remoteDigest);
 			for(DigestValidationListener l: this.validationListeners){
 				l.digestComparisonCompleted(new ValidationEvent(ok));

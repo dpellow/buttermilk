@@ -14,6 +14,15 @@ import com.cryptoregistry.btls.handshake.BasicHandshake;
 import com.cryptoregistry.btls.handshake.Handshake;
 import com.cryptoregistry.btls.handshake.HandshakeFailedException;
 import com.cryptoregistry.btls.handshake.HandshakeProtocol;
+import com.cryptoregistry.btls.handshake.init.AutoloadEvent;
+import com.cryptoregistry.btls.handshake.init.AutoloadListener;
+import com.cryptoregistry.btls.handshake.init.BasicAutoloader;
+import com.cryptoregistry.btls.handshake.kem.BaseKEM;
+import com.cryptoregistry.btls.handshake.kem.KeyExchangeEvent;
+import com.cryptoregistry.btls.handshake.kem.KeyExchangeListener;
+import com.cryptoregistry.btls.handshake.validator.DigestValidationListener;
+import com.cryptoregistry.btls.handshake.validator.KeyValidationListener;
+import com.cryptoregistry.btls.handshake.validator.ValidationEvent;
 import com.cryptoregistry.c2.CryptoFactory;
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
 import com.cryptoregistry.client.security.Datastore;
@@ -48,7 +57,8 @@ public class BTLSSocketTest {
 	}
 	
 	
-	class Client0 implements Runnable {
+	class Client0 implements Runnable, AutoloadListener,
+	KeyExchangeListener, KeyValidationListener, DigestValidationListener {
 		
 		Handshake handshake;
 		Datastore ds = null;
@@ -60,6 +70,9 @@ public class BTLSSocketTest {
 			handshake = new BasicHandshake(ds);
 			handshake.setIn(in);
 			handshake.setOut(out);
+			BasicAutoloader autoloader = new BasicAutoloader(handshake);
+			handshake.setAutoloader(autoloader);
+			autoloader.addAutoloadListener(this);
 		}
 		
 		// for client
@@ -89,6 +102,41 @@ public class BTLSSocketTest {
 			} catch (HandshakeFailedException e) {
 				e.printStackTrace();
 			}	
+		}
+
+		@Override
+		public void digestComparisonCompleted(ValidationEvent evt) {
+			System.err.println("digestComparisonCompleted: "+evt);
+			
+		}
+
+		@Override
+		public void keyValidationResult(ValidationEvent evt) {
+			System.err.println("keyValidationResult: "+evt);
+			
+		}
+
+		@Override
+		public void secretExchangeCompleted(KeyExchangeEvent evt) {
+			System.err.println("secretExchangeCompleted: "+evt);
+			
+		}
+
+		@Override
+		public void ephemeralExchangeCompleted(KeyExchangeEvent evt) {
+			System.err.println("ephemeralExchangeCompleted: "+evt);
+			
+		}
+
+		@Override
+		public void autoloadCompleted(AutoloadEvent evt) {
+			System.err.println("autoload completed, setting key exchange listener dynamically");
+			BaseKEM mod = evt.getHandshake().getKem();
+			mod.addKeyExchangeListener(this);
+			evt.getHandshake().getKeyValidator().addKeyExchangeListener(this);
+			evt.getHandshake().getDigestValidator()
+					.addDigestValidationListener(this);
+			
 		}
 	}
 	

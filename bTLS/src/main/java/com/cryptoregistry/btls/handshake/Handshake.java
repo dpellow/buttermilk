@@ -59,9 +59,9 @@ public abstract class Handshake {
 
 	// also initializes the DigestInputStream
 	public void setIn(InputStream in) {
-		if(in != null) return;
+		if(this.in != null) return;
 		this.in = in;
-		this.din = new DigestInputStream(in,new SHA256Digest());
+		this.din = new DigestInputStream(in, new SHA256Digest());
 	}
 
 	public OutputStream getOut() {
@@ -70,7 +70,7 @@ public abstract class Handshake {
 
 	// also initializes the DigestOutputStream
 	public void setOut(OutputStream out) {
-		if(out != null) return;
+		if(this.out != null) return;
 		this.out = out;
 		this.dout = new DigestOutputStream(out, new SHA256Digest());
 	}

@@ -368,7 +368,7 @@ class SecureSocketWrapper extends Socket implements AutoloadListener,
 	}
 
 	private void sendAlert(String msg) {
-
+		logger.error(msg);
 	}
 
 }
