@@ -14,7 +14,7 @@ import com.cryptoregistry.btls.handshake.Handshake;
 import com.cryptoregistry.btls.handshake.HandshakeFailedException;
 import com.cryptoregistry.btls.handshake.HandshakeProtocol;
 import com.cryptoregistry.btls.handshake.kem.BasicC2KeyExchangeModule;
-import com.cryptoregistry.btls.handshake.validator.PassthroughKeyValidator;
+import com.cryptoregistry.btls.handshake.validator.key.PassthroughKeyValidator;
 
 /**
  * When the handshake request comes in, load (initialize) the required sub-components to do that kind of handshake.

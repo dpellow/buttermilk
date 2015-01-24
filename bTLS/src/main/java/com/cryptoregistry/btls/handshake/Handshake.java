@@ -17,7 +17,7 @@ import x.org.bouncycastle.crypto.io.DigestOutputStream;
 import com.cryptoregistry.btls.BTLSProtocol;
 import com.cryptoregistry.btls.handshake.init.Autoloader;
 import com.cryptoregistry.btls.handshake.kem.BaseKEM;
-import com.cryptoregistry.btls.handshake.validator.KeyValidator;
+import com.cryptoregistry.btls.handshake.validator.key.KeyValidator;
 import com.cryptoregistry.client.security.Datastore;
 import com.cryptoregistry.symmetric.SymmetricKeyContents;
 import com.sleepycat.je.DatabaseException;
@@ -51,22 +51,24 @@ public abstract class Handshake {
 	public abstract void doHandshake() throws HandshakeFailedException;
 	
 
-	public InputStream getIn() {
-		return in;
-	}
+	//public InputStream getIn() {
+	//	return in;
+	//}
 
 	// also initializes the DigestInputStream
 	public void setIn(InputStream in) {
+		if(in != null) return;
 		this.in = in;
 		this.din = new DigestInputStream(in,new SHA256Digest());
 	}
 
-	public OutputStream getOut() {
-		return out;
-	}
+//	public OutputStream getOut() {
+//		return out;
+//	}
 
 	// also initializes the DigestOutputStream
 	public void setOut(OutputStream out) {
+		if(out != null) return;
 		this.out = out;
 		this.dout = new DigestOutputStream(out, new SHA256Digest());
 	}

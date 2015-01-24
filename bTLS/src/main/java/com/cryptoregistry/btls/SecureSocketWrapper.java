@@ -23,19 +23,21 @@ import com.cryptoregistry.btls.handshake.kem.BaseKEM;
 import com.cryptoregistry.btls.handshake.kem.KeyExchangeEvent;
 import com.cryptoregistry.btls.handshake.kem.KeyExchangeListener;
 import com.cryptoregistry.btls.handshake.validator.ValidationEvent;
-import com.cryptoregistry.btls.handshake.validator.ValidationListener;
+import com.cryptoregistry.btls.handshake.validator.digest.DigestValidationListener;
+import com.cryptoregistry.btls.handshake.validator.key.KeyValidationListener;
 import com.cryptoregistry.btls.io.FrameInputStream;
 import com.cryptoregistry.btls.io.FrameOutputStream;
 import com.cryptoregistry.symmetric.SymmetricKeyContents;
 
 /**
- * Package protected, use ClientSocketSecureConnector to get a secure client socket
+ * Package protected, use SecureClientSocketBuilder to get one
  * 
  * @author Dave
  *
  */
 
-class SecureSocketWrapper extends Socket implements AutoloadListener, KeyExchangeListener, ValidationListener {
+class SecureSocketWrapper extends Socket 
+     implements AutoloadListener, KeyExchangeListener, KeyValidationListener, DigestValidationListener {
 
 	static final Logger logger = LogManager.getLogger(SecureSocketWrapper.class.getName());
 	
@@ -333,7 +335,7 @@ class SecureSocketWrapper extends Socket implements AutoloadListener, KeyExchang
 	 * If successful, we'll set the streams or else throw an exception
 	 */
 	@Override
-	public void validationResult(ValidationEvent evt) {
+	public void keyValidationResult(ValidationEvent evt) {
 		boolean success = evt.isSuccess();
 		
 		SymmetricKeyContents contents = null;
@@ -353,6 +355,16 @@ class SecureSocketWrapper extends Socket implements AutoloadListener, KeyExchang
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+	}
+
+	/**
+	 * Called at the end of the handshake. If evt contents is false, then digest failed and
+	 * a man in the middle attack may have taken place
+	 */
+	@Override
+	public void digestComparisonCompleted(ValidationEvent evt) {
+		// TODO Auto-generated method stub
 		
 	}
 

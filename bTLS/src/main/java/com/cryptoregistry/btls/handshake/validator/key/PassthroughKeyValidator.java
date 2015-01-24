@@ -3,7 +3,9 @@
  *  Copyright 2011-2014 David R. Smith All Rights Reserved.
  *
  */
-package com.cryptoregistry.btls.handshake.validator;
+package com.cryptoregistry.btls.handshake.validator.key;
+
+import com.cryptoregistry.btls.handshake.validator.ValidationEvent;
 
 public class PassthroughKeyValidator extends BaseKeyValidator {
 
