@@ -36,19 +36,19 @@ import com.cryptoregistry.symmetric.SymmetricKeyContents;
  *
  */
 
-class SecureSocketWrapper extends Socket 
-     implements AutoloadListener, KeyExchangeListener, KeyValidationListener, DigestValidationListener {
+class SecureSocketWrapper extends Socket implements AutoloadListener,
+		KeyExchangeListener, KeyValidationListener, DigestValidationListener {
 
-	static final Logger logger = LogManager.getLogger(SecureSocketWrapper.class.getName());
-	
+	static final Logger logger = LogManager.getLogger(SecureSocketWrapper.class
+			.getName());
+
 	protected Socket client;
 	protected FrameOutputStream fout;
 	protected FrameInputStream fin;
 
 	protected SymmetricKeyContents secretKeyExchangeContents;
 	protected SymmetricKeyContents ephemeralKeyExchangeContents;
-	
-	
+
 	public SecureSocketWrapper(Socket client) {
 		this.client = client;
 	}
@@ -240,10 +240,10 @@ class SecureSocketWrapper extends Socket
 
 	@Override
 	public synchronized void close() throws IOException {
-		if(!client.isClosed()){
+		if (!client.isClosed()) {
 			fout.close();
-			//now close the socket
-			logger.info("closing "+this);
+			// now close the socket
+			logger.info("closing " + this);
 			client.close();
 		}
 	}
@@ -289,31 +289,26 @@ class SecureSocketWrapper extends Socket
 	}
 
 	@Override
-	public void setPerformancePreferences(int connectionTime, int latency, int bandwidth) {
+	public void setPerformancePreferences(int connectionTime, int latency,
+			int bandwidth) {
 		client.setPerformancePreferences(connectionTime, latency, bandwidth);
 	}
 
 	/**
-	 * Once the key exchange has completed, we will get alerted to the shared secret key
+	 * Once the key exchange has completed, we will get alerted to the shared
+	 * secret key
 	 * 
 	 */
 	@Override
 	public void secretExchangeCompleted(KeyExchangeEvent evt) {
 		logger.trace("secret exchange completed...");
 		secretKeyExchangeContents = evt.getContents();
-		//try {
-		//	fin = new FrameInputStream(client.getInputStream(), contents.getBytes());
-		//	fout = new FrameOutputStream(client.getOutputStream(), contents.getBytes());
-		//} catch (IOException e) {
-		//	e.printStackTrace();
-		//}
 	}
-	
+
 	@Override
 	public void ephemeralExchangeCompleted(KeyExchangeEvent evt) {
 		logger.trace("ephemeral Key exchange completed...");
 		ephemeralKeyExchangeContents = evt.getContents();
-		
 	}
 
 	/**
@@ -326,45 +321,54 @@ class SecureSocketWrapper extends Socket
 		BaseKEM mod = evt.getHandshake().getKem();
 		mod.addKeyExchangeListener(this);
 		evt.getHandshake().getKeyValidator().addKeyExchangeListener(this);
-		evt.getHandshake().getDigestValidator().addDigestValidationListener(this);
+		evt.getHandshake().getDigestValidator()
+				.addDigestValidationListener(this);
 	}
 
 	/**
-	 * Called when the validation module completes. Evt will have the success flag.
-	 * If successful, we'll set the streams or else throw an exception
+	 * Called when the validation module completes. Evt will have the success
+	 * flag. If successful, we'll set the streams or else throw an exception
 	 */
 	@Override
 	public void keyValidationResult(ValidationEvent evt) {
 		boolean success = evt.isSuccess();
-		
-		SymmetricKeyContents contents = null;
-		if(success){
-			if(this.ephemeralKeyExchangeContents != null) {
-				contents = ephemeralKeyExchangeContents;
-			}else{
-				contents = secretKeyExchangeContents;
-			}
-		}else{
-			throw new RuntimeException("Failed Validation!");
+		if (!success) {
+			sendAlert("Key failed validation!");
 		}
-		
-		try {
-			fin = new FrameInputStream(client.getInputStream(), contents.getBytes());
-			fout = new FrameOutputStream(client.getOutputStream(), contents.getBytes());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
 	}
 
 	/**
-	 * Called at the end of the handshake. If evt contents is false, then digest failed and
-	 * a man in the middle attack may have taken place
+	 * Called at the end of the handshake. If evt contents is false, then digest
+	 * failed and a man in the middle attack may have taken place
 	 */
 	@Override
 	public void digestComparisonCompleted(ValidationEvent evt) {
 		// TODO Auto-generated method stub
-		
+		boolean success = evt.isSuccess();
+
+		SymmetricKeyContents contents = null;
+		if (success) {
+			if (this.ephemeralKeyExchangeContents != null) {
+				contents = ephemeralKeyExchangeContents;
+			} else {
+				contents = secretKeyExchangeContents;
+			}
+		} else {
+			throw new RuntimeException("Failed Validation!");
+		}
+
+		try {
+			fin = new FrameInputStream(client.getInputStream(),
+					contents.getBytes());
+			fout = new FrameOutputStream(client.getOutputStream(),
+					contents.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void sendAlert(String msg) {
+
 	}
 
 }
