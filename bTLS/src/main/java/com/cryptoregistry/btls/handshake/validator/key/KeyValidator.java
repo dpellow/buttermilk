@@ -5,6 +5,8 @@
  */
 package com.cryptoregistry.btls.handshake.validator.key;
 
+import com.cryptoregistry.btls.handshake.validator.KeyValidationListener;
+
 public interface KeyValidator {
 
 	public void validate();

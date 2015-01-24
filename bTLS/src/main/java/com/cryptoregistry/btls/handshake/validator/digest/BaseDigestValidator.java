@@ -8,6 +8,8 @@ package com.cryptoregistry.btls.handshake.validator.digest;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.cryptoregistry.btls.handshake.validator.DigestValidationListener;
+
 /**
  * Useful base class - set up the listener plumbing. Notify interested
  * parties if validation was successful

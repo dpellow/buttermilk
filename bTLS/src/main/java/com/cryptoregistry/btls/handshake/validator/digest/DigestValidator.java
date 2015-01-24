@@ -5,6 +5,8 @@
  */
 package com.cryptoregistry.btls.handshake.validator.digest;
 
+import com.cryptoregistry.btls.handshake.validator.DigestValidationListener;
+
 public interface DigestValidator {
 
 	public void validate();
