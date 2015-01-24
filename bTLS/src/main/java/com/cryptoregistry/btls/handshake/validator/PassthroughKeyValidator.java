@@ -16,8 +16,8 @@ public class PassthroughKeyValidator extends BaseKeyValidator {
 	 */
 	@Override
 	public void validate() {
-		for(ValidationListener l: this.validationListeners) {
-			l.validationResult(new ValidationEvent(this)); // hard coded to true
+		for(KeyValidationListener l: this.validationListeners) {
+			l.keyValidationResult(new ValidationEvent(this)); // hard coded to true
 		}
 	}
 

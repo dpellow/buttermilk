@@ -8,6 +8,6 @@ package com.cryptoregistry.btls.handshake.validator;
 public interface KeyValidator {
 
 	public void validate();
-	public void addKeyExchangeListener(ValidationListener listener);
+	public void addKeyExchangeListener(KeyValidationListener listener);
 	
 }

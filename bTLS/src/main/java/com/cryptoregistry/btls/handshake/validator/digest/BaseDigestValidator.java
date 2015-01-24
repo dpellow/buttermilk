@@ -3,7 +3,7 @@
  *  Copyright 2011-2014 David R. Smith All Rights Reserved.
  *
  */
-package com.cryptoregistry.btls.handshake.validator;
+package com.cryptoregistry.btls.handshake.validator.digest;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,15 +15,15 @@ import java.util.Set;
  * @author Dave
  *
  */
-public abstract class BaseKeyValidator implements KeyValidator {
+public abstract class BaseDigestValidator implements DigestValidator {
 	
-	protected Set<KeyValidationListener> validationListeners;
+	protected Set<DigestValidationListener> validationListeners;
 
-	public BaseKeyValidator() {
-		validationListeners = new HashSet<KeyValidationListener>();
+	public BaseDigestValidator() {
+		validationListeners = new HashSet<DigestValidationListener>();
 	}
 	
-	public void addKeyExchangeListener(KeyValidationListener listener){
+	public void addDigestValidationListener(DigestValidationListener listener){
 		this.validationListeners.add(listener);
 	}
 
