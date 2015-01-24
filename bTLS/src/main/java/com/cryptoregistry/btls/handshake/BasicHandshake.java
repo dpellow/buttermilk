@@ -68,9 +68,13 @@ public class BasicHandshake extends Handshake {
 			kem.exchange();
 			logger.trace("Exiting KEM.exchange()");
 
-			logger.trace("Entering validator.validate()");
+			logger.trace("Entering keyValidator.validate()");
 			keyValidator.validate();
-			logger.trace("Exiting validator.validate()");
+			logger.trace("Exiting keyValidator.validate()");
+			
+			logger.trace("Entering digestValidator.validate()");
+			digestValidator.validate();
+			logger.trace("Exiting digestValidator.validate()");
 			
 			
 		} catch (Exception e) {

@@ -43,7 +43,7 @@ public abstract class Handshake {
 	protected Autoloader autoloader;
 	protected BaseKEM kem; // asymmetric key exchanger module
 	protected KeyValidator keyValidator; // key validation, for example for checking third party signatures
-	protected DigestValidator manInTheMiddleCheck; // check the handshake is authentic
+	protected DigestValidator digestValidator; // check the handshake is authentic
 	
 	protected boolean server; // our role, true if server, else false for client
 	
@@ -53,9 +53,9 @@ public abstract class Handshake {
 	public abstract void doHandshake() throws HandshakeFailedException;
 	
 
-	//public InputStream getIn() {
-	//	return in;
-	//}
+	public InputStream getIn() {
+		return in;
+	}
 
 	// also initializes the DigestInputStream
 	public void setIn(InputStream in) {
@@ -64,9 +64,9 @@ public abstract class Handshake {
 		this.din = new DigestInputStream(in,new SHA256Digest());
 	}
 
-//	public OutputStream getOut() {
-//		return out;
-//	}
+	public OutputStream getOut() {
+		return out;
+	}
 
 	// also initializes the DigestOutputStream
 	public void setOut(OutputStream out) {
@@ -209,7 +209,7 @@ public abstract class Handshake {
 
 
 	public void setManInTheMiddleCheck(DigestValidator manInTheMiddleCheck) {
-		this.manInTheMiddleCheck = manInTheMiddleCheck;
+		this.digestValidator = manInTheMiddleCheck;
 	}
 	
 	

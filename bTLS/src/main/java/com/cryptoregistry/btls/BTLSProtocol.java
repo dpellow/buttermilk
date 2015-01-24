@@ -33,5 +33,8 @@ public class BTLSProtocol {
 	public final static int CLIENT_READY = 110;
 	public final static int SERVER_READY = 111; 
 	
+	public final static int SEND_DIGEST = 112;
+	public final static int SENDING_DIGEST = 114;
+	
 
 }
