@@ -94,7 +94,7 @@ public class BasicAutoloader implements Autoloader {
 			case H2: { // C2 Ephemeral keys
 				handshake.setKem(new BasicC2KeyExchangeModule(handshake));
 				handshake.setKeyValidator(new PassthroughKeyValidator());
-				handshake.setManInTheMiddleCheck(new Sha256DigestValidator(handshake));
+				handshake.setDigestValidator(new Sha256DigestValidator(handshake));
 				break;
 			}
 			

@@ -91,7 +91,7 @@ public abstract class Handshake {
 		this.kem = kem;
 	}
 
-	public KeyValidator getValidator() {
+	public KeyValidator getKeyValidator() {
 		return keyValidator;
 	}
 
@@ -208,10 +208,13 @@ public abstract class Handshake {
 	}
 
 
-	public void setManInTheMiddleCheck(DigestValidator manInTheMiddleCheck) {
+	public void setDigestValidator(DigestValidator manInTheMiddleCheck) {
 		this.digestValidator = manInTheMiddleCheck;
 	}
-	
-	
+
+
+	public DigestValidator getDigestValidator() {
+		return digestValidator;
+	}
 
 }
