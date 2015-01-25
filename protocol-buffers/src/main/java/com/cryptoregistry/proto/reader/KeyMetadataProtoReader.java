@@ -29,12 +29,56 @@ public class KeyMetadataProtoReader {
 		this.proto = proto;
 	}
 	
+	/**
+	 * Makes a Mode.UNSECURED KeyFormat
+	 * @return
+	 */
 	public CryptoKeyMetadata read() {
 		String uuid = proto.getHandle();
 		String alg = proto.getKeyGenerationAlgorithm();
 		Date createdOn = new Date(proto.getCreatedOn());
 		EncodingHint encodingHint = EncodingAdapter.getEncodingHintFor(proto.getEncodingHint());
 		KeyFormat format = new KeyFormat(encodingHint,Mode.UNSECURED);
+		KeyGenerationAlgorithm kga = KeyGenerationAlgorithm.valueOf(alg);
+	
+		switch(kga){
+			case RSA: {
+				RSAKeyMetadata meta = new RSAKeyMetadata(uuid,createdOn,format);
+				int certainty = proto.getCertainty();
+				int strength = proto.getStrength();
+				meta.setCertainty(certainty);
+				meta.setStrength(strength);
+				return meta;
+			}
+			case Curve25519: {
+				C2KeyMetadata meta = new C2KeyMetadata(uuid,createdOn,format);
+				return meta;
+			}
+			case EC:{
+				ECKeyMetadata meta = new ECKeyMetadata(uuid,createdOn,format);
+				return meta;
+			}
+			case NTRU:{
+				NTRUKeyMetadata meta = new NTRUKeyMetadata(uuid,createdOn,format);
+				return meta;
+			}
+			case Symmetric:{
+				SymmetricKeyMetadata meta = new SymmetricKeyMetadata(uuid,createdOn,format);
+				return meta;
+			}
+			case DSA : {
+				// fall through
+			}
+			default: throw new RuntimeException("No such alg implemented: "+kga);
+		}
+	} 
+	
+	public CryptoKeyMetadata readForPublic() {
+		String uuid = proto.getHandle();
+		String alg = proto.getKeyGenerationAlgorithm();
+		Date createdOn = new Date(proto.getCreatedOn());
+		EncodingHint encodingHint = EncodingAdapter.getEncodingHintFor(proto.getEncodingHint());
+		KeyFormat format = new KeyFormat(encodingHint,Mode.FOR_PUBLICATION);
 		KeyGenerationAlgorithm kga = KeyGenerationAlgorithm.valueOf(alg);
 	
 		switch(kga){

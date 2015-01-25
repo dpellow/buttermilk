@@ -24,7 +24,7 @@ public class RSAKeyForPublicationProtoReader {
 		
 		// required
 		RSAKeyMetadata meta = (RSAKeyMetadata) new KeyMetadataProtoReader(
-				proto.getMeta()).read();
+				proto.getMeta()).readForPublic();
 		BigInteger modulus = new BigInteger(proto.getModulus().toByteArray());
 		BigInteger publicExponent = new BigInteger(proto.getPublicExponent()
 				.toByteArray());

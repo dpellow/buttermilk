@@ -7,11 +7,12 @@ package com.cryptoregistry.proto.builder;
 
 import com.cryptoregistry.ec.ECCustomParameters;
 import com.cryptoregistry.ec.ECKeyForPublication;
-import com.cryptoregistry.formats.EncodingHint;
 import com.cryptoregistry.formats.FormatUtil;
+import com.cryptoregistry.proto.compat.EncodingAdapter;
 import com.cryptoregistry.protos.Buttermilk.CurveDefinitionProto;
 import com.cryptoregistry.protos.Buttermilk.ECKeyForPublicationProto;
 import com.cryptoregistry.protos.Buttermilk.KeyMetadataProto;
+import com.cryptoregistry.protos.Buttermilk.KeyMetadataProto.EncodingHintProto;
 
 /**
  * Make a proto buffer out of an ECKeyForPublication instance. 
@@ -34,23 +35,31 @@ public class ECKeyForPublicationProtoBuilder {
 	 */
 	public ECKeyForPublicationProto build() {
 		
-		KeyMetadataProtoBuilder metaBuilder = new KeyMetadataProtoBuilder(keyContents.metadata);
-		KeyMetadataProto metaProto = metaBuilder.build();
 		ECKeyForPublicationProto.Builder ecProtoBuilder = ECKeyForPublicationProto.newBuilder();
 		
-		ecProtoBuilder.setMeta(metaProto);
-		
 		if(keyContents.usesNamedCurve()) {
-			ecProtoBuilder.setCurveName(keyContents.curveName);
-		}else{
-			ECCustomParameters params = (ECCustomParameters) keyContents.customCurveDefinition;
-			CurveDefinitionProtoBuilder custBuilder = new CurveDefinitionProtoBuilder(params);
-			CurveDefinitionProto curveDefProto = custBuilder.build();
-			ecProtoBuilder.setCurveDefinition(curveDefProto);
-		}
-		
-		ecProtoBuilder.setQ(FormatUtil.serializeECPoint(keyContents.Q, EncodingHint.Base16));
-		
-		return ecProtoBuilder.build();
+				ecProtoBuilder.setCurveName(keyContents.curveName);
+			}else{
+				ECCustomParameters params = (ECCustomParameters) keyContents.customCurveDefinition;
+				CurveDefinitionProtoBuilder custBuilder = new CurveDefinitionProtoBuilder(params);
+				CurveDefinitionProto curveDefProto = custBuilder.build();
+				ecProtoBuilder.setCurveDefinition(curveDefProto);
+			}
+
+		EncodingHintProto hintProtoIn = EncodingAdapter.getProtoFor(keyContents.metadata.format.encodingHint);
+			
+			KeyMetadataProto km = KeyMetadataProto.newBuilder()
+					.setEncodingHint(hintProtoIn)
+					.setHandle(keyContents.getMetadata().getHandle())
+					.setKeyGenerationAlgorithm(keyContents.metadata.getKeyAlgorithm().toString())
+					.setCreatedOn(keyContents.metadata.getCreatedOn().getTime())
+					.build();
+			ECKeyForPublicationProto proto = ecProtoBuilder
+					.setCurveName(keyContents.curveName)
+					.setMeta(km)
+					.setQ(FormatUtil.serializeECPoint(keyContents.Q, keyContents.metadata.format.encodingHint))
+					.build();
+			
+			return proto;
 	}
 }

@@ -29,7 +29,7 @@ public class ECKeyForPublicationProtoReader {
 		// we have either a curve name or curve parameters
 		String curveName = null;
 		ECCustomParameters params = null;
-		ECKeyMetadata meta = (ECKeyMetadata) new KeyMetadataProtoReader(proto.getMeta()).read();
+		ECKeyMetadata meta = (ECKeyMetadata) new KeyMetadataProtoReader(proto.getMeta()).readForPublic();
 		if(proto.hasCurveName()) {
 			curveName = proto.getCurveName();
 		}else{

@@ -22,7 +22,7 @@ public class C2KeyForPublicationProtoReader {
 
 	public Curve25519KeyForPublication read() {
 		C2KeyMetadata meta = (C2KeyMetadata) new KeyMetadataProtoReader(
-				proto.getMeta()).read();
+				proto.getMeta()).readForPublic();
 		
 		PublicKey pk = new PublicKey(proto.getPublicKey().toByteArray());
 		
