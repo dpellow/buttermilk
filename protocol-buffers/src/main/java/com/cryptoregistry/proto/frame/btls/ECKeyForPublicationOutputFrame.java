@@ -26,9 +26,9 @@ public class ECKeyForPublicationOutputFrame extends OutputFrameBase implements O
 	final int subcode;
 	final ECKeyForPublication keyContents;
 	
-	public ECKeyForPublicationOutputFrame(byte contentType, int subcode, ECKeyForPublication keyContents) {
+	public ECKeyForPublicationOutputFrame(int contentType, int subcode, ECKeyForPublication keyContents) {
 		this.keyContents = keyContents; 
-		this.contentType = contentType;
+		this.contentType = (byte)contentType;
 		this.subcode = subcode;
 	}
 

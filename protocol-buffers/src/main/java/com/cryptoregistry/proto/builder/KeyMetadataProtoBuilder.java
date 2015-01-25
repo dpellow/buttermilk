@@ -54,8 +54,7 @@ public class KeyMetadataProtoBuilder {
 					.newBuilder()
 					.setHandle(meta.getHandle())
 					.setCreatedOn(meta.getCreatedOn().getTime())
-					.setKeyGenerationAlgorithm(
-							meta.getKeyAlgorithm().toString())
+					.setKeyGenerationAlgorithm(meta.getKeyAlgorithm().toString())
 					.setEncodingHint(enc)
 					.setCertainty(((RSAKeyMetadata) meta).certainty)
 					.setStrength(((RSAKeyMetadata) meta).strength)

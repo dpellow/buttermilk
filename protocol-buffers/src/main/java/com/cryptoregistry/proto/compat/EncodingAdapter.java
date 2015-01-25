@@ -23,7 +23,7 @@ public class EncodingAdapter {
 		}
 	}
 	
-	public static EncodingHint getEncodingFor(EncodingHintProto enc){
+	public static EncodingHint getEncodingHintFor(EncodingHintProto enc){
 		switch(enc){
 		case NOENCODING: return EncodingHint.NoEncoding;
 		case RAWBYTES: return EncodingHint.RawBytes;
