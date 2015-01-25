@@ -139,4 +139,10 @@ public class C2KeyMetadata implements CryptoKeyMetadata {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "C2KeyMetadata [handle=" + handle + ", createdOn=" + createdOn
+				+ ", format=" + format + "]";
+	}
+
 }

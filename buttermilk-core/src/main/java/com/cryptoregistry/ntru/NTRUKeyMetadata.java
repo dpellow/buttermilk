@@ -122,4 +122,10 @@ public class NTRUKeyMetadata implements CryptoKeyMetadata {
 		return new NTRUKeyMetadata(handle, createdOn,new KeyFormat(EncodingHint.NoEncoding,Mode.FOR_PUBLICATION));
 	}
 
+	@Override
+	public String toString() {
+		return "NTRUKeyMetadata [handle=" + handle + ", createdOn=" + createdOn
+				+ ", format=" + format + "]";
+	}
+
 }

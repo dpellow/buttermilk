@@ -31,6 +31,15 @@ public class RSAKeyMetadata implements CryptoKeyMetadata {
 		this.createdOn = createdOn;
 		this.format = format;
 	}
+	
+	public RSAKeyMetadata(String handle, Date createdOn, KeyFormat format, int strength, int certainty) {
+		super();
+		this.handle = handle;
+		this.createdOn = createdOn;
+		this.format = format;
+		this.strength=strength;
+		this.certainty=certainty;
+	}
 
 	/**
 	 * Returns a default handle, createOn, and KeyFormat for base64Encode, Mode.OPEN

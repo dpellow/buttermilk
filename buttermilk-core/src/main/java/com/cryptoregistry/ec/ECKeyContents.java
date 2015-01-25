@@ -118,18 +118,13 @@ public class ECKeyContents extends ECKeyForPublication implements Signer {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ECKeyContents other = (ECKeyContents) obj;
-		if (d == null) {
-			if (other.d != null)
-				return false;
-		} else if (!d.equals(other.d))
-			return false;
+		if(!(obj instanceof ECKeyContents)) return false;
+		ECKeyContents item = (ECKeyContents) obj;
+		if(item.usesNamedCurve() != this.usesNamedCurve()) return false;
+		if(!item.d.equals(this.d)) return false;
+		if(!item.Q.equals(this.Q)) return false;
+		if(!item.metadata.equals(this.metadata)) return false;
+		
 		return true;
 	}
 
