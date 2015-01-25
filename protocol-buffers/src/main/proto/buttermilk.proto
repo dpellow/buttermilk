@@ -37,6 +37,10 @@ message SessionDetailsProto {
 	optional bytes iv = 5; // possible IV for 2
 }
 
+message HandshakeDigestProto {
+	required bytes digest = 1;
+}
+
 message BytesProto {
 	required bytes data = 1;
 }
