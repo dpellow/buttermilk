@@ -27,7 +27,10 @@ public class ProtoTest {
 		.setEncodingHint(Buttermilk.KeyMetadataProto.EncodingHintProto.RAWBYTES) // hard code to rawbytes
 		.setHandle(contents.getMetadata().getHandle())
 		.setKeyGenerationAlgorithm(contents.metadata.getKeyAlgorithm().toString())
-		.setCreatedOn(contents.metadata.getCreatedOn().getTime()).build();
+		.setCreatedOn(contents.metadata.getCreatedOn().getTime())
+		.setStrength(contents.metadata.strength)
+		.setCertainty(contents.metadata.certainty)
+		.build();
 		
 		Buttermilk.RSAKeyContentsProto rsaProto = Buttermilk.RSAKeyContentsProto.newBuilder()
 		.setMeta(km)
