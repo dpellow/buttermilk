@@ -48,6 +48,7 @@ public class BasicAutoloader implements Autoloader {
 			//server mode - get proposed protocol from client
 			int code = -1;
 			
+			// blocks until client sends it
 			try {
 				char ch = (char) handshake.readByte();
 				if(ch == 'b') System.err.println("Started bTLS...");

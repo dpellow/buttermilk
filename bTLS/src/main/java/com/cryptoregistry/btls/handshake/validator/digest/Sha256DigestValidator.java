@@ -2,11 +2,10 @@ package com.cryptoregistry.btls.handshake.validator.digest;
 
 import java.io.EOFException;
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import x.org.bouncycastle.util.Arrays;
 
 import com.cryptoregistry.btls.BTLSProtocol;
 import com.cryptoregistry.btls.handshake.Handshake;
@@ -26,30 +25,95 @@ public class Sha256DigestValidator extends BaseDigestValidator {
 	public Sha256DigestValidator(Handshake handshake) {
 		this.handshake = handshake;
 	}
+	
+	private void fail() {
+		for(DigestValidationListener l: this.validationListeners){
+			l.digestComparisonCompleted(new ValidationEvent(false));
+		}
+	}
+	
+	private void succeed() {
+		for(DigestValidationListener l: this.validationListeners){
+			l.digestComparisonCompleted(new ValidationEvent(true));
+		}
+	}
 
 	@Override
 	public void validate() {
 		
-		// get the digests at this point in the comms
-		byte [] inputDigest = handshake.getDin().getDigest();
-		handshake.getDin().reset();
-		byte [] outputDigest = handshake.getDout().getDigest(); 
-		handshake.getDout().reset();
+		boolean server = handshake.isServer();
+		String s = server ? "server" : "client";
 		
-		// send digest of what we ourselves have communicated so far
-		writeSendDigestFrame(outputDigest); 
-		try {
-			//read what he says he's communicated so far
-			byte [] remoteDigest = readDigestFrame();
+		if(server){
+			// get the digests at this point in the comms
+			byte [] inputDigest = handshake.getDin().getDigest();
+			logger.info("inputDigest "+s+": "+Arrays.toString(inputDigest));
+			handshake.getDin().reset();
 			
-			// compare what I sent with what he says I sent
+			try {
+				//read what he says he's communicated so far
+				logger.trace("entering readDigestFrame()");
+				byte [] remoteDigest = readDigestFrame();
+				logger.trace("exiting readDigestFRame()");
+				
+				// compare what I sent with what he says I sent
+				
+				boolean ok = Arrays.equals(inputDigest, remoteDigest);
+				if(!ok) fail();
+				else succeed();
 			
-			boolean ok = Arrays.areEqual(inputDigest, remoteDigest);
-			for(DigestValidationListener l: this.validationListeners){
-				l.digestComparisonCompleted(new ValidationEvent(ok));
+			}catch(Exception x){
+				x.printStackTrace();
+				fail();
 			}
-		} catch (ExchangeFailedException e) {
-			e.printStackTrace();
+			
+			// now send his
+			
+			byte [] outputDigest = handshake.getDout().getDigest(); 
+			logger.info("outputDigest "+s+": "+Arrays.toString(outputDigest));
+			handshake.getDout().reset();
+			
+			
+			// send digest of what we ourselves have communicated so far
+			logger.trace(s+": entering writeSendDigestFrame()");
+			writeSendDigestFrame(outputDigest); 
+			logger.trace(s+": exited writeSendDigestFrame()");
+		
+		}else{
+			
+			// client, send server's first
+			
+			byte [] outputDigest = handshake.getDout().getDigest(); 
+			logger.info("outputDigest "+s+": "+Arrays.toString(outputDigest));
+			handshake.getDout().reset();
+			
+			
+			// send digest of what we ourselves have communicated so far
+			logger.trace(s+": entering writeSendDigestFrame()");
+			writeSendDigestFrame(outputDigest); 
+			logger.trace(s+": exited writeSendDigestFrame()");
+			
+			byte [] inputDigest = handshake.getDin().getDigest();
+			logger.info("inputDigest "+s+": "+Arrays.toString(inputDigest));
+			handshake.getDin().reset();
+			
+			try {
+				//read what he says he's communicated so far
+				logger.trace("entering readDigestFrame()");
+				byte [] remoteDigest = readDigestFrame();
+				logger.trace("exiting readDigestFRame()");
+				
+				// compare what I sent with what he says I sent
+				
+				boolean ok = Arrays.equals(inputDigest, remoteDigest);
+				if(!ok) fail();
+				else succeed();
+			
+			}catch(Exception x){
+				x.printStackTrace();
+				fail();
+			}
+			
 		}
 	}
 	
@@ -85,7 +149,7 @@ public class Sha256DigestValidator extends BaseDigestValidator {
 	protected byte [] readDigestFrame() throws ExchangeFailedException{
 		
 		int subcode = consumeStartOfFrame();
-		
+		logger.trace("entering readDigestFrame, code = "+subcode);
 		// TODO check subcode
 		
 		int sz;

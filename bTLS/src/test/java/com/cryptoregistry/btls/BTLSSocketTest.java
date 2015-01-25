@@ -82,6 +82,9 @@ public class BTLSSocketTest {
 			handshake = new BasicHandshake(hp, ds);
 			handshake.setIn(in);
 			handshake.setOut(out);
+			BasicAutoloader autoloader = new BasicAutoloader(handshake);
+			handshake.setAutoloader(autoloader);
+			autoloader.addAutoloadListener(this);
 		}
 
 		@Override

@@ -60,7 +60,7 @@ public class BasicHandshake extends Handshake {
 		
 		try {
 
-			logger.trace("Entering Autoloader.load()");
+			logger.trace("Entering Autoloader.load(), server: "+this.server);
 			autoloader.load();
 			logger.trace("Exiting Autoloader.load()");
 
@@ -78,6 +78,7 @@ public class BasicHandshake extends Handshake {
 			
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new HandshakeFailedException(e);
 		}
 		
