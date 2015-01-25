@@ -20,7 +20,7 @@ public enum HandshakeProtocol {
 
 	H2(2, "Simple Curve25519 Asymmetric Key exchange"),
 	
-	H3(3, "Elliptic Curve P-256 Asymmetric Key exchange"),
+	H3(3, "Elliptic Curve Asymmetric Key exchange"),
 	
 	H5(5, "A cryptoregistry.com custom key exchange using RSA"),
 	
