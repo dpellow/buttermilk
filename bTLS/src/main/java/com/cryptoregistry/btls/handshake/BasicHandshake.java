@@ -5,6 +5,8 @@
  */
 package com.cryptoregistry.btls.handshake;
 
+import java.util.Date;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -46,6 +48,8 @@ public class BasicHandshake extends Handshake {
 
 	@Override
 	public void doHandshake() throws HandshakeFailedException {
+		
+		Date start = new Date();
 
 		if (!isServer()) {
 			try {
@@ -82,7 +86,9 @@ public class BasicHandshake extends Handshake {
 			throw new HandshakeFailedException(e);
 		}
 		
-		
+		Date end = new Date();
+		long ms = end.getTime() - start.getTime();
+		logger.info("Handshake completed in "+ms+" ms");
 		
 	}
 }

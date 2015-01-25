@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.util.Date;
 
 import javax.swing.*;
 
@@ -158,8 +159,14 @@ public class EchoClientSwingGUI implements ActionListener {
 
 	private void socketConnect() {
 
+		Date start = new Date();
+		
 		SimpleKeyManager km = new SimpleKeyManager(cDialog.getDbClientPath());
 		ds = new BDBDatastore(km);
+		
+		Date end = new Date();
+		long ms = end.getTime() - start.getTime();
+		System.err.println("Datastore load completed in "+ms+" ms");
 
 		try {
 
