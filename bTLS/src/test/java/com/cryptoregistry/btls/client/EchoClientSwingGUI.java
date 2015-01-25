@@ -118,8 +118,9 @@ public class EchoClientSwingGUI implements ActionListener {
 				if (socket == null || socket.isClosed())
 					break;
 				String msg = input.getText();
-				if (msg == null || msg.length() < 1)
-					break;
+				msg = msg.trim();
+				if (msg == null || msg.equals("") || msg.length() ==0) break;
+				
 				socket.getOutputStream().write(msg.getBytes("UTF-8"));
 				socket.getOutputStream().flush(); // sends it
 				input.setText("");
@@ -135,9 +136,10 @@ public class EchoClientSwingGUI implements ActionListener {
 			try {
 				if (socket == null || socket.isClosed())
 					break;
-				String msg = input.getText() + "\n";
-				if (msg == null || msg.length() < 1)
-					break;
+				String msg = input.getText();
+				msg = msg.trim();
+				if (msg == null || msg.equals("") || msg.length() ==0) break;
+				
 				socket.getOutputStream().write(msg.getBytes("UTF-8"));
 				socket.getOutputStream().flush(); // sends it
 				input.setText("");

@@ -312,7 +312,7 @@ class SecureSocketWrapper extends Socket implements AutoloadListener,
 	}
 
 	/**
-	 * The autoloader will set various modules based on the handshake protocol.
+	 * The autoloader will set various modules based on the requested handshake protocol.
 	 * 
 	 */
 	@Override
@@ -358,10 +358,8 @@ class SecureSocketWrapper extends Socket implements AutoloadListener,
 		}
 
 		try {
-			fin = new FrameInputStream(client.getInputStream(),
-					contents.getBytes());
-			fout = new FrameOutputStream(client.getOutputStream(),
-					contents.getBytes());
+			fin = new FrameInputStream(client.getInputStream(), contents.getBytes());
+			fout = new FrameOutputStream(client.getOutputStream(), contents.getBytes());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

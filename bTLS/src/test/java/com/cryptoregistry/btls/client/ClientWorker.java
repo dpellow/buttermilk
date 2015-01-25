@@ -32,8 +32,8 @@ public class ClientWorker implements Runnable {
 				int count = in.read(bytes);
 				if(count == -1) break;
 				String msg = new String(bytes,0,count, "UTF-8");
-				System.err.println("Got: "+msg);
-				textArea.append(msg);
+				//System.err.println("Got: "+msg);
+				textArea.append(msg+"\n");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
