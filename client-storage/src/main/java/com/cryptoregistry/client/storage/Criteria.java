@@ -52,12 +52,15 @@ public class Criteria {
 		return criteria;
 	}
 	
-	public static final Criteria ec(String regHandle){
+	public static final Criteria ec(String curveName){
 		Criteria criteria = new Criteria();
 		criteria.put(MetadataTokens.key, true);
 		criteria.put(MetadataTokens.forPublication, false);
 		criteria.put(MetadataTokens.keyGenerationAlgorithm, "EC");
-		criteria.put(MetadataTokens.registrationHandle, regHandle);
+		if(curveName == null) {
+			// if null get the first EC key you find
+			//criteria.put(MetadataTokens.curveName, curveName);
+		}
 		return criteria;
 	}
 	
