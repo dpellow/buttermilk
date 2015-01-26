@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
@@ -25,6 +26,7 @@ import com.cryptoregistry.client.storage.Metadata;
 import com.cryptoregistry.client.storage.SimpleKeyManager;
 import com.cryptoregistry.ec.ECKeyContents;
 import com.cryptoregistry.rsa.RSAKeyContents;
+import com.cryptoregistry.util.RandomStringGenerator;
 
 /**
  * Swing GUI echo client
@@ -43,6 +45,8 @@ public class EchoClientSwingGUI implements ActionListener {
 	Thread il = null;
 	
 	Datastore ds;
+	
+	RandomStringGenerator stringGen;
 	
 	private String dbClientPath = "C:/Users/Dave/workspace-cryptoregistry/buttermilk/client-storage/data";
 
@@ -129,6 +133,14 @@ public class EchoClientSwingGUI implements ActionListener {
 		clearItem.setActionCommand("clear");
 		utilmenu.add(clearItem);
 		
+		JMenu testmenu = new JMenu("Tests");
+		greenMenuBar.add(testmenu);
+		
+		JMenuItem test1Item = new JMenuItem("Test1 - 1 Megabyte");
+		test1Item.addActionListener(this);
+		test1Item.setActionCommand("test1");
+		testmenu.add(test1Item);
+		
 
 		input = new JTextField(50);
 		input.addActionListener(this);
@@ -159,7 +171,28 @@ public class EchoClientSwingGUI implements ActionListener {
 		// Display the window.
 		frame.pack();
 		frame.setVisible(true);
-		
+	}
+	
+	private void test1() {
+		textArea.setText("");
+		textArea.append("Creating data...");
+		if(stringGen == null) {
+			stringGen = new RandomStringGenerator();
+		}
+		textArea.append("Sending data...");
+		ArrayList<String> list = stringGen.next(60, (int) Math.floor(1024000/60));
+		for(int i = 0; i<list.size();i++){
+			String item = list.get(i)+"\n";
+			try {
+				socket.getOutputStream().write(item.getBytes("UTF-8"));
+				socket.getOutputStream().flush(); 
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		}
 		
 	}
 
@@ -167,6 +200,11 @@ public class EchoClientSwingGUI implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 		switch (cmd) {
+		
+		case "test1": {
+			test1();
+			break;
+		}
 		
 		case "createC2Key": {
 			Curve25519KeyContents c1 = com.cryptoregistry.c2.CryptoFactory.INSTANCE.generateKeys();
