@@ -8,7 +8,7 @@ package com.cryptoregistry.btls.client;
 import java.io.*;
 import java.net.*;
 
-import com.cryptoregistry.btls.SecureClientSocketBuilder;
+import com.cryptoregistry.btls.SecureSocketBuilder;
 import com.cryptoregistry.btls.handshake.HandshakeFailedException;
 import com.cryptoregistry.btls.handshake.HandshakeProtocol;
 import com.cryptoregistry.client.security.Datastore;
@@ -28,7 +28,7 @@ public class EchoClient {
 		ds = new BDBDatastore(km);
 
 		Socket eSocket = null;
-		SecureClientSocketBuilder connector = new SecureClientSocketBuilder(
+		SecureSocketBuilder connector = new SecureSocketBuilder(
 				HandshakeProtocol.H2, 
 				ds, 
 				new Socket(hostName, portNumber)

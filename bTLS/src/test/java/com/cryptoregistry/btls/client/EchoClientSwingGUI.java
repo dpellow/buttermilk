@@ -22,7 +22,7 @@ import java.util.concurrent.ExecutionException;
 
 import javax.swing.*;
 
-import com.cryptoregistry.btls.SecureClientSocketBuilder;
+import com.cryptoregistry.btls.SecureSocketBuilder;
 import com.cryptoregistry.btls.handshake.HandshakeFailedException;
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
 import com.cryptoregistry.client.security.Datastore;
@@ -351,7 +351,7 @@ public class EchoClientSwingGUI implements ActionListener {
 		try {
 
 			socket = null;
-			SecureClientSocketBuilder connector = new SecureClientSocketBuilder(
+			SecureSocketBuilder connector = new SecureSocketBuilder(
 					cDialog.getSelectedHp(), ds, new Socket(cDialog.getHost(),
 							cDialog.getPort()));
 

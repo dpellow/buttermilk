@@ -17,6 +17,7 @@ import java.util.List;
  * @author Dave
  */
 public class EchoWorker implements Runnable {
+	
 	private List<ServerDataEvent> queue = new LinkedList<ServerDataEvent>();
 	
 	public void processData(NioServer server, SocketChannel socket, byte[] data, int count) {

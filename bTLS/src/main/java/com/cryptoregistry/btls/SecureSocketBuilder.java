@@ -26,10 +26,10 @@ import com.cryptoregistry.client.security.Datastore;
  * @author Dave
  *
  */
-public class SecureClientSocketBuilder {
+public class SecureSocketBuilder {
 
 	static final Logger logger = LogManager
-			.getLogger(SecureClientSocketBuilder.class.getName());
+			.getLogger(SecureSocketBuilder.class.getName());
 
 	final Socket socket;
 	final Datastore ds;
@@ -41,7 +41,7 @@ public class SecureClientSocketBuilder {
 	 * @param ds
 	 * @param client
 	 */
-	SecureClientSocketBuilder(Datastore ds, Socket client) {
+	SecureSocketBuilder(Datastore ds, Socket client) {
 		this.socket = client;
 		this.ds = ds;
 		this.protocol = null;
@@ -54,7 +54,7 @@ public class SecureClientSocketBuilder {
 	 * @param ds
 	 * @param client
 	 */
-	public SecureClientSocketBuilder(HandshakeProtocol protocol,
+	public SecureSocketBuilder(HandshakeProtocol protocol,
 			Datastore ds, Socket client) {
 		this.socket = client;
 		this.ds = ds;

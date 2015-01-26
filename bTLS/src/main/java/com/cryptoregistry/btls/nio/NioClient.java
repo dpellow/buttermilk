@@ -40,7 +40,7 @@ public class NioClient implements Runnable {
 	// Maps a SocketChannel to a list of ByteBuffer instances
 	private Map<SocketChannel, List<ByteBuffer>> pendingData = new HashMap<SocketChannel, List<ByteBuffer>>();
 	
-	// Maps a SocketChannel to a RspHandler
+	// Maps a SocketChannel to a ResponseHandler
 	private Map<SocketChannel, ResponseHandler> rspHandlers = Collections.synchronizedMap(new HashMap<SocketChannel, ResponseHandler>());
 	
 	public NioClient(InetAddress hostAddress, int port) throws IOException {

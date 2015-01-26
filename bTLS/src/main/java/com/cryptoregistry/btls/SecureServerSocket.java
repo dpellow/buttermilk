@@ -59,7 +59,7 @@ public class SecureServerSocket extends ServerSocket {
 		Socket s = new Socket();
 		implAccept(s);
 	
-		SecureClientSocketBuilder connector = new SecureClientSocketBuilder(ds,s);
+		SecureSocketBuilder connector = new SecureSocketBuilder(ds,s);
 		try {
 			return connector.buildServerSecure();
 		} catch (HandshakeFailedException e) {
