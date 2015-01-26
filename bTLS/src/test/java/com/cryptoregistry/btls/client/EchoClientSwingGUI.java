@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.*;
 
@@ -43,11 +44,11 @@ public class EchoClientSwingGUI implements ActionListener {
 	JTextField input;
 	JButton send;
 	Thread il = null;
-	
+
 	Datastore ds;
-	
+
 	RandomStringGenerator stringGen;
-	
+
 	private String dbClientPath = "C:/Users/Dave/workspace-cryptoregistry/buttermilk/client-storage/data";
 
 	public EchoClientSwingGUI() {
@@ -56,16 +57,16 @@ public class EchoClientSwingGUI implements ActionListener {
 		createAndShowGUI();
 		cDialog = new ConnectionDialog(frame);
 	}
-	
+
 	private void initDb() {
 		SimpleKeyManager km = new SimpleKeyManager(this.dbClientPath);
 		ds = new BDBDatastore(km);
 	}
-	
+
 	private void closeDs() {
 		System.err.println("Closing Datasource");
-		if(ds != null) {
-			ds.close();	
+		if (ds != null) {
+			ds.close();
 		}
 	}
 
@@ -73,13 +74,13 @@ public class EchoClientSwingGUI implements ActionListener {
 		// Create and set up the window.
 		frame = new JFrame("Echo Chat Client");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		 frame.addWindowListener(new WindowAdapter() {
-	         public void windowClosing(WindowEvent windowEvent){
-	        	closeDs();
-		        System.exit(0);
-	         }        
-	      });  
+
+		frame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent windowEvent) {
+				closeDs();
+				System.exit(0);
+			}
+		});
 
 		// Create the menu bar. Make it have a green background.
 		JMenuBar greenMenuBar = new JMenuBar();
@@ -102,45 +103,44 @@ public class EchoClientSwingGUI implements ActionListener {
 		disconnectItem.addActionListener(this);
 		disconnectItem.setActionCommand("disconnect");
 		menu.add(disconnectItem);
-		
+
 		JMenu utilmenu = new JMenu("Tools");
 		greenMenuBar.add(utilmenu);
-		
+
 		JMenuItem dbListItem = new JMenuItem("List Keys");
 		dbListItem.addActionListener(this);
 		dbListItem.setActionCommand("listKeys");
 		utilmenu.add(dbListItem);
 		utilmenu.addSeparator();
-		
+
 		JMenuItem createC2Item = new JMenuItem("Create Curve25519 Key");
 		createC2Item.addActionListener(this);
 		createC2Item.setActionCommand("createC2Key");
 		utilmenu.add(createC2Item);
-		
+
 		JMenuItem createECItem = new JMenuItem("Create Elliptic Curve Key");
 		createECItem.addActionListener(this);
 		createECItem.setActionCommand("createECKey");
 		utilmenu.add(createECItem);
-		
+
 		JMenuItem createRSAItem = new JMenuItem("Create RSA Key");
 		createRSAItem.addActionListener(this);
 		createRSAItem.setActionCommand("createRSAKey");
 		utilmenu.add(createRSAItem);
 		utilmenu.addSeparator();
-		
+
 		JMenuItem clearItem = new JMenuItem("Clear Text Area");
 		clearItem.addActionListener(this);
 		clearItem.setActionCommand("clear");
 		utilmenu.add(clearItem);
-		
+
 		JMenu testmenu = new JMenu("Tests");
 		greenMenuBar.add(testmenu);
-		
+
 		JMenuItem test1Item = new JMenuItem("Test1 - 1 Megabyte");
 		test1Item.addActionListener(this);
 		test1Item.setActionCommand("test1");
 		testmenu.add(test1Item);
-		
 
 		input = new JTextField(50);
 		input.addActionListener(this);
@@ -172,63 +172,100 @@ public class EchoClientSwingGUI implements ActionListener {
 		frame.pack();
 		frame.setVisible(true);
 	}
-	
+
 	private void test1() {
-		textArea.setText("");
-		textArea.append("Creating data...");
-		if(stringGen == null) {
-			stringGen = new RandomStringGenerator();
-		}
-		textArea.append("Sending data...");
-		ArrayList<String> list = stringGen.next(60, (int) Math.floor(1024000/60));
-		for(int i = 0; i<list.size();i++){
-			String item = list.get(i)+"\n";
-			try {
-				socket.getOutputStream().write(item.getBytes("UTF-8"));
-				socket.getOutputStream().flush(); 
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-		}
 		
+		textArea.setText("Sending 1Mb as a single frame...");
+
+		SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
+
+			Date start, end;
+			
+			@Override
+			public String doInBackground() {
+				start = new Date();
+				if (stringGen == null) {
+					stringGen = new RandomStringGenerator();
+				}
+
+				ArrayList<String> list = stringGen.next(60,
+						(int) Math.floor(1024000 / 60));
+				for (int i = 0; i < list.size(); i++) {
+					String item = list.get(i) + "\n";
+					try {
+						socket.getOutputStream().write(item.getBytes("UTF-8"));
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				try {
+					socket.getOutputStream().flush();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				end = new Date();
+				long ms = end.getTime() - start.getTime();
+				return String.valueOf(ms)+" ms";
+			}
+
+			@Override
+			public void done() {
+				try {
+					textArea.setText("Complete: "+get());
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		};
+		worker.execute();
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 		switch (cmd) {
-		
+
 		case "test1": {
 			test1();
 			break;
 		}
-		
+
 		case "createC2Key": {
-			Curve25519KeyContents c1 = com.cryptoregistry.c2.CryptoFactory.INSTANCE.generateKeys();
+			Curve25519KeyContents c1 = com.cryptoregistry.c2.CryptoFactory.INSTANCE
+					.generateKeys();
 			ds.getViews().put(ds.getRegHandle(), c1);
 			break;
 		}
-		
+
 		case "createECKey": {
-			ECKeyContents c2 = com.cryptoregistry.ec.CryptoFactory.INSTANCE.generateKeys("P-256");
+			ECKeyContents c2 = com.cryptoregistry.ec.CryptoFactory.INSTANCE
+					.generateKeys("P-256");
 			ds.getViews().put(ds.getRegHandle(), c2);
 			break;
 		}
-		
+
 		case "createRSAKey": {
-			RSAKeyContents c2 = com.cryptoregistry.rsa.CryptoFactory.INSTANCE.generateKeys();
+			RSAKeyContents c2 = com.cryptoregistry.rsa.CryptoFactory.INSTANCE
+					.generateKeys();
 			ds.getViews().put(ds.getRegHandle(), c2);
 			break;
 		}
-		
+
 		case "clear": {
 			textArea.setText("");
 			break;
 		}
-		
+
 		case "showDialog": {
 			cDialog.setVisible(true);
 			break;
@@ -248,8 +285,9 @@ public class EchoClientSwingGUI implements ActionListener {
 					break;
 				String msg = input.getText();
 				msg = msg.trim();
-				if (msg == null || msg.equals("") || msg.length() ==0) break;
-				
+				if (msg == null || msg.equals("") || msg.length() == 0)
+					break;
+
 				socket.getOutputStream().write(msg.getBytes("UTF-8"));
 				socket.getOutputStream().flush(); // sends it
 				input.setText("");
@@ -268,8 +306,9 @@ public class EchoClientSwingGUI implements ActionListener {
 					break;
 				String msg = input.getText();
 				msg = msg.trim();
-				if (msg == null || msg.equals("") || msg.length() ==0) break;
-				
+				if (msg == null || msg.equals("") || msg.length() == 0)
+					break;
+
 				socket.getOutputStream().write(msg.getBytes("UTF-8"));
 				socket.getOutputStream().flush(); // sends it
 				input.setText("");
@@ -280,8 +319,8 @@ public class EchoClientSwingGUI implements ActionListener {
 			}
 			break;
 		}
-		
-		case "listKeys" : {
+
+		case "listKeys": {
 			listKeysInDb();
 			break;
 		}
@@ -295,34 +334,35 @@ public class EchoClientSwingGUI implements ActionListener {
 	private void socketConnect() {
 
 		Date start = new Date();
-		
-	//	SimpleKeyManager km = new SimpleKeyManager(cDialog.getDbClientPath());
-	//	ds = new BDBDatastore(km);
-		
+
+		// SimpleKeyManager km = new
+		// SimpleKeyManager(cDialog.getDbClientPath());
+		// ds = new BDBDatastore(km);
+
 		Date end = new Date();
 		long ms = end.getTime() - start.getTime();
-		System.err.println("Datastore load completed in "+ms+" ms");
+		System.err.println("Datastore load completed in " + ms + " ms");
 
 		try {
 
 			socket = null;
 			SecureClientSocketBuilder connector = new SecureClientSocketBuilder(
-					cDialog.getSelectedHp(), ds, new Socket(cDialog.getHost(), cDialog.getPort()));
+					cDialog.getSelectedHp(), ds, new Socket(cDialog.getHost(),
+							cDialog.getPort()));
 
 			socket = connector.buildSecure();
 			startListening(socket);
 		} catch (HandshakeFailedException | IOException e1) {
-			if(e1 instanceof ConnectException){
+			if (e1 instanceof ConnectException) {
 				JOptionPane.showMessageDialog(frame,
-					    "Server may not be running.",
-					    "ConnectionException",
-					    JOptionPane.WARNING_MESSAGE);
+						"Server may not be running.", "ConnectionException",
+						JOptionPane.WARNING_MESSAGE);
 			}
-			
+
 			// print stacktrace and bail out
 			e1.printStackTrace();
 			return;
-		} 
+		}
 
 		// normal, turn on input field and button
 		input.setEnabled(true);
@@ -336,7 +376,7 @@ public class EchoClientSwingGUI implements ActionListener {
 			stopListening();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} 
+		}
 
 		input.setEnabled(false);
 		send.setEnabled(false);
@@ -352,16 +392,16 @@ public class EchoClientSwingGUI implements ActionListener {
 		il.interrupt();
 		il = null;
 	}
-	
-	private void listKeysInDb(){
+
+	private void listKeysInDb() {
 		textArea.setText("");
 		textArea.append("Keys:\n");
 		Set<Handle> keys = ds.getViews().getMetadataMap().keySet();
 		Iterator<Handle> iter = keys.iterator();
-		while(iter.hasNext()){
+		while (iter.hasNext()) {
 			Handle h = iter.next();
 			Metadata m = ds.getViews().getMetadataMap().get(h);
-			textArea.append(h.getHandle()+": "+m.toString()+"\n");
+			textArea.append(h.getHandle() + ": " + m.toString() + "\n");
 		}
 	}
 

@@ -29,7 +29,7 @@ public class EchoServerWorker implements Runnable {
 				int count = in.read(bytes);
 				if(count == -1) break;
 				String msg = new String(bytes, 0, count, "UTF-8");
-				System.err.println(""+this+" got: " + msg);
+				System.err.print(".");
 				socket.getOutputStream().write(msg.getBytes());
 				socket.getOutputStream().flush();
 			}
