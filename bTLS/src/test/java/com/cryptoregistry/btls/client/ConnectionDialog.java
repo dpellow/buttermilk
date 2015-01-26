@@ -33,7 +33,6 @@ public class ConnectionDialog extends JDialog implements ActionListener {
 	private int port = 4444;
 	private String host = "localhost";
 	private HandshakeProtocol selectedHp = HandshakeProtocol.H2;
-	private String dbClientPath = "C:/Users/Dave/workspace-cryptoregistry/buttermilk/client-storage/data";
 	
 	private JTextArea hDescField;
 
@@ -93,15 +92,15 @@ public class ConnectionDialog extends JDialog implements ActionListener {
 		  hostText.addActionListener(this);
 		  hostText.setActionCommand("host");
 		  
-		  JPanel dbPanel = new JPanel();
-		  JLabel dbLabel = new JLabel("DB Path:");
-		  JTextField dbPathText = new JTextField(50);
-		  dbPathText.setText(dbClientPath);
-		  dbPathText.addActionListener(this);
-		  dbPathText.setActionCommand("dbPath");
-		  dbPanel.add(dbLabel);
-		  dbPanel.add(dbPathText);
-		  dbPanel.setBorder(BorderFactory.createTitledBorder("Security Datastore"));
+		//  JPanel dbPanel = new JPanel();
+		//  JLabel dbLabel = new JLabel("DB Path:");
+		//  JTextField dbPathText = new JTextField(50);
+		//  dbPathText.setText(dbClientPath);
+		//  dbPathText.addActionListener(this);
+		//  dbPathText.setActionCommand("dbPath");
+		//  dbPanel.add(dbLabel);
+		//  dbPanel.add(dbPathText);
+		//  dbPanel.setBorder(BorderFactory.createTitledBorder("Security Datastore"));
 		  
 		  JPanel controls = new JPanel();
 		  JButton ok = new JButton("Done");
@@ -117,7 +116,7 @@ public class ConnectionDialog extends JDialog implements ActionListener {
 		  
 		  mainPanel.add(handshakePanel);
 		  mainPanel.add(conPanel);
-		  mainPanel.add(dbPanel);
+		//  mainPanel.add(dbPanel);
 		  mainPanel.add(controls);
 		  
 		  this.getContentPane().add(mainPanel,BorderLayout.CENTER);
@@ -161,11 +160,12 @@ public class ConnectionDialog extends JDialog implements ActionListener {
 				break;
 			}
 			
-			case "dbPath" : {
-				JTextField tf = (JTextField) e.getSource();
-				dbClientPath = tf.getText();
-				break;
-			}
+	//		case "dbPath" : {
+	//			JTextField tf = (JTextField) e.getSource();
+	//			dbClientPath = tf.getText();
+	//			break;
+	//		}
+			
 			case "done" : {
 				this.setVisible(false);
 				break;
@@ -175,9 +175,9 @@ public class ConnectionDialog extends JDialog implements ActionListener {
 		
 	}
 
-	public String getDbClientPath() {
-		return dbClientPath;
-	}
+//	public String getDbClientPath() {
+//		return dbClientPath;
+//	}
 	
 	
 

@@ -3,18 +3,28 @@ package com.cryptoregistry.btls.client;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.swing.*;
 
 import com.cryptoregistry.btls.SecureClientSocketBuilder;
 import com.cryptoregistry.btls.handshake.HandshakeFailedException;
+import com.cryptoregistry.c2.key.Curve25519KeyContents;
 import com.cryptoregistry.client.security.Datastore;
 import com.cryptoregistry.client.storage.BDBDatastore;
+import com.cryptoregistry.client.storage.Handle;
+import com.cryptoregistry.client.storage.Metadata;
 import com.cryptoregistry.client.storage.SimpleKeyManager;
+import com.cryptoregistry.ec.ECKeyContents;
+import com.cryptoregistry.rsa.RSAKeyContents;
 
 /**
  * Swing GUI echo client
@@ -27,22 +37,45 @@ public class EchoClientSwingGUI implements ActionListener {
 	ConnectionDialog cDialog;
 	JFrame frame;
 	Socket socket;
-	Datastore ds;
 	JTextArea textArea;
 	JTextField input;
 	JButton send;
 	Thread il = null;
+	
+	Datastore ds;
+	
+	private String dbClientPath = "C:/Users/Dave/workspace-cryptoregistry/buttermilk/client-storage/data";
 
 	public EchoClientSwingGUI() {
 		super();
+		initDb();
 		createAndShowGUI();
 		cDialog = new ConnectionDialog(frame);
+	}
+	
+	private void initDb() {
+		SimpleKeyManager km = new SimpleKeyManager(this.dbClientPath);
+		ds = new BDBDatastore(km);
+	}
+	
+	private void closeDs() {
+		System.err.println("Closing Datasource");
+		if(ds != null) {
+			ds.close();	
+		}
 	}
 
 	private void createAndShowGUI() {
 		// Create and set up the window.
 		frame = new JFrame("Echo Chat Client");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		 frame.addWindowListener(new WindowAdapter() {
+	         public void windowClosing(WindowEvent windowEvent){
+	        	closeDs();
+		        System.exit(0);
+	         }        
+	      });  
 
 		// Create the menu bar. Make it have a green background.
 		JMenuBar greenMenuBar = new JMenuBar();
@@ -65,6 +98,31 @@ public class EchoClientSwingGUI implements ActionListener {
 		disconnectItem.addActionListener(this);
 		disconnectItem.setActionCommand("disconnect");
 		menu.add(disconnectItem);
+		
+		JMenu utilmenu = new JMenu("Tools");
+		greenMenuBar.add(utilmenu);
+		
+		JMenuItem dbListItem = new JMenuItem("List Keys");
+		dbListItem.addActionListener(this);
+		dbListItem.setActionCommand("listKeys");
+		utilmenu.add(dbListItem);
+		utilmenu.addSeparator();
+		
+		JMenuItem createC2Item = new JMenuItem("Create Curve25519 Key");
+		createC2Item.addActionListener(this);
+		createC2Item.setActionCommand("createC2Key");
+		utilmenu.add(createC2Item);
+		
+		JMenuItem createECItem = new JMenuItem("Create Elliptic Curve Key");
+		createECItem.addActionListener(this);
+		createECItem.setActionCommand("createECKey");
+		utilmenu.add(createECItem);
+		
+		JMenuItem createRSAItem = new JMenuItem("Create RSA Key");
+		createRSAItem.addActionListener(this);
+		createRSAItem.setActionCommand("createRSAKey");
+		utilmenu.add(createRSAItem);
+		
 
 		input = new JTextField(50);
 		input.addActionListener(this);
@@ -95,12 +153,33 @@ public class EchoClientSwingGUI implements ActionListener {
 		// Display the window.
 		frame.pack();
 		frame.setVisible(true);
+		
+		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 		switch (cmd) {
+		
+		case "createC2Key": {
+			Curve25519KeyContents c1 = com.cryptoregistry.c2.CryptoFactory.INSTANCE.generateKeys();
+			ds.getViews().put(ds.getRegHandle(), c1);
+			break;
+		}
+		
+		case "createECKey": {
+			ECKeyContents c2 = com.cryptoregistry.ec.CryptoFactory.INSTANCE.generateKeys("P-256");
+			ds.getViews().put(ds.getRegHandle(), c2);
+			break;
+		}
+		
+		case "createRSAKey": {
+			RSAKeyContents c2 = com.cryptoregistry.rsa.CryptoFactory.INSTANCE.generateKeys();
+			ds.getViews().put(ds.getRegHandle(), c2);
+			break;
+		}
+		
 		case "showDialog": {
 			cDialog.setVisible(true);
 			break;
@@ -150,6 +229,11 @@ public class EchoClientSwingGUI implements ActionListener {
 				e1.printStackTrace();
 			}
 		}
+		
+		case "listKeys" : {
+			listKeysInDb();
+			break;
+		}
 
 		default:
 			break;
@@ -161,8 +245,8 @@ public class EchoClientSwingGUI implements ActionListener {
 
 		Date start = new Date();
 		
-		SimpleKeyManager km = new SimpleKeyManager(cDialog.getDbClientPath());
-		ds = new BDBDatastore(km);
+	//	SimpleKeyManager km = new SimpleKeyManager(cDialog.getDbClientPath());
+	//	ds = new BDBDatastore(km);
 		
 		Date end = new Date();
 		long ms = end.getTime() - start.getTime();
@@ -172,15 +256,24 @@ public class EchoClientSwingGUI implements ActionListener {
 
 			socket = null;
 			SecureClientSocketBuilder connector = new SecureClientSocketBuilder(
-					cDialog.getSelectedHp(), ds, new Socket(cDialog.getHost(),
-							cDialog.getPort()));
+					cDialog.getSelectedHp(), ds, new Socket(cDialog.getHost(), cDialog.getPort()));
 
 			socket = connector.buildSecure();
 			startListening(socket);
 		} catch (HandshakeFailedException | IOException e1) {
+			if(e1 instanceof ConnectException){
+				JOptionPane.showMessageDialog(frame,
+					    "Server may not be running.",
+					    "ConnectionException",
+					    JOptionPane.WARNING_MESSAGE);
+			}
+			
+			// print stacktrace and bail out
 			e1.printStackTrace();
-		}
+			return;
+		} 
 
+		// normal, turn on input field and button
 		input.setEnabled(true);
 		send.setEnabled(true);
 	}
@@ -192,12 +285,7 @@ public class EchoClientSwingGUI implements ActionListener {
 			stopListening();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			if (ds != null) {
-				ds.close();
-				ds = null;
-			}
-		}
+		} 
 
 		input.setEnabled(false);
 		send.setEnabled(false);
@@ -212,6 +300,17 @@ public class EchoClientSwingGUI implements ActionListener {
 	private void stopListening() {
 		il.interrupt();
 		il = null;
+	}
+	
+	private void listKeysInDb(){
+		textArea.setText("");
+		Set<Handle> keys = ds.getViews().getMetadataMap().keySet();
+		Iterator<Handle> iter = keys.iterator();
+		while(iter.hasNext()){
+			Handle h = iter.next();
+			Metadata m = ds.getViews().getMetadataMap().get(h);
+			textArea.append(h.getHandle()+": "+m.toString()+"\n");
+		}
 	}
 
 	public static void main(String[] args) {
