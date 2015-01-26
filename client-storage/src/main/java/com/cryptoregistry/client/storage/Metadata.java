@@ -341,8 +341,12 @@ public class Metadata implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Metadata [key=" + key + "]";
+		return "Metadata [key=" + key + ", forPublication=" + forPublication
+				+ ", registrationHandle=" + registrationHandle + ", curveName="
+				+ curveName + ", ignore=" + ignore + ", ephemeral=" + ephemeral
+				+ "]";
 	}
+
 	
 
 }
