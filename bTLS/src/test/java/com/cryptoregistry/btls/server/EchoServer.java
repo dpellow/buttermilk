@@ -62,19 +62,24 @@ public class EchoServer {
 	
 	private void keyMaintenance(){
 		
+		System.err.println("Starting key maintenance...");
 		BDBDatastore bdb = (BDBDatastore) ds;
+		System.err.println("cleaning keystore...");
 		bdb.cleanOut();
 		
+		System.err.println("Building C2 key...");
 		Curve25519KeyContents c1 = com.cryptoregistry.c2.CryptoFactory.INSTANCE.generateKeys();
 		ds.getViews().put(ds.getRegHandle(), c1);
 		
+		System.err.println("Building EC key...");
 		ECKeyContents c2 = com.cryptoregistry.ec.CryptoFactory.INSTANCE.generateKeys("P-256");
 		ds.getViews().put(ds.getRegHandle(), c2);
 		
+		System.err.println("Building RSA key...");
 		RSAKeyContents r2 = com.cryptoregistry.rsa.CryptoFactory.INSTANCE.generateKeys();
 		ds.getViews().put(ds.getRegHandle(), r2);
 		
-		
+		System.err.println("Keys:");
 		Set<Handle> keys = ds.getViews().getMetadataMap().keySet();
 		Iterator<Handle> iter = keys.iterator();
 		while(iter.hasNext()){

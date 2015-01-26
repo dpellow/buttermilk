@@ -122,6 +122,12 @@ public class EchoClientSwingGUI implements ActionListener {
 		createRSAItem.addActionListener(this);
 		createRSAItem.setActionCommand("createRSAKey");
 		utilmenu.add(createRSAItem);
+		utilmenu.addSeparator();
+		
+		JMenuItem clearItem = new JMenuItem("Clear Text Area");
+		clearItem.addActionListener(this);
+		clearItem.setActionCommand("clear");
+		utilmenu.add(clearItem);
 		
 
 		input = new JTextField(50);
@@ -180,6 +186,11 @@ public class EchoClientSwingGUI implements ActionListener {
 			break;
 		}
 		
+		case "clear": {
+			textArea.setText("");
+			break;
+		}
+		
 		case "showDialog": {
 			cDialog.setVisible(true);
 			break;
@@ -209,6 +220,7 @@ public class EchoClientSwingGUI implements ActionListener {
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
+			break;
 		}
 
 		case "sendLineButton": {
@@ -228,6 +240,7 @@ public class EchoClientSwingGUI implements ActionListener {
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
+			break;
 		}
 		
 		case "listKeys" : {
@@ -304,6 +317,7 @@ public class EchoClientSwingGUI implements ActionListener {
 	
 	private void listKeysInDb(){
 		textArea.setText("");
+		textArea.append("Keys:\n");
 		Set<Handle> keys = ds.getViews().getMetadataMap().keySet();
 		Iterator<Handle> iter = keys.iterator();
 		while(iter.hasNext()){

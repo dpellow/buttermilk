@@ -1,12 +1,19 @@
 package com.cryptoregistry.btls.server;
 
 import java.net.*;
+import java.util.Iterator;
+import java.util.Set;
 import java.io.*;
 
 import com.cryptoregistry.btls.SecureServerSocket;
+import com.cryptoregistry.c2.key.Curve25519KeyContents;
 import com.cryptoregistry.client.security.Datastore;
 import com.cryptoregistry.client.storage.BDBDatastore;
+import com.cryptoregistry.client.storage.Handle;
+import com.cryptoregistry.client.storage.Metadata;
 import com.cryptoregistry.client.storage.SimpleKeyManager;
+import com.cryptoregistry.ec.ECKeyContents;
+import com.cryptoregistry.rsa.RSAKeyContents;
 
 /**
  * Naive multi-threaded echo server
@@ -24,6 +31,7 @@ public class MTEchoServer {
 	public MTEchoServer() {
 		SimpleKeyManager km = new SimpleKeyManager(serverDbPath);
 		ds = new BDBDatastore(km);
+		keyMaintenance();
 	}
 
 	public void close() throws IOException {
@@ -71,5 +79,34 @@ public class MTEchoServer {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+	}
+	
+	private void keyMaintenance(){
+		
+		System.err.println("Starting key maintenance...");
+		BDBDatastore bdb = (BDBDatastore) ds;
+		System.err.println("cleaning keystore...");
+		bdb.cleanOut();
+		
+		System.err.println("Building C2 key...");
+		Curve25519KeyContents c1 = com.cryptoregistry.c2.CryptoFactory.INSTANCE.generateKeys();
+		ds.getViews().put(ds.getRegHandle(), c1);
+		
+		System.err.println("Building EC key...");
+		ECKeyContents c2 = com.cryptoregistry.ec.CryptoFactory.INSTANCE.generateKeys("P-256");
+		ds.getViews().put(ds.getRegHandle(), c2);
+		
+		System.err.println("Building RSA key...");
+		RSAKeyContents r2 = com.cryptoregistry.rsa.CryptoFactory.INSTANCE.generateKeys();
+		ds.getViews().put(ds.getRegHandle(), r2);
+		
+		System.err.println("Keys:");
+		Set<Handle> keys = ds.getViews().getMetadataMap().keySet();
+		Iterator<Handle> iter = keys.iterator();
+		while(iter.hasNext()){
+			Handle h = iter.next();
+			Metadata m = ds.getViews().getMetadataMap().get(h);
+			System.err.println(h.getHandle()+", "+m.toString());
+		}
 	}
 }

@@ -339,14 +339,39 @@ public class Metadata implements Serializable {
 		return true;
 	}
 
-	@Override
 	public String toString() {
-		return "Metadata [key=" + key + ", forPublication=" + forPublication
-				+ ", registrationHandle=" + registrationHandle + ", curveName="
-				+ curveName + ", ignore=" + ignore + ", ephemeral=" + ephemeral
-				+ "]";
+		
+		StringBuffer buf = new StringBuffer();
+		if(key) {
+			buf.append(this.keyGenerationAlgorithm);
+			buf.append(" ");
+			if(this.keyGenerationAlgorithm.equals("RSA")){
+				buf.append(" ");
+				buf.append(this.RSAKeySize);
+				buf.append(" ");
+			}else if(this.keyGenerationAlgorithm.equals("EC")){
+				buf.append(" ");
+				buf.append(this.curveName);
+				buf.append(" ");
+			}
+			buf.append("Key");
+			if(this.forPublication){
+				buf.append(" (");
+				buf.append("For Publication");
+				buf.append(")");
+			}
+		}else if(signature){
+			buf.append(this.signatureAlgorithm);
+			buf.append(" ");
+			buf.append("Signature");
+		}else if(this.namedMap){
+			buf.append("Named Map");
+		}else if(this.namedList){
+			buf.append("Named List");
+		}
+	
+		return buf.toString();
 	}
-
 	
 
 }
