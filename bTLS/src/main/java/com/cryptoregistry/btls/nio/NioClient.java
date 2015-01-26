@@ -16,7 +16,7 @@ import java.nio.channels.spi.SelectorProvider;
 import java.util.*;
 
 /**
- * This is the Rox tutorial code by James Greenfield, updated a bit and secured with buttermilk
+ * This is the Rox tutorial code by James Greenfield
  * 
  * original source: http://rox-xmlrpc.sourceforge.net/niotut/#The code
  * 
@@ -41,7 +41,7 @@ public class NioClient implements Runnable {
 	private Map<SocketChannel, List<ByteBuffer>> pendingData = new HashMap<SocketChannel, List<ByteBuffer>>();
 	
 	// Maps a SocketChannel to a RspHandler
-	private Map<SocketChannel, RspHandler> rspHandlers = Collections.synchronizedMap(new HashMap<SocketChannel, RspHandler>());
+	private Map<SocketChannel, ResponseHandler> rspHandlers = Collections.synchronizedMap(new HashMap<SocketChannel, ResponseHandler>());
 	
 	public NioClient(InetAddress hostAddress, int port) throws IOException {
 		this.hostAddress = hostAddress;
@@ -49,7 +49,7 @@ public class NioClient implements Runnable {
 		this.selector = initSelector();
 	}
 
-	public void send(byte[] data, RspHandler handler) throws IOException {
+	public void send(byte[] data, ResponseHandler handler) throws IOException {
 		// Start a new connection
 		SocketChannel socket = initiateConnection();
 		
@@ -157,7 +157,7 @@ public class NioClient implements Runnable {
 		System.arraycopy(data, 0, rspData, 0, numRead);
 		
 		// Look up the handler for this channel
-		RspHandler handler = this.rspHandlers.get(socketChannel);
+		ResponseHandler handler = this.rspHandlers.get(socketChannel);
 		
 		// And pass the response to it
 		if (handler.handleResponse(rspData)) {
@@ -242,7 +242,7 @@ public class NioClient implements Runnable {
 			Thread t = new Thread(client);
 			t.setDaemon(true);
 			t.start();
-			RspHandler handler = new RspHandler();
+			ResponseHandler handler = new ResponseHandler();
 			client.send("GET / HTTP/1.0\r\n\r\n".getBytes(), handler);
 			handler.waitForResponse();
 		} catch (Exception e) {

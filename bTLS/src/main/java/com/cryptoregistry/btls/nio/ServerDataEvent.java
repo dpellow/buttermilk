@@ -7,6 +7,13 @@ package com.cryptoregistry.btls.nio;
 
 import java.nio.channels.SocketChannel;
 
+/**
+ * This is the Rox tutorial code by James Greenfield
+ * 
+ * original source: http://rox-xmlrpc.sourceforge.net/niotut/#The code
+ * 
+ * @author Dave
+ */
 class ServerDataEvent {
 	
 	public final NioServer server;

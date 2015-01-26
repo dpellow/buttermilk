@@ -5,7 +5,14 @@
  */
 package com.cryptoregistry.btls.nio;
 
-public class RspHandler {
+/**
+ * This is the Rox tutorial code by James Greenfield
+ * 
+ * original source: http://rox-xmlrpc.sourceforge.net/niotut/#The code
+ * 
+ * @author Dave
+ */
+public class ResponseHandler {
 	
 	private byte[] rsp = null;
 	

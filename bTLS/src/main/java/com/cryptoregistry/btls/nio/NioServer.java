@@ -17,7 +17,7 @@ import java.nio.channels.spi.SelectorProvider;
 import java.util.*;
 
 /**
- * This is the Rox tutorial code by James Greenfield, updated a bit and secured with buttermilk
+ * This is the Rox tutorial code by James Greenfield
  * 
  * original source: http://rox-xmlrpc.sourceforge.net/niotut/#The code
  * 
