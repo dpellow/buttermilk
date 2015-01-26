@@ -1,4 +1,8 @@
-package com.cryptoregistry.symmetric;
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2015 David R. Smith All Rights Reserved.
+ *
+ */package com.cryptoregistry.symmetric;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
