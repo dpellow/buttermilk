@@ -20,7 +20,7 @@ public class EchoWorker implements Runnable {
 	
 	private List<ServerDataEvent> queue = new LinkedList<ServerDataEvent>();
 	
-	public void processData(NioServer server, SocketChannel socket, byte[] data, int count) {
+	public void processData(NIOServer server, SocketChannel socket, byte[] data, int count) {
 		byte[] dataCopy = new byte[count];
 		System.arraycopy(data, 0, dataCopy, 0, count);
 		synchronized(queue) {

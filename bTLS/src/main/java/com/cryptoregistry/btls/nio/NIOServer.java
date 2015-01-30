@@ -16,6 +16,11 @@ import java.nio.channels.SocketChannel;
 import java.nio.channels.spi.SelectorProvider;
 import java.util.*;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.cryptoregistry.btls.io.FrameInputStream;
+
 /**
  * This is the Rox tutorial code by James Greenfield
  * 
@@ -24,7 +29,7 @@ import java.util.*;
  * @author Dave
  */
 
-public class NioServer implements Runnable {
+public class NIOServer implements Runnable {
 	// The host:port combination to listen on
 	private InetAddress hostAddress;
 	private int port;
@@ -45,8 +50,10 @@ public class NioServer implements Runnable {
 
 	// Maps a SocketChannel to a list of ByteBuffer instances
 	private Map<SocketChannel, List<ByteBuffer>> pendingData = new HashMap<SocketChannel, List<ByteBuffer>>();
+	
+	static final Logger logger = LogManager.getLogger(NIOServer.class.getName());
 
-	public NioServer(InetAddress hostAddress, int port, EchoWorker worker) throws IOException {
+	public NIOServer(InetAddress hostAddress, int port, EchoWorker worker) throws IOException {
 		this.hostAddress = hostAddress;
 		this.port = port;
 		this.selector = this.initSelector();
@@ -211,7 +218,7 @@ public class NioServer implements Runnable {
 		try {
 			EchoWorker worker = new EchoWorker();
 			new Thread(worker).start();
-			new Thread(new NioServer(null, 9090, worker)).start();
+			new Thread(new NIOServer(null, 9090, worker)).start();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

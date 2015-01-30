@@ -16,11 +16,11 @@ import java.nio.channels.SocketChannel;
  */
 class ServerDataEvent {
 	
-	public final NioServer server;
+	public final NIOServer server;
 	public final SocketChannel socket;
 	public final byte[] data;
 	
-	public ServerDataEvent(NioServer server, SocketChannel socket, byte[] data) {
+	public ServerDataEvent(NIOServer server, SocketChannel socket, byte[] data) {
 		this.server = server;
 		this.socket = socket;
 		this.data = data;

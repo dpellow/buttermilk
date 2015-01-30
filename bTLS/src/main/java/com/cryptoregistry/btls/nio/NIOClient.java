@@ -23,7 +23,7 @@ import java.util.*;
  * @author Dave
  */
 
-public class NioClient implements Runnable {
+public class NIOClient implements Runnable {
 	// The host:port combination to connect to
 	private InetAddress hostAddress;
 	private int port;
@@ -43,7 +43,7 @@ public class NioClient implements Runnable {
 	// Maps a SocketChannel to a ResponseHandler
 	private Map<SocketChannel, ResponseHandler> rspHandlers = Collections.synchronizedMap(new HashMap<SocketChannel, ResponseHandler>());
 	
-	public NioClient(InetAddress hostAddress, int port) throws IOException {
+	public NIOClient(InetAddress hostAddress, int port) throws IOException {
 		this.hostAddress = hostAddress;
 		this.port = port;
 		this.selector = initSelector();
@@ -238,7 +238,7 @@ public class NioClient implements Runnable {
 
 	public static void main(String[] args) {
 		try {
-			NioClient client = new NioClient(InetAddress.getByName("www.google.com"), 80);
+			NIOClient client = new NIOClient(InetAddress.getByName("www.google.com"), 80);
 			Thread t = new Thread(client);
 			t.setDaemon(true);
 			t.start();
