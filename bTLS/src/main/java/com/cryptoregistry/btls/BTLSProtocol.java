@@ -13,6 +13,8 @@ public class BTLSProtocol {
 	public final static int HANDSHAKE = 12;
 	public final static int HEARTBEAT = 14;
 	
+	// send and third bytes
+	
 	// alert subcodes
 	public final static int EMERGENCY_CLOSE_SOCKET_IMMEDIATELY = 1000; 
 	public final static int INFORMATION = 1001; 

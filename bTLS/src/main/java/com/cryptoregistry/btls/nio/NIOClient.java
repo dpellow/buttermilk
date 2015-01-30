@@ -15,6 +15,9 @@ import java.nio.channels.SocketChannel;
 import java.nio.channels.spi.SelectorProvider;
 import java.util.*;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * This is the Rox tutorial code by James Greenfield
  * 
@@ -43,13 +46,17 @@ public class NIOClient implements Runnable {
 	// Maps a SocketChannel to a ResponseHandler
 	private Map<SocketChannel, ResponseHandler> rspHandlers = Collections.synchronizedMap(new HashMap<SocketChannel, ResponseHandler>());
 	
+	static final Logger logger = LogManager.getLogger(NIOClient.class.getName());
+	
 	public NIOClient(InetAddress hostAddress, int port) throws IOException {
 		this.hostAddress = hostAddress;
 		this.port = port;
 		this.selector = initSelector();
+		logger.trace("initialized NIOClient:"+this);
 	}
 
 	public void send(byte[] data, ResponseHandler handler) throws IOException {
+		logger.trace("entering send with handler: "+handler);
 		// Start a new connection
 		SocketChannel socket = initiateConnection();
 		
@@ -71,6 +78,7 @@ public class NIOClient implements Runnable {
 	}
 
 	public void run() {
+		logger.trace("entering run()");
 		while (true) {
 			try {
 				// Process any pending changes
@@ -79,20 +87,24 @@ public class NIOClient implements Runnable {
 					while (changes.hasNext()) {
 						ChangeRequest change = changes.next();
 						switch (change.type) {
-						case ChangeRequest.CHANGEOPS:
-							SelectionKey key = change.socket.keyFor(selector);
-							key.interestOps(change.ops);
-							break;
-						case ChangeRequest.REGISTER:
-							change.socket.register(selector, change.ops);
-							break;
+							case ChangeRequest.CHANGEOPS:
+								logger.trace("case CHANGEOPS");
+								SelectionKey key = change.socket.keyFor(selector);
+								key.interestOps(change.ops);
+								break;
+							case ChangeRequest.REGISTER:
+								logger.trace("case REGISTER");
+								change.socket.register(selector, change.ops);
+								break;
+							}
 						}
-					}
 					pendingChanges.clear();
 				}
 
+				logger.trace("starting to block on select(), waiting for an event");
 				// Wait for an event on one of the registered channels
 				selector.select();
+				logger.trace("select() returned, got an event");
 
 				// Iterate over the set of keys for which events are available
 				Iterator<?> selectedKeys = selector.selectedKeys().iterator();
@@ -103,13 +115,18 @@ public class NIOClient implements Runnable {
 					if (!key.isValid()) {
 						continue;
 					}
+					
+					logger.trace("selected: "+key);
 
 					// Check what event is available and deal with it
 					if (key.isConnectable()) {
 						finishConnection(key);
+						logger.trace("finished connection: "+key);
 					} else if (key.isReadable()) {
+						logger.trace("reading key: "+key);
 						read(key);
 					} else if (key.isWritable()) {
+						logger.trace("writing key: "+key);
 						write(key);
 					}
 				}
@@ -133,7 +150,9 @@ public class NIOClient implements Runnable {
 		} catch (IOException e) {
 			// The remote forcibly closed the connection, cancel
 			// the selection key and close the channel.
+			logger.trace("cancelling: "+key);
 			key.cancel();
+			logger.trace("closing channel for: "+key);
 			socketChannel.close();
 			return;
 		}
@@ -141,11 +160,13 @@ public class NIOClient implements Runnable {
 		if (numRead == -1) {
 			// Remote entity shut the socket down cleanly. Do the
 			// same from our end and cancel the channel.
+			logger.trace("closing channel and cancelling for: "+key);
 			key.channel().close();
 			key.cancel();
 			return;
 		}
 
+		logger.trace("handling response for: "+key);
 		// Handle the response
 		this.handleResponse(socketChannel, this.readBuffer.array(), numRead);
 	}
@@ -169,6 +190,7 @@ public class NIOClient implements Runnable {
 
 	private void write(SelectionKey key) throws IOException {
 		
+		logger.trace("entering write(): "+key);
 		SocketChannel socketChannel = (SocketChannel) key.channel();
 
 		synchronized (pendingData) {
@@ -176,6 +198,7 @@ public class NIOClient implements Runnable {
 
 			// Write until there's not more data ...
 			while (!queue.isEmpty()) {
+				logger.trace("writing data for: "+key);
 				ByteBuffer buf = (ByteBuffer) queue.get(0);
 				socketChannel.write(buf);
 				if (buf.remaining() > 0) {
@@ -185,6 +208,7 @@ public class NIOClient implements Runnable {
 				queue.remove(0);
 			}
 
+			logger.trace("going back to waiting to read for: "+key);
 			if (queue.isEmpty()) {
 				// We wrote away all data, so we're no longer interested
 				// in writing on this socket. Switch back to waiting for
@@ -195,6 +219,8 @@ public class NIOClient implements Runnable {
 	}
 
 	private void finishConnection(SelectionKey key) throws IOException {
+		
+		logger.trace("finishing connect for: "+key);
 		SocketChannel socketChannel = (SocketChannel) key.channel();
 	
 		// Finish the connection. If the connection operation failed
@@ -208,15 +234,18 @@ public class NIOClient implements Runnable {
 			return;
 		}
 	
+		logger.trace("registering an interest in writing to: "+key);
 		// Register an interest in writing on this channel
 		key.interestOps(SelectionKey.OP_WRITE);
 	}
 
 	private SocketChannel initiateConnection() throws IOException {
+		logger.trace("initiating connection");
 		// Create a non-blocking socket channel
 		SocketChannel socketChannel = SocketChannel.open();
 		socketChannel.configureBlocking(false);
 	
+		logger.trace("calling connect()");
 		// Kick off connection establishment
 		socketChannel.connect(new InetSocketAddress(hostAddress, port));
 	
@@ -225,6 +254,7 @@ public class NIOClient implements Runnable {
 		// an interest in connection events. These are raised when a channel
 		// is ready to complete connection establishment.
 		synchronized(pendingChanges) {
+			logger.trace("adding pending change for OPT_CONNECT");
 			pendingChanges.add(new ChangeRequest(socketChannel, ChangeRequest.REGISTER, SelectionKey.OP_CONNECT));
 		}
 		
@@ -233,6 +263,7 @@ public class NIOClient implements Runnable {
 
 	private Selector initSelector() throws IOException {
 		// Create a new selector
+		logger.trace("opening selector");
 		return SelectorProvider.provider().openSelector();
 	}
 

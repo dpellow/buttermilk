@@ -27,10 +27,13 @@ import com.cryptoregistry.btls.handshake.validator.KeyValidationListener;
 import com.cryptoregistry.btls.handshake.validator.ValidationEvent;
 import com.cryptoregistry.btls.io.FrameInputStream;
 import com.cryptoregistry.btls.io.FrameOutputStream;
+import com.cryptoregistry.proto.frame.OutputFrame;
 import com.cryptoregistry.symmetric.SymmetricKeyContents;
 
 /**
- * Package protected, use SecureClientSocketBuilder to get one
+ * Our Socket wrapper, which implements the secure functionality over the streams. 
+ * This class is package protected, on the client side use SecureSocketBuilder to 
+ * get one or on the server side, use SecureServerSocket.
  * 
  * @author Dave
  *
@@ -367,6 +370,20 @@ class SecureSocketWrapper extends Socket implements AutoloadListener,
 
 	private void sendAlert(String msg) {
 		logger.error(msg);
+	}
+	
+	// Delegate methods from FrameOutputStream
+
+	public void writeOutputFrame(OutputFrame frame) throws IOException {
+		fout.writeOutputFrame(frame);
+	}
+
+	public void writeAlert(int subcode, String msg) {
+		fout.writeAlert(subcode, msg);
+	}
+
+	public void writeInformationalAlert(String msg) {
+		fout.writeInformationalAlert(msg);
 	}
 
 }
