@@ -8,6 +8,7 @@ package com.cryptoregistry.btls.nio;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -132,6 +133,7 @@ public class NIOServer implements Runnable {
 		// Accept the connection and make it non-blocking
 		SocketChannel socketChannel = serverSocketChannel.accept();
 	//	Socket socket = socketChannel.socket();
+		
 		socketChannel.configureBlocking(false);
 
 		// Register the new SocketChannel with our Selector, indicating

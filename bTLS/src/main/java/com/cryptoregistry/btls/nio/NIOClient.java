@@ -8,6 +8,7 @@ package com.cryptoregistry.btls.nio;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -17,6 +18,9 @@ import java.util.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.cryptoregistry.btls.SecureSocketBuilder;
+import com.cryptoregistry.client.security.Datastore;
 
 /**
  * This is the Rox tutorial code by James Greenfield
@@ -48,7 +52,10 @@ public class NIOClient implements Runnable {
 	
 	static final Logger logger = LogManager.getLogger(NIOClient.class.getName());
 	
-	public NIOClient(InetAddress hostAddress, int port) throws IOException {
+	final Datastore ds;
+	
+	public NIOClient(Datastore ds, InetAddress hostAddress, int port) throws IOException {
+		this.ds = ds;
 		this.hostAddress = hostAddress;
 		this.port = port;
 		this.selector = initSelector();
@@ -244,7 +251,6 @@ public class NIOClient implements Runnable {
 		// Create a non-blocking socket channel
 		SocketChannel socketChannel = SocketChannel.open();
 		socketChannel.configureBlocking(false);
-	
 		logger.trace("calling connect()");
 		// Kick off connection establishment
 		socketChannel.connect(new InetSocketAddress(hostAddress, port));
@@ -264,20 +270,9 @@ public class NIOClient implements Runnable {
 	private Selector initSelector() throws IOException {
 		// Create a new selector
 		logger.trace("opening selector");
-		return SelectorProvider.provider().openSelector();
+		SelectorProvider sp = SelectorProvider.provider();
+		logger.trace("SelectorProvider class: "+sp.getClass().getName());
+		return sp.openSelector();
 	}
 
-	public static void main(String[] args) {
-		try {
-			NIOClient client = new NIOClient(InetAddress.getByName("www.google.com"), 80);
-			Thread t = new Thread(client);
-			t.setDaemon(true);
-			t.start();
-			ResponseHandler handler = new ResponseHandler();
-			client.send("GET / HTTP/1.0\r\n\r\n".getBytes(), handler);
-			handler.waitForResponse();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 }
