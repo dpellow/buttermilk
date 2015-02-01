@@ -36,7 +36,7 @@ public class SecureSocketBuilder {
 	final HandshakeProtocol protocol;
 
 	/**
-	 * Package-protected, Used within SecureServerSocket
+	 * Used within SecureServerSocket, used by server-side processes only
 	 * 
 	 * @param ds
 	 * @param client

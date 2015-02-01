@@ -22,6 +22,7 @@ import java.util.concurrent.ExecutionException;
 
 import javax.swing.*;
 
+import com.cryptoregistry.btls.AlertSender;
 import com.cryptoregistry.btls.SecureSocketBuilder;
 import com.cryptoregistry.btls.handshake.HandshakeFailedException;
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
@@ -138,6 +139,12 @@ public class EchoClientSwingGUI implements ActionListener {
 		clearItem.addActionListener(this);
 		clearItem.setActionCommand("clear");
 		utilmenu.add(clearItem);
+		
+		JMenuItem alertItem = new JMenuItem("Send Alert");
+		alertItem.addActionListener(this);
+		alertItem.setActionCommand("sendAlert");
+		utilmenu.add(alertItem);
+	//	utilmenu.addSeparator();
 
 		JMenu testmenu = new JMenu("Tests");
 		greenMenuBar.add(testmenu);
@@ -239,6 +246,11 @@ public class EchoClientSwingGUI implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 		switch (cmd) {
+		
+		case "sendAlert": {
+			sendAlert();
+			break;
+		}
 
 		case "test1": {
 			test1();
@@ -408,6 +420,14 @@ public class EchoClientSwingGUI implements ActionListener {
 			Metadata m = ds.getViews().getMetadataMap().get(h);
 			textArea.append(h.getHandle() + ": " + m.toString() + "\n");
 		}
+	}
+	
+	private void sendAlert() {
+		String msg = (String)JOptionPane.showInputDialog(frame , "Enter alert text:" , "Send Alert Dialog", JOptionPane.QUESTION_MESSAGE , null, null, null);
+		if (socket == null || socket.isClosed()) return;
+		if(msg == null || msg.length()==0) return;
+
+		new AlertSender(socket).send(msg);
 	}
 
 	public static void main(String[] args) {
