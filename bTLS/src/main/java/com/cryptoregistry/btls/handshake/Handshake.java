@@ -9,6 +9,8 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
+import java.util.Date;
 
 import x.org.bouncycastle.crypto.digests.SHA256Digest;
 import x.org.bouncycastle.crypto.io.DigestInputStream;
@@ -20,7 +22,10 @@ import com.cryptoregistry.btls.handshake.kem.BaseKEM;
 import com.cryptoregistry.btls.handshake.validator.digest.DigestValidator;
 import com.cryptoregistry.btls.handshake.validator.key.KeyValidator;
 import com.cryptoregistry.client.security.Datastore;
+import com.cryptoregistry.formats.KeyFormat;
 import com.cryptoregistry.symmetric.SymmetricKeyContents;
+import com.cryptoregistry.symmetric.SymmetricKeyMetadata;
+import com.cryptoregistry.util.TimeUtil;
 import com.sleepycat.je.DatabaseException;
 
 /**
@@ -215,6 +220,25 @@ public abstract class Handshake {
 
 	public DigestValidator getDigestValidator() {
 		return digestValidator;
+	}
+	
+	
+	public static final String H0_UUID = "55555555-dddd-4444-aaaa-100000000000";
+	public static final String H0_DATE = "2015-01-01T01:00:00+0000";
+	
+	public static final SymmetricKeyContents predefinedResult(HandshakeProtocol hp) {
+		
+		switch(hp) {
+			case H0: {
+				Date d = TimeUtil.getISO8601FormatDate(H0_DATE);
+				SymmetricKeyMetadata meta = new SymmetricKeyMetadata(H0_UUID, d, new KeyFormat());
+				byte [] key = "00000000000000000000000000000000".getBytes(Charset.forName("UTF-8"));
+				return new SymmetricKeyContents(meta,key);
+			}
+			default: {}
+		}
+		
+		return null;
 	}
 
 }

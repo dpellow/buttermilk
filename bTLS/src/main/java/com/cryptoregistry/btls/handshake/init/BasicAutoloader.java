@@ -15,6 +15,7 @@ import com.cryptoregistry.btls.handshake.HandshakeFailedException;
 import com.cryptoregistry.btls.handshake.HandshakeProtocol;
 import com.cryptoregistry.btls.handshake.kem.BasicC2KeyExchangeModule;
 import com.cryptoregistry.btls.handshake.kem.BasicECKeyExchangeModule;
+import com.cryptoregistry.btls.handshake.kem.H0KeyExchangeModule;
 import com.cryptoregistry.btls.handshake.validator.digest.Sha256DigestValidator;
 import com.cryptoregistry.btls.handshake.validator.key.PassthroughKeyValidator;
 
@@ -88,7 +89,12 @@ public class BasicAutoloader implements Autoloader {
 	void _load(HandshakeProtocol hp) throws HandshakeFailedException {
 		
 		switch(hp){
-			case H0:
+			case H0: {
+				handshake.setKem(new H0KeyExchangeModule(handshake));
+				handshake.setKeyValidator(new PassthroughKeyValidator());
+				handshake.setDigestValidator(new Sha256DigestValidator(handshake));
+				break;
+			}
 			case H1: {
 				
 				break;
