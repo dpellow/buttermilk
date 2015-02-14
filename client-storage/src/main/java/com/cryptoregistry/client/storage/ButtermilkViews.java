@@ -60,9 +60,11 @@ import com.sleepycat.bind.EntryBinding;
 import com.sleepycat.bind.serial.ClassCatalog;
 import com.sleepycat.bind.serial.SerialBinding;
 import com.sleepycat.collections.StoredSortedMap;
+import com.sleepycat.je.EnvironmentStats;
 
 public class ButtermilkViews implements DatastoreViews {
 
+	private ButtermilkBDBDatabase db;
 	private final StoredSortedMap<Handle, SecureData> secureMap;
 	private final StoredSortedMap<Handle, Metadata> metadataMap;
 	private final SecureRandom rand = new SecureRandom();
@@ -75,6 +77,7 @@ public class ButtermilkViews implements DatastoreViews {
 	public ButtermilkViews(ButtermilkBDBDatabase db, SensitiveBytes cachedKey) {
 
 		this.cachedKey = cachedKey;
+		this.db = db;
 		ClassCatalog catalog = db.getClassCatalog();
 
 		EntryBinding<Handle> secureKeyBinding = new SerialBinding<Handle>(
@@ -157,7 +160,7 @@ public class ButtermilkViews implements DatastoreViews {
 	}
 
 	private void put(String regHandle, SymmetricKeyContents key) {
-		Metadata metadata = new Metadata();
+		Metadata metadata = new Metadata(key.getMetadata().getHandle());
 		metadata.setKey(true);
 		metadata.setRegistrationHandle(regHandle);
 		metadata.setKeyGenerationAlgorithm(key.getMetadata().getKeyAlgorithm()
@@ -170,7 +173,7 @@ public class ButtermilkViews implements DatastoreViews {
 	}
 
 	private void put(String regHandle, Curve25519KeyForPublication key) {
-		Metadata metadata = new Metadata();
+		Metadata metadata = new Metadata(key.getMetadata().getHandle());
 		metadata.setKey(true);
 		metadata.setRegistrationHandle(regHandle);
 		metadata.setKeyGenerationAlgorithm(key.getMetadata().getKeyAlgorithm()
@@ -191,7 +194,7 @@ public class ButtermilkViews implements DatastoreViews {
 	}
 
 	private void put(String regHandle, RSAKeyForPublication key) {
-		Metadata metadata = new Metadata();
+		Metadata metadata = new Metadata(key.getMetadata().getHandle());
 		metadata.setKey(true);
 		metadata.setRegistrationHandle(regHandle);
 		metadata.setKeyGenerationAlgorithm(key.getMetadata().getKeyAlgorithm()
@@ -214,7 +217,7 @@ public class ButtermilkViews implements DatastoreViews {
 	}
 
 	private void put(String regHandle, ECKeyForPublication key) {
-		Metadata metadata = new Metadata();
+		Metadata metadata = new Metadata(key.getMetadata().getHandle());
 		metadata.setKey(true);
 		metadata.setRegistrationHandle(regHandle);
 		metadata.setKeyGenerationAlgorithm(key.getMetadata().getKeyAlgorithm()
@@ -241,7 +244,7 @@ public class ButtermilkViews implements DatastoreViews {
 	}
 	
 	private void put(String regHandle, NTRUKeyForPublication key) {
-		Metadata metadata = new Metadata();
+		Metadata metadata = new Metadata(key.getMetadata().getHandle());
 		metadata.setKey(true);
 		metadata.setRegistrationHandle(regHandle);
 		metadata.setKeyGenerationAlgorithm(key.getMetadata().getKeyAlgorithm()
@@ -273,7 +276,7 @@ public class ButtermilkViews implements DatastoreViews {
 	 */
 	@Override
 	public void put(String regHandle, CryptoContact contact) {
-		Metadata metadata = new Metadata();
+		Metadata metadata = new Metadata(contact.getHandle());
 		metadata.setRegistrationHandle(regHandle);
 		metadata.setContact(true);
 		ContactProtoBuilder builder = new ContactProtoBuilder(contact);
@@ -286,7 +289,7 @@ public class ButtermilkViews implements DatastoreViews {
 	 */
 	@Override
 	public void put(String regHandle, CryptoSignature signature) {
-		Metadata metadata = new Metadata();
+		Metadata metadata = new Metadata(signature.getHandle());
 		metadata.setRegistrationHandle(regHandle);
 		metadata.setSignatureAlgorithm(signature.getSigAlg().toString());
 		metadata.setCreatedOn(signature.metadata.createdOn.getTime());
@@ -299,7 +302,7 @@ public class ButtermilkViews implements DatastoreViews {
 	 */
 	@Override
 	public void put(String regHandle, MapData local) {
-		Metadata metadata = new Metadata();
+		Metadata metadata = new Metadata(local.uuid);
 		metadata.setRegistrationHandle(regHandle);
 		metadata.setNamedMap(true);
 		NamedMapProtoBuilder builder = new NamedMapProtoBuilder(local.uuid,
@@ -312,7 +315,7 @@ public class ButtermilkViews implements DatastoreViews {
 	 */
 	@Override
 	public void put(String regHandle, ListData remote) {
-		Metadata metadata = new Metadata();
+		Metadata metadata = new Metadata(remote.uuid);
 		metadata.setRegistrationHandle(regHandle);
 		metadata.setNamedList(true);
 		NamedListProtoBuilder builder = new NamedListProtoBuilder(remote.uuid,
@@ -390,8 +393,8 @@ public class ButtermilkViews implements DatastoreViews {
 		// short circuit if there is a handle because in our setup they cannot be duplicates anyway 
 		if(searchCriteria.containsKey(MetadataTokens.handle)){
 			String key = (String) searchCriteria.get(MetadataTokens.handle);
-			SecureData data = this.getSecureMap().get(key);
-			Metadata meta = this.getMetadataMap().get(key);
+			SecureData data = this.getSecureMap().get(new Handle(key));
+			Metadata meta = this.getMetadataMap().get(new Handle(key));
 			SingleResult result = new SingleResult();
 			try {
 				result.setResult(StorageUtil.getSecure(cachedKey, data));
@@ -439,6 +442,12 @@ public class ButtermilkViews implements DatastoreViews {
 		}
 		result.setMetadata(meta);
 		return;
+	}
+
+	@Override
+	public String getDbStatus() {
+		EnvironmentStats status = this.db.getEnvironment().getStats(null);
+		return status.toStringVerbose();
 	}
 	
 }

@@ -11,6 +11,7 @@ import com.cryptoregistry.CryptoContact;
 import com.cryptoregistry.CryptoKey;
 import com.cryptoregistry.ListData;
 import com.cryptoregistry.MapData;
+import com.cryptoregistry.client.storage.MultiResultCriteria;
 import com.cryptoregistry.client.storage.SingleResultCriteria;
 import com.cryptoregistry.client.storage.Handle;
 import com.cryptoregistry.client.storage.Metadata;
@@ -35,6 +36,10 @@ public interface DatastoreViews {
 	public  void put(String regHandle, ListData remote);
 	
 	public void get(SingleResultCriteria criteria) throws SuitableMatchFailedException;
+	
+	public void get(MultiResultCriteria criteria);
+	
+	public String getDbStatus();
 	
 	/**
 	 * Actual handle, not reg handle here

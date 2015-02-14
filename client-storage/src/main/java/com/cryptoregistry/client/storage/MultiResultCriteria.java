@@ -9,9 +9,14 @@ import java.util.Map;
 
 import com.cryptoregistry.CryptoContact;
 import com.cryptoregistry.CryptoKey;
+import com.cryptoregistry.KeyGenerationAlgorithm;
 import com.cryptoregistry.ListData;
 import com.cryptoregistry.MapData;
+import com.cryptoregistry.c2.key.Curve25519KeyContents;
+import com.cryptoregistry.ec.ECKeyContents;
 import com.cryptoregistry.formats.JSONFormatter;
+import com.cryptoregistry.ntru.NTRUKeyContents;
+import com.cryptoregistry.rsa.RSAKeyContents;
 import com.cryptoregistry.signature.CryptoSignature;
 
 /**
@@ -54,9 +59,42 @@ public class MultiResultCriteria implements Criteria {
 		while(iter.hasNext()){
 			SingleResult res = iter.next();
 			if(res.metadata.isIgnore()) continue;
-			if(res.metadata.isKey() && res.metadata.isForPublication()) {
-				CryptoKey key = (CryptoKey)res.result;
-				builder.add(key);
+			if(res.metadata.isKey()) {
+				if(res.metadata.isForPublication()){
+					CryptoKey key = (CryptoKey)res.result;
+					builder.add(key);
+				}else{
+					CryptoKey key = (CryptoKey)res.result;
+					KeyGenerationAlgorithm alg = key.getMetadata().getKeyAlgorithm();
+					switch(alg){
+						case Symmetric: continue;
+						case Curve25519: {
+							Curve25519KeyContents contents = (Curve25519KeyContents) key;
+							builder.add(contents.cloneForPublication());
+							break;
+						}
+						case EC: {
+							ECKeyContents contents = (ECKeyContents) key;
+							builder.add(contents.cloneForPublication());
+							break;
+						}
+						case RSA: {
+							RSAKeyContents contents = (RSAKeyContents) key;
+							builder.add(contents.forPublication());
+							break;
+						}
+						case NTRU: {
+							NTRUKeyContents contents = (NTRUKeyContents) key;
+							builder.add(contents.forPublication());
+							break;
+						}
+					case DSA:
+						// TODO
+						break;
+					default:
+						break;
+					}
+				}
 			}else if(res.metadata.isContact()){
 				builder.add((CryptoContact) res.result);
 			}else if(res.metadata.isSignature()){

@@ -19,6 +19,7 @@ public class Metadata implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
+	private String handle;
 	private boolean key;
 	private boolean forPublication;
 	private boolean contact;
@@ -36,8 +37,9 @@ public class Metadata implements Serializable {
 	private boolean ignore; // you can mark a record as out of scope - if true, it will not be returned by queries
 	private boolean ephemeral; // intended to be an ephemeral key 
 	
-	public Metadata() {
+	public Metadata(String handle) {
 		super();
+		this.handle = handle;
 	}
 	
 	/**
@@ -56,6 +58,11 @@ public class Metadata implements Serializable {
 			MetadataTokens key = iter.next();
 			Object value = criteria.get(key);
 			switch(key){
+				case handle: {
+					String val = String.valueOf(value);
+					if(!this.handle.equals(val)) return false;
+					else continue;
+				}
 				case key:{	 
 					boolean val = (Boolean)value;
 					if(this.key != val) return false;
@@ -264,6 +271,7 @@ public class Metadata implements Serializable {
 				+ ((curveName == null) ? 0 : curveName.hashCode());
 		result = prime * result + (ephemeral ? 1231 : 1237);
 		result = prime * result + (forPublication ? 1231 : 1237);
+		result = prime * result + ((handle == null) ? 0 : handle.hashCode());
 		result = prime * result + (ignore ? 1231 : 1237);
 		result = prime * result + (key ? 1231 : 1237);
 		result = prime
@@ -313,6 +321,11 @@ public class Metadata implements Serializable {
 			return false;
 		if (forPublication != other.forPublication)
 			return false;
+		if (handle == null) {
+			if (other.handle != null)
+				return false;
+		} else if (!handle.equals(other.handle))
+			return false;
 		if (ignore != other.ignore)
 			return false;
 		if (key != other.key)
@@ -344,7 +357,18 @@ public class Metadata implements Serializable {
 	public String toString() {
 		
 		StringBuffer buf = new StringBuffer();
+		
+		buf.append("[");
+		buf.append(this.registrationHandle);
+		buf.append("] ");
+		
+		buf.append("");
+		buf.append(handle);
+		buf.append(": ");
+		
 		if(key) {
+			buf.append("Key");
+			buf.append(" ");
 			buf.append(this.keyGenerationAlgorithm);
 			buf.append(" ");
 			if(this.keyGenerationAlgorithm.equals("RSA")){
@@ -356,10 +380,10 @@ public class Metadata implements Serializable {
 				buf.append(this.curveName);
 				buf.append(" ");
 			}
-			buf.append("Key");
+			
 			if(this.forPublication){
 				buf.append(" (");
-				buf.append("For Publication");
+				buf.append("For Publication Only");
 				buf.append(")");
 			}
 		}else if(signature){
