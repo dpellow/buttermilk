@@ -9,13 +9,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Used in the use-case where we want to find a single key material item such as a key for publication of 
- * type RSA with size 2048 bits.
+ * This is for the use-case where we want to find a single item in the key materials such as a key for publication of 
+ * type RSA with size 2048 bits, registered to "Bob Smith".
  * 
  * @author Dave
  *
  */
-public class SingleResultCriteria {
+public class SingleResultCriteria implements Criteria {
 
 	public final Map<MetadataTokens, Object> map;
 	public SingleResult result;
@@ -79,6 +79,13 @@ public class SingleResultCriteria {
 		criteria.put(MetadataTokens.registrationHandle, regHandle);
 		return criteria;
 	}
+
+	@Override
+	public String toJSON() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	
 	
 }

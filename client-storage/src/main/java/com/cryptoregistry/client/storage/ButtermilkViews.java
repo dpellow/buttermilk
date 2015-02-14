@@ -334,13 +334,19 @@ public class ButtermilkViews implements DatastoreViews {
 	}
 	
 	/**
-	 * Use for a single-match type query use-case
+	 * Use for a single-match type query use-case such as a defined handle
+	 * 
 	 */
 	public void get(SingleResultCriteria criteria) throws SuitableMatchFailedException {
 			get(criteria.map,criteria.result);
 	}
 	
-	public void get(MultiResultCriteria criteria) throws SuitableMatchFailedException {
+	/**
+	 * Use for the scenario where we expect multiple results, e.g., all key materials registered under "Bob Smith"
+	 * 
+	 * @param criteria
+	 */
+	public void get(MultiResultCriteria criteria) {
 		get(criteria.map,criteria.results);
 }
 	
@@ -379,7 +385,7 @@ public class ButtermilkViews implements DatastoreViews {
 		throw new SuitableMatchFailedException("No match found for "+searchCriteria);
 	}
 	
-private void get(Map<MetadataTokens,Object> searchCriteria, List<SingleResult> results) {
+	private void get(Map<MetadataTokens,Object> searchCriteria, List<SingleResult> results) {
 		
 		// short circuit if there is a handle because in our setup they cannot be duplicates anyway 
 		if(searchCriteria.containsKey(MetadataTokens.handle)){
@@ -417,7 +423,7 @@ private void get(Map<MetadataTokens,Object> searchCriteria, List<SingleResult> r
 	}
 	
 	/**
-	 * Get exact matching handle
+	 * Get exact matching handle, throw an exception if not found
 	 * 
 	 */
 	public void get(String handle, SingleResult result) throws SuitableMatchFailedException{
