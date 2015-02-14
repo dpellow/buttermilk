@@ -45,7 +45,7 @@ public class DataStoreTest {
 			Assert.assertEquals(ds.getViews().getSecureMap().size(),9);
 			Assert.assertEquals(ds.getViews().getMetadataMap().size(),9);
 			
-			Criteria criteria = Criteria.c2(regHandle);
+			SingleResultCriteria criteria = SingleResultCriteria.c2(regHandle);
 			try {
 				ds.getViews().get(criteria);
 				Assert.assertNotNull(criteria);
@@ -56,7 +56,7 @@ public class DataStoreTest {
 			}
 			
 			
-			criteria = Criteria.ec(regHandle);
+			criteria = SingleResultCriteria.ec(regHandle);
 			try {
 				ds.getViews().get(criteria);
 				Assert.assertNotNull(criteria);
@@ -67,7 +67,7 @@ public class DataStoreTest {
 				Assert.fail();
 			}
 			
-			criteria = Criteria.rsa(regHandle);
+			criteria = SingleResultCriteria.rsa(regHandle);
 			try {
 				ds.getViews().get(criteria);
 				Assert.assertNotNull(criteria);

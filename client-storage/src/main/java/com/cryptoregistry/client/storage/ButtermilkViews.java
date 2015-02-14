@@ -7,6 +7,7 @@ package com.cryptoregistry.client.storage;
 
 import java.security.SecureRandom;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import com.cryptoregistry.CryptoContact;
@@ -332,11 +333,32 @@ public class ButtermilkViews implements DatastoreViews {
 		this.getMetadataMap().put(key, meta);
 	}
 	
-	public void get(Criteria criteria) throws SuitableMatchFailedException {
+	/**
+	 * Use for a single-match type query use-case
+	 */
+	public void get(SingleResultCriteria criteria) throws SuitableMatchFailedException {
 			get(criteria.map,criteria.result);
 	}
 	
-	private void get(Map<MetadataTokens,Object> searchCriteria, Result result) throws SuitableMatchFailedException{
+	public void get(MultiResultCriteria criteria) throws SuitableMatchFailedException {
+		get(criteria.map,criteria.results);
+}
+	
+	private void get(Map<MetadataTokens,Object> searchCriteria, SingleResult result) throws SuitableMatchFailedException{
+		
+		// short circuit if there is a handle because in our setup they cannot be duplicates anyway 
+		if(searchCriteria.containsKey(MetadataTokens.handle)){
+			String key = (String) searchCriteria.get(MetadataTokens.handle);
+			SecureData data = this.getSecureMap().get(key);
+			Metadata meta = this.getMetadataMap().get(key);
+			try {
+				result.setResult(StorageUtil.getSecure(cachedKey, data));
+				result.setMetadata(meta);
+				return;
+			} catch (InvalidProtocolBufferException e) {
+				e.printStackTrace();
+			}
+		}
 		
 		Iterator<Handle> iter = this.getMetadataMap().keySet().iterator();
 		while(iter.hasNext()){
@@ -357,7 +379,48 @@ public class ButtermilkViews implements DatastoreViews {
 		throw new SuitableMatchFailedException("No match found for "+searchCriteria);
 	}
 	
-	public void get(String handle, Result result) throws SuitableMatchFailedException{
+private void get(Map<MetadataTokens,Object> searchCriteria, List<SingleResult> results) {
+		
+		// short circuit if there is a handle because in our setup they cannot be duplicates anyway 
+		if(searchCriteria.containsKey(MetadataTokens.handle)){
+			String key = (String) searchCriteria.get(MetadataTokens.handle);
+			SecureData data = this.getSecureMap().get(key);
+			Metadata meta = this.getMetadataMap().get(key);
+			SingleResult result = new SingleResult();
+			try {
+				result.setResult(StorageUtil.getSecure(cachedKey, data));
+				result.setMetadata(meta);
+				results.add(result);
+				return;
+			} catch (InvalidProtocolBufferException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		Iterator<Handle> iter = this.getMetadataMap().keySet().iterator();
+		while(iter.hasNext()){
+			Handle h = iter.next();
+			Metadata meta = this.getMetadataMap().get(h);
+			SingleResult result = new SingleResult();
+			if(meta.match(searchCriteria)){
+				SecureData data = this.getSecureMap().get(h);
+				try {
+					result.setResult(StorageUtil.getSecure(cachedKey, data));
+					result.setMetadata(meta);
+					results.add(result);
+				} catch (InvalidProtocolBufferException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
+	
+	/**
+	 * Get exact matching handle
+	 * 
+	 */
+	public void get(String handle, SingleResult result) throws SuitableMatchFailedException{
 		Metadata meta = this.getMetadataMap().get(new Handle(handle));
 		SecureData data = this.getSecureMap().get(new Handle(handle));
 		

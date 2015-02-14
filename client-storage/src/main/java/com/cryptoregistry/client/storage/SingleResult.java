@@ -6,17 +6,17 @@
 package com.cryptoregistry.client.storage;
 
 /**
- * Encapsulate query output
+ * Encapsulate query output - single-valued result
  * 
  * @author Dave
  *
  */
-public class Result {
+public class SingleResult {
 
 	public Object result;
 	public Metadata metadata;
 	
-	public Result() {
+	public SingleResult() {
 		super();
 	}
 

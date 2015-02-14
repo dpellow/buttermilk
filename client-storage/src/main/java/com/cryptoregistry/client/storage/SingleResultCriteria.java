@@ -8,14 +8,21 @@ package com.cryptoregistry.client.storage;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Criteria {
+/**
+ * Used in the use-case where we want to find a single key material item such as a key for publication of 
+ * type RSA with size 2048 bits.
+ * 
+ * @author Dave
+ *
+ */
+public class SingleResultCriteria {
 
 	public final Map<MetadataTokens, Object> map;
-	public Result result;
+	public SingleResult result;
 	
-	public Criteria() {
+	public SingleResultCriteria() {
 		map = new HashMap<MetadataTokens, Object>();
-		result = new Result();
+		result = new SingleResult();
 	}
 
 	public Object put(MetadataTokens key, Object value) {
@@ -28,8 +35,8 @@ public class Criteria {
 	 * @param regHandle
 	 * @return
 	 */
-	public static final Criteria c2(String regHandle){
-		Criteria criteria = new Criteria();
+	public static final SingleResultCriteria c2(String regHandle){
+		SingleResultCriteria criteria = new SingleResultCriteria();
 		criteria.put(MetadataTokens.key, true);
 		criteria.put(MetadataTokens.forPublication, false);
 		criteria.put(MetadataTokens.keyGenerationAlgorithm, "Curve25519");
@@ -43,8 +50,8 @@ public class Criteria {
 	 * @param regHandle
 	 * @return
 	 */
-	public static final Criteria c2Hello(String regHandle, String keyHandle){
-		Criteria criteria = new Criteria();
+	public static final SingleResultCriteria c2Hello(String regHandle, String keyHandle){
+		SingleResultCriteria criteria = new SingleResultCriteria();
 		criteria.put(MetadataTokens.key, true);
 		criteria.put(MetadataTokens.forPublication, true);
 		criteria.put(MetadataTokens.keyGenerationAlgorithm, "Curve25519");
@@ -52,8 +59,8 @@ public class Criteria {
 		return criteria;
 	}
 	
-	public static final Criteria ec(String curveName){
-		Criteria criteria = new Criteria();
+	public static final SingleResultCriteria ec(String curveName){
+		SingleResultCriteria criteria = new SingleResultCriteria();
 		criteria.put(MetadataTokens.key, true);
 		criteria.put(MetadataTokens.forPublication, false);
 		criteria.put(MetadataTokens.keyGenerationAlgorithm, "EC");
@@ -64,8 +71,8 @@ public class Criteria {
 		return criteria;
 	}
 	
-	public static final Criteria rsa(String regHandle){
-		Criteria criteria = new Criteria();
+	public static final SingleResultCriteria rsa(String regHandle){
+		SingleResultCriteria criteria = new SingleResultCriteria();
 		criteria.put(MetadataTokens.key, true);
 		criteria.put(MetadataTokens.forPublication, false);
 		criteria.put(MetadataTokens.keyGenerationAlgorithm, "RSA");
