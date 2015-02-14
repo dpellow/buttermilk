@@ -29,4 +29,5 @@ public class C2KeyForPublicationProtoReader {
 		Curve25519KeyForPublication fp = new Curve25519KeyForPublication(meta,pk);
 		return fp;
 	}
+	
 }

@@ -5,11 +5,19 @@
  */
 package com.cryptoregistry.client.storage;
 
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.cryptoregistry.CryptoContact;
+import com.cryptoregistry.CryptoKey;
+import com.cryptoregistry.ListData;
+import com.cryptoregistry.MapData;
+import com.cryptoregistry.formats.JSONFormatter;
+import com.cryptoregistry.signature.CryptoSignature;
+
 /**
- * This is for the use-case where we want to find a single item in the key materials such as a key for publication of 
+ * This is for the light-weight use-case where we want to find a single item in the key materials such as a key for publication of 
  * type RSA with size 2048 bits, registered to "Bob Smith".
  * 
  * @author Dave
@@ -80,10 +88,37 @@ public class SingleResultCriteria implements Criteria {
 		return criteria;
 	}
 
-	@Override
+	/**
+	 * TODO - optimize
+	 */
 	public String toJSON() {
-		// TODO Auto-generated method stub
-		return null;
+		String regHandle = (String) map.get(MetadataTokens.registrationHandle);
+		if(regHandle == null) {
+			throw new RuntimeException("toJSON() requires a Criteria where the MetadataTokens.registrationHandle is set");
+		}
+		
+		JSONFormatter builder = new JSONFormatter(regHandle);
+			SingleResult res = this.result;
+			if(res.metadata.isIgnore()) {
+				throw new RuntimeException("toJSON() cannot JSON format items which are marked 'ignore'");
+			}
+			if(res.metadata.isKey() && res.metadata.isForPublication()) {
+				CryptoKey key = (CryptoKey)res.result;
+				builder.add(key);
+			}else if(res.metadata.isContact()){
+				builder.add((CryptoContact) res.result);
+			}else if(res.metadata.isSignature()){
+				builder.add((CryptoSignature) res.result);
+			}else if(res.metadata.isNamedMap()){
+				builder.add((MapData) res.result);
+			}else if(res.metadata.isNamedList()){
+				builder.add((ListData) res.result);
+			}
+		
+		StringWriter writer = new StringWriter();
+		builder.format(writer);
+		return writer.toString();
+	
 	}
 	
 	

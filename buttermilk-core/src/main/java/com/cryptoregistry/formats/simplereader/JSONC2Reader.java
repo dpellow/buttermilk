@@ -24,7 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * materials it is reading; the file could contain 1 key or 100 and a lot of other stuff
  * besides. But sometimes you just need a very simple reader which assumes the 
  * program knows at design time the nature of the key to be read - i.e., the programmer knows
- * what kind of keys she is using and has the ability to rely on what they will look like. 
+ * what kind of keys she is using and can rely on the type. 
  * </p>
  * 
  * <p>
@@ -33,9 +33,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * In other words, it is a simple, efficient, direct approach.  
  * </p>
  * 
- * <p>This class assumes you are reading a very simple file essentially like the below. It can read
- * all three modes, unsecured, secured, and for publication. To read a secured mode you must have
- * provided the password.
+ * <p>This class assumes you are reading a very simple key file with no associated signatures
+ *  essentially like the below. It can read all three modes, unsecured, secured, and for publication. 
+ *  To read a secured mode you must have provided the password.
  * </p>
  * 
  * <pre>

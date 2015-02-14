@@ -123,6 +123,8 @@ public class Metadata implements Serializable {
 					if(this.RSAKeySize != i) return false;
 					else continue;
 				}
+			default:
+				return false;
 			}
 			
 		}
