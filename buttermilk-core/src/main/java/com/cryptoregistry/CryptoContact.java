@@ -10,8 +10,17 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Backing for a contact record. 
+ * 
+ * @author Dave
+ *
+ */
 public class CryptoContact {
 
+	public static final int MAX_KEY_LENGTH = 64;
+	public static final int MAX_VALUE_LENGTH = 255;
+	
 	protected final Map<String,String> map;
 	public final String handle;
 	
@@ -31,11 +40,16 @@ public class CryptoContact {
 		Iterator<String> iter = contents.keySet().iterator();
 		while(iter.hasNext()){
 			String key = iter.next();
-			map.put(key, String.valueOf(map.get(key)));
+			String value = map.get(key);
+			if(key.length() > MAX_KEY_LENGTH) throw new RuntimeException("key too long");
+			if(value.length() > MAX_VALUE_LENGTH) throw new RuntimeException("value too long");
+			map.put(key, value);
 		}
 	}
 	
 	public Map<String,String> add(String key, String value){
+		if(key.length() > MAX_KEY_LENGTH) throw new RuntimeException("key too long");
+		if(value.length() > MAX_VALUE_LENGTH) throw new RuntimeException("value too long");
 		map.put(key,value);
 		return map;
 	}
@@ -44,9 +58,9 @@ public class CryptoContact {
 		return map.get(key);
 	}
 
-	public Map<String, String> getMap() {
-		return map;
-	}
+	//public Map<String, String> getMap() {
+	//	return map;
+	//}
 
 	public String getHandle() {
 		return handle;
