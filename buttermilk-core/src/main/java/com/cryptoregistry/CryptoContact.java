@@ -62,9 +62,9 @@ public class CryptoContact {
 		return map.keySet().iterator();
 	}
 
-	//public Map<String, String> getMap() {
-	//	return map;
-	//}
+	public Map<String, String> getMap() {
+		return map;
+	}
 
 	public String getHandle() {
 		return handle;
