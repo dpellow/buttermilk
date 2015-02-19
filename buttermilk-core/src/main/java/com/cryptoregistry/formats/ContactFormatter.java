@@ -38,11 +38,11 @@ class ContactFormatter {
 		while(iter.hasNext()){
 			CryptoContact c = iter.next();
 			g.writeObjectFieldStart(c.getHandle());
-			Iterator<String> inner = c.getMap().keySet().iterator();
+			Iterator<String> inner = c.iterator();
 			while(inner.hasNext()){
 				String key = inner.next();
 				if(key.equals("Handle")) continue;
-				g.writeStringField(key, c.getMap().get(key));
+				g.writeStringField(key, c.get(key));
 			}
 			g.writeEndObject();
 		}

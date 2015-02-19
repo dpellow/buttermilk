@@ -57,6 +57,10 @@ public class CryptoContact {
 	public String get(String key){
 		return map.get(key);
 	}
+	
+	public Iterator<String> iterator() {
+		return map.keySet().iterator();
+	}
 
 	//public Map<String, String> getMap() {
 	//	return map;

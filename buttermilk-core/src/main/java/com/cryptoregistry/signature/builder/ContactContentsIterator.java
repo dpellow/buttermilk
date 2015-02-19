@@ -20,7 +20,7 @@ public class ContactContentsIterator implements MapIterator {
 	public ContactContentsIterator(CryptoContact contact) {
 		super();
 		this.contact = contact;
-		iter = contact.getMap().keySet().iterator();
+		iter = contact.iterator();
 		handleLength = contact.getHandle().length()+1;
 	}
 	
@@ -52,14 +52,14 @@ public class ContactContentsIterator implements MapIterator {
 
 	public String get(String key){
 		if(key.startsWith("."))
-		return contact.getMap().get(key.substring(1,key.length()));
-		else return contact.getMap().get(key.substring(handleLength,key.length()));
+		return contact.get(key.substring(1,key.length()));
+		else return contact.get(key.substring(handleLength,key.length()));
 	}
 	
 	public void reset(){
 		if(!iter.hasNext()) {
 			index = 0;
-			iter = contact.getMap().keySet().iterator();
+			iter = contact.iterator();
 		}
 	}
 
