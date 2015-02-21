@@ -1,57 +1,26 @@
 Buttermilk(tm) Command Line Client
+version 1.0
 ----------------------------------
+Copyright 2011-2015 David R. Smith
+All Rights Reserved
 
-Some flags can be set with defaults in your buttermilk.properties configuration file.
+This utility is for preparing a new data store or doing off-line maintenance on a data store - not for hot use
 
-*** Secure Key Database ***********************************************************************
+Command anchors:
 
---info								- summary of info about the data store
+datastore -c|--create -f <path>
+password -f <password-file>
+backup -p <path>
+list -a|--all, -k|--keys, -p|--forpublication -r|--regHandle <handle>, -h|--handle <handle>
+key -c|--create -a|--algorithm <alg> 
+import -f|--file <path>
+export -f|--file <path>, [-h|--handle,...]
+show 
+signature -c|--create -r|--ref <uuid:attribute>,..., 
+contact
 
---list								- list existing keys in tabular form
---list [-a | --alg <algorithm>]		- list existing keys in tabular form for a given Algorithm
---list [-r | --regHandle <handle>]	- list existing keys in tabular form for a given Registration Handle
 
---import -f| --file <path>			- import a buttermilk formatted file into the store
---export -f| --file <path>			- export the selected items in buttermilk format
-		 --key <handle>, ...
-		 --contact <handle>, ...
-		 --data <handle>, ...
-		 --signature <handle>, ...
 
-*** Key Generation ****************************************************************************
 
--a | --alg <algorithm>				-	REQUIRED - Key generation algorithm. 				
--r | --regHandle <handle>			-   REQUIRED - Your registration handle for cryptoregistry.com
--h | --handle <handle>				- 	OPTIONAL - Database key. A UUID will be generated in the normal case
 
---listKeyGenAlgs					-	output a list of known key generation algorithm names
-
-*** For RSA ***********************************************************************************
-
--a |--alg RSA
--c | --certainty <integer>			-   OPTIONAL - iterations of the Miller-Rabin primality test, default 100
--p | --publicExponent <integer>		-   OPTIONAL - typically would be 3, 5, 17, 257, or 65537, default 3
--s | --strength <mult of 1024>		-	OPTIONAL - default is 2048
-
-*** For Elliptic Curve ************************************************************************
-
---listCurveNames					-	output a list of known curveName values
---showCustomCurveExample			-	output a template of custom curve parameters as example for -f
-
--a |--alg EC
--c |--curveName <name>				-	EITHER/OR - required unless -f is used for custom curve.
--f |--file <path>					-   EITHER/OR - file path to custom curve parameters
-
-*** For Curve25519 ****************************************************************************
-
--a |--alg Curve25519
-
-*** For NTRU **********************************************************************************
-
---listNamedParameters				-	output a list of the well-known parameter names
---showCustomParamExample			- 	output a template of NTRU parameters to be used with -f
-
--a |--alg NTRU
--n |--namedParams <name>			- 	EITHER/OR - a name from the defined list, e.g., APR2011_439
--f |--file <path>					-   EITHER/OR - file path to NTRU parameter set
-
+										

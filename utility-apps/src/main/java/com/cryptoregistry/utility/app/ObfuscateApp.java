@@ -18,16 +18,16 @@ import com.cryptoregistry.util.ShowHelpUtil;
 
 /**<p>
  * Obfuscate password files so they are harder to make leak information. This is not
- * to be confused with encryption. Obfuscation just makes it harder for someone
+ * to be confused with encryption. Obfuscation uses encryption technique, but just makes it harder for someone
  * to easily see the password if they have read access to the file.</p>
  * 
  * <p>To use this, put a plain text password in a file, then pass that file name in as -f <filename>. The
- * program will obfuscate the password in the file. </p>
+ * program will obfuscate the password in the file. The result will be in properties format where the key
+ * is "password" and the value is the obfuscated value</p>
  * 
  * <p>The key used for this is compiled into the program, so it is portable. To make the obfuscation more
  * specific to your system, put a file called "salt.txt" into your home folder or into the
- * top level of the classpath for this program (for example, by putting it into utility-apps.jar). Warning:
- * this does make your program non-portable.</p>
+ * top level of the classpath for this program. Warning: this does make your program non-portable.</p>
  * 
  * <p>This app will attempt to set the file permissions to read-only for the current user.</p>
  * 

@@ -5,8 +5,19 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 
+/**
+ * Helpful routines for presenting command-line output
+ *  
+ * @author Dave
+ *
+ */
 public class ShowHelpUtil {
 
+	/**
+	 * Send a help file to Standard out
+	 * 
+	 * @param path
+	 */
 	public static final void showHelp(String path) {
 		InputStream in = Thread.currentThread().getClass().getResourceAsStream(path);
 		try {
@@ -28,7 +39,7 @@ public class ShowHelpUtil {
 	}
 	
 	/**
-	 * Return the help file contents
+	 * Return the help file contents as a String
 	 * 
 	 * @param path
 	 * @return
