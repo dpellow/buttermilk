@@ -8,16 +8,17 @@ This utility is for preparing a new data store or doing off-line maintenance on 
 
 Command anchors:
 
-datastore -c|--create -f <path>
-password -f <password-file>
 backup -p <path>
-list -a|--all, -k|--keys, -p|--forpublication -r|--regHandle <handle>, -h|--handle <handle>
-key -c|--create -a|--algorithm <alg> 
-import -f|--file <path>
+contact -a|--attrib <name:value>,...
+datastore -c|--create -f <path>
 export -f|--file <path>, [-h|--handle,...]
-show 
-signature -c|--create -r|--ref <uuid:attribute>,..., 
-contact
+import -f|--file <path>
+key -c|--create -a|--algorithm <alg> 
+list -a|--all, -k|--keys, -p|--forpublication -r|--regHandle <handle>, -h|--handle <handle>
+password -f <password-file>
+sign -k|--key <handle> -r|--ref <uuid:attribute>,...,
+validate  -h|--handle <handle>
+
 
 
 
