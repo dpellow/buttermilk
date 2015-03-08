@@ -52,6 +52,9 @@ public class DataStoreTest {
 			Collection<Metadata> col = ds.getViews().getAllForRegHandle(regHandle);
 			Assert.assertEquals(col.size(), 9);
 			
+			Assert.assertTrue(ds.getViews().hasRegHandle(regHandle));
+			Assert.assertTrue(ds.getViews().hasRegHandle("stoney"));
+			
 			SingleResultCriteria criteria = SingleResultCriteria.c2(regHandle);
 			try {
 				ds.getViews().get(criteria);
