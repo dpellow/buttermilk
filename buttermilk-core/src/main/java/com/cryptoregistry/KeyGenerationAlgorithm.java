@@ -25,4 +25,12 @@ public enum KeyGenerationAlgorithm {
 		this.code = code;
 	}
 	
+	public static KeyGenerationAlgorithm [] usableForSignature(){
+		KeyGenerationAlgorithm [] a = new KeyGenerationAlgorithm[3];
+		a[0]=Curve25519;
+		a[1]=EC;
+		a[2]=RSA;
+		return a;
+	}
+	
 }
