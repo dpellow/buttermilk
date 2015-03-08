@@ -23,7 +23,7 @@ import com.cryptoregistry.passwords.SensitiveBytes;
 import com.cryptoregistry.symmetric.SymmetricKeyContents;
 
 /**
- *<p>KeyManager's deal with the task of unlocking the Datastore contents. This
+ *<p>KeyManagers deal with the task of unlocking the Data store contents. This
  *simple one just uses a key stored on the file system and an obfuscated
  *password found in an associated properties file</p>
  *
