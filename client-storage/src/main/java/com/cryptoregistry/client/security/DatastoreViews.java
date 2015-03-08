@@ -29,6 +29,8 @@ public interface DatastoreViews {
 	public  Map<Handle, Metadata> getRegHandleMap();
 	
 	public  Collection<Metadata> getAllForRegHandle(String regHandle);
+	
+	public boolean hasRegHandle(String regHandle);
 
 	public  void put(String regHandle, CryptoKey key);
 

@@ -132,6 +132,12 @@ public class ButtermilkViews implements DatastoreViews {
 	public Collection<Metadata> getAllForRegHandle(String regHandle){
 		return regHandleMap.duplicates(new Handle(regHandle));
 	}
+	
+	public boolean hasRegHandle(String regHandle){
+		Collection<Metadata> col = regHandleMap.duplicates(new Handle(regHandle));
+		if(col == null || col.size() == 0) return false;
+		return true;
+	}
 
 	void clearCachedKey() {
 		cachedKey.selfDestruct();
