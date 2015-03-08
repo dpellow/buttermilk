@@ -5,6 +5,7 @@
  */
 package com.cryptoregistry.client.security;
 
+import java.util.Collection;
 import java.util.Map;
 
 import com.cryptoregistry.CryptoContact;
@@ -24,6 +25,10 @@ public interface DatastoreViews {
 	public  Map<Handle, SecureData> getSecureMap();
 
 	public  Map<Handle, Metadata> getMetadataMap();
+	
+	public  Map<Handle, Metadata> getRegHandleMap();
+	
+	public  Collection<Metadata> getAllForRegHandle(String regHandle);
 
 	public  void put(String regHandle, CryptoKey key);
 

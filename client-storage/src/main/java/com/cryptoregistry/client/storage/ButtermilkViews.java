@@ -6,6 +6,7 @@
 package com.cryptoregistry.client.storage;
 
 import java.security.SecureRandom;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -67,6 +68,7 @@ public class ButtermilkViews implements DatastoreViews {
 	private ButtermilkBDBDatabase db;
 	private final StoredSortedMap<Handle, SecureData> secureMap;
 	private final StoredSortedMap<Handle, Metadata> metadataMap;
+	private final StoredSortedMap<Handle, Metadata> regHandleMap;
 	private final SecureRandom rand = new SecureRandom();
 	private final SensitiveBytes cachedKey;
 
@@ -89,6 +91,12 @@ public class ButtermilkViews implements DatastoreViews {
 				catalog, Handle.class);
 		EntryBinding<Metadata> metadataDataBinding = new SerialBinding<Metadata>(
 				catalog, Metadata.class);
+		
+		// this is the reg Handle
+		EntryBinding<Handle> regHandleKeyBinding = new SerialBinding<Handle>(
+				catalog, Handle.class);
+		EntryBinding<Metadata> regHandleDataBinding = new SerialBinding<Metadata>(
+				catalog, Metadata.class);
 
 		secureMap = new StoredSortedMap<Handle, SecureData>(
 				db.getSecureDatabase(), secureKeyBinding, secureDataBinding,
@@ -97,23 +105,32 @@ public class ButtermilkViews implements DatastoreViews {
 		metadataMap = new StoredSortedMap<Handle, Metadata>(
 				db.getMetadataDatabase(), metadataKeyBinding,
 				metadataDataBinding, true);
+		
+		regHandleMap = new StoredSortedMap<Handle, Metadata>(
+				db.getRegHandleDatabase(), regHandleKeyBinding,
+				regHandleDataBinding, true);
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.cryptoregistry.client.storage.DatastoreViews#getSecureMap()
-	 */
 	@Override
 	public Map<Handle, SecureData> getSecureMap() {
 		return secureMap;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.cryptoregistry.client.storage.DatastoreViews#getMetadataMap()
-	 */
 	@Override
 	public Map<Handle, Metadata> getMetadataMap() {
 		return metadataMap;
+	}
+	
+	public Map<Handle, Metadata> getRegHandleMap() {
+		return regHandleMap;
+	}
+	
+	/**
+	 * Access to the index
+	 */
+	public Collection<Metadata> getAllForRegHandle(String regHandle){
+		return regHandleMap.duplicates(new Handle(regHandle));
 	}
 
 	void clearCachedKey() {

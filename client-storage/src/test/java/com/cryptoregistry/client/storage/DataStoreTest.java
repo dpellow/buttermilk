@@ -5,6 +5,8 @@
  */
 package com.cryptoregistry.client.storage;
 
+import java.util.Collection;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -36,14 +38,19 @@ public class DataStoreTest {
 				ds.getViews().put(regHandle, key);
 				key = Buttermilk.INSTANCE.generateRSAKeys();
 				ds.getViews().put(regHandle, key);
+				key = Buttermilk.INSTANCE.generateRSAKeys();
+				ds.getViews().put("stoney", key);
 			//	key = Buttermilk.INSTANCE.generateNTRUKeys();
 			//	ds.getViews().put(regHandle, key);
 			//	key = Buttermilk.INSTANCE.generateSymmetricKey();
 			//	ds.getViews().put(regHandle, key);
 			}
 			
-			Assert.assertEquals(ds.getViews().getSecureMap().size(),9);
-			Assert.assertEquals(ds.getViews().getMetadataMap().size(),9);
+			Assert.assertEquals(ds.getViews().getSecureMap().size(),12);
+			Assert.assertEquals(ds.getViews().getMetadataMap().size(),12);
+			
+			Collection<Metadata> col = ds.getViews().getAllForRegHandle(regHandle);
+			Assert.assertEquals(col.size(), 9);
 			
 			SingleResultCriteria criteria = SingleResultCriteria.c2(regHandle);
 			try {
