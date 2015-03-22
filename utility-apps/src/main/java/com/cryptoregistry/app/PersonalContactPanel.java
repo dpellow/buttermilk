@@ -118,4 +118,10 @@ public class PersonalContactPanel extends JPanel {
 		setLayout(groupLayout);
 		
 	}
+
+	public JTextField getTextField() {
+		return textField;
+	}
+	
+	
 }

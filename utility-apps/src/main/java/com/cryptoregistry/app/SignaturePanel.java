@@ -12,11 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JCheckBox;
-import javax.swing.JScrollBar;
 import javax.swing.JButton;
 
 public class SignaturePanel extends JPanel {

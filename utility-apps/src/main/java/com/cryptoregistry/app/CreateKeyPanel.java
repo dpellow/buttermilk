@@ -147,4 +147,11 @@ public class CreateKeyPanel extends JPanel {
 		setLayout(groupLayout);
 		
 	}
+
+
+	public JPasswordField getTextField_1() {
+		return textField_1;
+	}
+	
+	
 }

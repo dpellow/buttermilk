@@ -174,6 +174,12 @@ public class BusinessContactPanel extends JPanel {
 					.addContainerGap())
 		);
 		setLayout(groupLayout);
-		// TODO Auto-generated constructor stub
+		
 	}
+
+	public JTextField getTextField() {
+		return textField;
+	}
+	
+	
 }

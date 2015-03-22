@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import asia.redact.bracket.properties.Properties;
 
@@ -23,13 +25,60 @@ public class SwingRegistrationBuilder {
 	        frame.setPreferredSize(new Dimension(800,500));
 	       
 	        JTabbedPane tabbedPane = new JTabbedPane();
-	        RegHandlePanel regHandlePanel = new RegHandlePanel(props);
-	        tabbedPane.addTab("Introduction", new ShowHelpPanel(props));
+	        tabbedPane.setPreferredSize(new Dimension(800,350));
+	       
+	        final ShowHelpPanel showHelpPanel = new ShowHelpPanel(props);
+	        final RegHandlePanel regHandlePanel = new RegHandlePanel(props);
+	        final CreateKeyPanel createKeyPanel = new CreateKeyPanel(props);
+	        final PersonalContactPanel personalContactPanel = new PersonalContactPanel();
+	        final BusinessContactPanel businessContactPanel = new BusinessContactPanel();
+	        final SignaturePanel signaturePanel = new SignaturePanel();
+	        
+	        tabbedPane.addTab("Introduction", showHelpPanel);
 	        tabbedPane.addTab("Select Registration Handle", regHandlePanel);
-	        tabbedPane.addTab("Initial Key", new CreateKeyPanel(props));
-	        tabbedPane.addTab("Personal Contact", new PersonalContactPanel());
-	        tabbedPane.addTab("Business Contact", new BusinessContactPanel());
-	        tabbedPane.addTab("Signature", new SignaturePanel());
+	        tabbedPane.addTab("Initial Key", createKeyPanel);
+	        tabbedPane.addTab("Personal Contact", personalContactPanel);
+	        tabbedPane.addTab("Business Contact", businessContactPanel);
+	        tabbedPane.addTab("Signature", signaturePanel);
+	        
+	        ChangeListener changeListener = new ChangeListener() {
+
+				@Override
+				public void stateChanged(ChangeEvent e) {
+					 JTabbedPane sourceTabbedPane = (JTabbedPane) e.getSource();
+				        int index = sourceTabbedPane.getSelectedIndex();
+				        switch(index){
+				        	case 0: {
+				        	
+				        		break;
+				        	}
+				        	case 1:{
+				        		regHandlePanel.getRegHandleTextField().requestFocusInWindow();
+				        		break;
+				        	}
+				        	case 2:{
+				        		createKeyPanel.getTextField_1().requestFocusInWindow();
+				        		break;
+				        	}
+				        	case 3:{
+				        		personalContactPanel.getTextField().requestFocusInWindow();
+				        		break;
+				        	}
+				        	case 4:{
+				        		businessContactPanel.getTextField().requestFocusInWindow();
+				        		break;
+				        	}
+				        	case 5:{
+				        	//	signaturePanel.getRegHandleTextField().requestFocusInWindow();
+				        		break;
+				        	}
+				        	default: {}
+				        }
+					
+				}
+	        };
+	        
+	        tabbedPane.addChangeListener(changeListener);
 	        
 	        JPanel outer = new JPanel();
 	        outer.setLayout(new BoxLayout(outer, BoxLayout.PAGE_AXIS));
@@ -46,7 +95,7 @@ public class SwingRegistrationBuilder {
 	        //Display the window.
 	        frame.pack();
 	        frame.setVisible(true);
-	        regHandlePanel.getRegHandleTextField().requestFocusInWindow();
+	       // regHandlePanel.getRegHandleTextField().requestFocusInWindow();
 	    }
 	 
 	    public static void main(String[] args) {

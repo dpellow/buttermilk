@@ -7,8 +7,9 @@
 	
 	<h3>Introduction</h3>
 	
-	<p>Welcome to the registration wizard. <b>cryptoregistry.com</b> uses a simple JSON-formatted file format for
-	transactions. This wizard helps build up the data file required to request an initial registration. Later
+	<p>Welcome to the registration wizard. <b>cryptoregistry.com</b> uses a simple JSON-formatted file format
+	which you will upload once it is complete. This wizard helps build up that data file. The file is
+	 required to request an initial registration. Later
 	stages of the registration (such as payment for crypto services or requesting Identity Points&reg;) are 
 	handled online. The initial registration process including using this software, upload, and submission 
 	is <b>free</b>.</p>
@@ -35,19 +36,74 @@
 	
 	<h3>What Is <b>cryptoregistry.com</b>?</h3>
 	
-	<p><b>cryptoregistry.com</b> is part of a new Public Key Infrastructure (PKI) designed by David R. Smith. The PKI design consists
+	<p><b>cryptoregistry.com</b> is part of a new Public Key Infrastructure (PKI) designed by David R. Smith. 
+	The PKI design consists
 	of an open source cryptographic library implemented in the Java programming language, called Buttermilk; a new
 	security protocol (loosely modeled on TLS) called bTLS (aka "beatles"); new cryptographic formats,
 	utilities, and programs, and a web site to support it all.</p>
 	
-	<h3>What is a Registration Handle?</h3>
+	<h3>What is a Handle?</h3>
 	
-	<p>Handles are UTF-8 encoded text strings which follow certain rules. Here are some examples of handles:</p>
+	<p>Handles are UTF-8 encoded text strings which follow certain rules. The intention of a handle is to
+	work as a moniker or nick-name for your PKI use. The handle provides <i>a unique
+	textual value</i> to use as a way to locate your key materials in the registry. Here are some examples 
+	of valid handles:</p>
 	
 	<ul>
-		<li></li>
+		<li>Chinese Knees</li>
+		<li>ba80f000-d054-11e4-8477-0002a5d5c51b</li>
+		<li>mywebsite.com.au</li>
 	</ul>
 	
+	<p>These examples may not seem to have much in common but they all conform to the following rules:</p>
+	
+	<ol>
+		<li>Consists of more than one "word"</li>
+		<li>The "words" may consist of any combination of UTF-8 characters, max length of a word is 128 bytes</li>
+		<li>The "words" are separated by either a space, a dash, or a dot (period).</li>
+		<li>If the separator is a <i>dot (period)</i> character, then parsing rules for domain names are in play.</li>
+		<li>If the separator is a <i>dash</i>, then parsing rules for UUIDs are in play.</li>
+	</ol> 
+	
+	<p>The first example, "Chinese Knees", is a typical or human-readable handle. It uses spaces 
+	(in this case one space) to separate words.</p>
+	
+	<p>The second example is a machine-generated UUID, which is also acceptable as a handle. It has "words"
+	separated by dashes, but no spaces or periods.</p>
+	
+	<p>The third example is a domain name. Every domain name is a potential handle, but not every handle would
+	qualify as a domain name.</p>
+	
+	<h3>What is a Registration Handle&reg;?</h3>
+	
+	<p>A registration handle is a handle chosen by a registrant (i.e., you) for use with a cryptoregistry.com registration.</p>
+	
+	<p>The registration handle will be publicly visible and internet-searchable, and depending on the level of
+	PKI validation your use-case requires, it my be directly tied back to personal or business details about you,
+	so it is worth thinking about and choosing wisely. You are only allowed to have one personal handle, and
+	one per business or web site entity which you legally control.</p>
+	
+	<p>Some guidelines, more are found in the Terms of Service:</p> 
+	
+	<ul>
+		<li>Do not include your legal name or personally identifiable details like phone numbers in your peronsal handle. There are millions of people named John Smith. Try to think of something
+		more original which fits your personality.</li>
+		<li>You can use your legal business name as a business registration Handle, but keep in mind you must own the
+		trademark for that phrase or name.</li>
+		<li>You must claim copyright as part of your handle creation upon registration. I.e., you must assert the handle
+		is your unique intellectual property and creatively yours.</li>
+		<li>If you cannot think of anything creative, a unique UUID can be generated instead - but this is harder to remember
+		or tell your friends.</li>
+		<li>Pornographic or sexually offensive phrases are not allowed, although a certain amount of 
+		creative license is reasonable. Do you
+		really want people to look up your on-line handle by searching for "Big Dick 10?" Unless you
+		are a working porn star you should choose something less provocative.</li> 
+		<li>Hate speech is not allowed in a registration handle. Do you really want to be known online as "Jew Hater 27"? 
+		Unless you are a member of an ultra-right wing political party
+		you should choose something less provocative for your personal handle.</li>
+	</ul>
+	
+	<h3>...</h3>
 
 	</body>
 </html>
