@@ -44,6 +44,10 @@ public class Check10K {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally{
+			try {
+				if(in != null) in.close();
+			} catch (IOException e) {}
 		}
 
 		return false;

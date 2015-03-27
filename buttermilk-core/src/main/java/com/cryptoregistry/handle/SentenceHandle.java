@@ -34,6 +34,8 @@ public class SentenceHandle extends CryptoHandle {
 
 	@Override
 	public boolean validate() {
+		if(this.count() ==0) return false;
+		if(this.count() ==1) return false;
 		if(this.count() > 127) return false;
 		for(String part: this.handleParts()){
 			if(part.length()>34)return false;

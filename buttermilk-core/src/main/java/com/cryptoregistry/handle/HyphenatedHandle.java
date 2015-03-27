@@ -37,12 +37,15 @@ public class HyphenatedHandle extends CryptoHandle {
 
 	@Override
 	public boolean validate() {
+		return false;
+		/*
 		int count = this.count();
 		if(count < 2 || count > 127) return false;
 		for(String part: this.handleParts()){
 			if(part.length()>34)return false;
 		}
 		return true;
+		*/
 	}
 
 }

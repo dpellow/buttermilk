@@ -10,6 +10,8 @@ import java.nio.charset.CharsetEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.cryptoregistry.util.DomainTLDChecker;
+
 /**
  * <pre>
  * Handle for domain names
@@ -29,6 +31,7 @@ public class DomainNameHandle extends CryptoHandle {
 	
 	private static final long serialVersionUID = 1L;
 	protected static final Pattern LDH = Pattern.compile("[A-Za-z0-9-]+"); 
+	protected static final DomainTLDChecker checker = new DomainTLDChecker();
 
 	public DomainNameHandle(String handle) {
 		super(handle);
@@ -48,14 +51,20 @@ public class DomainNameHandle extends CryptoHandle {
 	 */
 	@Override
 	public boolean validate() {
+		
 		if(handle.length() >256) return false;
 		if(!isPureAscii(handle)) return false;
 		String [] parts = this.handleParts();
+		if(parts.length<2) return false;
 		if(parts.length>127) return false;
 		for(String part : parts){
 			Matcher m = LDH.matcher(part);
 			if(!m.matches()) return false;
 		}
+		
+		String last = parts[parts.length-1];
+		if(!checker.isPresent(last)) return false;
+		
 		return true;
 	}
 	
