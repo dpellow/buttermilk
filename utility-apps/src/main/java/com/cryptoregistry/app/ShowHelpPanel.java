@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 import java.io.IOException;
 
 import javax.swing.JScrollPane;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 
 import asia.redact.bracket.properties.Properties;
 
@@ -21,9 +23,21 @@ public class ShowHelpPanel extends JPanel {
 		
 		java.net.URL helpURL = this.getClass().getResource("/helptext.html");
 		
-		JTextPane textPane = new JTextPane();
+		final JTextPane textPane = new JTextPane();
+		textPane.setEditable(false);
 		JScrollPane scrollPane = new JScrollPane(textPane);
 		add(scrollPane);
+		
+		textPane.addHyperlinkListener(new HyperlinkListener() {
+	        public void hyperlinkUpdate(final HyperlinkEvent pE) {
+	            if (HyperlinkEvent.EventType.ACTIVATED == pE.getEventType()) {
+	                String desc = pE.getDescription();
+	                if (desc == null || !desc.startsWith("#")) return;
+	                desc = desc.substring(1);
+	                textPane.scrollToReference(desc);
+	            }
+	        }
+	    });
 		
 		try {
 			textPane.setPage(helpURL);

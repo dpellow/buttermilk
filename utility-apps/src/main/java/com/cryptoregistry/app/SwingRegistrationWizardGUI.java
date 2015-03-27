@@ -6,7 +6,6 @@ import java.io.InputStream;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.event.ChangeEvent;
@@ -14,7 +13,7 @@ import javax.swing.event.ChangeListener;
 
 import asia.redact.bracket.properties.Properties;
 
-public class SwingRegistrationBuilder {
+public class SwingRegistrationWizardGUI {
 	
 	 static JTextArea outputPane;
 
@@ -32,6 +31,7 @@ public class SwingRegistrationBuilder {
 	        final CreateKeyPanel createKeyPanel = new CreateKeyPanel(props);
 	        final PersonalContactPanel personalContactPanel = new PersonalContactPanel();
 	        final BusinessContactPanel businessContactPanel = new BusinessContactPanel();
+	        final WebsiteContactPanel websiteContactPanel = new WebsiteContactPanel();
 	        final SignaturePanel signaturePanel = new SignaturePanel();
 	        
 	        tabbedPane.addTab("Introduction", showHelpPanel);
@@ -39,6 +39,7 @@ public class SwingRegistrationBuilder {
 	        tabbedPane.addTab("Initial Key", createKeyPanel);
 	        tabbedPane.addTab("Personal Contact", personalContactPanel);
 	        tabbedPane.addTab("Business Contact", businessContactPanel);
+	        tabbedPane.addTab("Website Contact", websiteContactPanel);
 	        tabbedPane.addTab("Signature", signaturePanel);
 	        
 	        ChangeListener changeListener = new ChangeListener() {
@@ -69,7 +70,7 @@ public class SwingRegistrationBuilder {
 				        		break;
 				        	}
 				        	case 5:{
-				        	//	signaturePanel.getRegHandleTextField().requestFocusInWindow();
+				        		websiteContactPanel.getTextField().requestFocusInWindow();
 				        		break;
 				        	}
 				        	default: {}
@@ -84,11 +85,11 @@ public class SwingRegistrationBuilder {
 	        outer.setLayout(new BoxLayout(outer, BoxLayout.PAGE_AXIS));
 	        outer.add(tabbedPane);
 	        
-	        outputPane = new JTextArea();
-	        outputPane.setPreferredSize(new Dimension(800,200));
-	        outputPane.setEditable(false);
-	        JScrollPane scroll = new JScrollPane(outputPane);
-	        outer.add(scroll);
+	     //   outputPane = new JTextArea();
+	     //   outputPane.setPreferredSize(new Dimension(800,200));
+	     //   outputPane.setEditable(false);
+	     //   JScrollPane scroll = new JScrollPane(outputPane);
+	     //   outer.add(scroll);
 	        
 	        frame.getContentPane().add(outer);
 	        

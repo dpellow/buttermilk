@@ -5,41 +5,85 @@ import javax.swing.JPanel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import asia.redact.bracket.properties.Properties;
 
 import com.cryptoregistry.KeyGenerationAlgorithm;
+import com.cryptoregistry.handle.CryptoHandle;
+import com.cryptoregistry.handle.Handle;
 
 public class RegHandlePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JPasswordField regHandleTextField;
-	
+	private final JTextField regHandleTextField;
+	private final RegHandleChecker checker;
 	
 	public RegHandlePanel(Properties props){
 		super();
-		
-		final String regUrl = props.get("registration.url");
-		
+		checker = new RegHandleChecker(props);
+	
 		JLabel lblRegistrationHandle = new JLabel("Registration Handle");
+		final JLabel validationLabel = new JLabel("...");
+		final JLabel lblAvailable = new JLabel("...");
 		
-		regHandleTextField = new JPasswordField("");
+		regHandleTextField = new JTextField("");
 		regHandleTextField.setColumns(10);
 		
 		JButton btnCheckAvailability = new JButton("Check Availability");
 		btnCheckAvailability.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// use regUrl to check handle status
+				String regHandle = regHandleTextField.getText();
+				if(regHandle == null || regHandle.trim().equals("")){
+					// do nothing
+				}
+				boolean ok = checker.check(regHandle);
+				if(ok) {
+					lblAvailable.setText("Available!");
+				}else{
+					lblAvailable.setText("Not Available, Sorry.");
+				}
 			}
 		});
 		
-		JLabel lblAvailable = new JLabel("...");
+		
+		regHandleTextField.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				String text = regHandleTextField.getText();
+				Handle h = CryptoHandle.parseHandle(text);
+				if(h.validate()){
+					validationLabel.setText("Valid Syntax: "+h.getClass().getSimpleName());
+				}else{
+					validationLabel.setText("Format Error: "+h);
+				}
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// do nothing
+				
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				//do nothing
+				
+			}
+			
+		});
+		
 		
 		JButton btnCreate = new JButton("OK");
 		btnCreate.addActionListener(new ActionListener() {
@@ -51,6 +95,8 @@ public class RegHandlePanel extends JPanel {
 		// the circumlocution here allows GUI builder tool to work
 		KeyGenerationAlgorithm [] e = KeyGenerationAlgorithm.usableForSignature();
 		DefaultComboBoxModel<KeyGenerationAlgorithm> model = new DefaultComboBoxModel<KeyGenerationAlgorithm>(e);
+		
+	
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -67,7 +113,9 @@ public class RegHandlePanel extends JPanel {
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 										.addGroup(groupLayout.createSequentialGroup()
-											.addGap(200)
+											.addGap(10)
+											.addComponent(validationLabel)
+											.addGap(144)
 											.addComponent(lblAvailable)
 											.addPreferredGap(ComponentPlacement.RELATED, 124, Short.MAX_VALUE))
 										.addGroup(groupLayout.createSequentialGroup()
@@ -89,7 +137,9 @@ public class RegHandlePanel extends JPanel {
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblAvailable))
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblAvailable)
+								.addComponent(validationLabel)))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(26)
 							.addComponent(btnCheckAvailability)))
@@ -101,9 +151,7 @@ public class RegHandlePanel extends JPanel {
 	}
 
 
-	public JPasswordField getRegHandleTextField() {
+	public JTextField getRegHandleTextField() {
 		return regHandleTextField;
 	}
-	
-	
 }

@@ -5,12 +5,18 @@
 	<body>
 	<h1>cryptoregistry.com Registration Key Materials&reg; Wizard</h1>
 	
+	<ol>
+		<li><a href="#intro">Introduction</a></li>
+		<li><a href="#faq">FAQ</a></li>
+	</ol>
+	
+	<a name="intro"></a>
 	<h3>Introduction</h3>
 	
 	<p>Welcome to the registration wizard. <b>cryptoregistry.com</b> uses a simple JSON-formatted file format
-	which you will upload once it is complete. This wizard helps build up that data file. The file is
-	 required to request an initial registration. Later
-	stages of the registration (such as payment for crypto services or requesting Identity Points&reg;) are 
+	which you will upload once it has been generated. This wizard helps build up that data file. The file is
+	 required to initiate the registration process. Later
+	stages of the registration (such as payment for crypto services or purchasing Identity Points&reg;) are 
 	handled online. The initial registration process including using this software, upload, and submission 
 	is <b>free</b>.</p>
 	
@@ -23,6 +29,7 @@
 	    <li>Initial Key</li>
 	    <li>Personal Contact</li>
 	    <li>Business Contact</li>
+	    <li>Web site Contact</li>
 	    <li>Signature</li>
 	</ol>
 	
@@ -30,9 +37,26 @@
 	your initial encryption key, contact info appropriate to your situation, and finally a digital signature using your
 	own key.</p>
 	
+	<h4>Select Registration Handle</h4>
 	
+	<p>This tab allows you to compose a registration handle and verify if it is available. It requires an 
+	Internet connection to make contact with cryptoregistry.com to check on handles.</p>
 	
+	<h4>Initial Key</h4>
+	
+	<p>Once you have created a candidate registration handle, this tab allows you to generate an 
+	 asymmetric cryptographic key which will be used to sign the registration request.
+	 You may select from one of three algorithms for the key. The generated key will have a for-publication (public) portion,
+	 which is sent to cryptoregistry.com, and also a secured (private) portion which is used for signing or encrypting
+	 messages, etc. The secured portion is encrypted and placed in a separate file, which is why you must supply a password, and you must keep the file
+	 and the associated password secure. </p>
+	 
+	 <p>This password and the generated secured key file are not communicated to cryptoregistry.com.</p>
+	 
+	 
+	<a name="faq"></a>
 	<h2>FAQ</h2>
+	
 	
 	<h3>What Is <b>cryptoregistry.com</b>?</h3>
 	
@@ -44,13 +68,18 @@
 	
 	<h3>What is a Handle?</h3>
 	
-	<p>Handles are UTF-8 encoded text strings which follow certain rules. The intention of a handle is to
-	work as a moniker or nick-name for your PKI use. The handle provides <i>a unique
-	textual value</i> to use as a way to locate your key materials in the registry. Here are some examples 
-	of valid handles:</p>
+	<p>Handles are UTF-8 encoded text strings which follow certain formatting rules. Handles are intended to work as a moniker 
+	or nick-name for all your PKI use. They are intentionally oriented towards individuals, but also can be used for
+	other entities such as  businesses and web sites.</p>
+	
+	<p>The handle provides <i>a unique lookup</i> to locate your key materials 
+	in the registry, but it also allows Identity Points&reg; and other trust materials to adhere.</p>
+	
+	<p>Just to get a flavor of what is possible, here are some examples of valid formatted handles:</p>
 	
 	<ul>
 		<li>Chinese Knees</li>
+		<li>社会主义 吮吸</li>
 		<li>ba80f000-d054-11e4-8477-0002a5d5c51b</li>
 		<li>mywebsite.com.au</li>
 	</ul>
@@ -58,7 +87,7 @@
 	<p>These examples may not seem to have much in common but they all conform to the following rules:</p>
 	
 	<ol>
-		<li>Consists of more than one "word"</li>
+		<li>Consists of more than one "word" with a separator character</li>
 		<li>The "words" may consist of any combination of UTF-8 characters, max length of a word is 128 bytes</li>
 		<li>The "words" are separated by either a space, a dash, or a dot (period).</li>
 		<li>If the separator is a <i>dot (period)</i> character, then parsing rules for domain names are in play.</li>
@@ -68,10 +97,12 @@
 	<p>The first example, "Chinese Knees", is a typical or human-readable handle. It uses spaces 
 	(in this case one space) to separate words.</p>
 	
-	<p>The second example is a machine-generated UUID, which is also acceptable as a handle. It has "words"
+	<p>The second example is in Chinese characters - which works fine for our purposes.</p>
+	
+	<p>The third example is a machine-generated UUID, which is also acceptable as a handle. It has "words"
 	separated by dashes, but no spaces or periods.</p>
 	
-	<p>The third example is a domain name. Every domain name is a potential handle, but not every handle would
+	<p>The fourth example is a domain name. Every domain name is a potential handle, but not every handle would
 	qualify as a domain name.</p>
 	
 	<h3>What is a Registration Handle&reg;?</h3>
@@ -79,15 +110,17 @@
 	<p>A registration handle is a handle chosen by a registrant (i.e., you) for use with a cryptoregistry.com registration.</p>
 	
 	<p>The registration handle will be publicly visible and internet-searchable, and depending on the level of
-	PKI validation your use-case requires, it my be directly tied back to personal or business details about you,
-	so it is worth thinking about and choosing wisely. You are only allowed to have one personal handle, and
-	one per business or web site entity which you legally control.</p>
+	PKI validation your use-case requires, it ties back directly to contact details about you or your business,
+	so it is worth thinking about and choosing wisely. You are only allowed to have one personal handle and
+	one handle per business or web site entity which you legally control.</p>
 	
-	<p>Some guidelines, more are found in the Terms of Service:</p> 
+	<p>Some guidelines on defining a handle, more are found in the Terms of Service:</p> 
 	
 	<ul>
-		<li>Do not include your legal name or personally identifiable details like phone numbers in your peronsal handle. There are millions of people named John Smith. Try to think of something
-		more original which fits your personality.</li>
+		<li>Do not include your legal name or personally identifiable details like phone numbers in your personal handle. 
+		There are millions of people named John Smith. Try to think of something
+		more original which fits your personality. Also be aware that while phone numbers may change with relative ease,
+		your digital signatures are harder to adjust.</li>
 		<li>You can use your legal business name as a business registration Handle, but keep in mind you must own the
 		trademark for that phrase or name.</li>
 		<li>You must claim copyright as part of your handle creation upon registration. I.e., you must assert the handle
@@ -98,12 +131,25 @@
 		creative license is reasonable. Do you
 		really want people to look up your on-line handle by searching for "Big Dick 10?" Unless you
 		are a working porn star you should choose something less provocative.</li> 
-		<li>Hate speech is not allowed in a registration handle. Do you really want to be known online as "Jew Hater 27"? 
-		Unless you are a member of an ultra-right wing political party
-		you should choose something less provocative for your personal handle.</li>
+		<li>Hate speech or any speech which is considered defamatory, slanderous, or libelous, is not allowed 
+		in a registration handle.</li>
 	</ul>
 	
-	<h3>...</h3>
+	<h3>What are Key Materials&reg;?</h3>
+	
+	<p>Key Materials&reg; is our term for the menage of cryptographic materials such as keys, digital signatures, etc.,
+	in various formats such as JSON or Google protocol buffers as used by the Buttermilk project.</p>
+	
+	<h3>Does cryptoregistry.com perform x509 Certificate Signing or Certificate Authority Services?</h3>
+	
+	<p>No. cryptoregistry.com is a new and different Public Key Infrastructure and does not perform services
+	associated with x509 Certificates.</p>
+	
+	
+	<h3>Can I register my domain name at the same time as I create a registration Handle?</h3>
+	
+	<p>No. cryptoregistry.com does not offer domain name registration services at this time. Do that first.</p>
+	
 
 	</body>
 </html>
