@@ -60,6 +60,8 @@ public class SettingsPanel extends JPanel {
 		});
 		
 		JCheckBox chckbxCreateIfDoes = new JCheckBox("Create folder if does not exist");
+		chckbxCreateIfDoes.setSelected(true);
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)

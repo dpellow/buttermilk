@@ -105,7 +105,7 @@ public class RegHandlePanel extends JPanel {
 		JButton btnCreate = new JButton("OK");
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SwingRegistrationWizardGUI.tabbedPane.setSelectedIndex(2);
+				SwingRegistrationWizardGUI.tabbedPane.setSelectedIndex(3);
 			}
 		});
 		

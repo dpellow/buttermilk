@@ -74,34 +74,38 @@ public class SwingRegistrationWizardGUI {
 				        int index = sourceTabbedPane.getSelectedIndex();
 				        switch(index){
 				        	case 0: {
-				        	
+				        		// introduction tab
 				        		break;
 				        	}
 				        	case 1:{
-				        		regHandlePanel.getRegHandleTextField().requestFocusInWindow();
+				        		settingsPanel.getTextField().requestFocusInWindow();
 				        		break;
 				        	}
 				        	case 2:{
-				        		createKeyPanel.getPassword0().requestFocusInWindow();
+				        		regHandlePanel.getRegHandleTextField().requestFocusInWindow();
 				        		break;
 				        	}
 				        	case 3:{
-				        		personalContactPanel.getTextField().requestFocusInWindow();
+				        		createKeyPanel.getPassword0().requestFocusInWindow();
 				        		break;
 				        	}
 				        	case 4:{
-				        		businessContactPanel.getTextField().requestFocusInWindow();
+				        		personalContactPanel.getTextField().requestFocusInWindow();
 				        		break;
 				        	}
 				        	case 5:{
-				        		websiteContactPanel.getTextField().requestFocusInWindow();
+				        		businessContactPanel.getTextField().requestFocusInWindow();
 				        		break;
 				        	}
 				        	case 6:{
-				        	//	websiteContactPanel.getTextField().requestFocusInWindow();
+				        		websiteContactPanel.getTextField().requestFocusInWindow();
 				        		break;
 				        	}
 				        	case 7:{
+				        	//	websiteContactPanel.getTextField().requestFocusInWindow();
+				        		break;
+				        	}
+				        	case 8:{
 				        		keyMaterialsPanel.getTextPane().requestFocusInWindow();
 				        		break;
 				        	}
