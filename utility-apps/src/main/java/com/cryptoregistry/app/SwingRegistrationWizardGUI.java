@@ -18,6 +18,15 @@ import asia.redact.bracket.properties.Properties;
 public class SwingRegistrationWizardGUI {
 	
 	 public static JTabbedPane tabbedPane;
+	 public static ShowHelpPanel showHelpPanel;
+     public static SettingsPanel settingsPanel;
+     public static RegHandlePanel regHandlePanel;
+     public static CreateKeyPanel createKeyPanel;
+     public static PersonalContactPanel personalContactPanel;
+     public static BusinessContactPanel businessContactPanel;
+     public static WebsiteContactPanel websiteContactPanel;
+     public static SignaturePanel signaturePanel;
+     public static KeyMaterialsPanel keyMaterialsPanel;
 
 	 private static void createAndShowGUI(Properties props) {
 		 
@@ -38,15 +47,15 @@ public class SwingRegistrationWizardGUI {
 	        tabbedPane = new JTabbedPane();
 	        tabbedPane.setPreferredSize(new Dimension(970,350));
 	       
-	        final ShowHelpPanel showHelpPanel = new ShowHelpPanel(props);
-	        final SettingsPanel settingsPanel = new SettingsPanel(props);
-	        final RegHandlePanel regHandlePanel = new RegHandlePanel(props);
-	        final CreateKeyPanel createKeyPanel = new CreateKeyPanel(props);
-	        final PersonalContactPanel personalContactPanel = new PersonalContactPanel();
-	        final BusinessContactPanel businessContactPanel = new BusinessContactPanel();
-	        final WebsiteContactPanel websiteContactPanel = new WebsiteContactPanel();
-	        final SignaturePanel signaturePanel = new SignaturePanel();
-	        final KeyMaterialsPanel keyMaterialsPanel = new KeyMaterialsPanel(props);
+	        showHelpPanel = new ShowHelpPanel(props);
+	        settingsPanel = new SettingsPanel(props);
+	        regHandlePanel = new RegHandlePanel(props);
+	        createKeyPanel = new CreateKeyPanel(props);
+	        personalContactPanel = new PersonalContactPanel();
+	        businessContactPanel = new BusinessContactPanel();
+	        websiteContactPanel = new WebsiteContactPanel();
+	        signaturePanel = new SignaturePanel();
+	        keyMaterialsPanel = new KeyMaterialsPanel(props);
 	        
 	    	settingsPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 	    	regHandlePanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
@@ -126,7 +135,7 @@ public class SwingRegistrationWizardGUI {
 	        //Display the window.
 	        frame.pack();
 	        frame.setVisible(true);
-	       // regHandlePanel.getRegHandleTextField().requestFocusInWindow();
+	      
 	    }
 	 
 	    public static void main(String[] args) {
