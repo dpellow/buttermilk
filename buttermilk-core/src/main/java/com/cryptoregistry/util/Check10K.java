@@ -9,6 +9,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashSet;
+import java.util.Set;
 
 import x.org.bouncycastle.util.Arrays;
 
@@ -22,7 +24,35 @@ import x.org.bouncycastle.util.Arrays;
  * 
  */
 public class Check10K {
+	
+	Set<String> passwords; 
+	
+	public Check10K() {
+		passwords = new HashSet<String>(); 
+		InputStream in = Thread.currentThread().getClass()
+				.getResourceAsStream("/10k most common.txt");
+		InputStreamReader reader = new InputStreamReader(in);
+		BufferedReader bin = new BufferedReader(reader);
+		String line = null;
+		try {
+			while ((line = bin.readLine()) != null) {
+				passwords.add(line.trim());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public boolean contains(String password){
+		return passwords.contains(password);
+	}
 
+	/**
+	 * Low memory form, just stream over the file
+	 * 
+	 * @param input
+	 * @return
+	 */
 	public static final boolean isPresent(char[] input) {
 
 		char[] buf = new char[input.length];
@@ -53,6 +83,12 @@ public class Check10K {
 		return false;
 	}
 
+	/**
+	 * Low memory format, just stream over the file
+	 * 
+	 * @param input
+	 * @return
+	 */
 	public static final boolean isPresent(String input) {
 
 		String lower = input.toLowerCase();

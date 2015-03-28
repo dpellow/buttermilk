@@ -108,7 +108,12 @@ public class TresBiEntropy {
 			else derivative.add(ONE);
 		}
 		
-		compute(derivative);
+		try {
+			compute(derivative);
+		}catch(StackOverflowError x){
+			//can happen if input is empty
+			x.printStackTrace();
+		}
 		
 	}
 	
