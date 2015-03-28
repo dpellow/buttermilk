@@ -1,6 +1,5 @@
 package com.cryptoregistry.app;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -8,18 +7,17 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
-import javax.swing.JPasswordField;
+import javax.swing.SwingWorker;
 
+import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.util.concurrent.ExecutionException;
 
 import asia.redact.bracket.properties.Properties;
 
-import com.cryptoregistry.KeyGenerationAlgorithm;
 import com.cryptoregistry.handle.CryptoHandle;
 import com.cryptoregistry.handle.Handle;
 
@@ -43,16 +41,33 @@ public class RegHandlePanel extends JPanel {
 		JButton btnCheckAvailability = new JButton("Check Availability");
 		btnCheckAvailability.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String regHandle = regHandleTextField.getText();
+				final String regHandle = regHandleTextField.getText();
 				if(regHandle == null || regHandle.trim().equals("")){
 					// do nothing
+					return;
 				}
-				boolean ok = checker.check(regHandle);
-				if(ok) {
-					lblAvailable.setText("Available!");
-				}else{
-					lblAvailable.setText("Not Available, Sorry.");
-				}
+				
+				SwingWorker<Boolean,String> worker = new SwingWorker<Boolean,String>() {
+					
+					@Override
+					protected Boolean doInBackground() throws Exception {
+						return checker.check(regHandle);
+					}
+					
+					 @Override
+					public void done() {
+						 try {
+								if(get()) {
+									lblAvailable.setText("Available!");
+								}else{
+									lblAvailable.setText("Not Available, Sorry.");
+								}
+						} catch (InterruptedException | ExecutionException e) {
+							e.printStackTrace();
+						}
+					}
+				};
+				worker.execute();
 			}
 		});
 		
@@ -61,19 +76,22 @@ public class RegHandlePanel extends JPanel {
 
 			@Override
 			public void keyTyped(KeyEvent e) {
+				lblAvailable.setText("...");
 				String text = regHandleTextField.getText();
 				Handle h = CryptoHandle.parseHandle(text);
 				if(h.validate()){
-					validationLabel.setText("Valid Syntax: "+h.getClass().getSimpleName());
+					validationLabel.setText("Valid Syntax: type "+h.getClass().getSimpleName());
+					validationLabel.setForeground(Color.BLACK);
 				}else{
-					validationLabel.setText("Format Error: "+h);
+					validationLabel.setText("Formatting error.");
+					validationLabel.setForeground(Color.RED);
 				}
+				
 			}
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				// do nothing
-				
+				// keyTyped(e);
 			}
 
 			@Override
@@ -84,17 +102,16 @@ public class RegHandlePanel extends JPanel {
 			
 		});
 		
-		
 		JButton btnCreate = new JButton("OK");
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.err.println("Calling create()");
+				SwingRegistrationWizardGUI.tabbedPane.setSelectedIndex(2);
 			}
 		});
 		
 		// the circumlocution here allows GUI builder tool to work
-		KeyGenerationAlgorithm [] e = KeyGenerationAlgorithm.usableForSignature();
-		DefaultComboBoxModel<KeyGenerationAlgorithm> model = new DefaultComboBoxModel<KeyGenerationAlgorithm>(e);
+	//	KeyGenerationAlgorithm [] e = KeyGenerationAlgorithm.usableForSignature();
+	//	DefaultComboBoxModel<KeyGenerationAlgorithm> model = new DefaultComboBoxModel<KeyGenerationAlgorithm>(e);
 		
 	
 		
