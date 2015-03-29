@@ -80,7 +80,7 @@ public class MultiResultCriteria implements Criteria {
 						}
 						case RSA: {
 							RSAKeyContents contents = (RSAKeyContents) key;
-							builder.add(contents.forPublication());
+							builder.add(contents.cloneForPublication());
 							break;
 						}
 						case NTRU: {

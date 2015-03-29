@@ -14,6 +14,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
@@ -21,24 +24,42 @@ import java.util.Arrays;
 
 import javax.swing.JComboBox;
 
+import asia.redact.bracket.properties.Obfuscate;
+import asia.redact.bracket.properties.OutputAdapter;
+import asia.redact.bracket.properties.PlainOutputFormat;
 import asia.redact.bracket.properties.Properties;
 
+import com.cryptoregistry.Buttermilk;
 import com.cryptoregistry.KeyGenerationAlgorithm;
+import com.cryptoregistry.c2.key.C2KeyMetadata;
+import com.cryptoregistry.c2.key.Curve25519KeyContents;
+import com.cryptoregistry.c2.key.Curve25519KeyForPublication;
+import com.cryptoregistry.ec.ECKeyContents;
+import com.cryptoregistry.ec.ECKeyForPublication;
+import com.cryptoregistry.ec.ECKeyMetadata;
+import com.cryptoregistry.formats.JSONFormatter;
 import com.cryptoregistry.pbe.PBEAlg;
+import com.cryptoregistry.rsa.RSAKeyContents;
+import com.cryptoregistry.rsa.RSAKeyForPublication;
+import com.cryptoregistry.rsa.RSAKeyMetadata;
 import com.cryptoregistry.util.Check10K;
 import com.cryptoregistry.util.entropy.TresBiEntropy;
 import com.cryptoregistry.util.entropy.TresBiEntropy.Result;
+
 import javax.swing.JCheckBox;
 
 public class CreateKeyPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+	JComboBox<KeyGenerationAlgorithm> keyalgComboBox;
+	JComboBox<PBEAlg> pbeAlgComboBox;
 	private JPasswordField password0;
 	private JPasswordField password1;
 	JLabel passwordEqualityMsg;
 	JLabel againLbl;
 	JLabel lblEntropy;
 	JButton btnCreate;
+	JCheckBox chckbxCreateObfuscatedPassword;
 	
 	private Check10K tenK;
 	
@@ -80,14 +101,14 @@ public class CreateKeyPanel extends JPanel {
 		});
 		
 		KeyGenerationAlgorithm [] e = KeyGenerationAlgorithm.usableForSignature();
-		JComboBox<KeyGenerationAlgorithm> comboBox = new JComboBox<KeyGenerationAlgorithm>();
+		keyalgComboBox = new JComboBox<KeyGenerationAlgorithm>();
 		DefaultComboBoxModel<KeyGenerationAlgorithm> model = new DefaultComboBoxModel<KeyGenerationAlgorithm>(e);
-		comboBox.setModel(model);
+		keyalgComboBox.setModel(model);
 		
 		PBEAlg [] pbes = PBEAlg.values();
 		DefaultComboBoxModel<PBEAlg> pbemodel = new DefaultComboBoxModel<PBEAlg>(pbes);
-		JComboBox<PBEAlg> comboBox_1 = new JComboBox<PBEAlg>();
-		comboBox_1.setModel(pbemodel);
+		pbeAlgComboBox = new JComboBox<PBEAlg>();
+		pbeAlgComboBox.setModel(pbemodel);
 		
 		JLabel lblKeyAlg = new JLabel("Asymmetric Key Algorithm");
 		
@@ -97,7 +118,7 @@ public class CreateKeyPanel extends JPanel {
 		
 		passwordEqualityMsg = new JLabel("...");
 		
-		JCheckBox chckbxCreateObfuscatedPassword = new JCheckBox("Create obfuscated password file from this value");
+		chckbxCreateObfuscatedPassword = new JCheckBox("Create obfuscated password file from this value");
 		
 		
 		
@@ -119,8 +140,8 @@ public class CreateKeyPanel extends JPanel {
 								.addComponent(lblPasswordBasedEncryption))
 							.addGap(31)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(keyalgComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(pbeAlgComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblPassword)
@@ -143,13 +164,13 @@ public class CreateKeyPanel extends JPanel {
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblKeyAlg)
-						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(keyalgComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(againLbl)
 						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 							.addComponent(lblPasswordBasedEncryption)
-							.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(pbeAlgComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 					.addGap(31)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblPassword)
@@ -222,12 +243,98 @@ public class CreateKeyPanel extends JPanel {
 	    ByteBuffer byteBuffer = Charset.forName("UTF-8").encode(charBuffer);
 	    byte[] bytes = Arrays.copyOfRange(byteBuffer.array(),
 	            byteBuffer.position(), byteBuffer.limit());
-	    Arrays.fill(charBuffer.array(), '\u0000'); // clear sensitive data
-	    Arrays.fill(byteBuffer.array(), (byte) 0); // clear sensitive data
+	    Arrays.fill(charBuffer.array(), '\u0000'); 
+	    Arrays.fill(byteBuffer.array(), (byte) 0);
 	    return bytes;
 	}
 	
 	private void createKey(){
 		
+		// check the directory destination
+		File kmDir = new File(SwingRegistrationWizardGUI.settingsPanel.getTextField().getText());
+		if(!kmDir.exists()){
+			kmDir.mkdirs();
+		}
+		
+		// get the proposed Reg Handle
+		String regHandle = SwingRegistrationWizardGUI.regHandlePanel.getRegHandleTextField().getText();
+		if(regHandle == null || regHandle.trim().length() == 0) {
+			System.err.println("registration handle not defined, please do that first.");
+			return;
+		}
+		
+		// gather the required values
+		KeyGenerationAlgorithm keyAlg = (KeyGenerationAlgorithm) keyalgComboBox.getSelectedItem();
+		PBEAlg pbeAlg = (PBEAlg) pbeAlgComboBox.getSelectedItem();
+		char [] password = password0.getPassword();
+		
+		// 1.0 - create obfuscated password file if required
+		boolean createObfuscatedPassword = chckbxCreateObfuscatedPassword.isSelected();
+		if(createObfuscatedPassword){
+			File passwordFile = new File(kmDir,"password.properties");
+			String passwordBase64 = Obfuscate.FACTORY.encrypt(password);
+			Properties props = Properties.Factory.getInstance();
+			props.put("password", passwordBase64);
+			OutputAdapter out = new OutputAdapter(props);
+			out.writeTo(passwordFile, new PlainOutputFormat(), Charset.forName("UTF-8"));
+			passwordFile.setExecutable(false);
+			passwordFile.setWritable(false);
+			passwordFile.setReadable(true, true);
+			try {
+				System.out.println("Wrote password file to "+ passwordFile.getCanonicalPath());
+			} catch (IOException e) {}
+		}
+		
+		JSONFormatter forPublicationBuilder = new JSONFormatter(regHandle);
+		JSONFormatter keyBuilder = new JSONFormatter(regHandle);
+		
+		
+		// 2.0 -- create Key of desired type
+		switch(keyAlg){
+			case Curve25519: {
+				
+				C2KeyMetadata meta = null;
+				if(pbeAlg == PBEAlg.PBKDF2) {
+					meta = C2KeyMetadata.createSecurePBKDF2(password);
+				}else if(pbeAlg == PBEAlg.PBKDF2){
+					meta = C2KeyMetadata.createSecureScrypt(password);
+				}
+				Curve25519KeyContents contents = Buttermilk.INSTANCE.generateC2Keys(meta);
+				Curve25519KeyForPublication pub = contents.cloneForPublication();
+				keyBuilder.add(contents);
+				forPublicationBuilder.add(pub);
+				break;
+			}
+			case EC: {
+				ECKeyMetadata meta = null;
+				if(pbeAlg == PBEAlg.PBKDF2) {
+					meta = ECKeyMetadata.createSecurePBKDF2(password);
+				}else if(pbeAlg == PBEAlg.PBKDF2){
+					meta = ECKeyMetadata.createSecureScrypt(password);
+				}
+				ECKeyContents contents = Buttermilk.INSTANCE.generateECKeys(meta, "P-256");
+				ECKeyForPublication pub = contents.cloneForPublication();
+				keyBuilder.add(contents);
+				forPublicationBuilder.add(pub);
+				break;
+			}
+			case RSA: {
+				RSAKeyMetadata meta = null;
+				if(pbeAlg == PBEAlg.PBKDF2) {
+					meta = RSAKeyMetadata.createSecurePBKDF2(password);
+				}else if(pbeAlg == PBEAlg.PBKDF2){
+					meta = RSAKeyMetadata.createSecureScrypt(password);
+				}
+				RSAKeyContents contents = Buttermilk.INSTANCE.generateRSAKeys();
+				RSAKeyForPublication pub = contents.cloneForPublication();
+				keyBuilder.add(contents);
+				forPublicationBuilder.add(pub);
+				break;
+			}
+			
+			default: {}
+		}
+		
 	}
+	
 }

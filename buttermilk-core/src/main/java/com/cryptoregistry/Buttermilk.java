@@ -9,6 +9,7 @@ import com.cryptoregistry.c2.key.C2KeyMetadata;
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
 import com.cryptoregistry.ec.ECCustomParameters;
 import com.cryptoregistry.ec.ECKeyContents;
+import com.cryptoregistry.ec.ECKeyMetadata;
 import com.cryptoregistry.ntru.NTRUKeyContents;
 import com.cryptoregistry.ntru.NTRUNamedParameters;
 import com.cryptoregistry.passwords.Password;
@@ -53,6 +54,14 @@ public class Buttermilk {
 	
 	public final ECKeyContents generateECKeys(String curveName) {
 		return com.cryptoregistry.ec.CryptoFactory.INSTANCE.generateKeys(curveName);
+	}
+	
+	public final ECKeyContents generateECKeys(char [] password, String curveName) {
+		return com.cryptoregistry.ec.CryptoFactory.INSTANCE.generateKeys(password, curveName);
+	}
+	
+	public final ECKeyContents generateECKeys(ECKeyMetadata meta, String curveName) {
+		return com.cryptoregistry.ec.CryptoFactory.INSTANCE.generateKeys(meta, curveName);
 	}
 	
 	public final ECKeyContents generateECKeys(ECCustomParameters domainParams) {

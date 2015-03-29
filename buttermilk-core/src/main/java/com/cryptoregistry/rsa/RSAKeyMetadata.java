@@ -61,6 +61,12 @@ public class RSAKeyMetadata implements CryptoKeyMetadata {
 		return new RSAKeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat(password));
 	}
 	
+	public static RSAKeyMetadata createSecurePBKDF2(char[]password) {
+		return new RSAKeyMetadata(UUID.randomUUID().toString(), new Date(),
+				new KeyFormat(EncodingHint.Base64url,
+						PBEParamsFactory.INSTANCE.createPBKDF2Params(password)));
+	}
+	
 	public static RSAKeyMetadata createSecureScrypt(char[]password) {
 		return new RSAKeyMetadata(UUID.randomUUID().toString(), new Date(),
 				new KeyFormat(EncodingHint.Base64url,

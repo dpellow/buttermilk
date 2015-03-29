@@ -12,6 +12,12 @@ import com.cryptoregistry.passwords.NewPassword;
 import com.cryptoregistry.passwords.Password;
 import com.cryptoregistry.passwords.SensitiveBytes;
 
+/**
+ * Settings are just defaults - 
+ * 
+ * @author Dave
+ *
+ */
 public class PBEParamsFactory {
 
 	public final SecureRandom rand;

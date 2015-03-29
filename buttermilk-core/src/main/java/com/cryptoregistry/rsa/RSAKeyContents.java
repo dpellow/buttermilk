@@ -171,7 +171,7 @@ public class RSAKeyContents extends RSAKeyForPublication implements Signer {
 		}	
 	}
 	
-	public RSAKeyForPublication forPublication(){
+	public RSAKeyForPublication cloneForPublication(){
 		RSAKeyMetadata meta = this.metadata.cloneForPublication();
 		return new RSAKeyForPublication(meta,this.modulus,this.publicExponent);
 	}

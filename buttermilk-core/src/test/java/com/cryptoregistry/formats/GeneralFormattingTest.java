@@ -171,7 +171,7 @@ public class GeneralFormattingTest {
 		String reg = "Chinese Eyes";
 		char [] password = "password1".toCharArray();
 		RSAKeyContents contents = CryptoFactory.INSTANCE.generateKeys(password);
-		RSAKeyForPublication fp = contents.forPublication();
+		RSAKeyForPublication fp = contents.cloneForPublication();
 
 		JSONFormatter builder = new JSONFormatter(reg);
 		builder.add(contents);

@@ -57,8 +57,16 @@ public class ECKeyMetadata implements CryptoKeyMetadata {
 		return new ECKeyMetadata(UUID.randomUUID().toString(), new Date(),new KeyFormat(password));
 	}
 	
+	public static ECKeyMetadata createSecurePBKDF2(char[]password) {
+		return new ECKeyMetadata(UUID.randomUUID().toString(), 
+				new Date(),
+				new KeyFormat(EncodingHint.Base64url,
+						PBEParamsFactory.INSTANCE.createPBKDF2Params(password)));
+	}
+	
 	public static ECKeyMetadata createSecureScrypt(char[]password) {
-		return new ECKeyMetadata(UUID.randomUUID().toString(), new Date(),
+		return new ECKeyMetadata(UUID.randomUUID().toString(), 
+				new Date(),
 				new KeyFormat(EncodingHint.Base64url,
 						PBEParamsFactory.INSTANCE.createScryptParams(password)));
 	}
