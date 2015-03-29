@@ -93,6 +93,10 @@ public class CryptoFactory {
 		}
 	}
 	
+	public RSAKeyContents generateKeys(RSAKeyMetadata metadata) {
+		return generateKeys(metadata,0x11,KEY_STRENGTH,CERTAINTY);
+	}
+	
 	/**
 	 * Set most parameters yourself
 	 * 
@@ -105,7 +109,7 @@ public class CryptoFactory {
 	public RSAKeyContents generateKeys(RSAKeyMetadata metadata, int publicExp, int keyStrength, int certainty) {
 		lock.lock();
 		try {
-			RSAKeyPairGenerator kpGen = new RSAKeyPairGenerator();
+			RSAKeyPairGenerator kpGen = new RSAKeyPairGenerator(metadata);
 			kpGen.init(new RSAKeyGenerationParameters(BigInteger.valueOf(publicExp), rand, keyStrength, certainty));
 			return kpGen.generateKeys();
 		} finally {

@@ -14,6 +14,7 @@ import com.cryptoregistry.ntru.NTRUKeyContents;
 import com.cryptoregistry.ntru.NTRUNamedParameters;
 import com.cryptoregistry.passwords.Password;
 import com.cryptoregistry.rsa.RSAKeyContents;
+import com.cryptoregistry.rsa.RSAKeyMetadata;
 import com.cryptoregistry.symmetric.SymmetricKeyContents;
 
 /**
@@ -75,6 +76,10 @@ public class Buttermilk {
 	public final RSAKeyContents generateRSAKeys(int keysize) {
 		if(keysize%1024 != 0) throw new RuntimeException("Bad key size: "+keysize);
 		return com.cryptoregistry.rsa.CryptoFactory.INSTANCE.generateKeys(keysize);
+	}
+	
+	public final RSAKeyContents generateRSAKeys(RSAKeyMetadata meta) {
+		return com.cryptoregistry.rsa.CryptoFactory.INSTANCE.generateKeys(meta);
 	}
 	
 	public final NTRUKeyContents generateNTRUKeys(){

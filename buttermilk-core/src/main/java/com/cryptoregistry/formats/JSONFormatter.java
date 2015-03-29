@@ -95,6 +95,10 @@ public class JSONFormatter {
 	protected List<MapData> mapData;
 	protected List<ListData> listData;
 	
+	public JSONFormatter() {
+		this("");
+	}
+	
 	public JSONFormatter(String handle) {
 		version = Version.OVERALL_VERSION;
 		this.registrationHandle = handle;
@@ -294,6 +298,10 @@ public class JSONFormatter {
 				throw new RuntimeException(e);
 			}
 		}
+	}
+
+	public void setRegistrationHandle(String registrationHandle) {
+		this.registrationHandle = registrationHandle;
 	}
 
 }
