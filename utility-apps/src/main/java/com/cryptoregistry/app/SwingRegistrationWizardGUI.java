@@ -27,8 +27,13 @@ public class SwingRegistrationWizardGUI {
      public static WebsiteContactPanel websiteContactPanel;
      public static SignaturePanel signaturePanel;
      public static KeyMaterialsPanel keyMaterialsPanel;
+     
+     public static KM km;
+     
 
 	 private static void createAndShowGUI(Properties props) {
+		 
+		 km = new KM();
 		 
 		 try {
 			    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -127,14 +132,16 @@ public class SwingRegistrationWizardGUI {
 	        tabbedPane.addChangeListener(changeListener);
 	        
 	        JPanel outer = new JPanel();
-	        outer.setLayout(new BoxLayout(outer, BoxLayout.PAGE_AXIS));
+	        outer.setLayout(new BoxLayout(outer, BoxLayout.LINE_AXIS));
 	        outer.add(tabbedPane);
+	        outer.add(new ChecklistPanel(km));
 	        
 	        frame.getContentPane().add(outer);
 	        
 	        //Display the window.
 	        frame.pack();
 	        frame.setVisible(true);
+	        
 	      
 	    }
 	 

@@ -62,6 +62,8 @@ public class SettingsPanel extends JPanel {
 		JCheckBox chckbxCreateIfDoes = new JCheckBox("Create folder if does not exist");
 		chckbxCreateIfDoes.setSelected(true);
 		
+		JButton btnOk = new JButton("OK");
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -74,7 +76,8 @@ public class SettingsPanel extends JPanel {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(textField, GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
 							.addGap(8)
-							.addComponent(btnBrowse)))
+							.addComponent(btnBrowse))
+						.addComponent(btnOk, Alignment.TRAILING))
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
@@ -87,7 +90,9 @@ public class SettingsPanel extends JPanel {
 						.addComponent(btnBrowse))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(chckbxCreateIfDoes)
-					.addContainerGap(241, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, 207, Short.MAX_VALUE)
+					.addComponent(btnOk)
+					.addContainerGap())
 		);
 		setLayout(groupLayout);
 	}
@@ -95,6 +100,4 @@ public class SettingsPanel extends JPanel {
 	public JTextField getTextField() {
 		return textField;
 	}
-	
-	
 }

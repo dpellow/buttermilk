@@ -105,15 +105,10 @@ public class RegHandlePanel extends JPanel {
 		JButton btnCreate = new JButton("OK");
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				SwingRegistrationWizardGUI.km.setRegHandle(regHandleTextField.getText().trim());
 				SwingRegistrationWizardGUI.tabbedPane.setSelectedIndex(3);
-			}
+			} 
 		});
-		
-		// the circumlocution here allows GUI builder tool to work
-	//	KeyGenerationAlgorithm [] e = KeyGenerationAlgorithm.usableForSignature();
-	//	DefaultComboBoxModel<KeyGenerationAlgorithm> model = new DefaultComboBoxModel<KeyGenerationAlgorithm>(e);
-		
-	
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(

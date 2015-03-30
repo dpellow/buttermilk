@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
+import javax.swing.SwingWorker;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
@@ -16,11 +17,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JComboBox;
 
@@ -30,6 +31,7 @@ import asia.redact.bracket.properties.PlainOutputFormat;
 import asia.redact.bracket.properties.Properties;
 
 import com.cryptoregistry.Buttermilk;
+import com.cryptoregistry.CryptoKey;
 import com.cryptoregistry.KeyGenerationAlgorithm;
 import com.cryptoregistry.c2.key.C2KeyMetadata;
 import com.cryptoregistry.c2.key.Curve25519KeyContents;
@@ -37,7 +39,6 @@ import com.cryptoregistry.c2.key.Curve25519KeyForPublication;
 import com.cryptoregistry.ec.ECKeyContents;
 import com.cryptoregistry.ec.ECKeyForPublication;
 import com.cryptoregistry.ec.ECKeyMetadata;
-import com.cryptoregistry.formats.JSONFormatter;
 import com.cryptoregistry.pbe.PBEAlg;
 import com.cryptoregistry.rsa.RSAKeyContents;
 import com.cryptoregistry.rsa.RSAKeyForPublication;
@@ -62,6 +63,10 @@ public class CreateKeyPanel extends JPanel {
 	JCheckBox chckbxCreateObfuscatedPassword;
 	
 	private Check10K tenK;
+	
+	private KeyGenerationAlgorithm keyAlg;
+	private CryptoKey secureKey;
+	private CryptoKey keyForPublication;
 	
 	
 	public CreateKeyPanel(Properties props){
@@ -96,7 +101,34 @@ public class CreateKeyPanel extends JPanel {
 		btnCreate = new JButton("Create Key");
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				createKey();
+				btnCreate.setText("Working...");
+				btnCreate.setEnabled(false);
+				SwingWorker<Void,String> worker = new SwingWorker<Void,String>() {
+					protected Void doInBackground() throws Exception {
+						createKey();
+						return null;
+					}
+					 @Override
+					public void done() {
+					  try {
+							get();
+							
+							SwingRegistrationWizardGUI.km.setPassword(password0.getPassword());
+							SwingRegistrationWizardGUI.km.setPbeAlg((PBEAlg)pbeAlgComboBox.getSelectedItem());
+							SwingRegistrationWizardGUI.km.setKeyAlg(keyAlg);
+							SwingRegistrationWizardGUI.km.setKeyForPublication(keyForPublication);
+							SwingRegistrationWizardGUI.km.setSecureKey(secureKey);
+							 
+						  } catch (InterruptedException | ExecutionException e) {
+							e.printStackTrace();
+						  }
+						 
+						 btnCreate.setText("Create Key");
+						 btnCreate.setEnabled(true);
+					}
+				};
+				worker.execute();
+				
 			}
 		});
 		
@@ -251,13 +283,13 @@ public class CreateKeyPanel extends JPanel {
 	private void createKey(){
 		
 		// check the directory destination
-		File kmDir = new File(SwingRegistrationWizardGUI.settingsPanel.getTextField().getText());
+		File kmDir = new File(SwingRegistrationWizardGUI.settingsPanel.getTextField().getText().trim());
 		if(!kmDir.exists()){
 			kmDir.mkdirs();
 		}
 		
 		// get the proposed Reg Handle
-		String regHandle = SwingRegistrationWizardGUI.regHandlePanel.getRegHandleTextField().getText();
+		String regHandle = SwingRegistrationWizardGUI.regHandlePanel.getRegHandleTextField().getText().trim();
 		if(regHandle == null || regHandle.trim().length() == 0) {
 			System.err.println("registration handle not defined, please do that first.");
 			return;
@@ -269,6 +301,7 @@ public class CreateKeyPanel extends JPanel {
 		char [] password = password0.getPassword();
 		
 		// 1.0 - create obfuscated password file if required
+		
 		boolean createObfuscatedPassword = chckbxCreateObfuscatedPassword.isSelected();
 		if(createObfuscatedPassword){
 			File passwordFile = new File(kmDir,"password.properties");
@@ -278,15 +311,12 @@ public class CreateKeyPanel extends JPanel {
 			OutputAdapter out = new OutputAdapter(props);
 			out.writeTo(passwordFile, new PlainOutputFormat(), Charset.forName("UTF-8"));
 			passwordFile.setExecutable(false);
-			passwordFile.setWritable(false);
+		//	passwordFile.setWritable(false);
 			passwordFile.setReadable(true, true);
 			try {
 				System.out.println("Wrote password file to "+ passwordFile.getCanonicalPath());
 			} catch (IOException e) {}
 		}
-		
-		JSONFormatter forPublicationBuilder = new JSONFormatter(regHandle);
-		JSONFormatter keyBuilder = new JSONFormatter(regHandle);
 		
 		
 		// 2.0 -- create Key of desired type
@@ -296,39 +326,42 @@ public class CreateKeyPanel extends JPanel {
 				C2KeyMetadata meta = null;
 				if(pbeAlg == PBEAlg.PBKDF2) {
 					meta = C2KeyMetadata.createSecurePBKDF2(password);
-				}else if(pbeAlg == PBEAlg.PBKDF2){
+				}else if(pbeAlg == PBEAlg.SCRYPT){
 					meta = C2KeyMetadata.createSecureScrypt(password);
 				}
 				Curve25519KeyContents contents = Buttermilk.INSTANCE.generateC2Keys(meta);
 				Curve25519KeyForPublication pub = contents.cloneForPublication();
-				keyBuilder.add(contents);
-				forPublicationBuilder.add(pub);
+				this.keyAlg = keyAlg;
+				this.keyForPublication = pub;
+				this.secureKey = contents;
 				break;
 			}
 			case EC: {
 				ECKeyMetadata meta = null;
 				if(pbeAlg == PBEAlg.PBKDF2) {
 					meta = ECKeyMetadata.createSecurePBKDF2(password);
-				}else if(pbeAlg == PBEAlg.PBKDF2){
+				}else if(pbeAlg == PBEAlg.SCRYPT){
 					meta = ECKeyMetadata.createSecureScrypt(password);
 				}
 				ECKeyContents contents = Buttermilk.INSTANCE.generateECKeys(meta, "P-256");
 				ECKeyForPublication pub = contents.cloneForPublication();
-				keyBuilder.add(contents);
-				forPublicationBuilder.add(pub);
+				this.keyAlg = keyAlg;
+				this.keyForPublication = pub;
+				this.secureKey = contents;
 				break;
 			}
 			case RSA: {
 				RSAKeyMetadata meta = null;
 				if(pbeAlg == PBEAlg.PBKDF2) {
 					meta = RSAKeyMetadata.createSecurePBKDF2(password);
-				}else if(pbeAlg == PBEAlg.PBKDF2){
+				}else if(pbeAlg == PBEAlg.SCRYPT){
 					meta = RSAKeyMetadata.createSecureScrypt(password);
 				}
-				RSAKeyContents contents = Buttermilk.INSTANCE.generateRSAKeys();
+				RSAKeyContents contents = Buttermilk.INSTANCE.generateRSAKeys(meta);
 				RSAKeyForPublication pub = contents.cloneForPublication();
-				keyBuilder.add(contents);
-				forPublicationBuilder.add(pub);
+				this.keyAlg = keyAlg;
+				this.keyForPublication = pub;
+				this.secureKey = contents;
 				break;
 			}
 			
@@ -336,5 +369,37 @@ public class CreateKeyPanel extends JPanel {
 		}
 		
 	}
+	
+	/**
+	private String writeFile(File parent, String prefix, JSONFormatter builder){
+		String output = null;
+		Date date = new Date();
+		String d = String.valueOf(date.getTime());
+		StringWriter writer = new StringWriter();
+		builder.format(writer);
+		File forPublicationFile = new File(parent,"request-"+d+".json");
+		output = writer.toString();
+		byte [] bytes = null;
+		try {
+			bytes = output.getBytes("UTF-8");
+		} catch (UnsupportedEncodingException e1) {}
+		
+		FileOutputStream out = null;
+		try {
+			out = new FileOutputStream(forPublicationFile);
+			out.write(bytes, 0, bytes.length);
+		}catch(IOException x){
+			x.printStackTrace();
+		}finally{
+			if(out != null)
+				try {
+					out.close();
+				} catch (IOException e) {}
+		}
+		
+		return output;
+	}
+	
+	*/
 	
 }
