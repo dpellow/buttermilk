@@ -56,12 +56,20 @@ public class SignaturePanel extends JPanel {
 				System.err.println("Create Signature()");
 			}
 		});
+		
+		JCheckBox chckbxIAffirmThe = new JCheckBox("I affirm the information I have entered is valid and correct.");
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap(325, Short.MAX_VALUE)
+					.addComponent(btnCreateSignature)
+					.addContainerGap())
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(chckbxIAffirmThe)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(chckbxIAgreeTo)
 							.addGap(31)
@@ -70,11 +78,7 @@ public class SignaturePanel extends JPanel {
 							.addComponent(lblCopyrightStatement)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 258, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(34, Short.MAX_VALUE))
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-					.addContainerGap(351, Short.MAX_VALUE)
-					.addComponent(btnCreateSignature)
-					.addContainerGap())
+					.addContainerGap(72, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -87,7 +91,9 @@ public class SignaturePanel extends JPanel {
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(chckbxIAgreeTo)
 						.addComponent(btnTermsOfService))
-					.addPreferredGap(ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(chckbxIAffirmThe)
+					.addPreferredGap(ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
 					.addComponent(btnCreateSignature)
 					.addContainerGap())
 		);

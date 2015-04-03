@@ -6,6 +6,7 @@
 package com.cryptoregistry.app;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -106,6 +107,16 @@ public class CreateKeyPanel extends JPanel {
 		btnCreate = new JButton("Create Key");
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int count = password0.getPassword().length;
+				if(count == 0) {
+					JOptionPane.showMessageDialog((JButton)e.getSource(),
+						    "Password required here to proceed.",
+						    "Request",
+						    JOptionPane.WARNING_MESSAGE);
+					password0.requestFocusInWindow();
+					return;
+				}
+					
 				btnCreate.setText("Working...");
 				btnCreate.setEnabled(false);
 				SwingWorker<Void,String> worker = new SwingWorker<Void,String>() {

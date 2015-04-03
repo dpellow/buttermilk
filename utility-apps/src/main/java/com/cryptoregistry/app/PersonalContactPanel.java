@@ -5,6 +5,7 @@
  */
 package com.cryptoregistry.app;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.GroupLayout;
 import javax.swing.SwingWorker;
@@ -30,6 +31,7 @@ public class PersonalContactPanel extends JPanel {
 	private JTextField givenNameTextField;
 	private JTextField familyNameTextField;
 	private JTextField mobilePhoneTextField;
+	private JCheckBox chckbxIPreferTo;
 	
 	private CryptoContact contact;
 
@@ -87,7 +89,7 @@ public class PersonalContactPanel extends JPanel {
 		familyNameTextField = new JTextField();
 		familyNameTextField.setColumns(10);
 		
-		JCheckBox chckbxIPreferTo = new JCheckBox("I prefer to remain anonymous, please create an empty contact record.");
+		chckbxIPreferTo = new JCheckBox("I prefer to remain anonymous, please create an empty contact record.");
 		
 		JLabel lblMobile = new JLabel("MobilePhone.0");
 		
@@ -95,8 +97,38 @@ public class PersonalContactPanel extends JPanel {
 		mobilePhoneTextField.setColumns(10);
 		
 		JButton btnGotToBusinessContact = new JButton("Go to Business Contact");
+		btnGotToBusinessContact.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(contact == null) {
+					JOptionPane.showMessageDialog((JButton)e.getSource(),
+						    "Please create at least an anonymous contact record.",
+						    "Request",
+						    JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				 SwingRegistrationWizardGUI.tabbedPane.setSelectedIndex(5);
+			}
+			
+		});
 		
 		JButton btnGotToWebsiteContact = new JButton("Go to Website Contact");
+		btnGotToWebsiteContact.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(contact == null) {
+					JOptionPane.showMessageDialog((JButton)e.getSource(),
+						    "Please create at least an anonymous contact record.",
+						    "Request",
+						    JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				 SwingRegistrationWizardGUI.tabbedPane.setSelectedIndex(6);
+			}
+			
+		});
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -173,14 +205,25 @@ public class PersonalContactPanel extends JPanel {
 	}
 	
 	private void createContactRecord() {
-		CryptoContact contact = new CryptoContact();
-		contact.add("GivenName.0", "David");
-		contact.add("FamilyName.0", "Richard");
 		
-		contact.add("MobilePhone.0", "1714 Roberts Ct.");
-		contact.add("City", "Madison");
-		contact.add("State", "Wisconsin");
-		contact.add("PostalCode", "53711");
-		contact.add("CountryCode", "US");
+		CryptoContact contact = new CryptoContact();
+		
+		if(chckbxIPreferTo.isSelected()){
+			contact.add("contactType", "Person");
+			contact.add("GivenName.0", "N/A");
+			contact.add("FamilyName.0", "N/A");
+			contact.add("Email.0", "N/A");
+			contact.add("MobilePhone.0", "N/A");
+			contact.add("Country", "N/A");
+			this.contact = contact;
+		}else{
+			contact.add("contactType", "Person");
+			contact.add("GivenName.0", this.givenNameTextField.getText());
+			contact.add("FamilyName.0", this.familyNameTextField.getText());
+			contact.add("Email.0", this.emailTextField.getText());
+			contact.add("MobilePhone.0", this.mobilePhoneTextField.getText());
+			contact.add("Country", this.countryTextField.getText());
+			this.contact = contact;
+		}
 	}
 }
