@@ -1,7 +1,13 @@
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2015 David R. Smith All Rights Reserved.
+ *
+ */
 package com.cryptoregistry.app;
 
 import javax.swing.JPanel;
 import javax.swing.GroupLayout;
+import javax.swing.SwingWorker;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -10,16 +16,22 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.concurrent.ExecutionException;
+
 import javax.swing.JCheckBox;
+
+import com.cryptoregistry.CryptoContact;
 
 public class PersonalContactPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField textField_7;
-	private JTextField textField_10;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField countryTextField;
+	private JTextField emailTextField;
+	private JTextField givenNameTextField;
+	private JTextField familyNameTextField;
+	private JTextField mobilePhoneTextField;
+	
+	private CryptoContact contact;
 
 	public PersonalContactPanel() {
 		super();
@@ -28,63 +40,97 @@ public class PersonalContactPanel extends JPanel {
 		
 		JLabel lblEmail = new JLabel("Email.0");
 		
-		textField_7 = new JTextField();
-		textField_7.setColumns(10);
+		countryTextField = new JTextField();
+		countryTextField.setColumns(10);
 		
-		textField_10 = new JTextField();
-		textField_10.setColumns(10);
+		emailTextField = new JTextField();
+		emailTextField.setColumns(10);
 		
-		JButton btnCreate = new JButton("Create");
-		btnCreate.addActionListener(new ActionListener() {
+		final JButton btnCreateContact = new JButton("Create Contact");
+		btnCreateContact.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.err.println("Create Contact Record");
+				btnCreateContact.setText("Working...");
+				btnCreateContact.setEnabled(false);
+				SwingWorker<Void,String> worker = new SwingWorker<Void,String>() {
+					protected Void doInBackground() throws Exception {
+						createContactRecord();
+						return null;
+					}
+					 @Override
+					public void done() {
+					  try {
+							get();
+							if(contact != null)
+								SwingRegistrationWizardGUI.km.addContact(contact);
+							 
+						  } catch (InterruptedException | ExecutionException e) {
+							e.printStackTrace();
+						  }
+						 
+						 btnCreateContact.setText("Create Contact");
+						 btnCreateContact.setEnabled(true);
+						 SwingRegistrationWizardGUI.tabbedPane.setSelectedIndex(7);
+					}
+				};
+				worker.execute();
+				
 			}
 		});
 		
 		JLabel lblGivenname = new JLabel("GivenName.0");
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		givenNameTextField = new JTextField();
+		givenNameTextField.setColumns(10);
 		
 		JLabel lblFamilyname = new JLabel("FamilyName.0");
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
+		familyNameTextField = new JTextField();
+		familyNameTextField.setColumns(10);
 		
 		JCheckBox chckbxIPreferTo = new JCheckBox("I prefer to remain anonymous, please create an empty contact record.");
 		
-		JLabel lblMobile = new JLabel("Mobile.0");
+		JLabel lblMobile = new JLabel("MobilePhone.0");
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
+		mobilePhoneTextField = new JTextField();
+		mobilePhoneTextField.setColumns(10);
+		
+		JButton btnGotToBusinessContact = new JButton("Go to Business Contact");
+		
+		JButton btnGotToWebsiteContact = new JButton("Go to Website Contact");
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
+			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(364, Short.MAX_VALUE)
-					.addComponent(btnCreate)
-					.addGap(21))
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
 					.addGap(19)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(chckbxIPreferTo)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(0, 0, Short.MAX_VALUE)
+							.addComponent(btnGotToWebsiteContact)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnGotToBusinessContact)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnCreateContact)
+							.addGap(14))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblCountry)
-								.addComponent(lblEmail)
-								.addComponent(lblGivenname)
-								.addComponent(lblFamilyname)
-								.addComponent(lblMobile))
-							.addGap(23)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(textField_10, GroupLayout.PREFERRED_SIZE, 258, GroupLayout.PREFERRED_SIZE)
-								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-									.addComponent(textField_1, Alignment.LEADING)
-									.addComponent(textField, Alignment.LEADING)
-									.addComponent(textField_7, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
-								.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE))))
-					.addContainerGap(64, Short.MAX_VALUE))
+								.addComponent(chckbxIPreferTo)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblCountry)
+										.addComponent(lblEmail)
+										.addComponent(lblGivenname)
+										.addComponent(lblFamilyname)
+										.addComponent(lblMobile))
+									.addGap(23)
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(emailTextField, GroupLayout.PREFERRED_SIZE, 258, GroupLayout.PREFERRED_SIZE)
+										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+											.addComponent(familyNameTextField, Alignment.LEADING)
+											.addComponent(givenNameTextField, Alignment.LEADING)
+											.addComponent(countryTextField, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
+										.addComponent(mobilePhoneTextField, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE))))
+							.addContainerGap(66, Short.MAX_VALUE))))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -92,27 +138,30 @@ public class PersonalContactPanel extends JPanel {
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblGivenname)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(givenNameTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblFamilyname)
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(familyNameTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(29)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblCountry)
-						.addComponent(textField_7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(countryTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField_10, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(emailTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblEmail))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblMobile)
-						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(mobilePhoneTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(62)
 					.addComponent(chckbxIPreferTo)
-					.addPreferredGap(ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
-					.addComponent(btnCreate)
+					.addPreferredGap(ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnGotToWebsiteContact)
+						.addComponent(btnGotToBusinessContact)
+						.addComponent(btnCreateContact))
 					.addContainerGap())
 		);
 		setLayout(groupLayout);
@@ -120,8 +169,18 @@ public class PersonalContactPanel extends JPanel {
 	}
 
 	public JTextField getTextField() {
-		return textField;
+		return givenNameTextField;
 	}
 	
-	
+	private void createContactRecord() {
+		CryptoContact contact = new CryptoContact();
+		contact.add("GivenName.0", "David");
+		contact.add("FamilyName.0", "Richard");
+		
+		contact.add("MobilePhone.0", "1714 Roberts Ct.");
+		contact.add("City", "Madison");
+		contact.add("State", "Wisconsin");
+		contact.add("PostalCode", "53711");
+		contact.add("CountryCode", "US");
+	}
 }

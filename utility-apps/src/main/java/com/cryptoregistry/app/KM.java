@@ -1,3 +1,8 @@
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2015 David R. Smith All Rights Reserved.
+ *
+ */
 package com.cryptoregistry.app;
 
 import java.beans.PropertyChangeListener;
@@ -21,6 +26,7 @@ public class KM {
 	
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
+	private String kmPath;
 	private String regHandle;
 	private char [] password;
 	private KeyGenerationAlgorithm keyAlg;
@@ -41,6 +47,11 @@ public class KM {
 	public void setRegHandle(String regHandle) {
 		pcs.firePropertyChange("regHandle", this.regHandle, regHandle);
 		this.regHandle = regHandle;
+	}
+	
+	public void setKmPath(String path) {
+		pcs.firePropertyChange("kmPath", this.kmPath, path);
+		this.kmPath = path;
 	}
 
 	public char[] getPassword() {
@@ -104,6 +115,10 @@ public class KM {
 	
 	public void addPropertyChangeListener(PropertyChangeListener listener){
 		pcs.addPropertyChangeListener(listener);
+	}
+
+	public String getKmPath() {
+		return kmPath;
 	}
 	
 }

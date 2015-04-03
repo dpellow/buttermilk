@@ -1,3 +1,8 @@
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2015 David R. Smith All Rights Reserved.
+ *
+ */
 package com.cryptoregistry.app;
 
 import java.awt.event.ActionEvent;
@@ -63,6 +68,15 @@ public class SettingsPanel extends JPanel {
 		chckbxCreateIfDoes.setSelected(true);
 		
 		JButton btnOk = new JButton("OK");
+		btnOk.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingRegistrationWizardGUI.km.setKmPath(textField.getText().trim());
+				SwingRegistrationWizardGUI.tabbedPane.setSelectedIndex(2);
+			}
+			
+		});
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(

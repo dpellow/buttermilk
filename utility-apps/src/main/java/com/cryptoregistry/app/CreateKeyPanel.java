@@ -1,3 +1,8 @@
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2015 David R. Smith All Rights Reserved.
+ *
+ */
 package com.cryptoregistry.app;
 
 import javax.swing.DefaultComboBoxModel;
@@ -125,6 +130,7 @@ public class CreateKeyPanel extends JPanel {
 						 
 						 btnCreate.setText("Create Key");
 						 btnCreate.setEnabled(true);
+						 SwingRegistrationWizardGUI.tabbedPane.setSelectedIndex(4);
 					}
 				};
 				worker.execute();

@@ -1,3 +1,8 @@
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2015 David R. Smith All Rights Reserved.
+ *
+ */
 package com.cryptoregistry.app;
 
 import javax.swing.JPanel;
@@ -47,6 +52,9 @@ public class RegHandlePanel extends JPanel {
 					return;
 				}
 				
+				lblAvailable.setText("Checking...");
+				lblAvailable.setEnabled(false);
+				
 				SwingWorker<Boolean,String> worker = new SwingWorker<Boolean,String>() {
 					
 					@Override
@@ -57,6 +65,7 @@ public class RegHandlePanel extends JPanel {
 					 @Override
 					public void done() {
 						 try {
+							 lblAvailable.setEnabled(true);
 								if(get()) {
 									lblAvailable.setText("Available!");
 								}else{

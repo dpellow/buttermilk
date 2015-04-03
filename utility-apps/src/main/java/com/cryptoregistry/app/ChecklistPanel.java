@@ -1,3 +1,8 @@
+/*
+ *  This file is part of Buttermilk
+ *  Copyright 2011-2015 David R. Smith All Rights Reserved.
+ *
+ */
 package com.cryptoregistry.app;
 
 
@@ -15,7 +20,7 @@ public class ChecklistPanel extends JPanel implements PropertyChangeListener {
 
 	private static final long serialVersionUID = 1L;
 	
-	JLabel lblKMDir, lblRegHandleSelected, lblPasswordSet, lblSecureKey, lblKeyForPublication;
+	JLabel lblKMPath, lblRegHandleSelected, lblPasswordSet, lblSecureKey, lblKeyForPublication;
 	
 	JLabel lblContactSet, lblSignatureCompleted, lblRegistrationSent;
 	
@@ -35,8 +40,8 @@ public class ChecklistPanel extends JPanel implements PropertyChangeListener {
 		
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		
-		lblKMDir = new JLabel("Key Materials Directory Set", createImageIcon("/checkbox_empty.png", ""), JLabel.CENTER);
-		panel.add(lblKMDir);
+		lblKMPath = new JLabel("Key Materials Directory Set", createImageIcon("/checkbox_empty.png", ""), JLabel.CENTER);
+		panel.add(lblKMPath);
 		
 		lblRegHandleSelected = new JLabel("Registration Handle Chosen", createImageIcon("/checkbox_empty.png", ""), JLabel.CENTER);
 		panel.add(lblRegHandleSelected);
@@ -79,6 +84,10 @@ public class ChecklistPanel extends JPanel implements PropertyChangeListener {
 	public void propertyChange(PropertyChangeEvent evt) {
 		final String prop = evt.getPropertyName();
 		switch(prop){
+			case "kmPath" : {
+				this.lblKMPath.setIcon(createImageIcon("/checkbox_full.png", ""));
+				break;
+			}
 			case "regHandle":{
 				this.lblRegHandleSelected.setIcon(createImageIcon("/checkbox_full.png", ""));
 				break;
