@@ -7,6 +7,7 @@ package com.cryptoregistry.app;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.JTextPane;
 
 import java.awt.Font;
@@ -18,27 +19,44 @@ import asia.redact.bracket.properties.Properties;
 
 public class KeyMaterialsPanel extends JPanel {
 
-	JTextPane textPane;
+	JTextPane requestTextPane;
+	JTextPane secureKeyTextPane;
 	
 	private static final long serialVersionUID = 1L;
 
 	public KeyMaterialsPanel(Properties props) {
 		super();
-		setLayout(new GridLayout(1, 0, 0, 0));
+		setLayout(new GridLayout(1, 1, 0, 0));
 		
-		textPane = new JTextPane();
-		textPane.setEditable(false);
-		textPane.setFont(new Font("Courier", Font.PLAIN, 10));
-		textPane.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-		JScrollPane scrollPane = new JScrollPane(textPane);
-		add(scrollPane);
+		requestTextPane = new JTextPane();
+		requestTextPane.setEditable(false);
+		requestTextPane.setFont(new Font("Courier", Font.PLAIN, 10));
+	//	requestTextPane.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+		JScrollPane scrollPane0 = new JScrollPane(requestTextPane);
 		
-		textPane.setText("Resultant Key Materials will be displayed here");
+		secureKeyTextPane = new JTextPane();
+		secureKeyTextPane.setEditable(false);
+		secureKeyTextPane.setFont(new Font("Courier", Font.PLAIN, 10));
+		JScrollPane scrollPane1 = new JScrollPane(secureKeyTextPane);
+		
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPane0, scrollPane1);
+			splitPane.setOneTouchExpandable(true);
+			splitPane.setDividerLocation(150);
+			splitPane.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+
+		
+		add(splitPane);
+		
+		requestTextPane.setText("Resultant Key Materials will be displayed here");
+		secureKeyTextPane.setText("Secure Key will be displayed here");
 	}
 
-	public JTextPane getTextPane() {
-		return textPane;
+	public JTextPane getRequestTextPane() {
+		return requestTextPane;
 	}
 
+	public JTextPane getSecureKeyTextPane() {
+		return secureKeyTextPane;
+	}
 
 }

@@ -300,7 +300,7 @@ public class CreateKeyPanel extends JPanel {
 	private void createKey(){
 		
 		// check the directory destination
-		File kmDir = new File(SwingRegistrationWizardGUI.settingsPanel.getTextField().getText().trim());
+		File kmDir = new File(SwingRegistrationWizardGUI.settingsPanel.getParentFolderTextField().getText().trim());
 		if(!kmDir.exists()){
 			kmDir.mkdirs();
 		}
@@ -386,37 +386,5 @@ public class CreateKeyPanel extends JPanel {
 		}
 		
 	}
-	
-	/**
-	private String writeFile(File parent, String prefix, JSONFormatter builder){
-		String output = null;
-		Date date = new Date();
-		String d = String.valueOf(date.getTime());
-		StringWriter writer = new StringWriter();
-		builder.format(writer);
-		File forPublicationFile = new File(parent,"request-"+d+".json");
-		output = writer.toString();
-		byte [] bytes = null;
-		try {
-			bytes = output.getBytes("UTF-8");
-		} catch (UnsupportedEncodingException e1) {}
-		
-		FileOutputStream out = null;
-		try {
-			out = new FileOutputStream(forPublicationFile);
-			out.write(bytes, 0, bytes.length);
-		}catch(IOException x){
-			x.printStackTrace();
-		}finally{
-			if(out != null)
-				try {
-					out.close();
-				} catch (IOException e) {}
-		}
-		
-		return output;
-	}
-	
-	*/
 	
 }

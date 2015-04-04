@@ -120,6 +120,10 @@ public class ChecklistPanel extends JPanel implements PropertyChangeListener {
 				this.lblSignatureCompleted.setIcon(createImageIcon("/checkbox_full.png", ""));
 				break;
 			}
+			case "formatter": {
+				
+				break;
+			}
 		}
 		
 	}

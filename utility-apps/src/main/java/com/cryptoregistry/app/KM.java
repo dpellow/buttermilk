@@ -13,6 +13,8 @@ import java.util.List;
 import com.cryptoregistry.CryptoContact;
 import com.cryptoregistry.CryptoKey;
 import com.cryptoregistry.KeyGenerationAlgorithm;
+import com.cryptoregistry.MapData;
+import com.cryptoregistry.formats.JSONFormatter;
 import com.cryptoregistry.pbe.PBEAlg;
 import com.cryptoregistry.signature.CryptoSignature;
 
@@ -34,7 +36,9 @@ public class KM {
 	private CryptoKey secureKey;
 	private CryptoKey keyForPublication;
 	private List<CryptoContact> contacts;
+	private MapData affirmations;
 	private CryptoSignature signature;
+	private JSONFormatter formatter;
 	
 	public KM() {
 		contacts = new ArrayList<CryptoContact>();
@@ -119,6 +123,28 @@ public class KM {
 
 	public String getKmPath() {
 		return kmPath;
+	}
+
+	public MapData getAffirmations() {
+		return affirmations;
+	}
+
+	public void setAffirmations(MapData affirmations) {
+		this.affirmations = affirmations;
+		pcs.firePropertyChange("affirmations", null, affirmations);
+	}
+
+	public List<CryptoContact> getContacts() {
+		return contacts;
+	}
+
+	public JSONFormatter getFormatter() {
+		return formatter;
+	}
+
+	public void setFormatter(JSONFormatter formatter) {
+		this.formatter = formatter;
+		pcs.firePropertyChange("formatter", null, formatter);
 	}
 	
 }

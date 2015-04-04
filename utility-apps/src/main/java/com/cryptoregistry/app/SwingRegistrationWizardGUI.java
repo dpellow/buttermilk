@@ -64,7 +64,7 @@ public class SwingRegistrationWizardGUI {
 	        personalContactPanel = new PersonalContactPanel();
 	        businessContactPanel = new BusinessContactPanel();
 	        websiteContactPanel = new WebsiteContactPanel();
-	        signaturePanel = new SignaturePanel();
+	        signaturePanel = new SignaturePanel(props);
 	        keyMaterialsPanel = new KeyMaterialsPanel(props);
 	        
 	    	settingsPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
@@ -97,7 +97,7 @@ public class SwingRegistrationWizardGUI {
 				        		break;
 				        	}
 				        	case 1:{
-				        		settingsPanel.getTextField().requestFocusInWindow();
+				        		settingsPanel.getParentFolderTextField().requestFocusInWindow();
 				        		break;
 				        	}
 				        	case 2:{
@@ -121,11 +121,11 @@ public class SwingRegistrationWizardGUI {
 				        		break;
 				        	}
 				        	case 7:{
-				        	//	websiteContactPanel.getTextField().requestFocusInWindow();
+				        		signaturePanel.getTextArea().requestFocusInWindow();
 				        		break;
 				        	}
 				        	case 8:{
-				        		keyMaterialsPanel.getTextPane().requestFocusInWindow();
+				        		keyMaterialsPanel.getRequestTextPane().requestFocusInWindow();
 				        		break;
 				        	}
 				        	default: {}

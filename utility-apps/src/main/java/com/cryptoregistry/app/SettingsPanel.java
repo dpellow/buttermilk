@@ -25,7 +25,7 @@ import asia.redact.bracket.properties.Properties;
 public class SettingsPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField textField;
+	private JTextField parentFolderTextField;
 	JFileChooser fc;
 
 	public SettingsPanel(Properties props) {
@@ -40,8 +40,8 @@ public class SettingsPanel extends JPanel {
 		
 		JLabel lblKeyMaterialsFolder = new JLabel("Key Materials Folder");
 		
-		textField = new JTextField(canonical);
-		textField.setColumns(10);
+		parentFolderTextField = new JTextField(canonical);
+		parentFolderTextField.setColumns(10);
 		final JPanel _parent = this;
 		fc = new JFileChooser();
 		fc.setCurrentDirectory(defaultPath);
@@ -55,7 +55,7 @@ public class SettingsPanel extends JPanel {
 				 if (returnVal == JFileChooser.APPROVE_OPTION) {
 			            File file = fc.getSelectedFile();
 			            try {
-							textField.setText(file.getCanonicalPath());
+							parentFolderTextField.setText(file.getCanonicalPath());
 						} catch (IOException e1) {}
 			        } else {
 			           
@@ -72,7 +72,7 @@ public class SettingsPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SwingRegistrationWizardGUI.km.setKmPath(textField.getText().trim());
+				SwingRegistrationWizardGUI.km.setKmPath(parentFolderTextField.getText().trim());
 				SwingRegistrationWizardGUI.tabbedPane.setSelectedIndex(2);
 			}
 			
@@ -88,7 +88,7 @@ public class SettingsPanel extends JPanel {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(lblKeyMaterialsFolder)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textField, GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+							.addComponent(parentFolderTextField, GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
 							.addGap(8)
 							.addComponent(btnBrowse))
 						.addComponent(btnOk, Alignment.TRAILING))
@@ -100,7 +100,7 @@ public class SettingsPanel extends JPanel {
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblKeyMaterialsFolder)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(parentFolderTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnBrowse))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(chckbxCreateIfDoes)
@@ -111,7 +111,7 @@ public class SettingsPanel extends JPanel {
 		setLayout(groupLayout);
 	}
 
-	public JTextField getTextField() {
-		return textField;
+	public JTextField getParentFolderTextField() {
+		return parentFolderTextField;
 	}
 }
