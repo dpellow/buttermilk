@@ -239,9 +239,9 @@ public class WebsiteContactPanel extends JPanel {
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblEmail)
 						.addComponent(email0TextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(24)
+					.addPreferredGap(ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
 					.addComponent(btnCreate)
-					.addContainerGap(14, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		setLayout(groupLayout);
 	}

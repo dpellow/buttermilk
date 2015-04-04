@@ -5,14 +5,14 @@
  */
 package com.cryptoregistry.app;
 
-
-import java.awt.Color;
+import java.awt.GridLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
@@ -26,6 +26,8 @@ public class ChecklistPanel extends JPanel implements PropertyChangeListener {
 	
 	KM km;
 	
+	JButton btnRegister;
+	
 	public ChecklistPanel(KM km) {
 		this();
 		this.km = km;
@@ -35,8 +37,11 @@ public class ChecklistPanel extends JPanel implements PropertyChangeListener {
 
 	public ChecklistPanel() {
 		
-		this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+		this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+		this.setLayout(new GridLayout(2,0,0,0));
+		
 		JPanel panel = new JPanel();
+		panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		
@@ -65,6 +70,14 @@ public class ChecklistPanel extends JPanel implements PropertyChangeListener {
 		panel.add(lblRegistrationSent);
 		
 		add(panel);
+		
+		JPanel panel1 = new JPanel();
+		panel1.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+		btnRegister = new JButton("Send Registration Request");
+		btnRegister.setEnabled(false);
+		panel1.add(btnRegister);
+		
+		add(panel1);
 		
 	}
 	
@@ -125,8 +138,10 @@ public class ChecklistPanel extends JPanel implements PropertyChangeListener {
 				break;
 			}
 		}
-		
 	}
 
+	public JButton getBtnRegister() {
+		return btnRegister;
+	}
 
 }
